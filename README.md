@@ -10,7 +10,7 @@ Personal portfolio website for Aleksander Stós — CTO & Co-Founder at [The Dig
 
 **Live:** [stosiu.dev](https://stosiu.dev)
 
-![stosiu.dev screenshot](public/screenshot.png)
+![stosiu.dev screenshot](public/screenshot.jpg)
 
 ## Tech Stack
 

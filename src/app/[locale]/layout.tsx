@@ -140,6 +140,9 @@ export default async function LocaleLayout({children, params}: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
         />
+        <script
+          dangerouslySetInnerHTML={{__html: `console.log("%c stosiu.dev %c\\n\\nLike what you see? The source code is available at:\\nhttps://github.com/Stosiu/stosiu-portfolio\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px")`}}
+        />
         <div id="page-loader" aria-hidden="true" />
         <PageLoader />
         <NextIntlClientProvider messages={messages}>
