@@ -74,6 +74,9 @@ export function Footer() {
             <span>{t('viewSource')}</span>
             <FaStar size={10} />
           </a>
+          <p className="mt-2 text-[10px] font-mono text-white/10 hover:text-white/30 transition-colors select-all cursor-default">
+            {process.env.NEXT_PUBLIC_COMMIT_SHA}
+          </p>
         </div>
       </div>
     </footer>

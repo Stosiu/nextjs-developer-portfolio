@@ -139,7 +139,7 @@ export default async function LocaleLayout({children, params}: Props) {
           dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
         />
         <script
-          dangerouslySetInnerHTML={{__html: `console.log("%c ${siteConfig.url.replace('https://', '')} %c\\n\\nLike what you see? The source code is available at:\\n${siteConfig.repo}\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px")`}}
+          dangerouslySetInnerHTML={{__html: `console.log("%c ${siteConfig.url.replace('https://', '')} %c\\n\\nLike what you see? The source code is available at:\\n${siteConfig.repo}\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.\\n\\n%cv${process.env.NEXT_PUBLIC_COMMIT_SHA}", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px", "color:#555;font-size:10px")`}}
         />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:text-sm focus:font-medium">
           Skip to content
