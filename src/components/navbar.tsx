@@ -6,8 +6,9 @@ import {LanguageSwitcher} from './language-switcher';
 import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
 import {Button} from '@/components/ui/button';
 import {FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt} from 'react-icons/fa';
+import {siteConfig} from '@/config/site';
 
-const sections = ['about', 'projects', 'stats', 'experience'] as const;
+const {sections} = siteConfig;
 
 export function Navbar() {
   const t = useTranslations('nav');
@@ -56,7 +57,7 @@ export function Navbar() {
       <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center max-w-6xl mx-auto px-4 h-16">
         {/* Left: agency link */}
         <div>
-          <a href="https://thedigitalbunch.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors duration-200">
+          <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors duration-200">
             {t('agency')}
             <FaExternalLinkAlt size={10} />
           </a>
@@ -102,13 +103,13 @@ export function Navbar() {
 
         {/* Right: socials + language */}
         <div className="flex items-center gap-1 justify-end">
-          <a href="https://github.com/Stosiu" target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="GitHub">
+          <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="GitHub">
             <FaGithub size={15} />
           </a>
-          <a href="https://www.linkedin.com/in/aleksanderstos/" target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+          <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
             <FaLinkedin size={15} />
           </a>
-          <a href="mailto:alex@thedigitalbunch.com" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="Email">
+          <a href={`mailto:${siteConfig.email}`} className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="Email">
             <FaEnvelope size={15} />
           </a>
           <div className="w-px h-4 bg-white/10 mx-2" />
@@ -148,18 +149,18 @@ export function Navbar() {
                 );
               })}
             </div>
-            <a href="https://thedigitalbunch.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 text-white/40 hover:text-white transition-colors">
+            <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 text-white/40 hover:text-white transition-colors">
               {t('agency')}
               <FaExternalLinkAlt size={12} />
             </a>
             <div className="flex items-center gap-3 mt-4">
-              <a href="https://github.com/Stosiu" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="GitHub">
+              <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="GitHub">
                 <FaGithub size={18} />
               </a>
-              <a href="https://www.linkedin.com/in/aleksanderstos/" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="LinkedIn">
+              <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="LinkedIn">
                 <FaLinkedin size={18} />
               </a>
-              <a href="mailto:alex@thedigitalbunch.com" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="Email">
+              <a href={`mailto:${siteConfig.email}`} className="p-2 text-white/40 hover:text-white transition-colors" aria-label="Email">
                 <FaEnvelope size={18} />
               </a>
             </div>

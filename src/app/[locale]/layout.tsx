@@ -8,12 +8,13 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
 import {PageLoader, PageReady} from '@/components/page-loader';
+import {siteConfig} from '@/config/site';
 import '@/app/globals.css';
 
 const geistSans = Geist({subsets: ['latin'], variable: '--font-geist-sans'});
 const geistMono = Geist_Mono({subsets: ['latin'], variable: '--font-geist-mono'});
 
-const SITE_URL = 'https://stosiu.dev';
+const SITE_URL = siteConfig.url;
 
 const OG_LOCALE_MAP: Record<string, string> = {
   en: 'en_US',
@@ -61,7 +62,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: 'Aleksander Stós',
+      siteName: siteConfig.name,
       type: 'website',
       locale: OG_LOCALE_MAP[locale] ?? 'en_US',
       images: [
@@ -104,13 +105,13 @@ export default async function LocaleLayout({children, params}: Props) {
     {
       '@context': 'https://schema.org',
       '@type': 'Person',
-      name: 'Aleksander Stós',
+      name: siteConfig.name,
       url: SITE_URL,
-      jobTitle: 'CTO & Co-Founder',
+      jobTitle: siteConfig.title,
       worksFor: {
         '@type': 'Organization',
-        name: 'The Digital Bunch',
-        url: 'https://thedigitalbunch.com',
+        name: siteConfig.agency.name,
+        url: siteConfig.agency.url,
       },
       knowsAbout: [
         'Full-Stack Development',
@@ -118,15 +119,12 @@ export default async function LocaleLayout({children, params}: Props) {
         'Digital Strategy',
         'Software Architecture',
       ],
-      sameAs: [
-        'https://github.com/stosiu',
-        'https://linkedin.com/in/aleksanderstos',
-      ],
+      sameAs: Object.values(siteConfig.social),
     },
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'Aleksander Stós',
+      name: siteConfig.name,
       url: SITE_URL,
       inLanguage: routing.locales,
     },
@@ -141,7 +139,7 @@ export default async function LocaleLayout({children, params}: Props) {
           dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
         />
         <script
-          dangerouslySetInnerHTML={{__html: `console.log("%c stosiu.dev %c\\n\\nLike what you see? The source code is available at:\\nhttps://github.com/Stosiu/stosiu-portfolio\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px")`}}
+          dangerouslySetInnerHTML={{__html: `console.log("%c ${siteConfig.url.replace('https://', '')} %c\\n\\nLike what you see? The source code is available at:\\n${siteConfig.repo}\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px")`}}
         />
         <div id="page-loader" aria-hidden="true" />
         <PageLoader />

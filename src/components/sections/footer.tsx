@@ -2,7 +2,9 @@
 
 import {useTranslations} from 'next-intl';
 import {motion} from 'framer-motion';
-import {FaGithub, FaLinkedin} from 'react-icons/fa';
+import {FaGithub, FaLinkedin, FaStar} from 'react-icons/fa';
+import {siteConfig} from '@/config/site';
+import {registeredCompanies} from '@/config/companies';
 
 export function Footer() {
   const t = useTranslations('footer');
@@ -19,7 +21,7 @@ export function Footer() {
           viewport={{once: true}}
         >
           <a
-            href="https://github.com/Stosiu"
+            href={siteConfig.social.github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
@@ -28,7 +30,7 @@ export function Footer() {
             <FaGithub size={22} />
           </a>
           <a
-            href="https://www.linkedin.com/in/aleksanderstos/"
+            href={siteConfig.social.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -48,27 +50,30 @@ export function Footer() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-white/20 font-mono text-start max-w-3xl mx-auto">
-            <div className="space-y-0.5">
-              <p className="text-white/30">{t('personalCompany')}</p>
-              <p>{t('personalRole')} · NIP: 9930677569</p>
-              <p>{t('warsawPoland')}</p>
-            </div>
-            <div className="space-y-0.5">
-              <p className="text-white/30">{t('tdbCompany')}</p>
-              <p>{t('tdbRole')} · NIP: 1133040074 · KRS: 0000919623</p>
-              <p>{t('warsawPoland')}</p>
-            </div>
-            <div className="space-y-0.5">
-              <p className="text-white/30">The Digital Bunch Australia PTY LTD</p>
-              <p>ACN: 679 174 215</p>
-              <p>{t('sydneyAustralia')}</p>
-            </div>
-            <div className="space-y-0.5">
-              <p className="text-white/30">The Digital Bunch - Riyadh</p>
-              <p>VAT: 313009388400003 · CR: 7050098826</p>
-              <p>{t('riyadhSaudi')}</p>
-            </div>
+            {registeredCompanies.map((company, i) => (
+              <div key={i} className="space-y-0.5">
+                <p className="text-white/30">{company.nameKey ? t(company.nameKey) : company.name}</p>
+                <p>{company.roleKey ? `${t(company.roleKey)} · ` : ''}{company.registrations}</p>
+                <p>{t(company.locationKey)}</p>
+              </div>
+            ))}
           </div>
+        </div>
+
+        <div className="mt-10 pt-6 border-t border-white/5">
+          <p className="text-xs text-white/20 font-mono">
+            {t('builtWith')}{' '}
+            <a
+              href={siteConfig.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-white/30 hover:text-emerald-400 transition-colors"
+            >
+              <FaGithub size={12} />
+              <span>{t('viewSource')}</span>
+              <FaStar size={10} />
+            </a>
+          </p>
         </div>
       </div>
     </footer>

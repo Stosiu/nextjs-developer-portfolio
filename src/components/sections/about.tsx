@@ -6,6 +6,7 @@ import Image from 'next/image';
 import {useRef, useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {ArrowUpRight} from 'lucide-react';
+import {siteConfig} from '@/config/site';
 
 function PhotoCard() {
   const ref = useRef<HTMLDivElement>(null);
@@ -146,7 +147,7 @@ export function About() {
                 {t.rich(key, {
                   tdb: (chunks) => (
                     <a
-                      href="https://www.thedigitalbunch.com"
+                      href={siteConfig.agency.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-400 hover:text-emerald-300 transition-colors"
@@ -191,7 +192,7 @@ export function About() {
                 asChild
                 className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold gap-1.5"
               >
-                <a href="https://cal.com/stosiu/consultation" target="_blank" rel="noopener noreferrer">
+                <a href={siteConfig.booking} target="_blank" rel="noopener noreferrer">
                   {t('cta')}
                   <ArrowUpRight className="w-4 h-4" />
                 </a>

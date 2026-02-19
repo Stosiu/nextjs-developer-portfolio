@@ -5,6 +5,7 @@ import {Terminal} from '@/components/terminal';
 import {Button} from '@/components/ui/button';
 import {InteractiveDots} from '@/components/interactive-dots';
 import {Mail} from 'lucide-react';
+import {siteConfig} from '@/config/site';
 
 export function Hero() {
   const t = useTranslations('hero');
@@ -36,7 +37,7 @@ export function Hero() {
             size="lg"
             className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold"
           >
-            <a href="https://cal.com/stosiu/consultation" target="_blank" rel="noopener noreferrer">
+            <a href={siteConfig.booking} target="_blank" rel="noopener noreferrer">
               {t('cta')}
             </a>
           </Button>
@@ -46,9 +47,9 @@ export function Hero() {
             size="lg"
             className="border-white/20 text-white/70 hover:text-white hover:border-white/40 gap-2"
           >
-            <a href="mailto:alex@thedigitalbunch.com">
+            <a href={`mailto:${siteConfig.email}`}>
               <Mail className="w-4 h-4" />
-              alex@thedigitalbunch.com
+              {siteConfig.email}
             </a>
           </Button>
         </div>

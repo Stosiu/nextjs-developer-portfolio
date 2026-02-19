@@ -75,7 +75,9 @@
     "tdbRole": "الرئيس",
     "warsawPoland": "وارسو، بولندا",
     "sydneyAustralia": "سيدني، أستراليا",
-    "riyadhSaudi": "الرياض، المملكة العربية السعودية"
+    "riyadhSaudi": "الرياض، المملكة العربية السعودية",
+    "builtWith": "بُني باستخدام Next.js و Tailwind CSS و Framer Motion.",
+    "viewSource": "الكود المصدري"
   },
   "cursorComments": {
     "hero1": "// أهلاً بك في زاويتي من الإنترنت",

@@ -1,0 +1,22 @@
+export const siteConfig = {
+  name: 'Aleksander Stós',
+  title: 'Entrepreneur, CTO & Co-Founder',
+  email: 'alex@thedigitalbunch.com',
+  url: 'https://stosiu.dev',
+  repo: 'https://github.com/Stosiu/stosiu-portfolio',
+  avatar: '/avatar.jpg',
+  terminal: {
+    user: 'stosiu',
+    host: 'dev',
+  },
+  booking: 'https://cal.com/stosiu/consultation',
+  social: {
+    github: 'https://github.com/Stosiu',
+    linkedin: 'https://www.linkedin.com/in/aleksanderstos/',
+  },
+  agency: {
+    name: 'The Digital Bunch',
+    url: 'https://thedigitalbunch.com',
+  },
+  sections: ['about', 'projects', 'stats', 'experience'] as const,
+} as const;

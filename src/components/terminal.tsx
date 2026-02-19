@@ -2,6 +2,7 @@
 
 import {useState, useEffect, useRef, useCallback} from 'react';
 import {motion, AnimatePresence, useReducedMotion} from 'framer-motion';
+import {siteConfig} from '@/config/site';
 
 type TerminalLine = {
   type: 'command' | 'response';
@@ -217,7 +218,7 @@ export function Terminal({lines}: Props) {
             whileHover={{scale: 1.3, backgroundColor: 'rgb(34 197 94)'}}
             transition={{type: 'spring', stiffness: 400}}
           />
-          <span className="ml-2 text-xs text-white/40 font-mono">stosiu@dev ~ %</span>
+          <span className="ml-2 text-xs text-white/40 font-mono">{siteConfig.terminal.user}@{siteConfig.terminal.host} ~ %</span>
 
           <AnimatePresence>
             {isComplete && (

@@ -75,7 +75,9 @@
     "tdbRole": "Prezes",
     "warsawPoland": "Warszawa, Polska",
     "sydneyAustralia": "Sydney, Australia",
-    "riyadhSaudi": "Rijad, Arabia Saudyjska"
+    "riyadhSaudi": "Rijad, Arabia Saudyjska",
+    "builtWith": "Zbudowane z Next.js, Tailwind CSS i Framer Motion.",
+    "viewSource": "Kod źródłowy"
   },
   "cursorComments": {
     "hero1": "// witaj w moim zakątku internetu",

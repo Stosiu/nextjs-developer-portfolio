@@ -1,23 +1,54 @@
-# Personal Portfolio Website — stosiu.dev
+# stosiu-portfolio — Developer Portfolio Template
 
-## Project Overview
+A developer portfolio template built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Supports i18n (en, pl, ar with RTL) and dark theme.
 
-Personal portfolio for Aleksander Stós (CTO & Co-Founder at The Digital Bunch). Single-page site with interactive terminal hero, i18n support (en/pl/ar with RTL), and dark theme.
+## Quick Start
 
-## Tech Stack
+```bash
+pnpm install
+pnpm dev        # Dev server with Turbopack
+pnpm build      # Static export for all locales
+pnpm typecheck  # Type checking
+pnpm lint       # oxlint (not ESLint)
+```
 
-- **Framework**: Next.js 16 (App Router, React 19)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4, shadcn/ui
-- **i18n**: next-intl (locales: en, pl, ar)
-- **Animations**: Framer Motion
-- **Linting**: oxlint (not ESLint)
-- **Package Manager**: pnpm
+## Personalizing the Template
+
+All personal data lives in `src/config/`. Edit these files to make it yours:
+
+### `src/config/site.ts` — Main identity
+
+Your name, email, social links, booking URL, agency info, and which sections to show. Every component reads from this file.
+
+### `src/config/experience.ts` — Work history
+
+Array of `Experience` entries (role, company, period, description, icon). Rendered as a timeline.
+
+### `src/config/logos.ts` — Client logos
+
+Array of `{name, logo}` for the scrolling marquee. SVGs go in `public/logos/`.
+
+### `src/config/companies.ts` — Footer company registrations
+
+Array of registered companies with legal details. Uses translation keys for localizable names.
+
+### `src/lib/data.ts` — Projects
+
+Project entries with static image imports. Left as a separate file since it uses `import` for images.
+
+### `messages/{en,pl,ar}.json` — Translations
+
+All user-facing text. ICU message format for interpolation (e.g., `{year}`).
 
 ## Project Structure
 
 ```
 src/
+  config/
+    site.ts                 # Central config (name, socials, booking, sections)
+    experience.ts           # Work history entries
+    logos.ts                # Client logo list
+    companies.ts            # Footer company registrations
   app/
     layout.tsx              # Root layout (pass-through)
     globals.css             # Tailwind + custom styles
@@ -25,7 +56,7 @@ src/
     robots.ts               # Robots.txt generation
     sitemap.ts              # Sitemap generation
     [locale]/
-      layout.tsx            # Locale layout (html/body, fonts, dir, NextIntlClientProvider)
+      layout.tsx            # Locale layout (html/body, fonts, JSON-LD, console log)
       page.tsx              # Single page with all sections
       not-found.tsx         # 404 page
       error.tsx             # Error boundary
@@ -34,23 +65,16 @@ src/
     language-switcher.tsx   # EN/PL/AR locale buttons
     terminal.tsx            # Interactive typing animation
     cursor-comment.tsx      # Floating code comments that follow scroll
-    ui/                     # shadcn/ui components (button, accordion, sheet, select)
+    ui/                     # shadcn/ui components
     sections/
       hero.tsx              # Terminal + CTA
-      about.tsx             # Bio + tags
+      about.tsx             # Bio + tags + photo
       logos.tsx              # Scrolling client logo marquee
       projects.tsx          # Project cards grid
       stats.tsx             # Bento dashboard (GitHub + AI + Spotify)
       experience.tsx        # Work history timeline
-      footer.tsx            # CTA + social links + companies
-    stats/
-      github-heatmap.tsx    # SVG contribution grid with tooltips
-      ai-tokens.tsx         # SVG bar chart with model breakdown tooltips
-      ai-ratio.tsx          # Input/output token ratio card
-      busiest-day.tsx       # Busiest day of week card
-      github-streak.tsx     # Current contribution streak card
-      github-languages.tsx  # Language bar from contributed repos
-      spotify-now-playing.tsx # Spotify now playing card
+      footer.tsx            # Social links + companies + repo link
+    stats/                  # Individual stat card components
   hooks/
     use-count-up.ts         # IntersectionObserver count-up animation
   i18n/
@@ -58,11 +82,11 @@ src/
     request.ts              # Server-side locale resolution
     navigation.ts           # Locale-aware Link, useRouter, etc.
   lib/
-    data.ts                 # Project entries
+    data.ts                 # Project entries (uses static imports)
     spotify.ts              # Spotify now-playing API
     utils.ts                # shadcn cn() utility
   data/
-    stats.json              # Generated stats data (run gather-stats.ts)
+    stats.json              # Generated stats data
     stats-types.ts          # TypeScript types for stats data
 scripts/
   gather-stats.ts           # Fetches GitHub + Claude Code usage data
@@ -70,39 +94,43 @@ messages/
   en.json                   # English translations
   pl.json                   # Polish translations
   ar.json                   # Arabic translations
-middleware.ts               # Locale detection + redirect
+proxy.ts                    # Locale detection + redirect
 ```
 
-## Commands
+## Adding a New Section
 
-- `pnpm dev` — Start dev server (Turbopack)
-- `pnpm build` — Production build (static export for all 3 locales)
-- `pnpm lint` — Run oxlint
-- `pnpm typecheck` — Run TypeScript type checking
-- `pnpm start` — Serve production build
-- `GITHUB_TOKEN=$(gh auth token) pnpm tsx scripts/gather-stats.ts` — Regenerate stats data
+1. Create `src/components/sections/my-section.tsx`
+2. Add translation keys to all 3 `messages/*.json` files
+3. Import and render in `src/app/[locale]/page.tsx`
+4. Add section id (e.g., `<section id="my-section">`) for navbar scroll navigation
+5. Add the id to `siteConfig.sections` in `src/config/site.ts`
+6. Add nav label to `nav` namespace in message files
+
+## Removing a Section
+
+1. Remove the id from `siteConfig.sections` in `src/config/site.ts`
+2. Remove the component from `src/app/[locale]/page.tsx`
+3. Optionally delete the component file and translation keys
 
 ## Key Patterns
 
 ### i18n
 - All user-facing text lives in `messages/{locale}.json`
-- Use `useTranslations('namespace')` in client components
-- Use `getTranslations({locale, namespace})` in server components
+- `useTranslations('namespace')` in client components
+- `getTranslations({locale, namespace})` in server components
 - Arabic locale sets `dir="rtl"` on `<html>`
 - Terminal content stays LTR regardless of locale
-- ICU message format for interpolation (e.g., `{year}` in copyright)
 
 ### RTL Support
 - Tailwind `rtl:` variant for directional styles
-- Logos marquee reverses via CSS `[dir="rtl"] .animate-marquee`
+- Logos marquee reverses via CSS `[dir="rtl"]`
 - Arrow icons use `rtl:rotate-180`
 
 ### Styling
-- Dark theme only (class="dark" on html)
+- Dark theme only (`class="dark"` on html)
 - Emerald accent color (#10B981)
 - Dot grid + noise texture overlays on main
 - Glow dividers between sections
-- Gradient card borders on projects
 
 ### Animations
 - Terminal typing: custom useState/useEffect loop
@@ -112,14 +140,7 @@ middleware.ts               # Locale detection + redirect
 
 ### Stats Dashboard
 - Data generated by `scripts/gather-stats.ts` into `src/data/stats.json`
-- GitHub data via GraphQL API (contributions, languages from contributed repos, streak)
+- GitHub data via GraphQL API
 - AI data parsed from `~/.claude/projects/**/*.jsonl` session files
 - Spotify now-playing fetched server-side at page render
-
-## Adding New Sections
-
-1. Create component in `src/components/sections/`
-2. Add translation keys to all 3 message files
-3. Import and render in `src/app/[locale]/page.tsx`
-4. Add section id for navbar scroll navigation
-5. Add nav label to `nav` namespace in message files + update `sections` array in `navbar.tsx`
+- Regenerate: `GITHUB_TOKEN=$(gh auth token) pnpm tsx scripts/gather-stats.ts`

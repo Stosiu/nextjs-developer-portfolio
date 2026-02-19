@@ -2,29 +2,7 @@
 
 import {useTranslations} from 'next-intl';
 import Marquee from 'react-fast-marquee';
-
-type Company = {
-  name: string;
-  logo: string;
-};
-
-const companies: Company[] = [
-  {name: 'Opus Platform', logo: '/logos/opus.svg'},
-  {name: 'Telivy', logo: '/logos/telivy.svg'},
-  {name: 'Fulcrum', logo: '/logos/fulcrum.svg'},
-  {name: 'YourNextHome', logo: '/logos/yournexthome.svg'},
-  {name: 'Ascend', logo: '/logos/ascend.svg'},
-  {name: 'Bazzar', logo: '/logos/bazzar.svg'},
-  {name: 'Wine Unplugged', logo: '/logos/wine-unplugged.svg'},
-  {name: 'Valley Insurance', logo: '/logos/valleyins.svg'},
-  {name: 'Cytracom', logo: '/logos/cytracom.svg'},
-  {name: 'SwingDev', logo: '/logos/swingdev.svg'},
-  {name: 'Hippo Insurance', logo: '/logos/hippo.svg'},
-  {name: 'C&R Software', logo: '/logos/cr-software.svg'},
-  {name: 'Premier Construction Software', logo: '/logos/premier.svg'},
-  {name: 'Tamam', logo: '/logos/tamam.svg'},
-  {name: 'Jak', logo: '/logos/jak.svg'},
-];
+import {clientLogos} from '@/config/logos';
 
 export function Logos() {
   const t = useTranslations('logos');
@@ -42,7 +20,7 @@ export function Logos() {
         pauseOnHover
         autoFill
       >
-        {companies.map((company) => (
+        {clientLogos.map((company) => (
           <div
             key={company.name}
             className="flex items-center justify-center w-[120px] h-8 mx-8 hover:opacity-70 transition-opacity duration-300"

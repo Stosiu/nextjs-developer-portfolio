@@ -75,7 +75,9 @@
     "tdbRole": "President",
     "warsawPoland": "Warsaw, Poland",
     "sydneyAustralia": "Sydney, Australia",
-    "riyadhSaudi": "Riyadh, Saudi Arabia"
+    "riyadhSaudi": "Riyadh, Saudi Arabia",
+    "builtWith": "Built with Next.js, Tailwind CSS & Framer Motion.",
+    "viewSource": "View source & star"
   },
   "cursorComments": {
     "hero1": "// welcome to my corner of the internet",
