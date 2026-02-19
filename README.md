@@ -1,6 +1,6 @@
 # stosiu.dev
 
-[![Build](https://github.com/Stosiu/stos-website/actions/workflows/ci.yml/badge.svg)](https://github.com/Stosiu/stos-website/actions/workflows/ci.yml)
+[![Build](https://github.com/Stosiu/stosiu-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Stosiu/stosiu-portfolio/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
