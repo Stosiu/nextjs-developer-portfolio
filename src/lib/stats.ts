@@ -21,16 +21,20 @@ async function fetchBlob<T>(path: string): Promise<T | null> {
 }
 
 export async function getStats(): Promise<StatsData> {
+  const fallback = fallbackData as unknown as StatsData;
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return fallback;
+  }
+
   const [github, ai] = await Promise.all([
     fetchBlob<GitHubStats>(GITHUB_BLOB_PATH),
     fetchBlob<AiStats>(AI_BLOB_PATH),
   ]);
 
   if (!github && !ai) {
-    return fallbackData as unknown as StatsData;
+    return fallback;
   }
-
-  const fallback = fallbackData as unknown as StatsData;
 
   return {
     lastUpdated: github?.lastUpdated ?? ai?.lastUpdated ?? fallback.lastUpdated,
