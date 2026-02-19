@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# stosiu.dev
+
+Personal portfolio website for Aleksander Stos — CTO & Co-Founder at [The Digital Bunch](https://thedigitalbunch.com).
+
+**Live:** [stosiu.dev](https://stosiu.dev)
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router, React 19)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4, shadcn/ui
+- **i18n:** next-intl — English, Polish, Arabic (RTL)
+- **Animations:** Framer Motion
+- **Package Manager:** pnpm
+
+## Features
+
+- **Interactive terminal hero** with typing animation and command replay
+- **Floating cursor comments** — code-style annotations that follow the cursor
+- **Canvas dot grid** with mouse proximity glow effect
+- **Stats dashboard** — real GitHub contributions, AI token usage, Spotify now-playing
+- **Scrolling logo marquee** with client brands
+- **Project showcase** with gradient-bordered cards
+- **Work experience timeline**
+- **Full i18n** with RTL support for Arabic
+- **Dark theme only** with emerald (#10B981) accent
+- **Accessible** — respects `prefers-reduced-motion`
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+For Spotify now-playing:
 
-## Learn More
+```
+SPOTIFY_CLIENT_ID=
+SPOTIFY_CLIENT_SECRET=
+SPOTIFY_REFRESH_TOKEN=
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Regenerate Stats Data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Fetches GitHub contributions and parses Claude Code session logs:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+GITHUB_TOKEN=$(gh auth token) pnpm gather-stats
+```
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start dev server |
+| `pnpm build` | Production build |
+| `pnpm start` | Serve production build |
+| `pnpm lint` | Run oxlint |
+| `pnpm typecheck` | TypeScript type checking |
+| `pnpm gather-stats` | Regenerate stats data |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+src/
+  app/[locale]/
+    layout.tsx          # Locale layout (fonts, dir, providers)
+    page.tsx            # Single page with all sections
+    not-found.tsx       # Custom 404
+  components/
+    navbar.tsx          # Sticky nav with scroll detection
+    terminal.tsx        # Typing animation state machine
+    cursor-comment.tsx  # Floating code comments
+    interactive-dots.tsx # Canvas dot grid
+    language-switcher.tsx
+    sections/           # Hero, About, Logos, Projects, Stats, Experience, Footer
+    stats/              # GitHub heatmap, AI tokens chart, Spotify card, etc.
+    ui/                 # shadcn/ui components
+  i18n/                 # Locale config + routing
+  data/
+    stats.json          # Generated stats data
+    stats-types.ts      # TypeScript types for stats
+  lib/
+    data.ts             # Project entries
+    spotify.ts          # Spotify API client
+messages/
+  en.json               # English
+  pl.json               # Polish
+  ar.json               # Arabic
+scripts/
+  gather-stats.ts       # GitHub + Claude Code data fetcher
+```

@@ -12,36 +12,21 @@ type Props = {
   lines: TerminalLine[];
 };
 
-type DisplayToken = {
-  text: string;
-  isNew: boolean;
-};
-
 type DisplayLine = {
   type: string;
-  tokens: DisplayToken[];
+  text: string;
+  tokens?: Array<{text: string; isNew: boolean}>;
   complete: boolean;
 };
 
 type CursorMode = 'idle' | 'typing' | 'streaming' | 'none';
-
-function tokenize(text: string): string[] {
-  const tokens: string[] = [];
-  const words = text.split(' ');
-  let i = 0;
-  while (i < words.length) {
-    const chunkSize = Math.floor(Math.random() * 3) + 1;
-    tokens.push(words.slice(i, i + chunkSize).join(' '));
-    i += chunkSize;
-  }
-  return tokens;
-}
 
 export function Terminal({lines}: Props) {
   const prefersReduced = useReducedMotion();
   const [displayedLines, setDisplayedLines] = useState<DisplayLine[]>([]);
   const [cursor, setCursor] = useState<CursorMode>('idle');
   const [isComplete, setIsComplete] = useState(false);
+  const [ready, setReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const linesRef = useRef(lines);
   linesRef.current = lines;
@@ -49,8 +34,6 @@ export function Terminal({lines}: Props) {
   const animRef = useRef({
     lineIdx: 0,
     charIdx: 0,
-    tokenIdx: 0,
-    tokens: [] as string[],
     built: [] as DisplayLine[],
     timeout: null as ReturnType<typeof setTimeout> | null,
   });
@@ -67,15 +50,13 @@ export function Terminal({lines}: Props) {
     const a = animRef.current;
     a.lineIdx = 0;
     a.charIdx = 0;
-    a.tokenIdx = 0;
-    a.tokens = [];
     a.built = [];
     setDisplayedLines([]);
     setIsComplete(false);
     setCursor('idle');
 
     function flush() {
-      setDisplayedLines(a.built.map((l) => ({...l, tokens: [...l.tokens]})));
+      setDisplayedLines([...a.built]);
     }
 
     function schedule(fn: () => void, ms: number) {
@@ -85,8 +66,6 @@ export function Terminal({lines}: Props) {
     function advance() {
       a.lineIdx++;
       a.charIdx = 0;
-      a.tokenIdx = 0;
-      a.tokens = [];
     }
 
     function next() {
@@ -122,11 +101,11 @@ export function Terminal({lines}: Props) {
         }
 
         if (!a.built[a.lineIdx]) {
-          a.built[a.lineIdx] = {type: 'command', tokens: [], complete: false};
+          a.built[a.lineIdx] = {type: 'command', text: '', complete: false};
         }
         a.built[a.lineIdx] = {
           type: 'command',
-          tokens: [{text: line.text.slice(0, a.charIdx + 1), isNew: false}],
+          text: line.text.slice(0, a.charIdx + 1),
           complete: false,
         };
         flush();
@@ -142,10 +121,9 @@ export function Terminal({lines}: Props) {
 
     function streamResponse(line: TerminalLine) {
       setCursor('streaming');
-      a.tokens = tokenize(line.text);
 
-      function streamToken() {
-        if (a.tokenIdx >= a.tokens.length) {
+      function streamChar() {
+        if (a.charIdx >= line.text.length) {
           a.built[a.lineIdx] = {...a.built[a.lineIdx], complete: true};
           flush();
           schedule(() => {
@@ -157,35 +135,45 @@ export function Terminal({lines}: Props) {
         }
 
         if (!a.built[a.lineIdx]) {
-          a.built[a.lineIdx] = {type: 'response', tokens: [], complete: false};
+          a.built[a.lineIdx] = {type: 'response', text: '', complete: false};
         }
-        const existing = a.built[a.lineIdx];
-        const prevTokens = existing.tokens.map((t) => ({...t, isNew: false}));
-        const newToken = a.tokens[a.tokenIdx];
-        const separator = prevTokens.length > 0 ? ' ' : '';
         a.built[a.lineIdx] = {
           type: 'response',
-          tokens: [...prevTokens, {text: separator + newToken, isNew: true}],
+          text: line.text.slice(0, a.charIdx + 1),
           complete: false,
         };
         flush();
-        a.tokenIdx++;
+        a.charIdx++;
 
-        schedule(streamToken, 30 + Math.random() * 60);
+        const char = line.text[a.charIdx - 1];
+        const delay = char === ' ' ? 15 : 20 + Math.random() * 25;
+        schedule(streamChar, delay);
       }
 
-      streamToken();
+      streamChar();
     }
 
     schedule(next, 100);
   }, [stop]);
 
   useEffect(() => {
+    const loader = document.getElementById('page-loader');
+    if (!loader) {
+      setReady(true);
+      return;
+    }
+    const handler = () => setReady(true);
+    window.addEventListener('loader-exit', handler, {once: true});
+    return () => window.removeEventListener('loader-exit', handler);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
     if (prefersReduced) {
       setDisplayedLines(
         lines.map((l) => ({
           type: l.type,
-          tokens: [{text: l.text, isNew: false}],
+          text: l.text,
           complete: true,
         }))
       );
@@ -195,7 +183,7 @@ export function Terminal({lines}: Props) {
     }
     run();
     return stop;
-  }, [prefersReduced, run, stop]);
+  }, [ready, prefersReduced, run, stop]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -207,8 +195,8 @@ export function Terminal({lines}: Props) {
 
   return (
     <motion.div
-      initial={{opacity: 0, y: 30, scale: 0.97}}
-      animate={{opacity: 1, y: 0, scale: 1}}
+      initial={{opacity: 0, y: 30, scale: 0.95}}
+      animate={ready ? {opacity: 1, y: 0, scale: 1} : {opacity: 0, y: 30, scale: 0.95}}
       transition={{duration: 0.8, ease: [0.16, 1, 0.3, 1]}}
       className="w-full max-w-2xl mx-auto"
     >
@@ -246,27 +234,16 @@ export function Terminal({lines}: Props) {
           </AnimatePresence>
         </div>
 
-        <div ref={containerRef} className="p-4 font-mono text-sm leading-relaxed min-h-[200px] max-h-[400px] overflow-y-auto">
+        <div ref={containerRef} className="p-4 font-mono text-sm leading-relaxed min-h-[200px] max-h-[400px] overflow-y-auto overflow-x-hidden break-words">
           {displayedLines.map((line, i) => (
             <div key={i} className="mb-1.5">
               {line.type === 'command' ? (
                 <span>
                   <span className="text-emerald-400">$</span>{' '}
-                  <span className="text-white">{line.tokens[0]?.text}</span>
+                  <span className="text-white">{line.text}</span>
                 </span>
               ) : (
-                <span className="text-white/60">
-                  {line.tokens.map((token, j) => (
-                    <motion.span
-                      key={j}
-                      initial={token.isNew ? {opacity: 0, filter: 'blur(4px)'} : false}
-                      animate={{opacity: 1, filter: 'blur(0px)'}}
-                      transition={{duration: 0.25}}
-                    >
-                      {token.text}
-                    </motion.span>
-                  ))}
-                </span>
+                <span className="text-white/60">{line.text}</span>
               )}
             </div>
           ))}

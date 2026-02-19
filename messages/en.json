@@ -8,8 +8,7 @@
     "projects": "Projects",
     "stats": "Stats",
     "experience": "Experience",
-"faq": "FAQ",
-    "contact": "Contact"
+    "agency": "My agency"
   },
   "hero": {
     "command1": "whoami",
@@ -22,12 +21,12 @@
   },
   "about": {
     "heading": "About Me",
-    "p1": "All-around problem-fixing developer.",
-    "p2": "Strong focus on team and capacity building. I'm not afraid of working with people who know more than me and have the patience to teach those who know less.",
-    "p3": "In my spare time, I like to help friends with unicorn startups.",
-    "tag1": "problem-solver",
-    "tag2": "team-builder",
-    "tag3": "startup-helper",
+    "p1": "I've been writing code since I was 13 and running companies since I was 25. Somewhere in between I learned that the best things get built by people who are honest about what they don't know.",
+    "p2": "I surround myself with people smarter than me, I learn fast, and I try to pass it on. Most of what I know came from someone being patient enough to explain it.",
+    "p3": "Currently running <tdb>The Digital Bunch</tdb> across three countries, launching new ventures in Saudi Arabia, and still shipping code most days.",
+    "tag1": "builds things",
+    "tag2": "runs teams",
+    "tag3": "ships fast",
     "cta": "Get in touch"
   },
   "logos": {
@@ -64,20 +63,9 @@
     "languagesLabel": "Top Languages"
   },
   "experience": {
-    "heading": "Work Experience"
+    "heading": "How I Got Here"
   },
-"faq": {
-    "heading": "Frequently Asked Questions",
-    "q1": "What services do you offer?",
-    "a1": "Through The Digital Bunch, we offer full-stack software development, AI solutions, brand strategy, UI/UX design, and digital consulting across Europe, Middle East, and Australia.",
-    "q2": "What technologies do you work with?",
-    "a2": "Our stack includes TypeScript, React, Next.js, Node.js, Python, and cloud infrastructure. We pick the right tool for each project.",
-    "q3": "How can I start a project with you?",
-    "a3": "Book a free consultation through the link above. We'll discuss your idea, scope, and timeline.",
-    "q4": "Where are you based?",
-    "a4": "Warsaw, Poland — with offices in Riyadh and Sydney. We work with clients globally."
-  },
-  "footer": {
+"footer": {
     "cta": "Let's build something",
     "copyright": "© {year} Aleksander Stós. All rights reserved.",
     "companiesHeading": "Registered Companies",

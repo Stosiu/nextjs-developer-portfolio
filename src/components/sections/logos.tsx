@@ -18,6 +18,12 @@ const companies: Company[] = [
   {name: 'Wine Unplugged', logo: '/logos/wine-unplugged.svg'},
   {name: 'Valley Insurance', logo: '/logos/valleyins.svg'},
   {name: 'Cytracom', logo: '/logos/cytracom.svg'},
+  {name: 'SwingDev', logo: '/logos/swingdev.svg'},
+  {name: 'Hippo Insurance', logo: '/logos/hippo.svg'},
+  {name: 'C&R Software', logo: '/logos/cr-software.svg'},
+  {name: 'Premier Construction Software', logo: '/logos/premier.svg'},
+  {name: 'Tamam', logo: '/logos/tamam.svg'},
+  {name: 'Jak', logo: '/logos/jak.svg'},
 ];
 
 export function Logos() {

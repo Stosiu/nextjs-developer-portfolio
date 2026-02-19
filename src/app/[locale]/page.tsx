@@ -23,7 +23,7 @@ export default async function HomePage({params}: Props) {
   const spotifyTrack = await getNowPlaying();
 
   return (
-    <main className="bg-black text-white min-h-screen noise dot-grid">
+    <main className="bg-black text-white min-h-screen noise dot-grid overflow-x-hidden">
       <Navbar />
       <Hero />
       <Logos />

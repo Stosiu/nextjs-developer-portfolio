@@ -7,6 +7,7 @@ import {routing} from '@/i18n/routing';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
+import {PageLoader, PageReady} from '@/components/page-loader';
 import '@/app/globals.css';
 
 const geistSans = Geist({subsets: ['latin'], variable: '--font-geist-sans'});
@@ -139,8 +140,11 @@ export default async function LocaleLayout({children, params}: Props) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
         />
+        <div id="page-loader" aria-hidden="true" />
+        <PageLoader />
         <NextIntlClientProvider messages={messages}>
           {children}
+          <PageReady />
         </NextIntlClientProvider>
       </body>
     </html>

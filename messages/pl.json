@@ -8,8 +8,7 @@
     "projects": "Projekty",
     "stats": "Statystyki",
     "experience": "Doświadczenie",
-    "faq": "FAQ",
-    "contact": "Kontakt"
+    "agency": "Moja agencja"
   },
   "hero": {
     "command1": "whoami",
@@ -64,18 +63,7 @@
     "languagesLabel": "Najczęstsze języki"
   },
   "experience": {
-    "heading": "Doświadczenie zawodowe"
-  },
-  "faq": {
-    "heading": "Często zadawane pytania",
-    "q1": "Jakie usługi oferujecie?",
-    "a1": "W ramach The Digital Bunch zajmujemy się full-stack developmentem, rozwiązaniami AI, strategią marki, projektowaniem UI/UX i doradztwem cyfrowym — działamy w Europie, na Bliskim Wschodzie i w Australii.",
-    "q2": "Na jakich technologiach pracujecie?",
-    "a2": "Pracujemy głównie z TypeScript, React, Next.js, Node.js, Pythonem i chmurą. Dobieramy technologie pod projekt, nie odwrotnie.",
-    "q3": "Jak zacząć współpracę?",
-    "a3": "Umów się na darmową konsultację przez link powyżej. Porozmawiamy o Twoim pomyśle, zakresie i kolejnych krokach.",
-    "q4": "Gdzie macie siedzibę?",
-    "a4": "Główna baza to Warszawa — mamy też biura w Rijadzie i Sydney. Pracujemy z klientami z całego świata."
+    "heading": "Jak tu dotarłem"
   },
   "footer": {
     "cta": "Zbudujmy coś razem",

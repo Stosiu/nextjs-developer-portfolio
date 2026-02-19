@@ -5,7 +5,7 @@ import {useTranslations} from 'next-intl';
 import {LanguageSwitcher} from './language-switcher';
 import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
 import {Button} from '@/components/ui/button';
-import {FaGithub, FaLinkedin, FaEnvelope, FaGlobe} from 'react-icons/fa';
+import {FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt} from 'react-icons/fa';
 
 const sections = ['about', 'projects', 'stats', 'experience'] as const;
 
@@ -54,8 +54,13 @@ export function Navbar() {
     >
       {/* Desktop: 3-column grid for true centering */}
       <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center max-w-6xl mx-auto px-4 h-16">
-        {/* Left spacer */}
-        <div />
+        {/* Left: agency link */}
+        <div>
+          <a href="https://thedigitalbunch.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors duration-200">
+            {t('agency')}
+            <FaExternalLinkAlt size={10} />
+          </a>
+        </div>
 
         {/* Center: nav links in a pill */}
         <div
@@ -97,9 +102,6 @@ export function Navbar() {
 
         {/* Right: socials + language */}
         <div className="flex items-center gap-1 justify-end">
-          <a href="https://thedigitalbunch.com" target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-emerald-400 transition-colors duration-200" aria-label="The Digital Bunch">
-            <FaGlobe size={15} />
-          </a>
           <a href="https://github.com/Stosiu" target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="GitHub">
             <FaGithub size={15} />
           </a>
@@ -116,7 +118,7 @@ export function Navbar() {
 
       {/* Mobile */}
       <div className="md:hidden flex items-center justify-between px-4 h-14">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <LanguageSwitcher />
         </div>
         <Sheet open={open} onOpenChange={setOpen}>
@@ -129,7 +131,7 @@ export function Navbar() {
               </svg>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="bg-black border-white/10">
+          <SheetContent side="right" className="bg-black border-white/10 px-6">
             <div className="flex flex-col gap-4 mt-8">
               {sections.map((s) => {
                 const isActive = activeSection === s;
@@ -137,21 +139,20 @@ export function Navbar() {
                   <button
                     key={s}
                     onClick={() => scrollTo(s)}
-                    className={`text-lg transition-colors text-start flex items-center gap-2 ${
+                    className={`text-lg transition-colors text-start ${
                       isActive ? 'text-white' : 'text-white/50 hover:text-white/80'
                     }`}
                   >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full bg-emerald-400 transition-all duration-300 ${
-                        isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                      }`}
-                    />
                     {t(s)}
                   </button>
                 );
               })}
             </div>
-            <div className="flex items-center gap-3 mt-8 pt-6 border-t border-white/10">
+            <a href="https://thedigitalbunch.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 text-white/40 hover:text-white transition-colors">
+              {t('agency')}
+              <FaExternalLinkAlt size={12} />
+            </a>
+            <div className="flex items-center gap-3 mt-4">
               <a href="https://github.com/Stosiu" target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="GitHub">
                 <FaGithub size={18} />
               </a>

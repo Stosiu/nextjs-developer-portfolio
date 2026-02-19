@@ -48,7 +48,7 @@ function PhotoCard() {
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={handleMouseLeave}
       style={{rotateX, rotateY, transformStyle: 'preserve-3d'}}
-      className="relative w-64 h-64 md:w-72 md:h-72 mx-auto cursor-default"
+      className="relative w-64 h-64 md:w-72 md:h-72 mx-auto md:mt-2 cursor-default"
       initial={{opacity: 0, scale: 0.9}}
       whileInView={{opacity: 1, scale: 1}}
       viewport={{once: true, margin: '-50px'}}
@@ -129,8 +129,8 @@ export function About() {
 
   return (
     <section id="about" className="py-24 px-4">
-      <div className="max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-[auto_1fr] gap-12 md:gap-16 items-center">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-[auto_1fr] gap-12 md:gap-16 items-start">
           <PhotoCard />
 
           <div className="space-y-6">
@@ -143,7 +143,18 @@ export function About() {
                 transition={{duration: 0.4, delay: 0.2 + i * 0.1}}
                 className="text-lg text-white/70 leading-relaxed"
               >
-                {t(key)}
+                {t.rich(key, {
+                  tdb: (chunks) => (
+                    <a
+                      href="https://www.thedigitalbunch.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                    >
+                      {chunks}
+                    </a>
+                  ),
+                })}
               </motion.p>
             ))}
 

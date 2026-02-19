@@ -87,9 +87,10 @@ async function fetchGitHub(token: string) {
             }>;
           };
         };
-        repositories: {
+        repositoriesContributedTo: {
           nodes: Array<{
             isFork: boolean;
+            pushedAt: string;
             languages: {
               edges: Array<{size: number; node: {name: string; color: string}}>;
             };
