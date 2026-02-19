@@ -38,3 +38,27 @@ export type StatsData = {
     provider: string;
   };
 };
+
+export type GitHubStats = {
+  lastUpdated: string;
+  contributions: number[][];
+  totalContributions: number;
+  currentStreak: number;
+  languages: GitHubLanguage[];
+};
+
+export type AiStats = {
+  lastUpdated: string;
+  totalTokens: number;
+  totalInputTokens: number;
+  totalOutputTokens: number;
+  tokensLast30d: number;
+  dailyUsage: AiDailyUsage[];
+  modelBreakdown: AiModelBreakdown[];
+  totalSessions: number;
+  totalQueries: number;
+  inputPercentage: number;
+  busiestDay: string;
+  busiestDayAvgTokens: number;
+  provider: string;
+};
