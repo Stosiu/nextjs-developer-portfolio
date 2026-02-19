@@ -125,20 +125,28 @@
   }
 }
 
-@keyframes marquee {
+@keyframes marquee-scroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
+.marquee-track {
+  display: flex;
+  width: max-content;
 }
 
-[dir="rtl"] .animate-marquee {
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+[dir="rtl"] .marquee-content {
   animation-direction: reverse;
 }
 
@@ -192,4 +200,47 @@ html {
 /* Section alternating subtle backgrounds */
 .section-alt {
   background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+}
+
+/* Animated border */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate-border {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+.animated-border {
+  position: relative;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 40%,
+    rgba(16, 185, 129, 0.4),
+    rgba(6, 182, 212, 0.3),
+    transparent 60%
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.animated-border:hover::before {
+  opacity: 1;
+  animation: rotate-border 3s linear infinite;
 }

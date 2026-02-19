@@ -6,6 +6,7 @@
   "nav": {
     "projects": "Projekty",
     "stats": "Statystyki",
+    "experience": "Doświadczenie",
     "testimonials": "Opinie",
     "faq": "FAQ",
     "contact": "Kontakt"
@@ -31,6 +32,9 @@
     "years": "Lat doświadczenia",
     "projects": "Zrealizowanych projektów",
     "continents": "Kontynenty"
+  },
+  "experience": {
+    "heading": "Doświadczenie zawodowe"
   },
   "testimonials": {
     "heading": "Co mówią inni"

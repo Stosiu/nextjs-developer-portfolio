@@ -3,6 +3,7 @@
 import {useLocale} from 'next-intl';
 import {useRouter, usePathname} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
+import {Globe} from 'lucide-react';
 
 const localeLabels: Record<string, string> = {
   en: 'EN',
@@ -21,6 +22,7 @@ export function LanguageSwitcher() {
 
   return (
     <div className="flex items-center gap-1 text-sm">
+      <Globe className="w-4 h-4 text-white/40 mr-1" />
       {routing.locales.map((l) => (
         <button
           key={l}

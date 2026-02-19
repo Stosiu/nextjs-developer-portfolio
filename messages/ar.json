@@ -6,6 +6,7 @@
   "nav": {
     "projects": "المشاريع",
     "stats": "الإحصائيات",
+    "experience": "الخبرة",
     "testimonials": "الآراء",
     "faq": "الأسئلة الشائعة",
     "contact": "تواصل"
@@ -31,6 +32,9 @@
     "years": "سنوات خبرة",
     "projects": "مشروع منجز",
     "continents": "قارات"
+  },
+  "experience": {
+    "heading": "الخبرة المهنية"
   },
   "testimonials": {
     "heading": "ماذا يقول الآخرون"

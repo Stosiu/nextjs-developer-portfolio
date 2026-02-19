@@ -4,6 +4,7 @@ import {Hero} from '@/components/sections/hero';
 import {Logos} from '@/components/sections/logos';
 import {Projects} from '@/components/sections/projects';
 import {Stats} from '@/components/sections/stats';
+import {Experience} from '@/components/sections/experience';
 import {Testimonials} from '@/components/sections/testimonials';
 import {FAQ} from '@/components/sections/faq';
 import {Footer} from '@/components/sections/footer';
@@ -23,6 +24,7 @@ export default async function HomePage({params}: Props) {
       <Logos />
       <Projects />
       <Stats />
+      <Experience />
       <Testimonials />
       <FAQ />
       <Footer />

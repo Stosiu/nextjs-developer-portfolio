@@ -6,7 +6,7 @@ import {LanguageSwitcher} from './language-switcher';
 import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
 import {Button} from '@/components/ui/button';
 
-const sections = ['projects', 'stats', 'testimonials', 'faq', 'contact'] as const;
+const sections = ['projects', 'stats', 'experience', 'testimonials', 'faq', 'contact'] as const;
 
 export function Navbar() {
   const t = useTranslations('nav');
