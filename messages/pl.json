@@ -4,11 +4,11 @@
     "description": "Tworzenie cyfrowych doświadczeń w The Digital Bunch"
   },
   "nav": {
+    "about": "O mnie",
     "projects": "Projekty",
     "stats": "Statystyki",
     "experience": "Doświadczenie",
-    "testimonials": "Opinie",
-    "faq": "FAQ",
+"faq": "FAQ",
     "contact": "Kontakt"
   },
   "hero": {
@@ -20,26 +20,40 @@
     "response3": "Gotowy, żeby coś zbudować?",
     "cta": "Umów konsultację"
   },
+  "about": {
+    "heading": "O mnie",
+    "p1": "Wszechstronny developer, który naprawia problemy.",
+    "p2": "Silny nacisk na budowanie zespołu i rozwijanie kompetencji. Nie boję się pracować z ludźmi, którzy wiedzą więcej ode mnie, i mam cierpliwość, by uczyć tych, którzy wiedzą mniej.",
+    "p3": "W wolnym czasie lubię pomagać znajomym z jednorożcowymi startupami.",
+    "tag1": "rozwiązuję problemy",
+    "tag2": "buduję zespoły",
+    "tag3": "wspieram startupy"
+  },
   "logos": {
     "heading": "Zaufali nam"
   },
   "projects": {
-    "heading": "Produkty, które zbudowałem",
-    "viewProject": "Zobacz projekt"
+    "heading": "Firmy, z którymi współpracowałem",
+    "viewProject": "Zobacz projekt",
+    "moreCount": "40+",
+    "moreLabel": "innych aplikacji i stron dostarczonych",
+    "ctaHeading": "Twój produkt może tu być",
+    "ctaDescription": "Zbudujmy coś razem.",
+    "ctaCta": "Skontaktuj się"
   },
   "stats": {
-    "commits": "Commitów",
-    "years": "Lat doświadczenia",
-    "projects": "Zrealizowanych projektów",
-    "continents": "Kontynenty"
+    "heading": "Dashboard",
+    "contributions": "Kontrybucje",
+    "inLastYear": "w ostatnim roku",
+    "aiTokens": "Tokeny AI (30d)",
+    "latestCommit": "Ostatni commit",
+    "releases": "Premiery produktów",
+    "lastUpdated": "Ostatnia aktualizacja"
   },
   "experience": {
     "heading": "Doświadczenie zawodowe"
   },
-  "testimonials": {
-    "heading": "Co mówią inni"
-  },
-  "faq": {
+"faq": {
     "heading": "Często zadawane pytania",
     "q1": "Jakie usługi oferujecie?",
     "a1": "Poprzez The Digital Bunch oferujemy full-stack development, rozwiązania AI, strategię marki, projektowanie UI/UX i doradztwo cyfrowe w Europie, na Bliskim Wschodzie i w Australii.",

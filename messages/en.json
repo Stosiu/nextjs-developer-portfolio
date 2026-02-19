@@ -4,11 +4,11 @@
     "description": "Building digital experiences at The Digital Bunch"
   },
   "nav": {
+    "about": "About",
     "projects": "Projects",
     "stats": "Stats",
     "experience": "Experience",
-    "testimonials": "Testimonials",
-    "faq": "FAQ",
+"faq": "FAQ",
     "contact": "Contact"
   },
   "hero": {
@@ -20,26 +20,40 @@
     "response3": "Ready to build something?",
     "cta": "Book a consultation"
   },
+  "about": {
+    "heading": "About Me",
+    "p1": "All-around problem-fixing developer.",
+    "p2": "Strong focus on team and capacity building. I'm not afraid of working with people who know more than me and have the patience to teach those who know less.",
+    "p3": "In my spare time, I like to help friends with unicorn startups.",
+    "tag1": "problem-solver",
+    "tag2": "team-builder",
+    "tag3": "startup-helper"
+  },
   "logos": {
     "heading": "Trusted by"
   },
   "projects": {
-    "heading": "Products I've Built",
-    "viewProject": "View project"
+    "heading": "Companies I've Worked With",
+    "viewProject": "View project",
+    "moreCount": "40+",
+    "moreLabel": "other apps and websites delivered",
+    "ctaHeading": "Your product could be here",
+    "ctaDescription": "Let's build something together.",
+    "ctaCta": "Get in touch"
   },
   "stats": {
-    "commits": "Commits",
-    "years": "Years of Experience",
-    "projects": "Projects Delivered",
-    "continents": "Continents"
+    "heading": "Dashboard",
+    "contributions": "Contributions",
+    "inLastYear": "in the last year",
+    "aiTokens": "AI Tokens (30d)",
+    "latestCommit": "Latest Commit",
+    "releases": "Product Releases",
+    "lastUpdated": "Last updated"
   },
   "experience": {
     "heading": "Work Experience"
   },
-  "testimonials": {
-    "heading": "What People Say"
-  },
-  "faq": {
+"faq": {
     "heading": "Frequently Asked Questions",
     "q1": "What services do you offer?",
     "a1": "Through The Digital Bunch, we offer full-stack software development, AI solutions, brand strategy, UI/UX design, and digital consulting across Europe, Middle East, and Australia.",

@@ -1,47 +1,50 @@
 'use client';
 
 import {useTranslations} from 'next-intl';
-import {useCountUp} from '@/hooks/use-count-up';
+import statsData from '@/data/stats.json';
+import type {StatsData} from '@/data/stats-types';
+import {GitHubHeatmap} from '@/components/stats/github-heatmap';
+import {AiTokens} from '@/components/stats/ai-tokens';
+import {LatestCommit} from '@/components/stats/latest-commit';
+import {ReleaseTimeline} from '@/components/stats/release-timeline';
 
-type StatItemProps = {
-  value: number;
-  suffix: string;
-  label: string;
-};
-
-function StatItem({value, suffix, label}: StatItemProps) {
-  const {count, ref} = useCountUp(value);
-
-  return (
-    <div ref={ref} className="text-center px-4">
-      <div className="text-6xl md:text-7xl font-bold text-emerald-400 tabular-nums">
-        {count}
-        <span className="text-3xl md:text-4xl">{suffix}</span>
-      </div>
-      <p className="mt-2 text-sm text-white/60 uppercase tracking-wider">{label}</p>
-    </div>
-  );
-}
+const data = statsData as StatsData;
 
 export function Stats() {
   const t = useTranslations('stats');
 
-  const stats = [
-    {value: 500, suffix: '+', label: t('commits')},
-    {value: 8, suffix: '+', label: t('years')},
-    {value: 50, suffix: '+', label: t('projects')},
-    {value: 3, suffix: '', label: t('continents')},
-  ];
-
   return (
     <section id="stats" className="py-24 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="glow-divider mb-16" />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {stats.map((stat) => (
-            <StatItem key={stat.label} {...stat} />
-          ))}
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">{t('heading')}</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2">
+            <GitHubHeatmap
+              contributions={data.github.contributions}
+              totalContributions={data.github.totalContributions}
+            />
+          </div>
+          <div>
+            <AiTokens
+              tokensLast30d={data.ai.tokensLast30d}
+              provider={data.ai.provider}
+            />
+          </div>
+          <div>
+            <LatestCommit commit={data.github.latestCommit} />
+          </div>
+          <div className="md:col-span-2">
+            <ReleaseTimeline releases={data.releases} />
+          </div>
         </div>
+
+        <p className="text-xs text-white/30 text-center mt-6">
+          {t('lastUpdated')}: {new Date(data.lastUpdated).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric',
+          })}
+        </p>
         <div className="glow-divider mt-16" />
       </div>
     </section>
