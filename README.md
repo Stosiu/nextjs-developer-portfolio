@@ -1,8 +1,16 @@
 # stosiu.dev
 
-Personal portfolio website for Aleksander Stos — CTO & Co-Founder at [The Digital Bunch](https://thedigitalbunch.com).
+[![Build](https://github.com/Stosiu/stos-website/actions/workflows/ci.yml/badge.svg)](https://github.com/Stosiu/stos-website/actions/workflows/ci.yml)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
+
+Personal portfolio website for Aleksander Stós — CTO & Co-Founder at [The Digital Bunch](https://thedigitalbunch.com).
 
 **Live:** [stosiu.dev](https://stosiu.dev)
+
+![stosiu.dev screenshot](public/screenshot.png)
 
 ## Tech Stack
 
