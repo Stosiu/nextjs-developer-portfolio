@@ -1,5 +1,5 @@
 import type {ReactNode} from 'react';
-import {setRequestLocale} from 'next-intl/server';
+import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
@@ -15,6 +15,25 @@ type Props = {
   children: ReactNode;
   params: Promise<{locale: string}>;
 };
+
+export async function generateMetadata({params}: Props) {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'meta'});
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    openGraph: {
+      title: t('title'),
+      description: t('description'),
+      type: 'website',
+    },
+  };
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({locale}));
+}
 
 export default async function LocaleLayout({children, params}: Props) {
   const {locale} = await params;
