@@ -14,7 +14,7 @@ function StatItem({value, suffix, label}: StatItemProps) {
 
   return (
     <div ref={ref} className="text-center px-4">
-      <div className="text-5xl md:text-6xl font-bold text-emerald-400 tabular-nums">
+      <div className="text-6xl md:text-7xl font-bold text-emerald-400 tabular-nums">
         {count}
         <span className="text-3xl md:text-4xl">{suffix}</span>
       </div>
@@ -36,11 +36,13 @@ export function Stats() {
   return (
     <section id="stats" className="py-24 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="glow-divider mb-16" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat) => (
             <StatItem key={stat.label} {...stat} />
           ))}
         </div>
+        <div className="glow-divider mt-16" />
       </div>
     </section>
   );

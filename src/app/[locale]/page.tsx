@@ -17,7 +17,7 @@ export default async function HomePage({params}: Props) {
   setRequestLocale(locale);
 
   return (
-    <main className="bg-black text-white min-h-screen">
+    <main className="bg-black text-white min-h-screen noise dot-grid">
       <Navbar />
       <Hero />
       <Logos />

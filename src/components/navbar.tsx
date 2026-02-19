@@ -31,7 +31,7 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-white font-bold text-lg">
+        <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="text-white font-bold text-lg font-mono tracking-tighter">
           AS
         </button>
 

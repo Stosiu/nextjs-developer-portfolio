@@ -5,18 +5,19 @@ import {Button} from '@/components/ui/button';
 
 export function Footer() {
   const t = useTranslations('footer');
+  const tHero = useTranslations('hero');
 
   return (
     <footer id="contact" className="py-24 px-4 border-t border-white/5">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-bold mb-8">{t('cta')}</h2>
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">{t('cta')}</h2>
         <Button
           asChild
           size="lg"
           className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold mb-16"
         >
           <a href="https://cal.com/stosiu/consultation" target="_blank" rel="noopener noreferrer">
-            Book a consultation
+            {tHero('cta')}
           </a>
         </Button>
 

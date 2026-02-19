@@ -10,7 +10,7 @@ export function Projects() {
   return (
     <section id="projects" className="py-24 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-16">{t('heading')}</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t('heading')}</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, i) => (
@@ -23,10 +23,10 @@ export function Projects() {
               whileInView={{opacity: 1, y: 0}}
               viewport={{once: true, margin: '-50px'}}
               transition={{duration: 0.4, delay: i * 0.1}}
-              className="group block rounded-lg border border-white/10 bg-white/5 p-6 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1"
+              className="group block rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent p-6 hover:from-white/[0.1] hover:border-emerald-500/20 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/5"
             >
-              <div className="w-full h-40 rounded-md bg-white/5 mb-4 flex items-center justify-center">
-                <span className="text-2xl font-bold text-white/20">
+              <div className="w-full h-40 rounded-md bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 border border-white/[0.05] mb-4 flex items-center justify-center">
+                <span className="text-3xl font-bold text-white/30">
                   {project.title.charAt(0)}
                 </span>
               </div>

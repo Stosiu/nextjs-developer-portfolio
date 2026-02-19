@@ -28,9 +28,9 @@ export function Logos() {
           {[...companies, ...companies].map((company, i) => (
             <div
               key={i}
-              className="flex-shrink-0 px-8 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100"
+              className="flex-shrink-0 px-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-50 hover:opacity-100"
             >
-              <span className="text-lg font-semibold text-white/60 whitespace-nowrap">
+              <span className="text-xl font-bold text-white/40 tracking-wide whitespace-nowrap">
                 {company}
               </span>
             </div>

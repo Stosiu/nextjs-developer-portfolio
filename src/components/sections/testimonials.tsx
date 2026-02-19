@@ -58,7 +58,7 @@ export function Testimonials() {
   return (
     <section id="testimonials" className="py-24 px-4">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-16">{t('heading')}</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t('heading')}</h2>
 
         <div className="relative min-h-[200px]">
           <AnimatePresence mode="wait" custom={direction}>
@@ -69,8 +69,9 @@ export function Testimonials() {
               animate={{opacity: 1, x: 0}}
               exit={{opacity: 0, x: direction * -50}}
               transition={{duration: 0.3}}
-              className="text-center"
+              className="text-center relative"
             >
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-8xl text-emerald-500/10 font-serif select-none" aria-hidden="true">&ldquo;</span>
               <p className="text-lg md:text-xl text-white/80 italic leading-relaxed mb-6">
                 &ldquo;{testimonials[current].quote}&rdquo;
               </p>
