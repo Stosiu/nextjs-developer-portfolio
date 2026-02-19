@@ -47,8 +47,8 @@ All personal data is centralized — edit these files to make it yours:
 | `src/lib/data.ts` | Project entries (titles, tech stacks, images) |
 | `messages/{en,pl,ar}.json` | All user-facing text including experience & project descriptions |
 | `src/app/globals.css` | Accent color (`--color-brand-*` variables and `--accent-rgb`) |
-| `src/data/stats.json` | Regenerate with `pnpm gather-stats` or edit manually |
-| `.env` | Spotify credentials (see `.env.example`) |
+| `src/data/stats.json` | Auto-generated via upload scripts, or edit manually |
+| `.env` | Vercel Blob, GitHub, Spotify credentials (see `.env.example`) |
 
 ### Environment Variables
 
@@ -67,12 +67,14 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Regenerate Stats Data
+### Upload Stats Data
 
-Fetches GitHub contributions and parses Claude Code session logs:
+Stats are stored in Vercel Blob. GitHub stats are also updated daily via GitHub Actions.
 
 ```bash
-GITHUB_TOKEN=$(gh auth token) pnpm gather-stats
+pnpm upload:github    # Upload GitHub contribution data
+pnpm upload:ai        # Upload AI usage data (from local Claude Code sessions)
+pnpm upload:all       # Upload both
 ```
 
 ## Scripts
@@ -84,7 +86,9 @@ GITHUB_TOKEN=$(gh auth token) pnpm gather-stats
 | `pnpm start` | Serve production build |
 | `pnpm lint` | Run oxlint |
 | `pnpm typecheck` | TypeScript type checking |
-| `pnpm gather-stats` | Regenerate stats data |
+| `pnpm upload:github` | Upload GitHub stats to Vercel Blob |
+| `pnpm upload:ai` | Upload AI usage stats to Vercel Blob |
+| `pnpm upload:all` | Upload all stats |
 
 ## Project Structure
 
@@ -102,7 +106,7 @@ src/
     language-switcher.tsx
     sections/           # Hero, About, Logos, Projects, Stats, Experience, Footer
     stats/              # GitHub heatmap, AI tokens chart, Spotify card, etc.
-    ui/                 # shadcn/ui components
+    ui/                 # shadcn/ui + reusable components
   i18n/                 # Locale config + routing
   data/
     stats.json          # Generated stats data
@@ -110,10 +114,15 @@ src/
   lib/
     data.ts             # Project entries
     spotify.ts          # Spotify API client
+    format.ts           # Number/date formatting utilities
 messages/
   en.json               # English
   pl.json               # Polish
   ar.json               # Arabic
 scripts/
-  gather-stats.ts       # GitHub + Claude Code data fetcher
+  upload-github-stats.ts  # Upload GitHub stats to Vercel Blob
+  upload-ai-stats.ts      # Upload AI usage stats to Vercel Blob
+.github/workflows/
+  ci.yml                  # Build + typecheck CI
+  update-github-stats.yml # Daily cron to refresh GitHub stats
 ```
