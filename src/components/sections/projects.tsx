@@ -24,7 +24,7 @@ export function Projects() {
               whileInView={{opacity: 1, y: 0}}
               viewport={{once: true, margin: '-50px'}}
               transition={{duration: 0.4, delay: i * 0.1}}
-              className="animated-border group block bg-gradient-to-b from-white/[0.04] to-transparent p-6 hover:from-white/[0.08] transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/5"
+              className="animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent p-6 hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-500/5"
             >
               <div className="w-full h-40 rounded-md bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 border border-white/[0.05] mb-4 flex items-center justify-center">
                 <span className="text-3xl font-bold text-white/30">

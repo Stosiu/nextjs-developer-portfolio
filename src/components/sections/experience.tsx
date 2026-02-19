@@ -51,13 +51,13 @@ export function Experience() {
                 <Briefcase className="w-4 h-4 text-emerald-400" />
               </div>
 
-              <h3 className="text-lg font-semibold">{exp.role}</h3>
+              <h3 className="text-xl font-semibold text-white">{exp.role}</h3>
               <p className="text-sm mt-1">
-                <span className="text-emerald-400">{exp.company}</span>
+                <span className="text-emerald-400 font-medium">{exp.company}</span>
                 <span className="text-white/40 mx-2">·</span>
-                <span className="text-white/40">{exp.period}</span>
+                <span className="text-white/50">{exp.period}</span>
               </p>
-              <p className="text-sm text-white/60 mt-2">{exp.description}</p>
+              <p className="text-sm text-white/70 mt-3 leading-relaxed">{exp.description}</p>
             </motion.div>
           ))}
         </div>
