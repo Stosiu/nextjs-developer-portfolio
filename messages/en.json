@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Aleksander Stos — CTO & Co-Founder",
+    "description": "Building digital experiences at The Digital Bunch"
+  },
+  "nav": {
+    "projects": "Projects",
+    "stats": "Stats",
+    "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "hero": {
+    "command1": "whoami",
+    "response1": "Aleksander Stos — CTO & Co-Founder at The Digital Bunch",
+    "command2": "cat skills.txt",
+    "response2": "Full-Stack Development, AI Solutions, Digital Strategy, Software Architecture",
+    "command3": "curl https://cal.com/stosiu/consultation",
+    "response3": "Ready to build something?",
+    "cta": "Book a consultation"
+  },
+  "logos": {
+    "heading": "Trusted by"
+  },
+  "projects": {
+    "heading": "Products I've Built",
+    "viewProject": "View project"
+  },
+  "stats": {
+    "commits": "Commits",
+    "years": "Years of Experience",
+    "projects": "Projects Delivered",
+    "continents": "Continents"
+  },
+  "testimonials": {
+    "heading": "What People Say"
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "q1": "What services do you offer?",
+    "a1": "Through The Digital Bunch, we offer full-stack software development, AI solutions, brand strategy, UI/UX design, and digital consulting across Europe, Middle East, and Australia.",
+    "q2": "What technologies do you work with?",
+    "a2": "Our stack includes TypeScript, React, Next.js, Node.js, Python, and cloud infrastructure. We pick the right tool for each project.",
+    "q3": "How can I start a project with you?",
+    "a3": "Book a free consultation through the link above. We'll discuss your idea, scope, and timeline.",
+    "q4": "Where are you based?",
+    "a4": "Warsaw, Poland — with offices in Riyadh and Sydney. We work with clients globally."
+  },
+  "footer": {
+    "cta": "Let's build something",
+    "copyright": "© {year} Aleksander Stos. All rights reserved."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Aleksander Stos — CTO i Współzałożyciel",
+    "description": "Tworzenie cyfrowych doświadczeń w The Digital Bunch"
+  },
+  "nav": {
+    "projects": "Projekty",
+    "stats": "Statystyki",
+    "testimonials": "Opinie",
+    "faq": "FAQ",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "command1": "whoami",
+    "response1": "Aleksander Stos — CTO i Współzałożyciel The Digital Bunch",
+    "command2": "cat skills.txt",
+    "response2": "Full-Stack Development, Rozwiązania AI, Strategia Cyfrowa, Architektura Oprogramowania",
+    "command3": "curl https://cal.com/stosiu/consultation",
+    "response3": "Gotowy, żeby coś zbudować?",
+    "cta": "Umów konsultację"
+  },
+  "logos": {
+    "heading": "Zaufali nam"
+  },
+  "projects": {
+    "heading": "Produkty, które zbudowałem",
+    "viewProject": "Zobacz projekt"
+  },
+  "stats": {
+    "commits": "Commitów",
+    "years": "Lat doświadczenia",
+    "projects": "Zrealizowanych projektów",
+    "continents": "Kontynenty"
+  },
+  "testimonials": {
+    "heading": "Co mówią inni"
+  },
+  "faq": {
+    "heading": "Często zadawane pytania",
+    "q1": "Jakie usługi oferujecie?",
+    "a1": "Poprzez The Digital Bunch oferujemy full-stack development, rozwiązania AI, strategię marki, projektowanie UI/UX i doradztwo cyfrowe w Europie, na Bliskim Wschodzie i w Australii.",
+    "q2": "Z jakimi technologiami pracujecie?",
+    "a2": "Nasz stack obejmuje TypeScript, React, Next.js, Node.js, Python i infrastrukturę chmurową. Dobieramy narzędzia do projektu.",
+    "q3": "Jak mogę rozpocząć projekt?",
+    "a3": "Umów darmową konsultację przez link powyżej. Omówimy Twój pomysł, zakres i harmonogram.",
+    "q4": "Gdzie macie siedzibę?",
+    "a4": "Warszawa, Polska — z biurami w Rijadzie i Sydney. Współpracujemy z klientami na całym świecie."
+  },
+  "footer": {
+    "cta": "Zbudujmy coś razem",
+    "copyright": "© {year} Aleksander Stos. Wszelkie prawa zastrzeżone."
+  }
+}
