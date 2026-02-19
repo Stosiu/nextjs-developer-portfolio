@@ -1,9 +1,12 @@
 'use client';
 
 import {useMemo, useState, useRef, type MouseEvent} from 'react';
-import {motion, AnimatePresence} from 'framer-motion';
 import {useTranslations} from 'next-intl';
 import dayjs from 'dayjs';
+import {AnimatedReveal} from '@/components/ui/animated-reveal';
+import {StatCard} from '@/components/ui/stat-card';
+import {ChartTooltip} from '@/components/ui/chart-tooltip';
+import {formatDate} from '@/lib/format';
 
 type GitHubHeatmapProps = {
   contributions: number[][];
@@ -49,10 +52,6 @@ function countToLevel(count: number): number {
   return 10;
 }
 
-function formatDate(dateStr: string): string {
-  return dayjs(dateStr).format('MMM D, YYYY');
-}
-
 export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmapProps) {
   const t = useTranslations('stats');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -95,56 +94,40 @@ export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmap
   }
 
   return (
-    <motion.div
-      ref={containerRef}
-      initial={{opacity: 0, y: 20}}
-      whileInView={{opacity: 1, y: 0}}
-      viewport={{once: true, margin: '-50px'}}
-      transition={{duration: 0.5}}
-      className="relative border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full"
-    >
-      <div className="mb-4 flex items-baseline gap-2">
-        <span className="text-sm text-white/60">{t('contributions')}</span>
-        <span className="text-xs text-white/30">{totalContributions.toLocaleString()} in the last 365 days</span>
-      </div>
+    <AnimatedReveal className="h-full">
+      <StatCard ref={containerRef} className="relative">
+        <div className="mb-4 flex items-baseline gap-2">
+          <span className="text-sm text-white/60">{t('contributions')}</span>
+          <span className="text-xs text-white/30">{totalContributions.toLocaleString()} in the last 365 days</span>
+        </div>
 
-      <svg
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-        className="w-full h-auto"
-        role="img"
-        aria-label={`${totalContributions} contributions in the last year`}
-        onMouseLeave={() => setTooltip(null)}
-      >
-        {grid.map((cell) => (
-          <rect
-            key={cell.date}
-            x={cell.week * (BLOCK + GAP)}
-            y={cell.day * (BLOCK + GAP)}
-            width={BLOCK}
-            height={BLOCK}
-            rx={2}
-            fill={COLORS[cell.level]}
-            className="cursor-pointer"
-            onMouseEnter={(e) => handleMouseEnter(e, cell)}
-          />
-        ))}
-      </svg>
+        <svg
+          viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          className="w-full h-auto"
+          role="img"
+          aria-label={`${totalContributions} contributions in the last year`}
+          onMouseLeave={() => setTooltip(null)}
+        >
+          {grid.map((cell) => (
+            <rect
+              key={cell.date}
+              x={cell.week * (BLOCK + GAP)}
+              y={cell.day * (BLOCK + GAP)}
+              width={BLOCK}
+              height={BLOCK}
+              rx={2}
+              fill={COLORS[cell.level]}
+              className="cursor-pointer"
+              onMouseEnter={(e) => handleMouseEnter(e, cell)}
+            />
+          ))}
+        </svg>
 
-      <AnimatePresence>
-        {tooltip && (
-          <motion.div
-            initial={{opacity: 0, y: 2}}
-            animate={{opacity: 1, y: 0}}
-            exit={{opacity: 0}}
-            transition={{duration: 0.15}}
-            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full px-2.5 py-1.5 rounded-md bg-zinc-900 border border-white/10 shadow-lg text-xs whitespace-nowrap"
-            style={{left: tooltip.x, top: tooltip.y - 6}}
-          >
-            <span className="text-white/90 font-medium">{tooltip.count} contribution{tooltip.count !== 1 ? 's' : ''}</span>
-            <span className="text-white/40 ml-1.5">{formatDate(tooltip.date)}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+        <ChartTooltip x={tooltip?.x ?? 0} y={tooltip?.y ?? 0} visible={!!tooltip}>
+          <span className="text-white/90 font-medium">{tooltip?.count} contribution{tooltip?.count !== 1 ? 's' : ''}</span>
+          <span className="text-white/40 ml-1.5">{tooltip ? formatDate(tooltip.date) : ''}</span>
+        </ChartTooltip>
+      </StatCard>
+    </AnimatedReveal>
   );
 }

@@ -10,6 +10,7 @@ import {AiRatio} from '@/components/stats/ai-ratio';
 import {BusiestDay} from '@/components/stats/busiest-day';
 import {GitHubStreak} from '@/components/stats/github-streak';
 import {GitHubLanguages} from '@/components/stats/github-languages';
+import {SectionHeading} from '@/components/ui/section-heading';
 
 type StatsProps = {
   spotifyTrack: SpotifyTrack | null;
@@ -25,8 +26,7 @@ export function Stats({spotifyTrack, data}: StatsProps) {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--accent-rgb),0.04),transparent_60%)]" />
       <div className="relative max-w-5xl mx-auto">
         <div className="glow-divider mb-16" />
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">{t('heading')}</h2>
-        <p className="text-sm text-white/30 text-center font-mono mb-12">{t('subtitle')}</p>
+        <SectionHeading title={t('heading')} subtitle={t('subtitle')} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Row 1: GitHub heatmap */}

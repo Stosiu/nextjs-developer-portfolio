@@ -8,6 +8,11 @@ import {projects} from '@/lib/data';
 import type {Project} from '@/lib/data';
 import {useCountUp} from '@/hooks/use-count-up';
 import {siteConfig} from '@/config/site';
+import {AnimatedReveal} from '@/components/ui/animated-reveal';
+import {Badge} from '@/components/ui/badge';
+import {SectionHeading} from '@/components/ui/section-heading';
+
+const EASE = [0.25, 0.1, 0.25, 1] as const;
 
 function ProjectCard({project, index}: {project: Project; index: number}) {
   const t = useTranslations('projects');
@@ -20,7 +25,7 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       initial={{opacity: 0, y: 20}}
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-80px'}}
-      transition={{duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
+      transition={{duration: 0.5, delay: index * 0.1, ease: EASE}}
       className="motion-pre-hidden animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
     >
       {/* Image — aspect-video */}
@@ -74,12 +79,13 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
 
         <div className="flex flex-wrap gap-1 mb-3">
           {project.tech.map((techItem) => (
-            <span
+            <Badge
               key={techItem}
-              className="px-1.5 py-0.5 text-[10px] font-mono text-white/35 bg-white/[0.04] border border-white/[0.06] rounded group-hover:border-brand-500/20 group-hover:text-white/50 transition-colors duration-300"
+              variant="sm"
+              className="group-hover:border-brand-500/20 group-hover:text-white/50 transition-colors duration-300"
             >
               {techItem}
-            </span>
+            </Badge>
           ))}
         </div>
 
@@ -94,19 +100,17 @@ function MoreProjectsCard({index}: {index: number}) {
   const {count, ref} = useCountUp(100, 1500);
 
   return (
-    <motion.div
+    <AnimatedReveal
       ref={ref}
-      initial={{opacity: 0, y: 20}}
-      whileInView={{opacity: 1, y: 0}}
-      viewport={{once: true, margin: '-80px'}}
-      transition={{duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
-      className="motion-pre-hidden animated-border relative flex flex-col items-center justify-center border border-white/[0.08] overflow-hidden p-10"
+      margin="-80px"
+      transition={{duration: 0.5, delay: index * 0.1, ease: EASE}}
+      className="animated-border relative flex flex-col items-center justify-center border border-white/[0.08] overflow-hidden p-10"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-brand-500/[0.06] via-transparent to-cyan-500/[0.04]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
       <span className="relative text-6xl font-bold text-white/25 mb-3 tabular-nums tracking-tight">{count}+</span>
       <span className="relative text-sm text-white/50 text-center leading-relaxed max-w-[200px]">{t('moreLabel')}</span>
-    </motion.div>
+    </AnimatedReveal>
   );
 }
 
@@ -129,7 +133,7 @@ export function Projects() {
   return (
     <section id="projects" className="py-24 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t('heading')}</h2>
+        <SectionHeading title={t('heading')} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, i) => (
@@ -140,23 +144,25 @@ export function Projects() {
           <MoreProjectsCard index={projects.length} />
 
           {/* CTA card — spans remaining columns */}
-          <motion.a
-            href={siteConfig.booking}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{opacity: 0, y: 20}}
-            whileInView={{opacity: 1, y: 0}}
-            viewport={{once: true, margin: '-80px'}}
-            transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
-            className={`motion-pre-hidden animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent p-8 hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
+          <AnimatedReveal
+            margin="-80px"
+            transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: EASE}}
+            className={`animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent p-8 hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
           >
-            <h3 className="text-lg font-semibold mb-2 text-brand-400">{t('ctaHeading')}</h3>
-            <p className="text-sm text-white/50 mb-4 text-center">{t('ctaDescription')}</p>
-            <span className="text-sm text-brand-400 inline-flex items-center gap-1">
-              {t('ctaCta')}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
-            </span>
-          </motion.a>
+            <a
+              href={siteConfig.booking}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center"
+            >
+              <h3 className="text-lg font-semibold mb-2 text-brand-400">{t('ctaHeading')}</h3>
+              <p className="text-sm text-white/50 mb-4 text-center">{t('ctaDescription')}</p>
+              <span className="text-sm text-brand-400 inline-flex items-center gap-1">
+                {t('ctaCta')}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+              </span>
+            </a>
+          </AnimatedReveal>
         </div>
       </div>
     </section>

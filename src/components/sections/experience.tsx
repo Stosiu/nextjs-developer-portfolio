@@ -4,6 +4,7 @@ import {useTranslations} from 'next-intl';
 import {motion} from 'framer-motion';
 import {Briefcase, Terminal, GraduationCap, Rocket, Gamepad2} from 'lucide-react';
 import {experiences} from '@/config/experience';
+import {SectionHeading} from '@/components/ui/section-heading';
 
 export function Experience() {
   const t = useTranslations('experience');
@@ -11,7 +12,7 @@ export function Experience() {
   return (
     <section id="experience" className="py-24 px-4">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">{t('heading')}</h2>
+        <SectionHeading title={t('heading')} />
 
         <div className="relative">
           {experiences.map((exp, i) => (

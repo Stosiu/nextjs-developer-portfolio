@@ -5,6 +5,7 @@ import {motion, useMotionValue, useSpring, useTransform} from 'framer-motion';
 import Image from 'next/image';
 import {useRef, useState} from 'react';
 import {Button} from '@/components/ui/button';
+import {Badge} from '@/components/ui/badge';
 import {ArrowUpRight} from 'lucide-react';
 import {siteConfig} from '@/config/site';
 
@@ -165,14 +166,15 @@ export function About() {
               {highlights.map((h, i) => (
                 <motion.span
                   key={i}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-sm text-white/60 font-mono hover:border-brand-500/40 hover:text-brand-400/80 transition-colors duration-200"
                   initial={{opacity: 0, scale: 0.9}}
                   whileInView={{opacity: 1, scale: 1}}
                   viewport={{once: true}}
                   transition={{delay: 0.6 + i * 0.08}}
                 >
-                  <span className="text-brand-500 text-xs">{h.icon}</span>
-                  {h.label}
+                  <Badge className="hover:border-brand-500/40 hover:text-brand-400/80 transition-colors duration-200">
+                    <span className="text-brand-500 text-xs">{h.icon}</span>
+                    {h.label}
+                  </Badge>
                 </motion.span>
               ))}
             </motion.div>

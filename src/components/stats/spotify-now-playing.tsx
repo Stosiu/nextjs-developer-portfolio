@@ -4,20 +4,18 @@ import {motion} from 'framer-motion';
 import Image from 'next/image';
 import type {SpotifyTrack} from '@/lib/spotify';
 import {FaSpotify} from 'react-icons/fa';
+import {AnimatedReveal} from '@/components/ui/animated-reveal';
+import {StatCard} from '@/components/ui/stat-card';
 
 export function SpotifyNowPlaying({track}: {track: SpotifyTrack | null}) {
   if (!track) {
     return (
-      <motion.div
-        initial={{opacity: 0, y: 20}}
-        whileInView={{opacity: 1, y: 0}}
-        viewport={{once: true, margin: '-50px'}}
-        transition={{duration: 0.5}}
-        className="border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full flex flex-col justify-center items-center gap-3"
-      >
-        <FaSpotify className="text-white/20" size={32} />
-        <p className="text-sm text-white/30">Not playing</p>
-      </motion.div>
+      <AnimatedReveal className="h-full">
+        <StatCard className="justify-center items-center gap-3">
+          <FaSpotify className="text-white/20" size={32} />
+          <p className="text-sm text-white/30">Not playing</p>
+        </StatCard>
+      </AnimatedReveal>
     );
   }
 
@@ -30,7 +28,7 @@ export function SpotifyNowPlaying({track}: {track: SpotifyTrack | null}) {
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-50px'}}
       transition={{duration: 0.5}}
-      className="animated-border block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full hover:border-transparent transition-all duration-500 group"
+      className="motion-pre-hidden animated-border block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full hover:border-transparent transition-all duration-500 group"
     >
       <div className="flex items-center gap-2 mb-4">
         <FaSpotify className="text-[#1DB954]" size={16} />
