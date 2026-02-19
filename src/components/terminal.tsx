@@ -201,7 +201,7 @@ export function Terminal({lines}: Props) {
       transition={{duration: 0.8, ease: [0.16, 1, 0.3, 1]}}
       className="w-full max-w-2xl mx-auto"
     >
-      <div className="rounded-lg border border-white/10 bg-black/60 backdrop-blur-sm overflow-hidden shadow-2xl shadow-emerald-500/5">
+      <div className="rounded-lg border border-white/10 bg-black/60 backdrop-blur-sm overflow-hidden shadow-2xl shadow-brand-500/5">
         <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/5">
           <motion.div
             className="w-3 h-3 rounded-full bg-red-500/80"
@@ -227,7 +227,7 @@ export function Terminal({lines}: Props) {
                 animate={{opacity: 1, scale: 1}}
                 exit={{opacity: 0, scale: 0.8}}
                 onClick={run}
-                className="ml-auto text-xs text-white/30 hover:text-emerald-400 transition-colors font-mono cursor-pointer"
+                className="ml-auto text-xs text-white/30 hover:text-brand-400 transition-colors font-mono cursor-pointer"
               >
                 replay ↻
               </motion.button>
@@ -240,7 +240,7 @@ export function Terminal({lines}: Props) {
             <div key={i} className="mb-1.5">
               {line.type === 'command' ? (
                 <span>
-                  <span className="text-emerald-400">$</span>{' '}
+                  <span className="text-brand-400">$</span>{' '}
                   <span className="text-white">{line.text}</span>
                 </span>
               ) : (
@@ -251,7 +251,7 @@ export function Terminal({lines}: Props) {
 
           {cursor === 'streaming' && (
             <motion.span
-              className="inline-block w-[7px] h-[14px] bg-emerald-400/80 align-middle ms-0.5"
+              className="inline-block w-[7px] h-[14px] bg-brand-400/80 align-middle ms-0.5"
               animate={{opacity: [1, 0.3, 1]}}
               transition={{duration: 0.6, repeat: Infinity}}
             />
@@ -259,9 +259,9 @@ export function Terminal({lines}: Props) {
 
           {(cursor === 'typing' || showPrompt) && (
             <div className="mb-1.5">
-              {showPrompt && <span className="text-emerald-400">$ </span>}
+              {showPrompt && <span className="text-brand-400">$ </span>}
               <motion.span
-                className="inline-block w-[7px] h-[14px] bg-emerald-400 align-middle"
+                className="inline-block w-[7px] h-[14px] bg-brand-400 align-middle"
                 animate={{opacity: [1, 0, 1]}}
                 transition={{duration: 1, repeat: Infinity}}
               />
@@ -276,9 +276,9 @@ export function Terminal({lines}: Props) {
                 transition={{delay: 0.3, duration: 0.4}}
                 className="mt-3 pt-3 border-t border-white/5"
               >
-                <span className="text-emerald-400">$</span>{' '}
+                <span className="text-brand-400">$</span>{' '}
                 <motion.span
-                  className="inline-block w-[7px] h-[14px] bg-emerald-400/40 align-middle"
+                  className="inline-block w-[7px] h-[14px] bg-brand-400/40 align-middle"
                   animate={{opacity: [0.4, 0.8, 0.4]}}
                   transition={{duration: 2, repeat: Infinity}}
                 />

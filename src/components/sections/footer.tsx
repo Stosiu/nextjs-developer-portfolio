@@ -11,7 +11,7 @@ export function Footer() {
 
   return (
     <footer id="contact" className="relative py-20 px-4">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[1px] bg-gradient-to-r from-transparent via-brand-500/30 to-transparent" />
 
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
@@ -60,20 +60,20 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-white/5">
+        <div className="mt-10 pt-6 border-t border-white/5 space-y-2">
           <p className="text-xs text-white/20 font-mono">
-            {t('builtWith')}{' '}
-            <a
-              href={siteConfig.repo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-white/30 hover:text-emerald-400 transition-colors"
-            >
-              <FaGithub size={12} />
-              <span>{t('viewSource')}</span>
-              <FaStar size={10} />
-            </a>
+            {t('builtWith')}
           </p>
+          <a
+            href={siteConfig.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-white/30 hover:text-brand-400 transition-colors"
+          >
+            <FaGithub size={12} />
+            <span>{t('viewSource')}</span>
+            <FaStar size={10} />
+          </a>
         </div>
       </div>
     </footer>

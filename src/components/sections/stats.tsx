@@ -18,10 +18,13 @@ export function Stats({spotifyTrack}: {spotifyTrack: SpotifyTrack | null}) {
   const t = useTranslations('stats');
 
   return (
-    <section id="stats" className="py-24 px-4">
-      <div className="max-w-5xl mx-auto">
+    <section id="stats" className="relative py-24 px-6 md:px-10">
+      <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] via-brand-500/[0.02] to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(var(--accent-rgb),0.04),transparent_60%)]" />
+      <div className="relative max-w-5xl mx-auto">
         <div className="glow-divider mb-16" />
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">{t('heading')}</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">{t('heading')}</h2>
+        <p className="text-sm text-white/30 text-center font-mono mb-12">{t('subtitle')}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Row 1: GitHub heatmap */}

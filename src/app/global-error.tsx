@@ -53,7 +53,7 @@ export default function GlobalError({reset}: Props) {
                 <div className="flex gap-3 justify-center">
                   <button
                     onClick={reset}
-                    className="px-6 py-2.5 text-sm font-mono border border-emerald-500/30 text-emerald-400 rounded hover:bg-emerald-500/10 transition-colors cursor-pointer"
+                    className="px-6 py-2.5 text-sm font-mono border border-brand-500/30 text-brand-400 rounded hover:bg-brand-500/10 transition-colors cursor-pointer"
                   >
                     sudo reboot
                   </button>

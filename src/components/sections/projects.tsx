@@ -7,6 +7,7 @@ import Image from 'next/image';
 import {projects} from '@/lib/data';
 import type {Project} from '@/lib/data';
 import {useCountUp} from '@/hooks/use-count-up';
+import {siteConfig} from '@/config/site';
 
 function ProjectCard({project, index}: {project: Project; index: number}) {
   const t = useTranslations('projects');
@@ -16,14 +17,14 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"
-      initial={{opacity: 0}}
-      whileInView={{opacity: 1}}
-      viewport={{once: true, margin: '-50px'}}
-      transition={{duration: 0.4, delay: index * 0.08}}
-      className="animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-emerald-500/5"
+      initial={{opacity: 0, y: 20}}
+      whileInView={{opacity: 1, y: 0}}
+      viewport={{once: true, margin: '-80px'}}
+      transition={{duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
+      className="animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
     >
       {/* Image — aspect-video */}
-      <div className="relative z-0 w-full aspect-video bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 overflow-hidden">
+      <div className="relative z-0 w-full aspect-video bg-gradient-to-br from-brand-500/10 to-cyan-500/5 overflow-hidden">
         {project.image ? (
           <Image
             src={project.image}
@@ -63,7 +64,7 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       {/* Content */}
       <div className="p-5">
         <div className="flex items-baseline justify-between gap-2 mb-1.5">
-          <h3 className="text-lg font-semibold group-hover:text-emerald-400 transition-colors">
+          <h3 className="text-lg font-semibold group-hover:text-brand-400 transition-colors">
             {project.title}
           </h3>
           <span className="text-[11px] font-mono text-white/25 shrink-0">
@@ -72,17 +73,17 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
         </div>
 
         <div className="flex flex-wrap gap-1 mb-3">
-          {project.tech.map((t) => (
+          {project.tech.map((techItem) => (
             <span
-              key={t}
-              className="px-1.5 py-0.5 text-[10px] font-mono text-white/35 bg-white/[0.04] border border-white/[0.06] rounded group-hover:border-emerald-500/20 group-hover:text-white/50 transition-colors duration-300"
+              key={techItem}
+              className="px-1.5 py-0.5 text-[10px] font-mono text-white/35 bg-white/[0.04] border border-white/[0.06] rounded group-hover:border-brand-500/20 group-hover:text-white/50 transition-colors duration-300"
             >
-              {t}
+              {techItem}
             </span>
           ))}
         </div>
 
-        <p className="text-sm text-white/50 leading-relaxed line-clamp-2">{project.description}</p>
+        <p className="text-sm text-white/50 leading-relaxed line-clamp-2">{t(project.descriptionKey)}</p>
       </div>
     </motion.a>
   );
@@ -95,14 +96,16 @@ function MoreProjectsCard({index}: {index: number}) {
   return (
     <motion.div
       ref={ref}
-      initial={{opacity: 0}}
-      whileInView={{opacity: 1}}
-      viewport={{once: true, margin: '-50px'}}
-      transition={{duration: 0.4, delay: index * 0.08}}
-      className="animated-border flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-white/[0.03] to-transparent p-6"
+      initial={{opacity: 0, y: 20}}
+      whileInView={{opacity: 1, y: 0}}
+      viewport={{once: true, margin: '-80px'}}
+      transition={{duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
+      className="animated-border relative flex flex-col items-center justify-center border border-white/[0.08] overflow-hidden p-10"
     >
-      <span className="text-5xl font-bold text-white/20 mb-2 tabular-nums">{count}+</span>
-      <span className="text-sm text-white/40 text-center">{t('moreLabel')}</span>
+      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/[0.06] via-transparent to-cyan-500/[0.04]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
+      <span className="relative text-6xl font-bold text-white/25 mb-3 tabular-nums tracking-tight">{count}+</span>
+      <span className="relative text-sm text-white/50 text-center leading-relaxed max-w-[200px]">{t('moreLabel')}</span>
     </motion.div>
   );
 }
@@ -138,18 +141,18 @@ export function Projects() {
 
           {/* CTA card — spans remaining columns */}
           <motion.a
-            href="https://cal.com/stosiu/consultation"
+            href={siteConfig.booking}
             target="_blank"
             rel="noopener noreferrer"
-            initial={{opacity: 0}}
-            whileInView={{opacity: 1}}
-            viewport={{once: true, margin: '-50px'}}
-            transition={{duration: 0.4, delay: (projects.length + 1) * 0.08}}
-            className={`animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-emerald-500/[0.04] to-transparent p-8 hover:from-emerald-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true, margin: '-80px'}}
+            transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
+            className={`animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent p-8 hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
           >
-            <h3 className="text-lg font-semibold mb-2 text-emerald-400">{t('ctaHeading')}</h3>
+            <h3 className="text-lg font-semibold mb-2 text-brand-400">{t('ctaHeading')}</h3>
             <p className="text-sm text-white/50 mb-4 text-center">{t('ctaDescription')}</p>
-            <span className="text-sm text-emerald-400 inline-flex items-center gap-1">
+            <span className="text-sm text-brand-400 inline-flex items-center gap-1">
               {t('ctaCta')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
             </span>

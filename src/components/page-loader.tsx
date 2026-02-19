@@ -1,13 +1,14 @@
 'use client';
 
 import {useState, useEffect, useRef} from 'react';
+import {siteConfig} from '@/config/site';
 
 const BOOT = [
   {cmd: true, text: 'npx stosiu@latest'},
   {cmd: false, text: '  resolving dependencies...'},
   {cmd: false, text: '  \u2713 portfolio loaded'},
   {cmd: true, text: './start --production'},
-  {cmd: false, text: '  \u2713 ready on stosiu.dev'},
+  {cmd: false, text: `  \u2713 ready on ${siteConfig.url.replace('https://', '')}`},
 ];
 
 function sleep(ms: number) {
@@ -111,7 +112,7 @@ export function PageLoader() {
             <span className="loader-dot" style={{background: 'rgba(239,68,68,0.6)'}} />
             <span className="loader-dot" style={{background: 'rgba(234,179,8,0.6)'}} />
             <span className="loader-dot" style={{background: 'rgba(34,197,94,0.6)'}} />
-            <span className="loader-titlebar-text">stosiu@dev ~ %</span>
+            <span className="loader-titlebar-text">{siteConfig.terminal.user}@{siteConfig.terminal.host} ~ %</span>
           </div>
           <div className="loader-body">
             {lines.map((line, i) => (

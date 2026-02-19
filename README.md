@@ -31,8 +31,32 @@ Personal portfolio website for Aleksander Stós — CTO & Co-Founder at [The Dig
 - **Project showcase** with gradient-bordered cards
 - **Work experience timeline**
 - **Full i18n** with RTL support for Arabic
-- **Dark theme only** with emerald (#10B981) accent
-- **Accessible** — respects `prefers-reduced-motion`
+- **Dark theme only** with configurable accent color
+- **Accessible** — skip-nav, ARIA labels, respects `prefers-reduced-motion`
+
+## Personalizing
+
+All personal data is centralized — edit these files to make it yours:
+
+| File | What to change |
+|---|---|
+| `src/config/site.ts` | Name, email, social links, booking URL, agency info |
+| `src/config/experience.ts` | Work history (structural data: company names, URLs, icons) |
+| `src/config/logos.ts` | Client logos for the scrolling marquee |
+| `src/config/companies.ts` | Footer company registrations |
+| `src/lib/data.ts` | Project entries (titles, tech stacks, images) |
+| `messages/{en,pl,ar}.json` | All user-facing text including experience & project descriptions |
+| `src/app/globals.css` | Accent color (`--color-brand-*` variables and `--accent-rgb`) |
+| `src/data/stats.json` | Regenerate with `pnpm gather-stats` or edit manually |
+| `.env` | Spotify credentials (see `.env.example`) |
+
+### Environment Variables
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```bash
+cp .env.example .env
+```
 
 ## Getting Started
 
@@ -42,16 +66,6 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
-
-### Environment Variables
-
-For Spotify now-playing:
-
-```
-SPOTIFY_CLIENT_ID=
-SPOTIFY_CLIENT_SECRET=
-SPOTIFY_REFRESH_TOKEN=
-```
 
 ### Regenerate Stats Data
 

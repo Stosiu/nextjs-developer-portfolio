@@ -36,13 +36,22 @@
     "heading": "Firmy, z którymi współpracowałem",
     "viewProject": "Zobacz projekt",
     "moreCount": "100+",
-    "moreLabel": "dostarczonych aplikacji i stron — i ciągle przybywa",
+    "moreLabel": "produktów dostarczonych na trzech kontynentach",
     "ctaHeading": "Twój produkt może tu być",
     "ctaDescription": "Zbudujmy coś razem.",
-    "ctaCta": "Odezwij się"
+    "ctaCta": "Odezwij się",
+    "proj0Desc": "Platforma ogłoszeń o pracę oparta na lokalizacji, stworzona na rynek saudyjski. Wyszukiwanie na mapie z ponad 2 500 zweryfikowanymi ofertami.",
+    "proj1Desc": "Platforma cyberbezpieczeństwa, później przejęta przez Cytracom.",
+    "proj2Desc": "Platforma do zarządzania klientami, która pomaga firmom skalować się bez zwiększania zatrudnienia.",
+    "proj3Desc": "Platforma marketingu nieruchomości z wizualizacjami 360° i wirtualnymi spacerami 3D dla deweloperów.",
+    "proj4Desc": "Automatyzacja księgowości dla agencji i towarzystw ubezpieczeniowych. Płatności, uzgadnianie i przepływy finansowe.",
+    "proj5Desc": "Markowy serwis e-commerce stworzony na rynek saudyjski.",
+    "proj6Desc": "Platforma IoT zamieniająca dyspensery w winiarniach w system analizy zachowań klientów.",
+    "proj7Desc": "Platforma do rozliczeń podatkowych surplus lines i usług ubezpieczeniowych."
   },
   "stats": {
     "heading": "Dashboard",
+    "subtitle": "metryki na żywo z mojego środowiska dev",
     "contributions": "Kontrybucje",
     "inLastYear": "w ostatnim roku",
     "aiTokens": "Tokeny AI (30 dni)",
@@ -63,7 +72,27 @@
     "languagesLabel": "Najczęstsze języki"
   },
   "experience": {
-    "heading": "Jak tu dotarłem"
+    "heading": "Jak tu dotarłem",
+    "exp0Role": "Współzałożyciel",
+    "exp0Period": "Sty 2026 - Obecnie",
+    "exp0Location": "Rijad, Arabia Saudyjska · Hybrydowo",
+    "exp0Description": "Zaczęliśmy ekspansję na Arabię Saudyjską w 2025 roku i szybko zdaliśmy sobie sprawę, jak trudno jest zagranicznym firmom ogarnąć tamtejszy rynek. Zbudowaliśmy więc to, czego sami potrzebowaliśmy: platformę startową dla startupów i firm wchodzących na rynek saudyjski.\n\nInni pomogli nam, kiedy sami się tego uczyliśmy. Tak oddajemy przysługę.",
+    "exp1Role": "CTO i Współzałożyciel",
+    "exp1Period": "Cze 2021 - Obecnie",
+    "exp1Location": "Warszawa, Polska · Stacjonarnie",
+    "exp1Description": "W mojej rodzinie każdy prowadzi małą firmę, więc założenie własnej zawsze wydawało się nieuniknione. Nigdy nie wyobrażałem sobie, że urośniemy do tylu osób.\n\nTeraz jest nas ponad 50, $2M ARR rosnące 23% rok do roku, trzy biura w Warszawie, Rijadzie i Sydney, i jakoś wciąż uruchamiamy nowe przedsięwzięcia.\n\nBycie współzałożycielem nauczyło mnie, że biznes to nie tylko budowanie świetnych produktów. To pilnowanie wypłat, utrzymywanie firmy na nogach i ogarnianie setek rzeczy, o których nikt cię nie ostrzega. Sporo trudnych momentów. Ale idziemy dalej.",
+    "exp2Role": "Stażysta → Senior Developer → Team Lead",
+    "exp2Period": "Lis 2015 - Cze 2021",
+    "exp2Location": "Warszawa, Polska",
+    "exp2Description": "Zagadałem do nich na kursie AngularJS w drugim miesiącu studiów informatycznych. Pewnie się zastanawiali, czemu jakiś dzieciak w ogóle do nich gada. Oblałem rozmowę rekrutacyjną, bo byłem zestresowany do granic, ale Tomek (CTO) i Marcin (COO) i tak dali mi szansę. Darmowy staż, bez wynagrodzenia.\n\nTrzy miesiące później dostałem pierwszą prawdziwą wypłatę. Przez cztery lata byłem najmłodszą osobą w firmie, co stało się żartem firmowym. To była poważna firma z amerykańskimi founderami i klientami enterprise. Tam zaczęła się moja cała fala współpracy z amerykańskimi firmami.\n\nSkakałem między stackami jak ninja. JavaScript, TypeScript, React, Node.js, Electron, Python, wysoka współbieżność. Ponad 50 projektów łącznie. Ubezpieczeniowy startup warty ponad $1B, który ostatecznie przejął SwingDev (dostarczyłem dla nich pierwszy projekt próbny), platforma subskrypcyjna z ~35 tys. jednoczesnych użytkowników, badania nad rakiem u psów, logistyka wysyłkowa, strony korporacyjne, małe wizytówki. Poznałem niesamowicie zdolnych ludzi, którzy pokazali mi, czym naprawdę jest programowanie. Jestem za to wdzięczny.\n\nPrzejrzałem ponad 1000 kandydatów, przeprowadziłem ponad 150 rozmów rekrutacyjnych i zbudowałem program stażowy, żeby inni mogli dostać taką samą szansę jak ja.",
+    "exp3Role": "Stażysta → Student informatyki",
+    "exp3Period": "Lato 2015",
+    "exp3Location": "Tarnów, Polska",
+    "exp3Description": "Trzy miesiące darmowego stażu zaraz po liceum, żeby sprawdzić, czy profesjonalne programowanie to naprawdę coś dla mnie. Było. Ludzie tam pokazali mi, jak wygląda prawdziwy development poza domowym kodowaniem. Wykłady na uczelni wydawały się po tym boleśnie wolne, ale i tak przeprowadziłem się do Warszawy na studia informatyczne. Nie mogłem się doczekać, żeby zacząć.",
+    "exp4Role": "Indie Hacker",
+    "exp4Period": "~2008 - 2015",
+    "exp4Location": "Tarnów, Polska",
+    "exp4Description": "13 lat, ledwo mówiący po angielsku, piszący skrypty, budujący questy i próbujący sprzedawać rzeczy ludziom w internecie. Prowadziłem prywatne serwery gier z domowego PC z tysiącami aktywnych graczy.\n\nMama wyłączała komputer na noc, co oznaczało, że gracze tracili dostęp. Musiałem więc ogarnąć zdalny hosting i nauczyć się faktycznie sprzedawać usługi. W pewnym momencie zostałem zhackowany. To bolało. Ale każda zepsuta rzecz czegoś mnie nauczyła.\n\nSilniki gier w C++, skrypty Lua, JavaScript, pierwsze strony internetowe. Wszystko samodzielnie, wszystko googlując rzeczy, których ledwo rozumiałem. Tak to się zaczęło."
   },
   "footer": {
     "cta": "Zbudujmy coś razem",

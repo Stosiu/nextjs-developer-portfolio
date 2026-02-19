@@ -18,7 +18,7 @@ export function GitHubStreak({streak}: {streak: number}) {
       className="h-full border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 flex flex-col justify-center items-center text-center"
     >
       <span className="text-sm text-white/60 mb-2">{t('streakLabel')}</span>
-      <p className="text-4xl font-bold text-emerald-400 font-mono tabular-nums">
+      <p className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
         {count}
       </p>
       <p className="text-xs text-white/40 mt-1">{t('streakDays')}</p>

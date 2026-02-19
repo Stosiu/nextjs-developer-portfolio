@@ -3,11 +3,12 @@
 import {useEffect, useRef, useState, useCallback} from 'react';
 import {motion, useMotionValue, useSpring, AnimatePresence} from 'framer-motion';
 import {useTranslations} from 'next-intl';
+import {siteConfig} from '@/config/site';
 
 const INTERACTIVE_SELECTOR =
   'a, button, [role="button"], input, select, textarea, [data-no-follower]';
 
-const SECTION_IDS = ['hero', 'about', 'projects', 'stats', 'experience'] as const;
+const SECTION_IDS = ['hero', ...siteConfig.sections] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
 const COMMENT_KEYS: Record<SectionId | 'default' | 'footer', readonly string[]> = {
@@ -211,7 +212,7 @@ export function CursorComment() {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="pointer-events-none fixed top-0 left-0 z-[10000] hidden font-mono text-sm text-emerald-400/70 lg:block"
+          className="pointer-events-none fixed top-0 left-0 z-[10000] hidden font-mono text-sm text-brand-400/70 lg:block"
           style={{left: x, top: y}}
           initial={{opacity: 0}}
           animate={{opacity: 1}}
@@ -221,7 +222,7 @@ export function CursorComment() {
           <span className="whitespace-nowrap">
             {displayText}
             <span
-              className={`inline-block w-[0.55em] translate-y-[1px] bg-emerald-400/70 ${isTyping ? 'animate-pulse' : 'animate-blink'}`}
+              className={`inline-block w-[0.55em] translate-y-[1px] bg-brand-400/70 ${isTyping ? 'animate-pulse' : 'animate-blink'}`}
             >
               &nbsp;
             </span>

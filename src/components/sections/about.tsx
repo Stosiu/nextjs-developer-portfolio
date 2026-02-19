@@ -55,52 +55,47 @@ function PhotoCard() {
       viewport={{once: true, margin: '-50px'}}
       transition={{duration: 0.5}}
     >
-      {/* Glow effect that follows cursor */}
       <motion.div
         className="absolute -inset-4 rounded-full blur-2xl transition-opacity duration-300"
         style={{
           background: hovering
-            ? `radial-gradient(circle at ${glowX.get()}% ${glowY.get()}%, rgba(16, 185, 129, 0.25), transparent 60%)`
-            : 'radial-gradient(circle, rgba(16, 185, 129, 0.1), transparent 60%)',
+            ? `radial-gradient(circle at ${glowX.get()}% ${glowY.get()}%, rgba(var(--accent-rgb), 0.25), transparent 60%)`
+            : 'radial-gradient(circle, rgba(var(--accent-rgb), 0.1), transparent 60%)',
           opacity: hovering ? 1 : 0.6,
         }}
       />
 
-      {/* Rotating border ring */}
       <motion.div
         className="absolute -inset-[2px] rounded-full"
         style={{
-          background: 'conic-gradient(from var(--border-angle), transparent 40%, rgba(16, 185, 129, 0.5), rgba(6, 182, 212, 0.3), transparent 60%)',
+          background: 'conic-gradient(from var(--border-angle), transparent 40%, rgba(var(--accent-rgb), 0.5), rgba(6, 182, 212, 0.3), transparent 60%)',
           animation: hovering ? 'rotate-border 3s linear infinite' : 'none',
           opacity: hovering ? 1 : 0,
           transition: 'opacity 0.4s',
         }}
       />
 
-      {/* Photo container */}
       <div className="relative w-full h-full rounded-full overflow-hidden border border-white/10">
         <Image
           src="/avatar.jpg"
-          alt="Aleksander Stós"
+          alt={siteConfig.name}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 256px, 288px"
           priority
         />
 
-        {/* Scanline overlay on hover */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
           animate={{
             background: hovering
-              ? 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(16, 185, 129, 0.03) 2px, rgba(16, 185, 129, 0.03) 4px)'
+              ? 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(var(--accent-rgb), 0.03) 2px, rgba(var(--accent-rgb), 0.03) 4px)'
               : 'none',
           }}
           transition={{duration: 0.3}}
         />
       </div>
 
-      {/* Status indicator */}
       <motion.div
         className="absolute -bottom-3 inset-x-0 mx-auto w-fit flex items-center gap-2 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full px-3 py-1.5"
         style={{transform: 'translateZ(20px)'}}
@@ -110,8 +105,8 @@ function PhotoCard() {
         transition={{delay: 0.6}}
       >
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500" />
         </span>
         <span className="text-xs text-white/70 font-mono">available</span>
       </motion.div>
@@ -150,7 +145,7 @@ export function About() {
                       href={siteConfig.agency.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                      className="text-brand-400 hover:text-brand-300 transition-colors"
                     >
                       {chunks}
                     </a>
@@ -170,13 +165,13 @@ export function About() {
               {highlights.map((h, i) => (
                 <motion.span
                   key={i}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-sm text-white/60 font-mono hover:border-emerald-500/40 hover:text-emerald-400/80 transition-colors duration-200"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-sm text-white/60 font-mono hover:border-brand-500/40 hover:text-brand-400/80 transition-colors duration-200"
                   initial={{opacity: 0, scale: 0.9}}
                   whileInView={{opacity: 1, scale: 1}}
                   viewport={{once: true}}
                   transition={{delay: 0.6 + i * 0.08}}
                 >
-                  <span className="text-emerald-500 text-xs">{h.icon}</span>
+                  <span className="text-brand-500 text-xs">{h.icon}</span>
                   {h.label}
                 </motion.span>
               ))}
@@ -190,7 +185,7 @@ export function About() {
             >
               <Button
                 asChild
-                className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold gap-1.5"
+                className="bg-brand-500 hover:bg-brand-600 text-black font-semibold gap-1.5"
               >
                 <a href={siteConfig.booking} target="_blank" rel="noopener noreferrer">
                   {t('cta')}

@@ -9,7 +9,7 @@ import wineUnpluggedImg from '../../public/projects/wine-unplugged.jpg';
 
 export type Project = {
   title: string;
-  description: string;
+  descriptionKey: string;
   url: string;
   logo?: string;
   image?: StaticImageData;
@@ -20,7 +20,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: 'Opus',
-    description: 'Location-based job platform for the Saudi Arabian market. Map-driven search with 2,500+ verified listings.',
+    descriptionKey: 'proj0Desc',
     url: 'https://www.opus.sa/en',
     logo: '/logos/opus.svg',
     image: opusImg,
@@ -29,7 +29,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Telivy',
-    description: 'Cybersecurity platform later acquired by Cytracom.',
+    descriptionKey: 'proj1Desc',
     url: '#',
     logo: '/logos/telivy.svg',
     image: telivyImg,
@@ -38,7 +38,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Fulcrum',
-    description: 'Account management platform that helps companies scale without growing headcount.',
+    descriptionKey: 'proj2Desc',
     url: 'https://www.withfulcrum.com/',
     logo: '/logos/fulcrum.svg',
     image: fulcrumImg,
@@ -47,7 +47,7 @@ export const projects: Project[] = [
   },
   {
     title: 'YourNextHome',
-    description: 'Real estate marketing platform with 360° viewers and 3D walkthroughs for property developers.',
+    descriptionKey: 'proj3Desc',
     url: 'https://www.yournexthome.app/',
     logo: '/logos/yournexthome.svg',
     image: yournexthomeImg,
@@ -56,7 +56,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Ascend',
-    description: 'Accounting automation for insurance agencies and carriers. Payments, reconciliation, and financial workflows.',
+    descriptionKey: 'proj4Desc',
     url: 'https://www.useascend.com/',
     logo: '/logos/ascend.svg',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Heroku', 'Rails', 'Stripe', 'Applied Epic', 'AMS360'],
@@ -64,7 +64,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Bazzar',
-    description: 'Branded e-commerce service built for the Saudi Arabian market.',
+    descriptionKey: 'proj5Desc',
     url: 'https://www.getbazzar.com/',
     logo: '/logos/bazzar.svg',
     image: bazzarImg,
@@ -73,7 +73,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Wine Unplugged',
-    description: 'IoT-powered platform turning wine bar dispensers into a customer intelligence system.',
+    descriptionKey: 'proj6Desc',
     url: '#',
     logo: '/logos/wine-unplugged.svg',
     image: wineUnpluggedImg,
@@ -82,7 +82,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Valley Insurance',
-    description: 'Surplus lines tax filing and insurance services platform.',
+    descriptionKey: 'proj7Desc',
     url: 'https://www.valleyinsllc.com/',
     logo: '/logos/valleyins.svg',
     tech: ['Next.js', 'Node.js', 'PostgreSQL', 'GCP'],

@@ -90,7 +90,7 @@ export function Navbar() {
                 />
                 <span className="relative flex items-center gap-1.5">
                   <span
-                    className={`w-1.5 h-1.5 rounded-full bg-emerald-400 transition-all duration-300 ${
+                    className={`w-1.5 h-1.5 rounded-full bg-brand-400 transition-all duration-300 ${
                       isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                     }`}
                   />
@@ -124,7 +124,7 @@ export function Navbar() {
         </div>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-white">
+            <Button variant="ghost" size="icon" className="text-white" aria-label="Menu">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="4" y1="7" x2="20" y2="7" />
                 <line x1="4" y1="12" x2="20" y2="12" />

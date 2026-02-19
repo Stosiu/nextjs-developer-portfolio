@@ -67,7 +67,7 @@ export function SpotifyNowPlaying({track}: {track: SpotifyTrack | null}) {
           </div>
         )}
         <div className="min-w-0">
-          <p className="text-sm text-white/90 font-medium truncate group-hover:text-emerald-400 transition-colors">
+          <p className="text-sm text-white/90 font-medium truncate group-hover:text-brand-400 transition-colors">
             {track.title}
           </p>
           <p className="text-xs text-white/50 truncate mt-0.5">{track.artist}</p>

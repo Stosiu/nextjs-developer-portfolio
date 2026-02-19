@@ -39,7 +39,7 @@ export function InteractiveDots({className}: Props) {
 
         ctx.beginPath();
         ctx.arc(x, y, dotSize + t * 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(16, 185, 129, ${alpha})`;
+        ctx.fillStyle = `rgba(var(--accent-rgb), ${alpha})`;
         ctx.fill();
       }
     }
@@ -85,7 +85,7 @@ export function InteractiveDots({className}: Props) {
           for (let y = gap; y < height; y += gap) {
             ctx.beginPath();
             ctx.arc(x, y, 1, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(16, 185, 129, 0.03)';
+            ctx.fillStyle = 'rgba(var(--accent-rgb), 0.03)';
             ctx.fill();
           }
         }

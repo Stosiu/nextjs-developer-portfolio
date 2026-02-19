@@ -38,6 +38,10 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -47,7 +51,9 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Accent color — change these values to customize the theme color */
 :root {
+  --accent-rgb: 16, 185, 129;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -83,6 +89,7 @@
 }
 
 .dark {
+  --accent-rgb: 16, 185, 129;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -130,7 +137,7 @@ html {
 }
 
 ::selection {
-  background-color: rgba(16, 185, 129, 0.3);
+  background-color: rgba(var(--accent-rgb), 0.3);
   color: white;
 }
 
@@ -169,7 +176,7 @@ html {
 /* Glow line divider */
 .glow-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.3), transparent);
 }
 
 /* Section alternating subtle backgrounds */
@@ -205,7 +212,7 @@ html {
   background: conic-gradient(
     from var(--border-angle),
     transparent 40%,
-    rgba(16, 185, 129, 0.4),
+    rgba(var(--accent-rgb), 0.4),
     rgba(6, 182, 212, 0.3),
     transparent 60%
   );
@@ -265,7 +272,7 @@ html {
   background: rgba(255, 255, 255, 0.03);
   overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-              0 0 40px rgba(16, 185, 129, 0.03);
+              0 0 40px rgba(var(--accent-rgb), 0.03);
 }
 
 .loader-titlebar {
@@ -302,7 +309,7 @@ html {
 }
 
 .loader-prompt {
-  color: #10B981;
+  color: var(--color-brand-500);
 }
 
 .loader-output {
@@ -313,7 +320,7 @@ html {
   display: inline-block;
   width: 7px;
   height: 14px;
-  background: #10B981;
+  background: var(--color-brand-500);
   vertical-align: middle;
   margin-left: 1px;
   animation: loader-blink 1s step-end infinite;

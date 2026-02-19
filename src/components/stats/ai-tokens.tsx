@@ -129,7 +129,7 @@ export function AiTokens({
       </div>
 
       <div className="flex items-baseline gap-1 mb-3">
-        <span className="text-4xl font-bold text-emerald-400 font-mono tabular-nums">
+        <span className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
           {display}{suffix}
         </span>
         <span className="text-sm text-white/40">{t('aiTokensTotal')}</span>

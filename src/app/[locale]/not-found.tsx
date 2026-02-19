@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from 'react';
 import {motion, useReducedMotion} from 'framer-motion';
+import {siteConfig} from '@/config/site';
 
 const ASCII_GHOST = `
     .-""""-.
@@ -15,7 +16,7 @@ const ASCII_GHOST = `
 `;
 
 const LINES = [
-  {type: 'cmd', text: '$ curl -I https://stosiu.dev/???'},
+  {type: 'cmd', text: `$ curl -I ${siteConfig.url}/???`},
   {type: 'out', text: 'HTTP/1.1 404 Not Found'},
   {type: 'out', text: 'X-Vibe-Check: failed'},
   {type: 'out', text: 'X-Page-Status: yeeted-into-the-void'},
@@ -75,7 +76,7 @@ export default function NotFound() {
                 className="mb-0.5"
               >
                 {line.type === 'cmd' && (
-                  <span className="text-emerald-400">{line.text}</span>
+                  <span className="text-brand-400">{line.text}</span>
                 )}
                 {line.type === 'out' && (
                   <span className="text-white/60">{line.text}</span>
@@ -88,7 +89,7 @@ export default function NotFound() {
 
             {visibleCount < LINES.length && (
               <motion.span
-                className="inline-block w-[7px] h-[14px] bg-emerald-400"
+                className="inline-block w-[7px] h-[14px] bg-brand-400"
                 animate={{opacity: [1, 0, 1]}}
                 transition={{duration: 1, repeat: Infinity}}
               />
@@ -112,7 +113,7 @@ export default function NotFound() {
                   </p>
                   <a
                     href="/"
-                    className="inline-block px-6 py-2.5 text-sm font-mono border border-emerald-500/30 text-emerald-400 rounded hover:bg-emerald-500/10 transition-colors"
+                    className="inline-block px-6 py-2.5 text-sm font-mono border border-brand-500/30 text-brand-400 rounded hover:bg-brand-500/10 transition-colors"
                   >
                     cd ~
                   </a>

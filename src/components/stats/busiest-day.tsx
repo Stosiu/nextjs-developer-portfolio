@@ -23,7 +23,7 @@ export function BusiestDay({day, avgTokens}: {day: string; avgTokens: number}) {
     >
       <span className="text-sm text-white/60 mb-3">{t('busiestLabel')}</span>
 
-      <p className="text-3xl font-bold text-emerald-400">{day}</p>
+      <p className="text-3xl font-bold text-brand-400">{day}</p>
       <p className="text-xs text-white/40 mt-1">
         {formatCompact(avgTokens)} {t('busiestAvg')}
       </p>
