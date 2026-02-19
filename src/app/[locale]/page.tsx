@@ -9,8 +9,9 @@ import {Experience} from '@/components/sections/experience';
 import {Footer} from '@/components/sections/footer';
 import {CursorComment} from '@/components/cursor-comment';
 import {getNowPlaying} from '@/lib/spotify';
+import {getStats} from '@/lib/stats';
 
-export const revalidate = 86400; // revalidate once per day
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -20,7 +21,10 @@ export default async function HomePage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const spotifyTrack = await getNowPlaying();
+  const [spotifyTrack, statsData] = await Promise.all([
+    getNowPlaying(),
+    getStats(),
+  ]);
 
   return (
     <main id="main-content" className="bg-black text-white min-h-screen noise dot-grid overflow-x-hidden">
@@ -29,7 +33,7 @@ export default async function HomePage({params}: Props) {
       <Logos />
       <About />
       <Projects />
-      <Stats spotifyTrack={spotifyTrack} />
+      <Stats spotifyTrack={spotifyTrack} data={statsData} />
       <Experience />
       <Footer />
       <CursorComment />
