@@ -5,6 +5,7 @@ import {Logos} from '@/components/sections/logos';
 import {Projects} from '@/components/sections/projects';
 import {Stats} from '@/components/sections/stats';
 import {Testimonials} from '@/components/sections/testimonials';
+import {FAQ} from '@/components/sections/faq';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -22,6 +23,7 @@ export default async function HomePage({params}: Props) {
       <Projects />
       <Stats />
       <Testimonials />
+      <FAQ />
     </main>
   );
 }
