@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Aleksander Stos — CTO & Co-Founder",
-    "description": "Building digital experiences at The Digital Bunch"
+    "title": "Aleksander Stós — Entrepreneur, CTO & Co-Founder",
+    "description": "Entrepreneur and CTO building products and scaling teams at The Digital Bunch. Warsaw, Riyadh, Sydney."
   },
   "nav": {
     "about": "About",
@@ -13,12 +13,12 @@
   },
   "hero": {
     "command1": "whoami",
-    "response1": "Aleksander Stos — CTO & Co-Founder at The Digital Bunch",
-    "command2": "cat skills.txt",
-    "response2": "Full-Stack Development, AI Solutions, Digital Strategy, Software Architecture",
-    "command3": "curl https://cal.com/stosiu/consultation",
-    "response3": "Ready to build something?",
-    "cta": "Book a consultation"
+    "response1": "Aleksander Stós — Entrepreneur, CTO & Co-Founder at The Digital Bunch",
+    "command2": "cat /etc/motd",
+    "response2": "I build products, scale teams, and run companies. Warsaw · Riyadh · Sydney",
+    "command3": "./book --consultation",
+    "response3": "Opening cal.com/stosiu... ✓",
+    "cta": "Let's talk"
   },
   "about": {
     "heading": "About Me",
@@ -27,7 +27,8 @@
     "p3": "In my spare time, I like to help friends with unicorn startups.",
     "tag1": "problem-solver",
     "tag2": "team-builder",
-    "tag3": "startup-helper"
+    "tag3": "startup-helper",
+    "cta": "Get in touch"
   },
   "logos": {
     "heading": "Trusted by"
@@ -35,8 +36,8 @@
   "projects": {
     "heading": "Companies I've Worked With",
     "viewProject": "View project",
-    "moreCount": "40+",
-    "moreLabel": "other apps and websites delivered",
+    "moreCount": "100+",
+    "moreLabel": "apps and websites delivered — and still counting",
     "ctaHeading": "Your product could be here",
     "ctaDescription": "Let's build something together.",
     "ctaCta": "Get in touch"
@@ -46,9 +47,21 @@
     "contributions": "Contributions",
     "inLastYear": "in the last year",
     "aiTokens": "AI Tokens (30d)",
-    "latestCommit": "Latest Commit",
-    "releases": "Product Releases",
-    "lastUpdated": "Last updated"
+    "aiTokensTotal": "tokens",
+    "aiSessions": "Sessions",
+    "aiMessages": "Messages",
+    "lastUpdated": "Last updated",
+    "ratioLabel": "Token Ratio",
+    "ratioInput": "of all tokens are re-reading context",
+    "ratioReading": "Reading",
+    "ratioWriting": "Writing",
+    "ratioExplanation": "Every message re-sends the entire conversation. Only a tiny fraction is Claude actually writing code.",
+    "busiestLabel": "Busiest Day",
+    "busiestAvg": "tokens avg",
+    "busiestExplanation": "Average token consumption by day of week across all sessions.",
+    "streakLabel": "Current Streak",
+    "streakDays": "consecutive days",
+    "languagesLabel": "Top Languages"
   },
   "experience": {
     "heading": "Work Experience"
@@ -66,6 +79,35 @@
   },
   "footer": {
     "cta": "Let's build something",
-    "copyright": "© {year} Aleksander Stos. All rights reserved."
+    "copyright": "© {year} Aleksander Stós. All rights reserved.",
+    "companiesHeading": "Registered Companies",
+    "personalCompany": "Aleksander Stós Digital Technologies",
+    "personalRole": "President",
+    "tdbCompany": "The Digital Bunch Sp. z o. o.",
+    "tdbRole": "President",
+    "warsawPoland": "Warsaw, Poland",
+    "sydneyAustralia": "Sydney, Australia",
+    "riyadhSaudi": "Riyadh, Saudi Arabia"
+  },
+  "cursorComments": {
+    "hero1": "// welcome to my corner of the internet",
+    "hero2": "// yes, I built a terminal on a website",
+    "hero3": "// at least it's not a blockchain",
+    "about1": "// he actually writes code, not just slides",
+    "about2": "// LGTM, ship it",
+    "about3": "// TODO: add more hobbies",
+    "projects1": "// TODO: actually ship these",
+    "projects2": "// git log --oneline | wc -l → too many",
+    "projects3": "// no NDA was harmed in the making of this",
+    "stats1": "// select * from vanity_metrics",
+    "stats2": "// powered by caffeine and curiosity",
+    "stats3": "// these are real, I promise",
+    "experience1": "// senior enough to know what I don't know",
+    "experience2": "// it's not a bug, it's a career",
+    "experience3": "// years_of_experience++",
+    "footer1": "// you made it to the bottom",
+    "footer2": "// EOF",
+    "default1": "// ...",
+    "default2": "// just browsing?"
   }
 }

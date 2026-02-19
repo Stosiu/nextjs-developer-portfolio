@@ -4,6 +4,13 @@ import {useLocale} from 'next-intl';
 import {useRouter, usePathname} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
 import {Globe} from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const localeLabels: Record<string, string> = {
   en: 'EN',
@@ -21,21 +28,25 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1 text-sm">
-      <Globe className="w-4 h-4 text-white/40 mr-1" />
-      {routing.locales.map((l) => (
-        <button
-          key={l}
-          onClick={() => onLocaleChange(l)}
-          className={`px-2 py-1 rounded transition-colors ${
-            l === locale
-              ? 'text-white bg-white/10'
-              : 'text-white/60 hover:text-white'
-          }`}
-        >
-          {localeLabels[l]}
-        </button>
-      ))}
-    </div>
+    <Select value={locale} onValueChange={onLocaleChange}>
+      <SelectTrigger
+        size="sm"
+        className="border-white/10 bg-white/[0.06] text-white hover:bg-white/10 focus-visible:ring-emerald-500/50 gap-1.5"
+      >
+        <Globe className="w-3.5 h-3.5 text-white/40" />
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent className="bg-neutral-900 border-white/10">
+        {routing.locales.map((l) => (
+          <SelectItem
+            key={l}
+            value={l}
+            className="text-white/80 focus:bg-white/10 focus:text-white"
+          >
+            {localeLabels[l]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

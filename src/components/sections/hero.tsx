@@ -4,6 +4,7 @@ import {useTranslations} from 'next-intl';
 import {Terminal} from '@/components/terminal';
 import {Button} from '@/components/ui/button';
 import {InteractiveDots} from '@/components/interactive-dots';
+import {Mail} from 'lucide-react';
 
 export function Hero() {
   const t = useTranslations('hero');
@@ -18,7 +19,7 @@ export function Hero() {
   ];
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-20">
+    <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 py-20">
       <InteractiveDots className="absolute inset-0" />
 
       <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
@@ -29,15 +30,28 @@ export function Hero() {
       <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center gap-8">
         <Terminal lines={terminalLines} />
 
-        <Button
-          asChild
-          size="lg"
-          className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold"
-        >
-          <a href="https://cal.com/stosiu/consultation" target="_blank" rel="noopener noreferrer">
-            {t('cta')}
-          </a>
-        </Button>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Button
+            asChild
+            size="lg"
+            className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold"
+          >
+            <a href="https://cal.com/stosiu/consultation" target="_blank" rel="noopener noreferrer">
+              {t('cta')}
+            </a>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="border-white/20 text-white/70 hover:text-white hover:border-white/40 gap-2"
+          >
+            <a href="mailto:alex@thedigitalbunch.com">
+              <Mail className="w-4 h-4" />
+              alex@thedigitalbunch.com
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );

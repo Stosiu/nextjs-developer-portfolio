@@ -6,22 +6,31 @@ import {Briefcase} from 'lucide-react';
 
 const experiences = [
   {
+    role: 'Co-Founder',
+    company: 'Saudi Venture Hub',
+    url: 'https://www.saudiventurehub.com',
+    period: 'Jan 2026 — Present',
+    location: 'Riyadh, Saudi Arabia · Hybrid',
+    description:
+      'Start-up ventures and co-creation in the Saudi ecosystem.',
+  },
+  {
     role: 'CTO & Co-Founder',
     company: 'The Digital Bunch',
-    period: '2017 — Present',
-    description: 'Leading technical strategy and engineering across 50+ digital products. Offices in Warsaw, Riyadh, and Sydney.',
+    url: 'https://www.thedigitalbunch.com',
+    period: 'Jun 2021 — Present',
+    location: 'Warsaw, Poland · On-site',
+    description:
+      'Managing technology and operations at a 50+ people agency with $1.5M ARR, growing 25% year-over-year. Defining technology strategy, overseeing product development for web, mobile, and interactive platforms, scaling engineering processes, and leading a multidisciplinary team of developers, designers, and 3D specialists.',
   },
   {
-    role: 'Board Advisor',
-    company: 'Saudi Venture Hub',
-    period: '2023 — Present',
-    description: 'Advising on technology strategy and digital transformation initiatives in the Saudi startup ecosystem.',
-  },
-  {
-    role: 'Senior Software Engineer',
-    company: 'Previous Role',
-    period: '2015 — 2017',
-    description: 'Full-stack development with focus on JavaScript/TypeScript ecosystems.',
+    role: 'Senior Javascript Developer',
+    company: 'SwingDev',
+    url: 'https://www.swing.dev',
+    period: 'Nov 2015 — Jun 2021',
+    location: 'Warsaw, Poland',
+    description:
+      'Intern to senior to team lead at a development consultancy, working for SF startups ranging from first-round funded to $2B+ valued. Solution architect for over 40 projects including a major product at a $1B+ insurance unicorn and a subscription app with ~35k concurrent users at peak. Designed a recruitment system screening 1000+ candidates, conducted 150+ interviews, and spearheaded an internship program.',
   },
 ];
 
@@ -53,10 +62,18 @@ export function Experience() {
 
               <h3 className="text-xl font-semibold text-white">{exp.role}</h3>
               <p className="text-sm mt-1">
-                <span className="text-emerald-400 font-medium">{exp.company}</span>
+                <a
+                  href={exp.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-400 font-medium hover:text-emerald-300 transition-colors"
+                >
+                  {exp.company}
+                </a>
                 <span className="text-white/40 mx-2">·</span>
                 <span className="text-white/50">{exp.period}</span>
               </p>
+              <p className="text-xs text-white/40 mt-1">{exp.location}</p>
               <p className="text-sm text-white/70 mt-3 leading-relaxed">{exp.description}</p>
             </motion.div>
           ))}

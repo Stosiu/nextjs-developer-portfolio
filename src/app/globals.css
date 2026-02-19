@@ -125,31 +125,6 @@
   }
 }
 
-@keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-}
-
-.marquee-content {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  animation: marquee-scroll 25s linear infinite;
-}
-
-[dir="rtl"] .marquee-content {
-  animation-direction: reverse;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -236,6 +211,7 @@ html {
   );
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
+  z-index: 10;
   opacity: 0;
   transition: opacity 0.5s;
 }
@@ -243,4 +219,19 @@ html {
 .animated-border:hover::before {
   opacity: 1;
   animation: rotate-border 3s linear infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Cursor comment blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@utility animate-blink {
+  animation: blink 1s step-end infinite;
 }

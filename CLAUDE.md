@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Personal portfolio for Aleksander Stos (CTO & Co-Founder at The Digital Bunch). Single-page site with interactive terminal hero, i18n support (en/pl/ar with RTL), and dark theme.
+Personal portfolio for Aleksander Stós (CTO & Co-Founder at The Digital Bunch). Single-page site with interactive terminal hero, i18n support (en/pl/ar with RTL), and dark theme.
 
 ## Tech Stack
 

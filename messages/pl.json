@@ -1,33 +1,34 @@
 {
   "meta": {
-    "title": "Aleksander Stos — CTO i Współzałożyciel",
-    "description": "Tworzenie cyfrowych doświadczeń w The Digital Bunch"
+    "title": "Aleksander Stós — Przedsiębiorca, CTO i Współzałożyciel",
+    "description": "Przedsiębiorca i CTO — buduję produkty i rozwijam zespoły w The Digital Bunch. Warszawa, Rijad, Sydney."
   },
   "nav": {
     "about": "O mnie",
     "projects": "Projekty",
     "stats": "Statystyki",
     "experience": "Doświadczenie",
-"faq": "FAQ",
+    "faq": "FAQ",
     "contact": "Kontakt"
   },
   "hero": {
     "command1": "whoami",
-    "response1": "Aleksander Stos — CTO i Współzałożyciel The Digital Bunch",
-    "command2": "cat skills.txt",
-    "response2": "Full-Stack Development, Rozwiązania AI, Strategia Cyfrowa, Architektura Oprogramowania",
-    "command3": "curl https://cal.com/stosiu/consultation",
-    "response3": "Gotowy, żeby coś zbudować?",
-    "cta": "Umów konsultację"
+    "response1": "Aleksander Stós — Przedsiębiorca, CTO i Współzałożyciel The Digital Bunch",
+    "command2": "cat /etc/motd",
+    "response2": "Buduję produkty, skaluję zespoły i prowadzę firmy. Warszawa · Rijad · Sydney",
+    "command3": "./book --consultation",
+    "response3": "Otwieram cal.com/stosiu... ✓",
+    "cta": "Porozmawiajmy"
   },
   "about": {
     "heading": "O mnie",
-    "p1": "Wszechstronny developer, który naprawia problemy.",
-    "p2": "Silny nacisk na budowanie zespołu i rozwijanie kompetencji. Nie boję się pracować z ludźmi, którzy wiedzą więcej ode mnie, i mam cierpliwość, by uczyć tych, którzy wiedzą mniej.",
-    "p3": "W wolnym czasie lubię pomagać znajomym z jednorożcowymi startupami.",
+    "p1": "Developer do zadań specjalnych.",
+    "p2": "Stawiam na budowanie zespołu i rozwój kompetencji. Nie boję się pracować z ludźmi, którzy wiedzą więcej ode mnie — i chętnie uczę tych, którzy wiedzą mniej.",
+    "p3": "Po godzinach pomagam znajomym rozkręcać startupy z potencjałem na jednorożca.",
     "tag1": "rozwiązuję problemy",
     "tag2": "buduję zespoły",
-    "tag3": "wspieram startupy"
+    "tag3": "wspieram startupy",
+    "cta": "Napisz do mnie"
   },
   "logos": {
     "heading": "Zaufali nam"
@@ -35,37 +36,78 @@
   "projects": {
     "heading": "Firmy, z którymi współpracowałem",
     "viewProject": "Zobacz projekt",
-    "moreCount": "40+",
-    "moreLabel": "innych aplikacji i stron dostarczonych",
+    "moreCount": "100+",
+    "moreLabel": "dostarczonych aplikacji i stron — i ciągle przybywa",
     "ctaHeading": "Twój produkt może tu być",
     "ctaDescription": "Zbudujmy coś razem.",
-    "ctaCta": "Skontaktuj się"
+    "ctaCta": "Odezwij się"
   },
   "stats": {
     "heading": "Dashboard",
     "contributions": "Kontrybucje",
     "inLastYear": "w ostatnim roku",
-    "aiTokens": "Tokeny AI (30d)",
-    "latestCommit": "Ostatni commit",
-    "releases": "Premiery produktów",
-    "lastUpdated": "Ostatnia aktualizacja"
+    "aiTokens": "Tokeny AI (30 dni)",
+    "aiTokensTotal": "tokenów",
+    "aiSessions": "Sesje",
+    "aiMessages": "Wiadomości",
+    "lastUpdated": "Ostatnia aktualizacja",
+    "ratioLabel": "Proporcja tokenów",
+    "ratioInput": "wszystkich tokenów to ponowne czytanie kontekstu",
+    "ratioReading": "Czytanie",
+    "ratioWriting": "Pisanie",
+    "ratioExplanation": "Każda wiadomość przesyła całą historię rozmowy. Tylko ułamek to faktyczne pisanie kodu przez Claude.",
+    "busiestLabel": "Najaktywniejszy dzień",
+    "busiestAvg": "tokenów śr.",
+    "busiestExplanation": "Średnie zużycie tokenów według dnia tygodnia ze wszystkich sesji.",
+    "streakLabel": "Aktualna seria",
+    "streakDays": "dni z rzędu",
+    "languagesLabel": "Najczęstsze języki"
   },
   "experience": {
     "heading": "Doświadczenie zawodowe"
   },
-"faq": {
+  "faq": {
     "heading": "Często zadawane pytania",
     "q1": "Jakie usługi oferujecie?",
-    "a1": "Poprzez The Digital Bunch oferujemy full-stack development, rozwiązania AI, strategię marki, projektowanie UI/UX i doradztwo cyfrowe w Europie, na Bliskim Wschodzie i w Australii.",
-    "q2": "Z jakimi technologiami pracujecie?",
-    "a2": "Nasz stack obejmuje TypeScript, React, Next.js, Node.js, Python i infrastrukturę chmurową. Dobieramy narzędzia do projektu.",
-    "q3": "Jak mogę rozpocząć projekt?",
-    "a3": "Umów darmową konsultację przez link powyżej. Omówimy Twój pomysł, zakres i harmonogram.",
+    "a1": "W ramach The Digital Bunch zajmujemy się full-stack developmentem, rozwiązaniami AI, strategią marki, projektowaniem UI/UX i doradztwem cyfrowym — działamy w Europie, na Bliskim Wschodzie i w Australii.",
+    "q2": "Na jakich technologiach pracujecie?",
+    "a2": "Pracujemy głównie z TypeScript, React, Next.js, Node.js, Pythonem i chmurą. Dobieramy technologie pod projekt, nie odwrotnie.",
+    "q3": "Jak zacząć współpracę?",
+    "a3": "Umów się na darmową konsultację przez link powyżej. Porozmawiamy o Twoim pomyśle, zakresie i kolejnych krokach.",
     "q4": "Gdzie macie siedzibę?",
-    "a4": "Warszawa, Polska — z biurami w Rijadzie i Sydney. Współpracujemy z klientami na całym świecie."
+    "a4": "Główna baza to Warszawa — mamy też biura w Rijadzie i Sydney. Pracujemy z klientami z całego świata."
   },
   "footer": {
     "cta": "Zbudujmy coś razem",
-    "copyright": "© {year} Aleksander Stos. Wszelkie prawa zastrzeżone."
+    "copyright": "© {year} Aleksander Stós. Wszelkie prawa zastrzeżone.",
+    "companiesHeading": "Zarejestrowane firmy",
+    "personalCompany": "Aleksander Stós Digital Technologies",
+    "personalRole": "Prezes",
+    "tdbCompany": "The Digital Bunch Sp. z o. o.",
+    "tdbRole": "Prezes",
+    "warsawPoland": "Warszawa, Polska",
+    "sydneyAustralia": "Sydney, Australia",
+    "riyadhSaudi": "Rijad, Arabia Saudyjska"
+  },
+  "cursorComments": {
+    "hero1": "// witaj w moim zakątku internetu",
+    "hero2": "// tak, zbudowałem terminal na stronie",
+    "hero3": "// przynajmniej to nie blockchain",
+    "about1": "// on naprawdę pisze kod, nie tylko slajdy",
+    "about2": "// LGTM, deployuj",
+    "about3": "// TODO: dodać więcej hobby",
+    "projects1": "// TODO: w końcu to wypuścić",
+    "projects2": "// git log --oneline | wc -l → za dużo",
+    "projects3": "// żadne NDA nie ucierpiało przy tworzeniu tego",
+    "stats1": "// select * from vanity_metrics",
+    "stats2": "// napędzane kofeiną i ciekawością",
+    "stats3": "// to prawdziwe dane, obiecuję",
+    "experience1": "// wystarczająco senior, żeby wiedzieć czego nie wiem",
+    "experience2": "// to nie bug, to kariera",
+    "experience3": "// lata_doswiadczenia++",
+    "footer1": "// dotarłeś na sam dół",
+    "footer2": "// EOF",
+    "default1": "// ...",
+    "default2": "// tylko przeglądasz?"
   }
 }

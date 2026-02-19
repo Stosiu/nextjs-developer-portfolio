@@ -1,15 +1,23 @@
 'use client';
 
 import {useTranslations} from 'next-intl';
+import Marquee from 'react-fast-marquee';
 
-const companies = [
-  'Opus Platform',
-  'Telivy',
-  'Fulcrum',
-  'Premier',
-  'C&R Software',
-  'Nobu Warsaw',
-  'Tiger Sky Tower',
+type Company = {
+  name: string;
+  logo: string;
+};
+
+const companies: Company[] = [
+  {name: 'Opus Platform', logo: '/logos/opus.svg'},
+  {name: 'Telivy', logo: '/logos/telivy.svg'},
+  {name: 'Fulcrum', logo: '/logos/fulcrum.svg'},
+  {name: 'YourNextHome', logo: '/logos/yournexthome.svg'},
+  {name: 'Ascend', logo: '/logos/ascend.svg'},
+  {name: 'Bazzar', logo: '/logos/bazzar.svg'},
+  {name: 'Wine Unplugged', logo: '/logos/wine-unplugged.svg'},
+  {name: 'Valley Insurance', logo: '/logos/valleyins.svg'},
+  {name: 'Cytracom', logo: '/logos/cytracom.svg'},
 ];
 
 export function Logos() {
@@ -20,33 +28,27 @@ export function Logos() {
       <p className="text-center text-sm text-white/40 uppercase tracking-widest mb-8">
         {t('heading')}
       </p>
-      <div className="relative overflow-hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-black to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-black to-transparent z-10" />
-
-        <div className="marquee-track">
-          <div className="marquee-content">
-            {companies.map((company) => (
-              <span
-                key={company}
-                className="text-xl font-bold text-white/40 tracking-wide whitespace-nowrap px-10 hover:text-white/70 transition-colors duration-300"
-              >
-                {company}
-              </span>
-            ))}
+      <Marquee
+        speed={40}
+        gradient
+        gradientColor="black"
+        gradientWidth={96}
+        pauseOnHover
+        autoFill
+      >
+        {companies.map((company) => (
+          <div
+            key={company.name}
+            className="flex items-center justify-center w-[120px] h-8 mx-8 hover:opacity-70 transition-opacity duration-300"
+          >
+            <img
+              src={company.logo}
+              alt={company.name}
+              className="max-h-8 max-w-[120px] w-auto h-auto object-contain [filter:brightness(0)_invert(1)_opacity(0.4)]"
+            />
           </div>
-          <div className="marquee-content" aria-hidden="true">
-            {companies.map((company) => (
-              <span
-                key={company}
-                className="text-xl font-bold text-white/40 tracking-wide whitespace-nowrap px-10 hover:text-white/70 transition-colors duration-300"
-              >
-                {company}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+        ))}
+      </Marquee>
     </section>
   );
 }
