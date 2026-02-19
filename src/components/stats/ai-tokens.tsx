@@ -5,14 +5,8 @@ import {useTranslations} from 'next-intl';
 import {useCountUp} from '@/hooks/use-count-up';
 
 function formatTokens(raw: number, count: number): {display: string; suffix: string} {
-  if (raw >= 1_000_000) {
-    const decimals = Math.round((raw / 1_000_000) * 10);
-    return {display: (count / 10).toFixed(1), suffix: 'M'};
-  }
-  if (raw >= 1_000) {
-    const decimals = Math.round((raw / 1_000) * 10);
-    return {display: (count / 10).toFixed(1), suffix: 'K'};
-  }
+  if (raw >= 1_000_000) return {display: (count / 10).toFixed(1), suffix: 'M'};
+  if (raw >= 1_000) return {display: (count / 10).toFixed(1), suffix: 'K'};
   return {display: String(count), suffix: ''};
 }
 
