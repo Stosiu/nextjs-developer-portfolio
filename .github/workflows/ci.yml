@@ -22,13 +22,33 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Audit
+        id: audit
         run: pnpm audit --prod
+        continue-on-error: true
 
       - name: Lint
+        id: lint
         run: pnpm lint
+        continue-on-error: true
 
       - name: Typecheck
+        id: typecheck
         run: pnpm typecheck
+        continue-on-error: true
 
       - name: Build
+        id: build
         run: pnpm build
+        continue-on-error: true
+
+      - name: Check results
+        run: |
+          failed=""
+          if [ "${{ steps.audit.outcome }}" = "failure" ]; then failed="$failed audit"; fi
+          if [ "${{ steps.lint.outcome }}" = "failure" ]; then failed="$failed lint"; fi
+          if [ "${{ steps.typecheck.outcome }}" = "failure" ]; then failed="$failed typecheck"; fi
+          if [ "${{ steps.build.outcome }}" = "failure" ]; then failed="$failed build"; fi
+          if [ -n "$failed" ]; then
+            echo "::error::Failed steps:$failed"
+            exit 1
+          fi
