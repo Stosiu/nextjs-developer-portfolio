@@ -196,14 +196,32 @@ export function CursorComment() {
       }
     }
 
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        setVisible(false);
+        currentSection.current = '';
+        if (rotateTimer.current) clearInterval(rotateTimer.current);
+      }
+    }
+
+    function handleWindowBlur() {
+      setVisible(false);
+      currentSection.current = '';
+      if (rotateTimer.current) clearInterval(rotateTimer.current);
+    }
+
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('resize', handleResize);
+    window.addEventListener('blur', handleWindowBlur);
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('blur', handleWindowBlur);
       clearTimers();
     };
   }, [cursorX, cursorY, updateComment, clearTimers]);

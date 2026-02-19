@@ -21,7 +21,7 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-80px'}}
       transition={{duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
-      className="animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
+      className="motion-pre-hidden animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
     >
       {/* Image — aspect-video */}
       <div className="relative z-0 w-full aspect-video bg-gradient-to-br from-brand-500/10 to-cyan-500/5 overflow-hidden">
@@ -100,7 +100,7 @@ function MoreProjectsCard({index}: {index: number}) {
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-80px'}}
       transition={{duration: 0.5, delay: index * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
-      className="animated-border relative flex flex-col items-center justify-center border border-white/[0.08] overflow-hidden p-10"
+      className="motion-pre-hidden animated-border relative flex flex-col items-center justify-center border border-white/[0.08] overflow-hidden p-10"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-brand-500/[0.06] via-transparent to-cyan-500/[0.04]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
@@ -148,7 +148,7 @@ export function Projects() {
             whileInView={{opacity: 1, y: 0}}
             viewport={{once: true, margin: '-80px'}}
             transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: [0.25, 0.1, 0.25, 1]}}
-            className={`animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent p-8 hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
+            className={`motion-pre-hidden animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent p-8 hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
           >
             <h3 className="text-lg font-semibold mb-2 text-brand-400">{t('ctaHeading')}</h3>
             <p className="text-sm text-white/50 mb-4 text-center">{t('ctaDescription')}</p>
