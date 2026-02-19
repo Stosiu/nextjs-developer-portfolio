@@ -1,7 +1,6 @@
 'use client';
 
 import {useTranslations} from 'next-intl';
-import statsData from '@/data/stats.json';
 import type {StatsData} from '@/data/stats-types';
 import type {SpotifyTrack} from '@/lib/spotify';
 import {GitHubHeatmap} from '@/components/stats/github-heatmap';
@@ -12,9 +11,12 @@ import {BusiestDay} from '@/components/stats/busiest-day';
 import {GitHubStreak} from '@/components/stats/github-streak';
 import {GitHubLanguages} from '@/components/stats/github-languages';
 
-const data = statsData as unknown as StatsData;
+type StatsProps = {
+  spotifyTrack: SpotifyTrack | null;
+  data: StatsData;
+};
 
-export function Stats({spotifyTrack}: {spotifyTrack: SpotifyTrack | null}) {
+export function Stats({spotifyTrack, data}: StatsProps) {
   const t = useTranslations('stats');
 
   return (
