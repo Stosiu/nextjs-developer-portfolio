@@ -21,17 +21,20 @@ export function Logos() {
         autoFill
       >
         {clientLogos.map((company) => (
-          <div
+          <a
             key={company.name}
-            className="flex items-center justify-center w-[120px] h-8 mx-8 hover:opacity-70 transition-opacity duration-300"
+            href={company.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-center w-[140px] h-10 mx-5"
           >
             <img
               src={company.logo}
               alt={company.name}
-              className="max-h-8 max-w-[120px] w-auto h-auto object-contain [filter:brightness(0)_invert(1)_opacity(0.4)]"
+              className="max-h-10 max-w-[140px] w-auto h-auto object-contain transition-[filter] duration-300 [filter:brightness(0)_invert(1)_opacity(0.4)] group-hover:[filter:brightness(0)_invert(1)_opacity(1)]"
               style={company.scale ? {transform: `scale(${company.scale})`} : undefined}
             />
-          </div>
+          </a>
         ))}
       </Marquee>
     </section>
