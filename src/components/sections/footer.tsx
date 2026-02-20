@@ -81,10 +81,9 @@ export function Footer() {
           </a>
           <p className="mt-2 text-[10px] font-mono text-white/10 hover:text-white/30 transition-colors select-all cursor-default">
             {process.env.NEXT_PUBLIC_COMMIT_SHA}
-            <span className="select-none"> · </span>
-            <span className="select-none text-white/[0.06] hover:text-white/20 transition-colors cursor-help" title="Try ⌘, for a surprise">
-              ⌘,
-            </span>
+          </p>
+          <p className="mt-3 text-xs font-mono text-white/15 select-none">
+            psst... try pressing <kbd className="px-1.5 py-0.5 mx-0.5 rounded border border-white/10 text-white/30">⌘ ,</kbd> for a surprise
           </p>
         </div>
       </div>
