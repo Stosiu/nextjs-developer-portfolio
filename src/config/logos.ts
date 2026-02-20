@@ -1,11 +1,12 @@
 export type ClientLogo = {
   name: string;
   logo: string;
+  scale?: number;
 };
 
 export const clientLogos: ClientLogo[] = [
-  {name: 'Opus Platform', logo: '/logos/opus.svg'},
-  {name: 'Telivy', logo: '/logos/telivy.svg'},
+  {name: 'Opus Platform', logo: '/logos/opus.svg', scale: 0.9},
+  {name: 'Telivy', logo: '/logos/telivy.svg', scale: 1.2},
   {name: 'Fulcrum', logo: '/logos/fulcrum.svg'},
   {name: 'YourNextHome', logo: '/logos/yournexthome.svg'},
   {name: 'Ascend', logo: '/logos/ascend.svg'},
@@ -17,6 +18,6 @@ export const clientLogos: ClientLogo[] = [
   {name: 'Hippo Insurance', logo: '/logos/hippo.svg'},
   {name: 'C&R Software', logo: '/logos/cr-software.svg'},
   {name: 'Premier Construction Software', logo: '/logos/premier.svg'},
-  {name: 'Tamam', logo: '/logos/tamam.svg'},
+  {name: 'Tamam', logo: '/logos/tamam.svg', scale: 1.2},
   {name: 'Jak', logo: '/logos/jak.svg'},
 ];

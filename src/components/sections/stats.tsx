@@ -2,7 +2,7 @@
 
 import {useTranslations} from 'next-intl';
 import type {StatsData} from '@/data/stats-types';
-import type {SpotifyTrack} from '@/lib/spotify';
+import type {SpotifyData} from '@/lib/spotify';
 import {GitHubHeatmap} from '@/components/stats/github-heatmap';
 import {AiTokens} from '@/components/stats/ai-tokens';
 import {SpotifyNowPlaying} from '@/components/stats/spotify-now-playing';
@@ -13,11 +13,11 @@ import {GitHubLanguages} from '@/components/stats/github-languages';
 import {SectionHeading} from '@/components/ui/section-heading';
 
 type StatsProps = {
-  spotifyTrack: SpotifyTrack | null;
+  spotify: SpotifyData;
   data: StatsData;
 };
 
-export function Stats({spotifyTrack, data}: StatsProps) {
+export function Stats({spotify, data}: StatsProps) {
   const t = useTranslations('stats');
 
   return (
@@ -39,7 +39,7 @@ export function Stats({spotifyTrack, data}: StatsProps) {
 
           {/* Row 2: Spotify + AI tokens */}
           <div>
-            <SpotifyNowPlaying track={spotifyTrack} />
+            <SpotifyNowPlaying data={spotify} />
           </div>
           <div className="md:col-span-2">
             <AiTokens

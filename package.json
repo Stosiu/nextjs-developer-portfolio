@@ -10,9 +10,7 @@
     "lint": "oxlint src/",
     "typecheck": "tsc --noEmit",
     "audit": "pnpm audit --prod",
-    "upload:github": "tsx scripts/upload-github-stats.ts",
-    "upload:ai": "tsx scripts/upload-ai-stats.ts",
-    "upload:all": "tsx scripts/upload-github-stats.ts && tsx scripts/upload-ai-stats.ts"
+    "upload:ai": "tsx scripts/upload-ai-stats.ts"
   },
   "dependencies": {
     "@vercel/blob": "^2.3.0",
@@ -36,7 +34,9 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.3.1",
+    "ora": "^8.2.0",
     "oxlint": "^1.48.0",
+    "picocolors": "^1.1.1",
     "shadcn": "^3.8.5",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",

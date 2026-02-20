@@ -66,9 +66,15 @@ importers:
       dotenv:
         specifier: ^17.3.1
         version: 17.3.1
+      ora:
+        specifier: ^8.2.0
+        version: 8.2.0
       oxlint:
         specifier: ^1.48.0
         version: 1.48.0
+      picocolors:
+        specifier: ^1.1.1
+        version: 1.1.1
       shadcn:
         specifier: ^3.8.5
         version: 3.8.5(@types/node@25.3.0)(typescript@5.9.3)

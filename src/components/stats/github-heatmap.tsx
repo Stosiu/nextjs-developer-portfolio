@@ -106,6 +106,7 @@ export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmap
           className="w-full h-auto"
           role="img"
           aria-label={`${totalContributions} contributions in the last year`}
+          data-no-follower
           onMouseLeave={() => setTooltip(null)}
         >
           {grid.map((cell) => (
@@ -117,7 +118,7 @@ export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmap
               height={BLOCK}
               rx={2}
               fill={COLORS[cell.level]}
-              className="cursor-pointer"
+              className="transition-opacity hover:opacity-80"
               onMouseEnter={(e) => handleMouseEnter(e, cell)}
             />
           ))}

@@ -58,6 +58,52 @@ Copy `.env.example` to `.env` and fill in your values:
 cp .env.example .env
 ```
 
+#### GitHub Token
+
+GitHub stats are fetched server-side and cached for 1 hour via ISR. You need a token with `read:user` scope.
+
+If you have the [GitHub CLI](https://cli.github.com/) installed and authenticated:
+
+```bash
+gh auth token
+```
+
+Otherwise, create a [fine-grained PAT](https://github.com/settings/tokens?type=beta) or [classic token](https://github.com/settings/tokens) with `read:user` scope.
+
+#### Vercel Blob (AI stats only)
+
+AI usage stats are parsed from local Claude Code session files (`~/.claude/projects/**/*.jsonl`) and uploaded to Vercel Blob via `pnpm upload:ai`.
+
+1. Create a Blob store in your [Vercel dashboard](https://vercel.com/dashboard/stores)
+2. Copy the `BLOB_READ_WRITE_TOKEN` from the store settings
+3. Set `REVALIDATE_SECRET` to a random string (e.g. `openssl rand -base64 32`) — used to trigger ISR revalidation after upload
+4. Set `SITE_URL` to your deployed URL (e.g. `https://stosiu-portfolio.vercel.app`)
+
+#### Spotify
+
+1. Create an app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
+2. Copy the **Client ID** and **Client Secret** into `.env`
+3. In app settings, add a redirect URI (e.g. `https://your-site.vercel.app/callback`)
+4. Open this URL in your browser (replace `YOUR_CLIENT_ID` and `YOUR_REDIRECT_URI`):
+
+   ```
+   https://accounts.spotify.com/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=YOUR_REDIRECT_URI&scope=user-read-currently-playing%20user-read-recently-played%20user-top-read
+   ```
+
+5. Log in and authorize. You'll be redirected to a page that may not load — that's fine. Copy the `code` parameter from the URL bar.
+6. Exchange the code for a refresh token:
+
+   ```bash
+   curl -s -X POST https://accounts.spotify.com/api/token \
+     -d grant_type=authorization_code \
+     -d code=YOUR_CODE \
+     -d redirect_uri=YOUR_REDIRECT_URI \
+     -d client_id=YOUR_CLIENT_ID \
+     -d client_secret=YOUR_CLIENT_SECRET
+   ```
+
+7. Copy the `refresh_token` from the response into `.env` as `SPOTIFY_REFRESH_TOKEN`
+
 ## Getting Started
 
 ```bash
@@ -67,14 +113,16 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Upload Stats Data
+### Stats Dashboard
 
-Stats are stored in Vercel Blob. GitHub stats are also updated daily via GitHub Actions.
+The stats section pulls data from three sources:
+
+- **GitHub** — contributions, streak, and language breakdown fetched live from the GitHub GraphQL API (cached 1h via ISR, no manual upload needed)
+- **AI usage** — Claude Code token usage parsed from local session files and uploaded to Vercel Blob. Run `pnpm upload:ai` after sessions to update.
+- **Spotify** — now-playing / recently-played track fetched server-side at render time
 
 ```bash
-pnpm upload:github    # Upload GitHub contribution data
-pnpm upload:ai        # Upload AI usage data (from local Claude Code sessions)
-pnpm upload:all       # Upload both
+pnpm upload:ai        # Parse ~/.claude session files and upload to Vercel Blob
 ```
 
 ## Scripts
@@ -86,9 +134,7 @@ pnpm upload:all       # Upload both
 | `pnpm start` | Serve production build |
 | `pnpm lint` | Run oxlint |
 | `pnpm typecheck` | TypeScript type checking |
-| `pnpm upload:github` | Upload GitHub stats to Vercel Blob |
 | `pnpm upload:ai` | Upload AI usage stats to Vercel Blob |
-| `pnpm upload:all` | Upload all stats |
 
 ## Project Structure
 
@@ -113,16 +159,16 @@ src/
     stats-types.ts      # TypeScript types for stats
   lib/
     data.ts             # Project entries
+    github.ts           # GitHub GraphQL API (server-side, ISR cached)
     spotify.ts          # Spotify API client
+    stats.ts            # Stats aggregator (GitHub API + AI blob)
     format.ts           # Number/date formatting utilities
 messages/
   en.json               # English
   pl.json               # Polish
   ar.json               # Arabic
 scripts/
-  upload-github-stats.ts  # Upload GitHub stats to Vercel Blob
   upload-ai-stats.ts      # Upload AI usage stats to Vercel Blob
 .github/workflows/
   ci.yml                  # Build + typecheck CI
-  update-github-stats.yml # Daily cron to refresh GitHub stats
 ```

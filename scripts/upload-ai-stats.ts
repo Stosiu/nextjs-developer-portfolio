@@ -4,7 +4,7 @@ import {join} from 'node:path';
 import {homedir} from 'node:os';
 import {createInterface} from 'node:readline';
 import type {AiStats, AiDailyUsage, AiModelBreakdown} from '../src/data/stats-types';
-import {uploadToBlob, triggerRevalidation} from './lib/blob-upload';
+import {uploadToBlob, triggerRevalidation, pc, ora} from './lib/blob-upload';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -85,7 +85,7 @@ async function parseClaudeUsage(): Promise<Omit<AiStats, 'lastUpdated'>> {
   const projectsDir = join(claudeDir, 'projects');
 
   if (!existsSync(projectsDir)) {
-    console.warn('No ~/.claude/projects/ directory found. Using empty AI stats.');
+    ora().warn('No ~/.claude/projects/ directory found. Using empty AI stats.');
     return emptyAiStats();
   }
 
@@ -93,20 +93,37 @@ async function parseClaudeUsage(): Promise<Omit<AiStats, 'lastUpdated'>> {
     statSync(join(projectsDir, d)).isDirectory(),
   );
 
+  // Count total files for progress
+  let totalFiles = 0;
+  const projectFiles: Array<{project: string; files: string[]}> = [];
+  for (const projectDir of projectDirs) {
+    const dir = join(projectsDir, projectDir);
+    const files = readdirSync(dir).filter(f => f.endsWith('.jsonl'));
+    if (files.length > 0) {
+      projectFiles.push({project: projectDir, files});
+      totalFiles += files.length;
+    }
+  }
+
+  const scanSpinner = ora(`Scanning ${pc.bold(String(projectFiles.length))} projects (${pc.bold(String(totalFiles))} session files)`).start();
+
   let totalInput = 0;
   let totalOutput = 0;
   let totalSessions = 0;
   let totalQueries = 0;
+  let processedFiles = 0;
   const dailyMap: Record<string, number> = {};
   const dailyModelMap: Record<string, Record<string, number>> = {};
   const modelMap: Record<string, number> = {};
   const dayOfWeekTokens: Record<number, {tokens: number; days: Set<string>}> = {};
 
-  for (const projectDir of projectDirs) {
-    const dir = join(projectsDir, projectDir);
-    const files = readdirSync(dir).filter(f => f.endsWith('.jsonl'));
+  for (const {project, files} of projectFiles) {
+    const dir = join(projectsDir, project);
 
     for (const file of files) {
+      processedFiles++;
+      scanSpinner.text = `Parsing sessions ${pc.dim(`[${processedFiles}/${totalFiles}]`)} ${pc.dim(project.slice(0, 40))}`;
+
       const filePath = join(dir, file);
       let entries: ParsedUsage[];
       try {
@@ -142,6 +159,10 @@ async function parseClaudeUsage(): Promise<Omit<AiStats, 'lastUpdated'>> {
     }
   }
 
+  scanSpinner.succeed(`Parsed ${pc.bold(String(totalSessions))} sessions from ${pc.bold(String(totalFiles))} files`);
+
+  const aggregateSpinner = ora('Aggregating stats').start();
+
   const today = new Date();
   const thirtyDaysAgo = new Date(today);
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -174,6 +195,8 @@ async function parseClaudeUsage(): Promise<Omit<AiStats, 'lastUpdated'>> {
     }
   }
 
+  aggregateSpinner.succeed('Stats aggregated');
+
   return {
     totalTokens: total,
     totalInputTokens: totalInput,
@@ -198,7 +221,11 @@ function fmt(n: number): string {
 }
 
 async function main() {
-  console.log('Parsing Claude Code usage...');
+  console.log();
+  console.log(pc.bold('  Claude Code Usage Stats'));
+  console.log(pc.dim('  ─────────────────────────'));
+  console.log();
+
   const ai = await parseClaudeUsage();
 
   const data: AiStats = {
@@ -206,15 +233,25 @@ async function main() {
     ...ai,
   };
 
-  const url = await uploadToBlob('stats/ai.json', data);
-  console.log(`Uploaded to ${url}`);
-  console.log(`  ${fmt(data.totalTokens)} total, ${fmt(data.tokensLast30d)} 30d, ${data.totalSessions} sessions`);
-  console.log(`  ${data.inputPercentage}% input, busiest day: ${data.busiestDay} (${fmt(data.busiestDayAvgTokens)} avg)`);
+  console.log();
+  console.log(`  ${pc.dim('Tokens')}    ${pc.bold(pc.cyan(fmt(data.totalTokens)))} total  ${pc.bold(pc.cyan(fmt(data.tokensLast30d)))} last 30d`);
+  console.log(`  ${pc.dim('Sessions')}  ${pc.bold(String(data.totalSessions))} sessions  ${pc.bold(String(data.totalQueries))} queries`);
+  console.log(`  ${pc.dim('Split')}     ${pc.bold(data.inputPercentage + '%')} input  ${pc.bold((100 - data.inputPercentage).toFixed(2) + '%')} output`);
+  console.log(`  ${pc.dim('Busiest')}   ${pc.bold(data.busiestDay)} ${pc.dim('(' + fmt(data.busiestDayAvgTokens) + ' avg)')}`);
 
+  if (data.modelBreakdown.length > 0) {
+    console.log(`  ${pc.dim('Models')}    ${data.modelBreakdown.map(m => `${pc.bold(m.model)} ${pc.dim(fmt(m.tokens))}`).join('  ')}`);
+  }
+
+  console.log();
+
+  await uploadToBlob('stats/ai.json', data);
   await triggerRevalidation();
+
+  console.log();
 }
 
 main().catch((err: Error) => {
-  console.error('Failed to upload AI stats:', err.message);
+  ora().fail(pc.red(`Failed to upload AI stats: ${err.message}`));
   process.exit(1);
 });

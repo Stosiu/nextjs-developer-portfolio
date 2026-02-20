@@ -83,14 +83,15 @@ src/
     navigation.ts           # Locale-aware Link, useRouter, etc.
   lib/
     data.ts                 # Project entries (uses static imports)
+    github.ts               # GitHub GraphQL API (server-side, ISR cached)
     spotify.ts              # Spotify now-playing API
+    stats.ts                # Stats aggregator (GitHub + AI blob)
     format.ts               # Number/date formatting utilities
     utils.ts                # shadcn cn() utility
   data/
     stats.json              # Generated stats data
     stats-types.ts          # TypeScript types for stats data
 scripts/
-  upload-github-stats.ts    # Uploads GitHub stats to Vercel Blob
   upload-ai-stats.ts        # Uploads AI usage stats to Vercel Blob
 messages/
   en.json                   # English translations
@@ -141,9 +142,7 @@ proxy.ts                    # Locale detection + redirect
 - All animations respect `prefers-reduced-motion`
 
 ### Stats Dashboard
-- Stats stored in Vercel Blob, fetched at build/render time
-- GitHub data uploaded via `pnpm upload:github` (uses GraphQL API)
-- AI data uploaded via `pnpm upload:ai` (parses `~/.claude/projects/**/*.jsonl`)
-- GitHub stats auto-updated daily via `.github/workflows/update-github-stats.yml`
+- GitHub stats fetched server-side from GitHub GraphQL API, cached 1h via ISR (`src/lib/github.ts`)
+- AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai` (parses `~/.claude/projects/**/*.jsonl`)
 - Spotify now-playing fetched server-side at page render
-- Upload all stats: `pnpm upload:all`
+- Fallback data in `src/data/stats.json` used when APIs unavailable

@@ -1,5 +1,6 @@
 'use client';
 
+import {useState, useEffect} from 'react';
 import {useLocale} from 'next-intl';
 import {useRouter, usePathname} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
@@ -22,10 +23,15 @@ export function LanguageSwitcher() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   function onLocaleChange(newLocale: string) {
     router.replace(pathname, {locale: newLocale});
   }
+
+  if (!mounted) return null;
 
   return (
     <Select value={locale} onValueChange={onLocaleChange}>

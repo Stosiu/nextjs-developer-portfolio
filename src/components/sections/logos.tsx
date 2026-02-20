@@ -29,6 +29,7 @@ export function Logos() {
               src={company.logo}
               alt={company.name}
               className="max-h-8 max-w-[120px] w-auto h-auto object-contain [filter:brightness(0)_invert(1)_opacity(0.4)]"
+              style={company.scale ? {transform: `scale(${company.scale})`} : undefined}
             />
           </div>
         ))}

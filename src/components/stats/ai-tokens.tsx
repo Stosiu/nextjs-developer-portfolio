@@ -127,6 +127,7 @@ export function AiTokens({
             viewBox={`0 0 ${svgWidth} ${CHART_HEIGHT}`}
             className="w-full h-auto"
             preserveAspectRatio="none"
+            data-no-follower
             onMouseLeave={() => setTooltip(null)}
           >
             {dailyUsage.map((day, i) => {
@@ -143,7 +144,7 @@ export function AiTokens({
                   height={barHeight || CHART_HEIGHT}
                   rx={2}
                   fill={day.tokens > 0 ? BAR_COLORS[level] : BAR_COLORS[0]}
-                  className="cursor-pointer"
+                  className="transition-opacity hover:opacity-80"
                   onMouseEnter={(e) => handleBarMouseEnter(e, day)}
                 />
               );

@@ -15,8 +15,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll, {passive: true});
     return () => window.removeEventListener('scroll', onScroll);
@@ -122,7 +124,8 @@ export function Navbar() {
         <div className="flex items-center">
           <LanguageSwitcher />
         </div>
-        <Sheet open={open} onOpenChange={setOpen}>
+        {mounted ? (
+          <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="text-white" aria-label="Menu">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -166,6 +169,15 @@ export function Navbar() {
             </div>
           </SheetContent>
         </Sheet>
+        ) : (
+          <Button variant="ghost" size="icon" className="text-white" aria-label="Menu" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          </Button>
+        )}
       </div>
     </nav>
   );
