@@ -8,6 +8,7 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
 import {PageLoader, PageReady} from '@/components/page-loader';
+import {QueryProvider} from '@/components/query-provider';
 import {siteConfig} from '@/config/site';
 import '@/app/globals.css';
 
@@ -146,10 +147,12 @@ export default async function LocaleLayout({children, params}: Props) {
         </a>
         <div id="page-loader" aria-hidden="true" />
         <PageLoader />
-        <NextIntlClientProvider messages={messages}>
-          {children}
-          <PageReady />
-        </NextIntlClientProvider>
+        <QueryProvider>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+            <PageReady />
+          </NextIntlClientProvider>
+        </QueryProvider>
       </body>
     </html>
   );

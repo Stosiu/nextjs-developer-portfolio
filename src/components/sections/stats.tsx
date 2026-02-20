@@ -1,6 +1,7 @@
 'use client';
 
 import {useTranslations} from 'next-intl';
+import {useQuery} from '@tanstack/react-query';
 import type {StatsData} from '@/data/stats-types';
 import type {SpotifyData} from '@/lib/spotify';
 import {GitHubHeatmap} from '@/components/stats/github-heatmap';
@@ -11,14 +12,32 @@ import {BusiestDay} from '@/components/stats/busiest-day';
 import {GitHubStreak} from '@/components/stats/github-streak';
 import {GitHubLanguages} from '@/components/stats/github-languages';
 import {SectionHeading} from '@/components/ui/section-heading';
+import {
+  HeatmapSkeleton,
+  SpotifySkeleton,
+  AiTokensSkeleton,
+  SmallCardSkeleton,
+  LanguagesSkeleton,
+} from '@/components/stats/stats-skeletons';
 
-type StatsProps = {
-  spotify: SpotifyData;
-  data: StatsData;
-};
+const emptySpotify: SpotifyData = {nowPlaying: null, topTracks: [], topArtist: null};
 
-export function Stats({spotify, data}: StatsProps) {
+export function Stats() {
   const t = useTranslations('stats');
+
+  const {data: statsData, isPending: statsLoading} = useQuery<StatsData>({
+    queryKey: ['stats'],
+    queryFn: () => fetch('/api/stats').then((r) => r.json()),
+    staleTime: 5 * 60_000,
+    refetchInterval: 5 * 60_000,
+  });
+
+  const {data: spotify, isPending: spotifyLoading} = useQuery<SpotifyData>({
+    queryKey: ['spotify'],
+    queryFn: () => fetch('/api/spotify').then((r) => r.json()),
+    staleTime: 10_000,
+    refetchInterval: 10_000,
+  });
 
   return (
     <section id="stats" className="relative py-24 px-6 md:px-10">
@@ -31,47 +50,75 @@ export function Stats({spotify, data}: StatsProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Row 1: GitHub heatmap */}
           <div className="md:col-span-3">
-            <GitHubHeatmap
-              contributions={data.github.contributions}
-              totalContributions={data.github.totalContributions}
-              allTimeContributions={data.github.allTimeContributions}
-              totalRepos={data.github.totalRepos}
-              busiestDay={data.github.busiestDay}
-              memberSince={data.github.memberSince}
-            />
+            {statsLoading ? (
+              <HeatmapSkeleton />
+            ) : (
+              <GitHubHeatmap
+                contributions={statsData!.github.contributions}
+                totalContributions={statsData!.github.totalContributions}
+                allTimeContributions={statsData!.github.allTimeContributions}
+                totalRepos={statsData!.github.totalRepos}
+                busiestDay={statsData!.github.busiestDay}
+                memberSince={statsData!.github.memberSince}
+              />
+            )}
           </div>
 
           {/* Row 2: Spotify + AI tokens */}
           <div>
-            <SpotifyNowPlaying data={spotify} />
+            {spotifyLoading ? (
+              <SpotifySkeleton />
+            ) : (
+              <SpotifyNowPlaying data={spotify ?? emptySpotify} />
+            )}
           </div>
           <div className="md:col-span-2">
-            <AiTokens
-              totalTokens={data.ai.totalTokens}
-              tokensLast30d={data.ai.tokensLast30d}
-              dailyUsage={data.ai.dailyUsage}
-              totalSessions={data.ai.totalSessions}
-              totalQueries={data.ai.totalQueries}
-              modelBreakdown={data.ai.modelBreakdown}
-              provider={data.ai.provider}
-              lastUpdated={data.lastUpdated}
-            />
+            {statsLoading ? (
+              <AiTokensSkeleton />
+            ) : (
+              <AiTokens
+                totalTokens={statsData!.ai.totalTokens}
+                tokensLast30d={statsData!.ai.tokensLast30d}
+                dailyUsage={statsData!.ai.dailyUsage}
+                totalSessions={statsData!.ai.totalSessions}
+                totalQueries={statsData!.ai.totalQueries}
+                modelBreakdown={statsData!.ai.modelBreakdown}
+                provider={statsData!.ai.provider}
+                lastUpdated={statsData!.lastUpdated}
+              />
+            )}
           </div>
 
           {/* Row 3: Ratio + Busiest day + Streak */}
           <div>
-            <AiRatio inputPercentage={data.ai.inputPercentage} totalTokens={data.ai.totalTokens} />
+            {statsLoading ? (
+              <SmallCardSkeleton />
+            ) : (
+              <AiRatio inputPercentage={statsData!.ai.inputPercentage} totalTokens={statsData!.ai.totalTokens} />
+            )}
           </div>
           <div>
-            <BusiestDay day={data.ai.busiestDay} avgTokens={data.ai.busiestDayAvgTokens} />
+            {statsLoading ? (
+              <SmallCardSkeleton />
+            ) : (
+              <BusiestDay day={statsData!.ai.busiestDay} avgTokens={statsData!.ai.busiestDayAvgTokens} />
+            )}
           </div>
           <div>
-            <GitHubStreak streak={data.github.currentStreak} />
+            {statsLoading ? (
+              <SmallCardSkeleton />
+            ) : (
+              <GitHubStreak streak={statsData!.github.currentStreak} />
+            )}
           </div>
 
           {/* Row 4: Languages */}
           <div className="md:col-span-3">
-            <GitHubLanguages languages={data.github.languages} />
+            {statsLoading ? (
+              <LanguagesSkeleton />
+            ) : (
+              <GitHubLanguages languages={statsData!.github.languages} />
+            )}
           </div>
         </div>
 
