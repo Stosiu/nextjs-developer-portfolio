@@ -342,6 +342,18 @@ html {
   50% { opacity: 0; }
 }
 
+.loader-skip-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.2);
+  font-family: var(--font-mono, monospace);
+}
+
 /* Blueprint wireframe drawing animation */
 @keyframes blueprint-draw {
   0% {

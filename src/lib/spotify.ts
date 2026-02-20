@@ -69,11 +69,20 @@ type SpotifyTrackItem = {
   external_urls: SpotifyExternalUrls;
 };
 
-async function fetchWithToken(url: string, accessToken: string) {
-  return fetch(url, {
+async function fetchWithToken(url: string, accessToken: string, retries = 3): Promise<Response> {
+  const res = await fetch(url, {
     headers: {Authorization: `Bearer ${accessToken}`},
     cache: 'no-store',
   });
+
+  if (res.status === 429 && retries > 0) {
+    const retryAfter = Number(res.headers.get('Retry-After') || '1');
+    const delay = Math.min(retryAfter, 5) * 1000;
+    await new Promise<void>((r) => setTimeout(r, delay));
+    return fetchWithToken(url, accessToken, retries - 1);
+  }
+
+  return res;
 }
 
 export async function getSpotifyData(): Promise<SpotifyData> {
@@ -84,12 +93,11 @@ export async function getSpotifyData(): Promise<SpotifyData> {
   try {
     const accessToken = await getAccessToken();
 
-    const [nowRes, recentRes, topTracksRes, topArtistsRes] = await Promise.all([
-      fetchWithToken(NOW_PLAYING_ENDPOINT, accessToken),
-      fetchWithToken(RECENTLY_PLAYED_ENDPOINT, accessToken),
-      fetchWithToken(TOP_TRACKS_ENDPOINT, accessToken),
-      fetchWithToken(TOP_ARTISTS_ENDPOINT, accessToken),
-    ]);
+    // Sequence requests to avoid Spotify 429 rate limits
+    const nowRes = await fetchWithToken(NOW_PLAYING_ENDPOINT, accessToken);
+    const recentRes = await fetchWithToken(RECENTLY_PLAYED_ENDPOINT, accessToken);
+    const topTracksRes = await fetchWithToken(TOP_TRACKS_ENDPOINT, accessToken);
+    const topArtistsRes = await fetchWithToken(TOP_ARTISTS_ENDPOINT, accessToken);
 
     // Now playing / recently played
     let nowPlaying: SpotifyTrack | null = null;

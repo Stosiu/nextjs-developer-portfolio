@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, useCallback} from 'react';
 import {siteConfig} from '@/config/site';
 
 const BOOT = [
@@ -22,7 +22,37 @@ export function PageLoader() {
   const [lines, setLines] = useState<Line[]>([]);
   const [showCursor, setShowCursor] = useState(true);
   const [phase, setPhase] = useState<'boot' | 'exit' | 'done'>('boot');
+  const [showSkipHint, setShowSkipHint] = useState(true);
   const pageHydrated = useRef(false);
+  const skippedRef = useRef(false);
+
+  const skipToEnd = useCallback(() => {
+    if (skippedRef.current) return;
+    skippedRef.current = true;
+
+    // Show all lines instantly
+    setLines(BOOT.map((l) => ({cmd: l.cmd, text: l.text})));
+    setShowSkipHint(false);
+    setShowCursor(false);
+
+    const backdrop = document.getElementById('page-loader');
+    if (backdrop) {
+      backdrop.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      backdrop.style.opacity = '0';
+    }
+
+    document.body.style.overflow = '';
+    window.scrollTo(0, 0);
+
+    setTimeout(() => {
+      setPhase('exit');
+      setTimeout(() => {
+        setPhase('done');
+        backdrop?.remove();
+        window.dispatchEvent(new Event('loader-exit'));
+      }, 650);
+    }, 50);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,6 +65,18 @@ export function PageLoader() {
     return () => window.removeEventListener('page-hydrated', handler);
   }, []);
 
+  // Listen for keydown or click to skip
+  useEffect(() => {
+    if (phase !== 'boot') return;
+    const handler = () => skipToEnd();
+    window.addEventListener('keydown', handler);
+    window.addEventListener('click', handler);
+    return () => {
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('click', handler);
+    };
+  }, [phase, skipToEnd]);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -42,11 +84,11 @@ export function PageLoader() {
       await sleep(250);
 
       for (const line of BOOT) {
-        if (cancelled) return;
+        if (cancelled || skippedRef.current) return;
 
         if (line.cmd) {
           for (let c = 1; c <= line.text.length; c++) {
-            if (cancelled) return;
+            if (cancelled || skippedRef.current) return;
             const partial = line.text.slice(0, c);
             setLines((prev) => {
               const next = prev.filter((l) => !l.partial);
@@ -66,13 +108,13 @@ export function PageLoader() {
         }
       }
 
-      if (cancelled) return;
+      if (cancelled || skippedRef.current) return;
 
-      while (!pageHydrated.current && !cancelled) {
+      while (!pageHydrated.current && !cancelled && !skippedRef.current) {
         await sleep(50);
       }
 
-      if (cancelled) return;
+      if (cancelled || skippedRef.current) return;
       await sleep(500);
       setShowCursor(false);
 
@@ -154,6 +196,15 @@ export function PageLoader() {
           </div>
         </div>
       </div>
+      <p
+        className="loader-skip-hint"
+        style={{
+          opacity: showSkipHint && phase === 'boot' ? 1 : 0,
+          transition: 'opacity 0.4s ease',
+        }}
+      >
+        press any key to skip
+      </p>
     </div>
   );
 }
