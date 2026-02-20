@@ -170,7 +170,7 @@ export function Projects() {
             whileInView={{opacity: 1, y: 0}}
             viewport={{once: true, margin: '-80px'}}
             transition={{duration: 0.5, delay: (visibleProjects.length + 1) * 0.1, ease: EASE}}
-            className={`animated-border group relative block border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 overflow-hidden ${ctaColSpan}`}
+            className={`animated-border group relative block border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent hover:from-brand-500/[0.08] hover:border-transparent transition-[background,border-color] duration-500 overflow-hidden ${ctaColSpan}`}
           >
             <BlueprintBackground className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
