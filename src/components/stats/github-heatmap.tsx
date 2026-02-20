@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {StatCard} from '@/components/ui/stat-card';
 import {ChartTooltip} from '@/components/ui/chart-tooltip';
+import {EmberShower, useEmberShower} from '@/components/ui/ember-shower';
 import {formatDate} from '@/lib/format';
 
 type GitHubHeatmapProps = {
@@ -60,6 +61,7 @@ export function GitHubHeatmap({contributions, totalContributions, allTimeContrib
   const t = useTranslations('stats');
   const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
+  const {embers, trigger: triggerEmbers} = useEmberShower(20);
 
   const grid = useMemo(() => {
     const today = dayjs();
@@ -96,11 +98,15 @@ export function GitHubHeatmap({contributions, totalContributions, allTimeContrib
       x: rect.left + rect.width / 2 - containerRect.left,
       y: rect.top - containerRect.top,
     });
+    if (cell.date === busiestDay.date) {
+      triggerEmbers(rect);
+    }
   }
 
   return (
     <AnimatedReveal className="h-full">
-      <StatCard ref={containerRef} className="relative">
+      <StatCard ref={containerRef} className="relative overflow-visible">
+        <EmberShower embers={embers} />
         <div className="mb-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span className="text-sm text-white/60">{t('contributions')}</span>
           <span className="text-xs text-white/30">
@@ -119,19 +125,23 @@ export function GitHubHeatmap({contributions, totalContributions, allTimeContrib
           data-no-follower
           onMouseLeave={() => setTooltip(null)}
         >
-          {grid.map((cell) => (
-            <rect
-              key={cell.date}
-              x={cell.week * (BLOCK + GAP)}
-              y={cell.day * (BLOCK + GAP)}
-              width={BLOCK}
-              height={BLOCK}
-              rx={2}
-              fill={COLORS[cell.level]}
-              className="transition-opacity hover:opacity-80"
-              onMouseEnter={(e) => handleMouseEnter(e, cell)}
-            />
-          ))}
+          {grid.map((cell) => {
+            const isBusiest = cell.date === busiestDay.date;
+            return (
+              <rect
+                key={cell.date}
+                x={cell.week * (BLOCK + GAP)}
+                y={cell.day * (BLOCK + GAP)}
+                width={BLOCK}
+                height={BLOCK}
+                rx={2}
+                fill={COLORS[cell.level]}
+                className={isBusiest ? 'animate-pulse cursor-pointer' : 'transition-opacity hover:opacity-80'}
+                style={isBusiest ? {filter: 'drop-shadow(0 0 4px rgba(16,185,129,0.6))'} : undefined}
+                onMouseEnter={(e) => handleMouseEnter(e, cell)}
+              />
+            );
+          })}
         </svg>
 
         <ChartTooltip x={tooltip?.x ?? 0} y={tooltip?.y ?? 0} visible={!!tooltip}>

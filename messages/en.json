@@ -67,8 +67,11 @@
     "busiestLabel": "Busiest Day",
     "busiestAvg": "tokens avg",
     "busiestExplanation": "Average token consumption by day of week across all sessions.",
+    "ratioFunTitle": "Where do the tokens go?",
+    "ratioFunStat": "{tokens} tokens spent just re-reading the conversation. LLMs have no memory — every message starts from scratch.",
     "streakLabel": "Current Streak",
     "streakDays": "consecutive days",
+    "streakMessage": "git commit -m \"consistency beats talent\"",
     "languagesLabel": "Top Languages"
   },
   "experience": {

@@ -67,8 +67,11 @@
     "busiestLabel": "Najaktywniejszy dzień",
     "busiestAvg": "tokenów śr.",
     "busiestExplanation": "Średnie zużycie tokenów według dnia tygodnia ze wszystkich sesji.",
+    "ratioFunTitle": "Gdzie idą tokeny?",
+    "ratioFunStat": "{tokens} tokenów wydanych na ponowne czytanie rozmowy. LLM-y nie mają pamięci — każda wiadomość zaczyna od zera.",
     "streakLabel": "Aktualna seria",
     "streakDays": "dni z rzędu",
+    "streakMessage": "git commit -m \"systematyczność > talent\"",
     "languagesLabel": "Najczęstsze języki"
   },
   "experience": {

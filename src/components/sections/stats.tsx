@@ -60,7 +60,7 @@ export function Stats({spotify, data}: StatsProps) {
 
           {/* Row 3: Ratio + Busiest day + Streak */}
           <div>
-            <AiRatio inputPercentage={data.ai.inputPercentage} />
+            <AiRatio inputPercentage={data.ai.inputPercentage} totalTokens={data.ai.totalTokens} />
           </div>
           <div>
             <BusiestDay day={data.ai.busiestDay} avgTokens={data.ai.busiestDayAvgTokens} />

@@ -67,8 +67,11 @@
     "busiestLabel": "أكثر يوم نشاطاً",
     "busiestAvg": "رمز متوسط",
     "busiestExplanation": "متوسط استهلاك الرموز حسب يوم الأسبوع عبر جميع الجلسات.",
+    "ratioFunTitle": "أين تذهب الرموز؟",
+    "ratioFunStat": "{tokens} رمز أُنفقت فقط على إعادة قراءة المحادثة. نماذج اللغة ليس لديها ذاكرة — كل رسالة تبدأ من الصفر.",
     "streakLabel": "السلسلة الحالية",
     "streakDays": "أيام متتالية",
+    "streakMessage": "git commit -m \"الاستمرارية تتفوق على الموهبة\"",
     "languagesLabel": "أكثر اللغات استخداماً"
   },
   "experience": {

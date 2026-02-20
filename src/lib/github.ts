@@ -5,7 +5,7 @@ const GITHUB_GRAPHQL_URL = 'https://api.github.com/graphql';
 const LANG_COLORS: Record<string, string> = {
   TypeScript: '#3178c6',
   JavaScript: '#f1e05a',
-  Python: '#3572A5',
+  Python: '#FFD43B',
   HTML: '#e34c26',
   CSS: '#563d7c',
   Shell: '#89e051',
