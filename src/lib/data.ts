@@ -15,6 +15,8 @@ export type Project = {
   image?: StaticImageData;
   tech: string[];
   date: string;
+  role: string;
+  featured?: boolean;
 };
 
 export const projects: Project[] = [
@@ -26,15 +28,19 @@ export const projects: Project[] = [
     image: opusImg,
     tech: ['Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Mapbox', 'Vercel', 'Redis', 'OpenAI'],
     date: '2025 – Present',
+    role: 'Tech Lead',
+    featured: true,
   },
   {
     title: 'Telivy',
     descriptionKey: 'proj1Desc',
-    url: '#',
+    url: 'https://www.telivy.com/',
     logo: '/logos/telivy.svg',
     image: telivyImg,
     tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'GCP', 'C#', 'Python', 'OpenAI'],
     date: '2022 – Present',
+    role: 'Tech Lead',
+    featured: true,
   },
   {
     title: 'Fulcrum',
@@ -44,6 +50,8 @@ export const projects: Project[] = [
     image: fulcrumImg,
     tech: ['Next.js', 'TypeScript', 'Python', 'React', 'Node.js', 'PostgreSQL', 'GCP', 'OpenAI'],
     date: '2025',
+    role: 'Full-Stack Developer',
+    featured: true,
   },
   {
     title: 'YourNextHome',
@@ -53,6 +61,8 @@ export const projects: Project[] = [
     image: yournexthomeImg,
     tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Vercel', 'OpenAI'],
     date: '2024 – Present',
+    role: 'Tech Lead',
+    featured: true,
   },
   {
     title: 'Ascend',
@@ -61,6 +71,8 @@ export const projects: Project[] = [
     logo: '/logos/ascend.svg',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Heroku', 'Rails', 'Stripe', 'Applied Epic', 'AMS360'],
     date: '2023 – Present',
+    role: 'Full-Stack Developer',
+    featured: true,
   },
   {
     title: 'Bazzar',
@@ -70,15 +82,17 @@ export const projects: Project[] = [
     image: bazzarImg,
     tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Vercel', 'OpenAI'],
     date: '2025',
+    role: 'Tech Lead',
   },
   {
     title: 'Wine Unplugged',
     descriptionKey: 'proj6Desc',
-    url: '#',
+    url: 'https://wineunplugged.nl/',
     logo: '/logos/wine-unplugged.svg',
     image: wineUnpluggedImg,
     tech: ['Next.js', 'Node.js', 'PostgreSQL', 'Stripe'],
     date: '2023 – Present',
+    role: 'Tech Lead',
   },
   {
     title: 'Valley Insurance',
@@ -87,5 +101,6 @@ export const projects: Project[] = [
     logo: '/logos/valleyins.svg',
     tech: ['Next.js', 'Node.js', 'PostgreSQL', 'GCP'],
     date: '2023 – Present',
+    role: 'Tech Lead',
   },
 ];

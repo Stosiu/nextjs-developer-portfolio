@@ -1,8 +1,9 @@
 'use client';
 
+import {useState} from 'react';
 import {useTranslations} from 'next-intl';
-import {motion} from 'framer-motion';
-import {ArrowUpRight, ArrowRight} from 'lucide-react';
+import {motion, AnimatePresence} from 'framer-motion';
+import {ArrowUpRight, ArrowRight, ChevronDown, ChevronUp} from 'lucide-react';
 import Image from 'next/image';
 import {projects} from '@/lib/data';
 import type {Project} from '@/lib/data';
@@ -14,6 +15,9 @@ import {SectionHeading} from '@/components/ui/section-heading';
 import {BlueprintBackground} from '@/components/blueprint-background';
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
+
+const featuredProjects = projects.filter((p) => p.featured !== false && p.featured);
+const hiddenProjects = projects.filter((p) => !p.featured);
 
 function ProjectCard({project, index}: {project: Project; index: number}) {
   const t = useTranslations('projects');
@@ -29,7 +33,7 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       transition={{duration: 0.5, delay: index * 0.1, ease: EASE}}
       className="motion-pre-hidden animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
     >
-      {/* Image — aspect-video */}
+      {/* Image */}
       <div className="relative z-0 w-full aspect-video bg-gradient-to-br from-brand-500/10 to-cyan-500/5 overflow-hidden">
         {project.image ? (
           <Image
@@ -58,7 +62,6 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
           </div>
         )}
 
-        {/* Hover label at bottom */}
         <div className="absolute bottom-0 inset-x-0 flex items-center justify-center py-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="flex items-center gap-1.5 text-sm font-medium text-white/90">
             {t('viewProject')}
@@ -78,8 +81,12 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
           </span>
         </div>
 
+        <span className="text-xs font-medium text-brand-400/70 mb-2.5 block">
+          {project.role}
+        </span>
+
         <div className="flex flex-wrap gap-1 mb-3">
-          {project.tech.map((techItem) => (
+          {project.tech.slice(0, 5).map((techItem) => (
             <Badge
               key={techItem}
               variant="sm"
@@ -88,6 +95,14 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
               {techItem}
             </Badge>
           ))}
+          {project.tech.length > 5 && (
+            <Badge
+              variant="sm"
+              className="group-hover:border-brand-500/20 group-hover:text-white/50 transition-colors duration-300"
+            >
+              +{project.tech.length - 5}
+            </Badge>
+          )}
         </div>
 
         <p className="text-sm text-white/50 leading-relaxed line-clamp-2">{t(project.descriptionKey)}</p>
@@ -119,11 +134,12 @@ const COLS = 3;
 
 export function Projects() {
   const t = useTranslations('projects');
+  const [showAll, setShowAll] = useState(false);
 
-  // Items before CTA: projects + "40+" card
-  const itemsBeforeCta = projects.length + 1;
+  const visibleProjects = showAll ? projects : featuredProjects;
+
+  const itemsBeforeCta = visibleProjects.length + 1;
   const remainingInRow = (COLS - (itemsBeforeCta % COLS)) % COLS || COLS;
-  // On smaller grids, CTA just spans full width
   const ctaColSpan =
     remainingInRow === 3
       ? 'md:col-span-2 lg:col-span-3'
@@ -137,14 +153,13 @@ export function Projects() {
         <SectionHeading title={t('heading')} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
+          {visibleProjects.map((project, i) => (
             <ProjectCard key={project.title} project={project} index={i} />
           ))}
 
-          {/* More projects count */}
-          <MoreProjectsCard index={projects.length} />
+          <MoreProjectsCard index={visibleProjects.length} />
 
-          {/* CTA card — spans remaining columns */}
+          {/* CTA card */}
           <motion.a
             href={siteConfig.booking}
             target="_blank"
@@ -152,14 +167,12 @@ export function Projects() {
             initial={{opacity: 0, y: 20}}
             whileInView={{opacity: 1, y: 0}}
             viewport={{once: true, margin: '-80px'}}
-            transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: EASE}}
+            transition={{duration: 0.5, delay: (visibleProjects.length + 1) * 0.1, ease: EASE}}
             className={`animated-border group relative block border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 overflow-hidden ${ctaColSpan}`}
           >
-            {/* Blueprint wireframe background (absolute, behind content) */}
             <BlueprintBackground className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
 
-            {/* Content — overlaid on blueprint */}
             <div className="relative flex flex-col items-center justify-center p-8 min-h-[180px]">
               <h3 className="text-lg font-semibold mb-1.5 text-brand-400 group-hover:text-brand-300 transition-colors">
                 {t('ctaHeading')}
@@ -172,6 +185,28 @@ export function Projects() {
             </div>
           </motion.a>
         </div>
+
+        {hiddenProjects.length > 0 && (
+          <div className="flex justify-center mt-8">
+            <button
+              type="button"
+              onClick={() => setShowAll((prev) => !prev)}
+              className="flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-colors cursor-pointer"
+            >
+              {showAll ? (
+                <>
+                  {t('showLess')}
+                  <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  {t('showAll')}
+                  <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
