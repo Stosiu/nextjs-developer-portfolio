@@ -9,6 +9,7 @@ const BOOT = [
   {cmd: false, text: '  \u2713 portfolio loaded'},
   {cmd: true, text: './start --production'},
   {cmd: false, text: `  \u2713 ready on ${siteConfig.url.replace('https://', '')}`},
+  {cmd: false, text: '  \u25B6 launching...'},
 ];
 
 function sleep(ms: number) {
@@ -24,6 +25,9 @@ export function PageLoader() {
   const pageHydrated = useRef(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+
     const handler = () => {
       pageHydrated.current = true;
     };
@@ -56,9 +60,9 @@ export function PageLoader() {
           });
           await sleep(150);
         } else {
-          await sleep(250 + Math.random() * 150);
+          await sleep(180 + Math.random() * 120);
           setLines((prev) => [...prev, {cmd: false, text: line.text}]);
-          await sleep(250);
+          await sleep(150);
         }
       }
 
@@ -69,19 +73,32 @@ export function PageLoader() {
       }
 
       if (cancelled) return;
-      await sleep(400);
+      await sleep(500);
       setShowCursor(false);
-      await sleep(200);
+
+      // Fade out the black backdrop in sync with overlay
+      const backdrop = document.getElementById('page-loader');
+      if (backdrop) {
+        backdrop.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        backdrop.style.opacity = '0';
+      }
+
+      // Restore scroll before exit so layout settles behind the overlay
+      document.body.style.overflow = '';
+      window.scrollTo(0, 0);
+
+      await sleep(50);
       setPhase('exit');
-      await sleep(800);
+      await sleep(650);
       setPhase('done');
-      document.getElementById('page-loader')?.remove();
+      backdrop?.remove();
       window.dispatchEvent(new Event('loader-exit'));
     }
 
     animate();
     return () => {
       cancelled = true;
+      document.body.style.overflow = '';
     };
   }, []);
 

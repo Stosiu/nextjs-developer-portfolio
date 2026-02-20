@@ -1,15 +1,57 @@
 'use client';
 
-import {useRef, useEffect, useCallback} from 'react';
+import {useRef, useEffect, useCallback, type RefObject} from 'react';
 
 type Props = {
   className?: string;
+  excludeRef?: RefObject<HTMLElement | null>;
 };
 
-export function InteractiveDots({className}: Props) {
+function excludeFade(
+  x: number,
+  y: number,
+  ex: {x: number; y: number; w: number; h: number},
+  fade: number,
+): number {
+  const cx = ex.x + ex.w / 2;
+  const cy = ex.y + ex.h / 2;
+  const hw = ex.w / 2 + fade;
+  const hh = ex.h / 2 + fade;
+
+  const dx = Math.abs(x - cx);
+  const dy = Math.abs(y - cy);
+
+  if (dx > hw || dy > hh) return 1;
+
+  const tx = dx > hw - fade ? (dx - (hw - fade)) / fade : 0;
+  const ty = dy > hh - fade ? (dy - (hh - fade)) / fade : 0;
+  const inside = Math.max(tx, ty);
+
+  return inside;
+}
+
+export function InteractiveDots({className, excludeRef}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({x: -1000, y: -1000});
   const animRef = useRef<number>(0);
+  const excludeRect = useRef<{x: number; y: number; w: number; h: number} | null>(null);
+
+  const updateExcludeRect = useCallback(() => {
+    const el = excludeRef?.current;
+    const canvas = canvasRef.current;
+    if (!el || !canvas) {
+      excludeRect.current = null;
+      return;
+    }
+    const cr = canvas.getBoundingClientRect();
+    const er = el.getBoundingClientRect();
+    excludeRect.current = {
+      x: er.left - cr.left,
+      y: er.top - cr.top,
+      w: er.width,
+      h: er.height,
+    };
+  }, [excludeRef]);
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
@@ -17,17 +59,21 @@ export function InteractiveDots({className}: Props) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    updateExcludeRect();
+
     const {width, height} = canvas;
     const gap = 24;
     const baseAlpha = 0.03;
     const maxAlpha = 0.4;
     const radius = 150;
     const dotSize = 1;
+    const fade = 60;
 
     ctx.clearRect(0, 0, width, height);
 
     const mx = mouseRef.current.x;
     const my = mouseRef.current.y;
+    const ex = excludeRect.current;
 
     for (let x = gap; x < width; x += gap) {
       for (let y = gap; y < height; y += gap) {
@@ -35,17 +81,23 @@ export function InteractiveDots({className}: Props) {
         const dy = y - my;
         const dist = Math.sqrt(dx * dx + dy * dy);
         const t = Math.max(0, 1 - dist / radius);
-        const alpha = baseAlpha + (maxAlpha - baseAlpha) * t * t;
+        let alpha = baseAlpha + (maxAlpha - baseAlpha) * t * t;
+
+        if (ex) {
+          alpha *= excludeFade(x, y, ex, fade);
+        }
+
+        if (alpha < 0.002) continue;
 
         ctx.beginPath();
         ctx.arc(x, y, dotSize + t * 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(var(--accent-rgb), ${alpha})`;
+        ctx.fillStyle = `rgba(16, 185, 129, ${alpha})`;
         ctx.fill();
       }
     }
 
     animRef.current = requestAnimationFrame(draw);
-  }, []);
+  }, [updateExcludeRect]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -59,6 +111,7 @@ export function InteractiveDots({className}: Props) {
       if (!rect) return;
       canvas.width = rect.width;
       canvas.height = rect.height;
+      updateExcludeRect();
     }
 
     function onMouseMove(e: MouseEvent) {
@@ -77,20 +130,26 @@ export function InteractiveDots({className}: Props) {
 
     if (prefersReduced) {
       mouseRef.current = {x: -1000, y: -1000};
+      updateExcludeRect();
       const ctx = canvas.getContext('2d');
       if (ctx) {
         const {width, height} = canvas;
         const gap = 24;
+        const ex = excludeRect.current;
         for (let x = gap; x < width; x += gap) {
           for (let y = gap; y < height; y += gap) {
+            let alpha = 0.03;
+            if (ex) alpha *= excludeFade(x, y, ex, 60);
+            if (alpha < 0.002) continue;
             ctx.beginPath();
             ctx.arc(x, y, 1, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(var(--accent-rgb), 0.03)';
+            ctx.fillStyle = `rgba(16, 185, 129, ${alpha})`;
             ctx.fill();
           }
         }
       }
     } else {
+      updateExcludeRect();
       animRef.current = requestAnimationFrame(draw);
     }
 
@@ -100,7 +159,7 @@ export function InteractiveDots({className}: Props) {
       canvas.removeEventListener('mouseleave', onMouseLeave);
       cancelAnimationFrame(animRef.current);
     };
-  }, [draw]);
+  }, [draw, updateExcludeRect]);
 
   return (
     <canvas

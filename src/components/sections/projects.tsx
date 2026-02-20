@@ -13,6 +13,7 @@ import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {Badge} from '@/components/ui/badge';
 import {SectionHeading} from '@/components/ui/section-heading';
 import {BlueprintBackground} from '@/components/blueprint-background';
+import {InteractiveDots} from '@/components/interactive-dots';
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
@@ -122,10 +123,11 @@ function MoreProjectsCard({index}: {index: number}) {
       transition={{duration: 0.5, delay: index * 0.1, ease: EASE}}
       className="animated-border relative flex flex-col items-center justify-center border border-white/[0.08] overflow-hidden p-10"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-500/[0.06] via-transparent to-cyan-500/[0.04]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.08),transparent_70%)]" />
-      <span className="relative text-6xl font-bold text-white/25 mb-3 tabular-nums tracking-tight">{count}+</span>
-      <span className="relative text-sm text-white/50 text-center leading-relaxed max-w-[200px]">{t('moreLabel')}</span>
+      <InteractiveDots className="absolute inset-0" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-br from-brand-500/[0.06] via-transparent to-cyan-500/[0.04] pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.08),transparent_70%)] pointer-events-none" />
+      <span className="relative z-10 text-6xl font-bold text-white/25 mb-3 tabular-nums tracking-tight">{count}+</span>
+      <span className="relative z-10 text-sm text-white/50 text-center leading-relaxed max-w-[200px]">{t('moreLabel')}</span>
     </AnimatedReveal>
   );
 }
