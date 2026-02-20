@@ -28,6 +28,7 @@ export function Terminal({lines}: Props) {
   const [cursor, setCursor] = useState<CursorMode>('idle');
   const [isComplete, setIsComplete] = useState(false);
   const [ready, setReady] = useState(false);
+  const [showSkip, setShowSkip] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const linesRef = useRef(lines);
   linesRef.current = lines;
@@ -46,6 +47,20 @@ export function Terminal({lines}: Props) {
     }
   }, []);
 
+  const skip = useCallback(() => {
+    stop();
+    setDisplayedLines(
+      linesRef.current.map((l) => ({
+        type: l.type,
+        text: l.text,
+        complete: true,
+      }))
+    );
+    setIsComplete(true);
+    setCursor('none');
+    setShowSkip(false);
+  }, [stop]);
+
   const run = useCallback(() => {
     stop();
     const a = animRef.current;
@@ -54,6 +69,7 @@ export function Terminal({lines}: Props) {
     a.built = [];
     setDisplayedLines([]);
     setIsComplete(false);
+    setShowSkip(false);
     setCursor('idle');
 
     function flush() {
@@ -187,6 +203,22 @@ export function Terminal({lines}: Props) {
   }, [ready, prefersReduced, run, stop]);
 
   useEffect(() => {
+    if (!ready || prefersReduced || isComplete) return;
+    const timer = setTimeout(() => setShowSkip(true), 1500);
+    return () => clearTimeout(timer);
+  }, [ready, prefersReduced, isComplete]);
+
+  useEffect(() => {
+    if (!showSkip) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      skip();
+    };
+    window.addEventListener('keydown', handler, {once: true});
+    return () => window.removeEventListener('keydown', handler);
+  }, [showSkip, skip]);
+
+  useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -220,9 +252,24 @@ export function Terminal({lines}: Props) {
           />
           <span className="ml-2 text-xs text-white/40 font-mono">{siteConfig.terminal.user}@{siteConfig.terminal.host} ~ %</span>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
+            {showSkip && !isComplete && (
+              <motion.button
+                key="skip"
+                initial={{opacity: 0, x: 5}}
+                animate={{opacity: 1, x: 0}}
+                exit={{opacity: 0, x: -5}}
+                transition={{duration: 0.3}}
+                onClick={skip}
+                className="ml-auto text-[10px] text-white/20 hover:text-white/40 transition-colors font-mono cursor-pointer flex items-center gap-1.5"
+              >
+                skip
+                <kbd className="px-1 py-0.5 rounded border border-white/10 text-[9px] leading-none">↵</kbd>
+              </motion.button>
+            )}
             {isComplete && (
               <motion.button
+                key="replay"
                 initial={{opacity: 0, scale: 0.8}}
                 animate={{opacity: 1, scale: 1}}
                 exit={{opacity: 0, scale: 0.8}}
