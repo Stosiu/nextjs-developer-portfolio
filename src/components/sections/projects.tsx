@@ -153,16 +153,14 @@ export function Projects() {
             whileInView={{opacity: 1, y: 0}}
             viewport={{once: true, margin: '-80px'}}
             transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: EASE}}
-            className={`animated-border group block border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 overflow-hidden ${ctaColSpan}`}
+            className={`animated-border group relative block border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 overflow-hidden ${ctaColSpan}`}
           >
-            {/* Blueprint wireframe background */}
-            <div className="relative w-full aspect-video">
-              <BlueprintBackground className="absolute inset-0" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-            </div>
+            {/* Blueprint wireframe background (absolute, behind content) */}
+            <BlueprintBackground className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
 
-            {/* Content */}
-            <div className="p-5 text-center">
+            {/* Content — overlaid on blueprint */}
+            <div className="relative flex flex-col items-center justify-center p-8 min-h-[180px]">
               <h3 className="text-lg font-semibold mb-1.5 text-brand-400 group-hover:text-brand-300 transition-colors">
                 {t('ctaHeading')}
               </h3>
