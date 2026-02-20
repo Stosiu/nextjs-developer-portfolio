@@ -1,5 +1,6 @@
 'use client';
 
+import {useEffect, useRef, useState} from 'react';
 import {motion} from 'framer-motion';
 import Image from 'next/image';
 import type {SpotifyData} from '@/lib/spotify';
@@ -7,7 +8,25 @@ import {FaSpotify} from 'react-icons/fa';
 import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {StatCard} from '@/components/ui/stat-card';
 
+function useDebouncedFetching(isFetching: boolean, minVisible = 800) {
+  const [visible, setVisible] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => {
+    if (isFetching) {
+      clearTimeout(timerRef.current);
+      setVisible(true);
+    } else if (visible) {
+      timerRef.current = setTimeout(() => setVisible(false), minVisible);
+    }
+    return () => clearTimeout(timerRef.current);
+  }, [isFetching, visible, minVisible]);
+
+  return visible;
+}
+
 export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetching?: boolean}) {
+  const showFetching = useDebouncedFetching(!!isFetching);
   const {nowPlaying, topTracks, topArtist} = data;
   const hasContent = nowPlaying || topTracks.length > 0 || topArtist;
 
@@ -30,10 +49,12 @@ export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetc
       transition={{duration: 0.5}}
       className="animated-border relative border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full flex flex-col gap-4 overflow-hidden"
     >
-      {/* Fetch indicator */}
+      {/* Fetch indicator — shimmer bar with minimum visible time */}
       <div
-        className={`absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#1DB954] to-transparent transition-opacity duration-300 ${isFetching ? 'opacity-100 animate-pulse' : 'opacity-0'}`}
-      />
+        className={`absolute top-0 inset-x-0 h-[2px] overflow-hidden transition-opacity duration-700 ease-out ${showFetching ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <div className="h-full w-full bg-gradient-to-r from-transparent via-[#1DB954] to-transparent animate-[shimmer_1.2s_ease-in-out_infinite]" />
+      </div>
 
       {/* Now Playing / Recently Played */}
       {nowPlaying && (
