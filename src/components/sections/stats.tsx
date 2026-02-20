@@ -48,6 +48,7 @@ export function Stats({spotify, data}: StatsProps) {
               dailyUsage={data.ai.dailyUsage}
               totalSessions={data.ai.totalSessions}
               totalQueries={data.ai.totalQueries}
+              modelBreakdown={data.ai.modelBreakdown}
               provider={data.ai.provider}
               lastUpdated={data.lastUpdated}
             />
