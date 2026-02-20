@@ -125,6 +125,13 @@ The stats section pulls data from three sources:
 pnpm upload:ai        # Parse ~/.claude session files and upload to Vercel Blob
 ```
 
+To automate this daily, run the interactive setup:
+
+```bash
+pnpm setup:cron       # Schedules daily upload via launchd (macOS), crontab (Linux), or Task Scheduler (Windows)
+pnpm remove:cron      # Removes the scheduled task
+```
+
 ## Scripts
 
 | Command | Description |
@@ -135,6 +142,8 @@ pnpm upload:ai        # Parse ~/.claude session files and upload to Vercel Blob
 | `pnpm lint` | Run oxlint |
 | `pnpm typecheck` | TypeScript type checking |
 | `pnpm upload:ai` | Upload AI usage stats to Vercel Blob |
+| `pnpm setup:cron` | Schedule daily `upload:ai` (interactive, cross-platform) |
+| `pnpm remove:cron` | Remove the scheduled task |
 
 ## Project Structure
 

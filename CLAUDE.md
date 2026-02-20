@@ -93,6 +93,7 @@ src/
     stats-types.ts          # TypeScript types for stats data
 scripts/
   upload-ai-stats.ts        # Uploads AI usage stats to Vercel Blob
+  setup-cron.ts             # Cross-platform cron setup (launchd/crontab/schtasks)
 messages/
   en.json                   # English translations
   pl.json                   # Polish translations
@@ -146,3 +147,5 @@ proxy.ts                    # Locale detection + redirect
 - AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai` (parses `~/.claude/projects/**/*.jsonl`)
 - Spotify now-playing fetched server-side at page render
 - Fallback data in `src/data/stats.json` used when APIs unavailable
+- `pnpm setup:cron` schedules daily `upload:ai` — supports macOS (launchd), Linux (crontab), Windows (Task Scheduler)
+- `pnpm remove:cron` uninstalls the scheduled task
