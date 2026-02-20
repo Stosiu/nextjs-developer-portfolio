@@ -7,7 +7,7 @@ import {FaSpotify} from 'react-icons/fa';
 import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {StatCard} from '@/components/ui/stat-card';
 
-export function SpotifyNowPlaying({data}: {data: SpotifyData}) {
+export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetching?: boolean}) {
   const {nowPlaying, topTracks, topArtist} = data;
   const hasContent = nowPlaying || topTracks.length > 0 || topArtist;
 
@@ -28,8 +28,13 @@ export function SpotifyNowPlaying({data}: {data: SpotifyData}) {
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-50px'}}
       transition={{duration: 0.5}}
-      className="motion-pre-hidden animated-border border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full flex flex-col gap-4"
+      className="animated-border relative border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent rounded-xl p-5 h-full flex flex-col gap-4 overflow-hidden"
     >
+      {/* Fetch indicator */}
+      <div
+        className={`absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#1DB954] to-transparent transition-opacity duration-300 ${isFetching ? 'opacity-100 animate-pulse' : 'opacity-0'}`}
+      />
+
       {/* Now Playing / Recently Played */}
       {nowPlaying && (
         <a

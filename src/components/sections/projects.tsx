@@ -32,7 +32,7 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-80px'}}
       transition={{duration: 0.5, delay: index * 0.1, ease: EASE}}
-      className="motion-pre-hidden animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
+      className="animated-border group block border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-transparent hover:from-white/[0.1] hover:border-transparent transition-all duration-500 hover:shadow-lg hover:shadow-brand-500/5"
     >
       {/* Image */}
       <div className="relative z-0 w-full aspect-video bg-gradient-to-br from-brand-500/10 to-cyan-500/5 overflow-hidden">

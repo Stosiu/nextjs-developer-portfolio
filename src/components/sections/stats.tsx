@@ -38,7 +38,7 @@ export function Stats() {
     refetchInterval: 5 * 60_000,
   });
 
-  const {data: spotify, isPending: spotifyLoading} = useQuery<SpotifyData>({
+  const {data: spotify, isPending: spotifyLoading, isFetching: spotifyFetching} = useQuery<SpotifyData>({
     queryKey: ['spotify'],
     queryFn: () => fetchJson<SpotifyData>('/api/spotify'),
     staleTime: 10_000,
@@ -75,7 +75,7 @@ export function Stats() {
             {spotifyLoading ? (
               <SpotifySkeleton />
             ) : (
-              <SpotifyNowPlaying data={spotify ?? emptySpotify} />
+              <SpotifyNowPlaying data={spotify ?? emptySpotify} isFetching={spotifyFetching} />
             )}
           </div>
           <div className="md:col-span-2">
