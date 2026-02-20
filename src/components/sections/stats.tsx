@@ -1,5 +1,6 @@
 'use client';
 
+import {type ReactNode} from 'react';
 import {useTranslations} from 'next-intl';
 import {useQuery} from '@tanstack/react-query';
 import type {StatsData} from '@/data/stats-types';
@@ -26,6 +27,10 @@ async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${url}: ${res.status}`);
   return res.json();
+}
+
+function FadeIn({children}: {children: ReactNode}) {
+  return <div className="animate-[fadeIn_0.5s_ease-out]">{children}</div>;
 }
 
 export function Stats() {
@@ -59,14 +64,16 @@ export function Stats() {
             {statsLoading ? (
               <HeatmapSkeleton />
             ) : (
-              <GitHubHeatmap
-                contributions={statsData!.github.contributions}
-                totalContributions={statsData!.github.totalContributions}
-                allTimeContributions={statsData!.github.allTimeContributions}
-                totalRepos={statsData!.github.totalRepos}
-                busiestDay={statsData!.github.busiestDay}
-                memberSince={statsData!.github.memberSince}
-              />
+              <FadeIn>
+                <GitHubHeatmap
+                  contributions={statsData!.github.contributions}
+                  totalContributions={statsData!.github.totalContributions}
+                  allTimeContributions={statsData!.github.allTimeContributions}
+                  totalRepos={statsData!.github.totalRepos}
+                  busiestDay={statsData!.github.busiestDay}
+                  memberSince={statsData!.github.memberSince}
+                />
+              </FadeIn>
             )}
           </div>
 
@@ -75,23 +82,27 @@ export function Stats() {
             {spotifyLoading ? (
               <SpotifySkeleton />
             ) : (
-              <SpotifyNowPlaying data={spotify ?? emptySpotify} isFetching={spotifyFetching} />
+              <FadeIn>
+                <SpotifyNowPlaying data={spotify ?? emptySpotify} isFetching={spotifyFetching} />
+              </FadeIn>
             )}
           </div>
           <div className="md:col-span-2">
             {statsLoading ? (
               <AiTokensSkeleton />
             ) : (
-              <AiTokens
-                totalTokens={statsData!.ai.totalTokens}
-                tokensLast30d={statsData!.ai.tokensLast30d}
-                dailyUsage={statsData!.ai.dailyUsage}
-                totalSessions={statsData!.ai.totalSessions}
-                totalQueries={statsData!.ai.totalQueries}
-                modelBreakdown={statsData!.ai.modelBreakdown}
-                provider={statsData!.ai.provider}
-                lastUpdated={statsData!.lastUpdated}
-              />
+              <FadeIn>
+                <AiTokens
+                  totalTokens={statsData!.ai.totalTokens}
+                  tokensLast30d={statsData!.ai.tokensLast30d}
+                  dailyUsage={statsData!.ai.dailyUsage}
+                  totalSessions={statsData!.ai.totalSessions}
+                  totalQueries={statsData!.ai.totalQueries}
+                  modelBreakdown={statsData!.ai.modelBreakdown}
+                  provider={statsData!.ai.provider}
+                  lastUpdated={statsData!.lastUpdated}
+                />
+              </FadeIn>
             )}
           </div>
 
@@ -100,21 +111,27 @@ export function Stats() {
             {statsLoading ? (
               <SmallCardSkeleton />
             ) : (
-              <AiRatio inputPercentage={statsData!.ai.inputPercentage} totalTokens={statsData!.ai.totalTokens} />
+              <FadeIn>
+                <AiRatio inputPercentage={statsData!.ai.inputPercentage} totalTokens={statsData!.ai.totalTokens} />
+              </FadeIn>
             )}
           </div>
           <div>
             {statsLoading ? (
               <SmallCardSkeleton />
             ) : (
-              <BusiestDay day={statsData!.ai.busiestDay} avgTokens={statsData!.ai.busiestDayAvgTokens} />
+              <FadeIn>
+                <BusiestDay day={statsData!.ai.busiestDay} avgTokens={statsData!.ai.busiestDayAvgTokens} />
+              </FadeIn>
             )}
           </div>
           <div>
             {statsLoading ? (
               <SmallCardSkeleton />
             ) : (
-              <GitHubStreak streak={statsData!.github.currentStreak} />
+              <FadeIn>
+                <GitHubStreak streak={statsData!.github.currentStreak} />
+              </FadeIn>
             )}
           </div>
 
@@ -123,7 +140,9 @@ export function Stats() {
             {statsLoading ? (
               <LanguagesSkeleton />
             ) : (
-              <GitHubLanguages languages={statsData!.github.languages} />
+              <FadeIn>
+                <GitHubLanguages languages={statsData!.github.languages} />
+              </FadeIn>
             )}
           </div>
         </div>
