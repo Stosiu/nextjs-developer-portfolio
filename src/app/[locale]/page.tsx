@@ -7,7 +7,7 @@ import {Projects} from '@/components/sections/projects';
 import {Stats} from '@/components/sections/stats';
 import {Experience} from '@/components/sections/experience';
 import {Footer} from '@/components/sections/footer';
-import {CursorComment} from '@/components/cursor-comment';
+import {CursorToolbar} from '@/components/cursor-toolbar';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -27,7 +27,7 @@ export default async function HomePage({params}: Props) {
       <Stats />
       <Experience />
       <Footer />
-      <CursorComment />
+      <CursorToolbar />
     </main>
   );
 }
