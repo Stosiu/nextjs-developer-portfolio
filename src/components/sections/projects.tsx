@@ -187,7 +187,13 @@ export function Projects() {
         </div>
 
         {hiddenProjects.length > 0 && (
-          <div className="flex justify-center mt-8">
+          <motion.div
+            initial={{opacity: 0, y: 12}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true, margin: '-40px'}}
+            transition={{duration: 0.4, delay: (visibleProjects.length + 2) * 0.1, ease: EASE}}
+            className="flex justify-center mt-8"
+          >
             <button
               type="button"
               onClick={() => setShowAll((prev) => !prev)}
@@ -205,7 +211,7 @@ export function Projects() {
                 </>
               )}
             </button>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

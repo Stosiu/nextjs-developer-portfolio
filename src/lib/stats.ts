@@ -23,6 +23,10 @@ async function fetchAiFromBlob(): Promise<AiStats | null> {
 export async function getStats(): Promise<StatsData> {
   const fallback = fallbackData as unknown as StatsData;
 
+  if (process.env.NODE_ENV === 'development') {
+    return fallback;
+  }
+
   const [github, ai] = await Promise.all([
     fetchGitHubStats(),
     process.env.BLOB_READ_WRITE_TOKEN ? fetchAiFromBlob() : Promise.resolve(null),

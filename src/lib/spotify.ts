@@ -77,7 +77,7 @@ async function fetchWithToken(url: string, accessToken: string) {
 }
 
 export async function getSpotifyData(): Promise<SpotifyData> {
-  if (!client_id || !client_secret || !refresh_token) {
+  if (process.env.NODE_ENV === 'development' || !client_id || !client_secret || !refresh_token) {
     return {nowPlaying: null, topTracks: [], topArtist: null};
   }
 
