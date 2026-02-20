@@ -97,16 +97,15 @@ export function BlueprintBackground({className}: Props) {
               };
 
           const common = {
-            key: i,
             stroke: el.stroke,
             strokeWidth: 1.5,
             fill: 'none' as const,
             style,
           };
 
-          if (el.type === 'rect') return <rect {...common} {...el.props} />;
-          if (el.type === 'circle') return <circle {...common} {...el.props} />;
-          if (el.type === 'line') return <line {...common} {...el.props} />;
+          if (el.type === 'rect') return <rect key={i} {...common} {...el.props} />;
+          if (el.type === 'circle') return <circle key={i} {...common} {...el.props} />;
+          if (el.type === 'line') return <line key={i} {...common} {...el.props} />;
           return null;
         })}
       </svg>
