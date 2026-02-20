@@ -30,7 +30,7 @@ async function fetchJson<T>(url: string): Promise<T> {
 }
 
 function FadeIn({children}: {children: ReactNode}) {
-  return <div className="animate-[fadeIn_0.5s_ease-out]">{children}</div>;
+  return <div className="animate-[fadeIn_0.5s_ease-out] h-full">{children}</div>;
 }
 
 export function Stats() {
