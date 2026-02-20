@@ -10,6 +10,7 @@ import {Geist, Geist_Mono} from 'next/font/google';
 import {PageLoader, PageReady} from '@/components/page-loader';
 import {QueryProvider} from '@/components/query-provider';
 import {ContextMenu} from '@/components/context-menu';
+import {EasterEggSettings} from '@/components/easter-egg-settings';
 import {siteConfig} from '@/config/site';
 import '@/app/globals.css';
 
@@ -153,6 +154,7 @@ export default async function LocaleLayout({children, params}: Props) {
             {children}
             <PageReady />
             <ContextMenu />
+            <EasterEggSettings />
           </NextIntlClientProvider>
         </QueryProvider>
       </body>
