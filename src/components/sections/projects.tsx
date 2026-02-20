@@ -11,6 +11,7 @@ import {siteConfig} from '@/config/site';
 import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {Badge} from '@/components/ui/badge';
 import {SectionHeading} from '@/components/ui/section-heading';
+import {BlueprintBackground} from '@/components/blueprint-background';
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
@@ -144,25 +145,34 @@ export function Projects() {
           <MoreProjectsCard index={projects.length} />
 
           {/* CTA card — spans remaining columns */}
-          <AnimatedReveal
-            margin="-80px"
+          <motion.a
+            href={siteConfig.booking}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{opacity: 0, y: 20}}
+            whileInView={{opacity: 1, y: 0}}
+            viewport={{once: true, margin: '-80px'}}
             transition={{duration: 0.5, delay: (projects.length + 1) * 0.1, ease: EASE}}
-            className={`animated-border group flex flex-col items-center justify-center border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent p-8 hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 ${ctaColSpan}`}
+            className={`animated-border group block border border-white/[0.08] bg-gradient-to-b from-brand-500/[0.04] to-transparent hover:from-brand-500/[0.08] hover:border-transparent transition-all duration-500 overflow-hidden ${ctaColSpan}`}
           >
-            <a
-              href={siteConfig.booking}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center"
-            >
-              <h3 className="text-lg font-semibold mb-2 text-brand-400">{t('ctaHeading')}</h3>
-              <p className="text-sm text-white/50 mb-4 text-center">{t('ctaDescription')}</p>
+            {/* Blueprint wireframe background */}
+            <div className="relative w-full aspect-video">
+              <BlueprintBackground className="absolute inset-0" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+            </div>
+
+            {/* Content */}
+            <div className="p-5 text-center">
+              <h3 className="text-lg font-semibold mb-1.5 text-brand-400 group-hover:text-brand-300 transition-colors">
+                {t('ctaHeading')}
+              </h3>
+              <p className="text-sm text-white/50 mb-3">{t('ctaDescription')}</p>
               <span className="text-sm text-brand-400 inline-flex items-center gap-1">
                 {t('ctaCta')}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
               </span>
-            </a>
-          </AnimatedReveal>
+            </div>
+          </motion.a>
         </div>
       </div>
     </section>
