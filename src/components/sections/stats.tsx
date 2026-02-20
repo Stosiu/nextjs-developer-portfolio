@@ -22,19 +22,25 @@ import {
 
 const emptySpotify: SpotifyData = {nowPlaying: null, topTracks: [], topArtist: null};
 
+async function fetchJson<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url}: ${res.status}`);
+  return res.json();
+}
+
 export function Stats() {
   const t = useTranslations('stats');
 
   const {data: statsData, isPending: statsLoading} = useQuery<StatsData>({
     queryKey: ['stats'],
-    queryFn: () => fetch('/api/stats').then((r) => r.json()),
+    queryFn: () => fetchJson<StatsData>('/api/stats'),
     staleTime: 5 * 60_000,
     refetchInterval: 5 * 60_000,
   });
 
   const {data: spotify, isPending: spotifyLoading} = useQuery<SpotifyData>({
     queryKey: ['spotify'],
-    queryFn: () => fetch('/api/spotify').then((r) => r.json()),
+    queryFn: () => fetchJson<SpotifyData>('/api/spotify'),
     staleTime: 10_000,
     refetchInterval: 10_000,
   });

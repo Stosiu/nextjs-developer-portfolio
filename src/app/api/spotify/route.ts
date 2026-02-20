@@ -1,11 +1,15 @@
-import {NextResponse} from 'next/server';
+import {NextRequest, NextResponse} from 'next/server';
 import {getSpotifyData} from '@/lib/spotify';
+import {rateLimit, getClientIp} from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const limited = rateLimit(getClientIp(request.headers), 30);
+  if (limited) return limited;
+
   const data = await getSpotifyData();
   return NextResponse.json(data, {
-    headers: {'Cache-Control': 'no-store, max-age=0'},
+    headers: {'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30'},
   });
 }
