@@ -11,16 +11,22 @@ const STROKE_FAINT = 'rgba(16, 185, 129, 0.12)';
 const DOT_COLOR = 'rgba(16, 185, 129, 0.06)';
 
 const elements = [
-  {type: 'rect' as const, props: {x: 40, y: 20, width: 320, height: 24, rx: 4}, stroke: STROKE, delay: 0},
-  {type: 'rect' as const, props: {x: 40, y: 60, width: 200, height: 100, rx: 4}, stroke: STROKE, delay: 0.3},
-  {type: 'rect' as const, props: {x: 260, y: 60, width: 100, height: 60, rx: 4}, stroke: STROKE, delay: 0.5},
-  {type: 'circle' as const, props: {cx: 310, cy: 145, r: 12}, stroke: STROKE, delay: 0.8},
-  {type: 'line' as const, props: {x1: 40, y1: 180, x2: 180, y2: 180}, stroke: STROKE_FAINT, delay: 1.0},
-  {type: 'line' as const, props: {x1: 40, y1: 192, x2: 150, y2: 192}, stroke: STROKE_FAINT, delay: 1.2},
-  {type: 'line' as const, props: {x1: 40, y1: 204, x2: 170, y2: 204}, stroke: STROKE_FAINT, delay: 1.4},
-  {type: 'rect' as const, props: {x: 40, y: 220, width: 96, height: 56, rx: 4}, stroke: STROKE, delay: 1.6},
-  {type: 'rect' as const, props: {x: 152, y: 220, width: 96, height: 56, rx: 4}, stroke: STROKE, delay: 1.9},
-  {type: 'rect' as const, props: {x: 264, y: 220, width: 96, height: 56, rx: 4}, stroke: STROKE, delay: 2.2},
+  // Top nav bar
+  {type: 'rect' as const, props: {x: 20, y: 12, width: 560, height: 18, rx: 3}, stroke: STROKE, delay: 0},
+  // Left: hero image
+  {type: 'rect' as const, props: {x: 20, y: 40, width: 180, height: 80, rx: 3}, stroke: STROKE, delay: 0.3},
+  // Right: sidebar card
+  {type: 'rect' as const, props: {x: 215, y: 40, width: 120, height: 50, rx: 3}, stroke: STROKE, delay: 0.5},
+  // Right: button
+  {type: 'circle' as const, props: {cx: 275, cy: 110, r: 10}, stroke: STROKE, delay: 0.8},
+  // Text lines
+  {type: 'line' as const, props: {x1: 215, y1: 100, x2: 310, y2: 100}, stroke: STROKE_FAINT, delay: 1.0},
+  {type: 'line' as const, props: {x1: 20, y1: 132, x2: 140, y2: 132}, stroke: STROKE_FAINT, delay: 1.2},
+  {type: 'line' as const, props: {x1: 20, y1: 142, x2: 115, y2: 142}, stroke: STROKE_FAINT, delay: 1.4},
+  // Far right: card grid (stacked vertically)
+  {type: 'rect' as const, props: {x: 350, y: 40, width: 230, height: 36, rx: 3}, stroke: STROKE, delay: 1.6},
+  {type: 'rect' as const, props: {x: 350, y: 84, width: 230, height: 36, rx: 3}, stroke: STROKE, delay: 1.9},
+  {type: 'rect' as const, props: {x: 350, y: 128, width: 230, height: 36, rx: 3}, stroke: STROKE, delay: 2.2},
 ];
 
 export function BlueprintBackground({className}: Props) {
@@ -40,7 +46,7 @@ export function BlueprintBackground({className}: Props) {
   return (
     <div className={`blueprint-bg ${className ?? ''}`}>
       <svg
-        viewBox="0 0 400 300"
+        viewBox="0 0 600 170"
         preserveAspectRatio="xMidYMid slice"
         className="h-full w-full"
         fill="none"
@@ -52,7 +58,7 @@ export function BlueprintBackground({className}: Props) {
           </pattern>
         </defs>
 
-        <rect width="400" height="300" fill="url(#blueprint-dots)" />
+        <rect width="600" height="170" fill="url(#blueprint-dots)" />
 
         {elements.map((el, i) => {
           const style: React.CSSProperties = reducedMotion
