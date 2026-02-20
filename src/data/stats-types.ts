@@ -20,8 +20,12 @@ export type StatsData = {
   github: {
     contributions: number[][];
     totalContributions: number;
+    allTimeContributions: number;
+    totalRepos: number;
     currentStreak: number;
     languages: GitHubLanguage[];
+    busiestDay: {date: string; count: number};
+    memberSince: string;
   };
   ai: {
     totalTokens: number;
@@ -43,8 +47,12 @@ export type GitHubStats = {
   lastUpdated: string;
   contributions: number[][];
   totalContributions: number;
+  allTimeContributions: number;
+  totalRepos: number;
   currentStreak: number;
   languages: GitHubLanguage[];
+  busiestDay: {date: string; count: number};
+  memberSince: string;
 };
 
 export type AiStats = {

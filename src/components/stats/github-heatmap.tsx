@@ -11,6 +11,10 @@ import {formatDate} from '@/lib/format';
 type GitHubHeatmapProps = {
   contributions: number[][];
   totalContributions: number;
+  allTimeContributions: number;
+  totalRepos: number;
+  busiestDay: {date: string; count: number};
+  memberSince: string;
 };
 
 type TooltipData = {
@@ -52,7 +56,7 @@ function countToLevel(count: number): number {
   return 10;
 }
 
-export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmapProps) {
+export function GitHubHeatmap({contributions, totalContributions, allTimeContributions, totalRepos, busiestDay, memberSince}: GitHubHeatmapProps) {
   const t = useTranslations('stats');
   const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
@@ -63,13 +67,14 @@ export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmap
     const end = today.add(6 - todayDow, 'day');
     const start = end.subtract(WEEKS * 7 - 1, 'day');
 
+    const weeks = contributions.slice(-WEEKS);
     const cells: Array<{week: number; day: number; level: number; date: string; count: number}> = [];
 
-    for (let w = 0; w < contributions.length && w < WEEKS; w++) {
-      for (let d = 0; d < contributions[w].length && d < DAYS; d++) {
+    for (let w = 0; w < weeks.length; w++) {
+      for (let d = 0; d < weeks[w].length && d < DAYS; d++) {
         const date = start.add(w * 7 + d, 'day');
         if (date.isAfter(today, 'day')) continue;
-        const count = contributions[w][d];
+        const count = weeks[w][d];
         cells.push({week: w, day: d, level: countToLevel(count), date: date.format('YYYY-MM-DD'), count});
       }
     }
@@ -96,9 +101,14 @@ export function GitHubHeatmap({contributions, totalContributions}: GitHubHeatmap
   return (
     <AnimatedReveal className="h-full">
       <StatCard ref={containerRef} className="relative">
-        <div className="mb-4 flex items-baseline gap-2">
+        <div className="mb-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span className="text-sm text-white/60">{t('contributions')}</span>
-          <span className="text-xs text-white/30">{totalContributions.toLocaleString()} in the last 365 days</span>
+          <span className="text-xs text-white/30">
+            {totalContributions.toLocaleString()} in the last 365 days
+            {busiestDay.count > 0 && <> · peak {busiestDay.count} on {formatDate(busiestDay.date)}</>}
+            {allTimeContributions > 0 && <> · {allTimeContributions.toLocaleString()} total across {totalRepos} repos</>}
+            {memberSince && <> · since {dayjs(memberSince).format('YYYY')}</>}
+          </span>
         </div>
 
         <svg

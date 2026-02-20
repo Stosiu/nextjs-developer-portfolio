@@ -25,6 +25,8 @@ const LANG_COLORS: Record<string, string> = {
 type GHResponse = {
   data?: {
     viewer: {
+      createdAt: string;
+      repositories: {totalCount: number};
       contributionsCollection: {
         contributionCalendar: {
           totalContributions: number;
@@ -32,8 +34,10 @@ type GHResponse = {
             contributionDays: Array<{contributionCount: number; date: string}>;
           }>;
         };
+        contributionYears: number[];
       };
       repositoriesContributedTo: {
+        totalCount: number;
         nodes: Array<{
           isFork: boolean;
           pushedAt: string;
@@ -47,8 +51,18 @@ type GHResponse = {
   errors?: Array<{message: string}>;
 };
 
+type GHYearlyResponse = {
+  data?: {
+    viewer: Record<string, {
+      contributionCalendar: {totalContributions: number};
+    }>;
+  };
+};
+
 const query = `query {
   viewer {
+    createdAt
+    repositories(affiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER], ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER]) { totalCount }
     contributionsCollection {
       contributionCalendar {
         totalContributions
@@ -59,8 +73,10 @@ const query = `query {
           }
         }
       }
+      contributionYears
     }
-    repositoriesContributedTo(first: 100, contributionTypes: COMMIT, orderBy: {field: PUSHED_AT, direction: DESC}) {
+    repositoriesContributedTo(first: 100, contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, REPOSITORY], orderBy: {field: PUSHED_AT, direction: DESC}) {
+      totalCount
       nodes {
         isFork
         pushedAt
@@ -78,9 +94,40 @@ const query = `query {
 export type GitHubData = {
   contributions: number[][];
   totalContributions: number;
+  allTimeContributions: number;
+  totalRepos: number;
   currentStreak: number;
   languages: GitHubLanguage[];
+  busiestDay: {date: string; count: number};
+  memberSince: string;
 };
+
+async function fetchAllTimeContributions(token: string, years: number[]): Promise<number> {
+  const aliases = years
+    .map(y => `y${y}: contributionsCollection(from: "${y}-01-01T00:00:00Z", to: "${y}-12-31T23:59:59Z") { contributionCalendar { totalContributions } }`)
+    .join('\n    ');
+  const yearQuery = `query { viewer { ${aliases} } }`;
+
+  try {
+    const res = await fetch(GITHUB_GRAPHQL_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({query: yearQuery}),
+      next: {revalidate: 3600, tags: ['github-stats']},
+    });
+    if (!res.ok) return 0;
+    const json = (await res.json()) as GHYearlyResponse;
+    if (!json.data) return 0;
+    return Object.values(json.data.viewer).reduce(
+      (sum, col) => sum + col.contributionCalendar.totalContributions, 0,
+    );
+  } catch {
+    return 0;
+  }
+}
 
 export async function fetchGitHubStats(): Promise<GitHubData | null> {
   const token = process.env.GITHUB_TOKEN;
@@ -104,12 +151,20 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
 
     const viewer = json.data!.viewer;
     const calendar = viewer.contributionsCollection.contributionCalendar;
+    const contributionYears = viewer.contributionsCollection.contributionYears;
 
     const contributions = calendar.weeks.map(week =>
       week.contributionDays.map(day => day.contributionCount),
     );
 
     const allDays = calendar.weeks.flatMap(w => w.contributionDays);
+
+    let busiestDay = {date: '', count: 0};
+    for (const day of allDays) {
+      if (day.contributionCount > busiestDay.count) {
+        busiestDay = {date: day.date, count: day.contributionCount};
+      }
+    }
     let currentStreak = 0;
     for (let i = allDays.length - 1; i >= 0; i--) {
       if (i === allDays.length - 1 && allDays[i].contributionCount === 0) continue;
@@ -119,6 +174,8 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
         break;
       }
     }
+
+    const allTimeContributions = await fetchAllTimeContributions(token, contributionYears);
 
     const twoYearsAgo = new Date();
     twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
@@ -148,8 +205,12 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
     return {
       contributions,
       totalContributions: calendar.totalContributions,
+      allTimeContributions: allTimeContributions || calendar.totalContributions,
+      totalRepos: Math.max(viewer.repositories.totalCount, viewer.repositoriesContributedTo.totalCount),
       currentStreak,
       languages,
+      busiestDay,
+      memberSince: viewer.createdAt,
     };
   } catch {
     return null;

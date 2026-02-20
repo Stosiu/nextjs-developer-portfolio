@@ -34,6 +34,10 @@ export function Stats({spotify, data}: StatsProps) {
             <GitHubHeatmap
               contributions={data.github.contributions}
               totalContributions={data.github.totalContributions}
+              allTimeContributions={data.github.allTimeContributions}
+              totalRepos={data.github.totalRepos}
+              busiestDay={data.github.busiestDay}
+              memberSince={data.github.memberSince}
             />
           </div>
 

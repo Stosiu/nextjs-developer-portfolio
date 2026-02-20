@@ -5,6 +5,7 @@ import {motion} from 'framer-motion';
 import {FaGithub, FaLinkedin, FaStar} from 'react-icons/fa';
 import {siteConfig} from '@/config/site';
 import {registeredCompanies} from '@/config/companies';
+import {WorldClock} from '@/components/world-clock';
 
 export function Footer() {
   const t = useTranslations('footer');
@@ -58,6 +59,10 @@ export function Footer() {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-10 pt-8 border-t border-white/5">
+          <WorldClock />
         </div>
 
         <div className="mt-10 pt-6 border-t border-white/5 space-y-2">

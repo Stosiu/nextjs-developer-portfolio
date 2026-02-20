@@ -57,7 +57,11 @@
       [0, 4, 5, 6]
     ],
     "totalContributions": 1200,
+    "allTimeContributions": 8500,
+    "totalRepos": 75,
     "currentStreak": 7,
+    "busiestDay": {"date": "2025-06-15", "count": 42},
+    "memberSince": "2017-01-01T00:00:00Z",
     "languages": [
       {"name": "TypeScript", "percentage": 65, "color": "#3178c6"},
       {"name": "Python", "percentage": 15, "color": "#3572A5"},
