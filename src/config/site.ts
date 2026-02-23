@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Aleksander Stós',
   title: 'Entrepreneur, CTO & Co-Founder',
   email: 'alex@thedigitalbunch.com',
-  url: 'https://stosiu.dev',
+  url: 'https://www.stosiu.dev',
   repo: 'https://github.com/Stosiu/stosiu-portfolio',
   avatar: '/avatar.jpg',
   terminal: {
