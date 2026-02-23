@@ -14,6 +14,7 @@ import {Badge} from '@/components/ui/badge';
 import {SectionHeading} from '@/components/ui/section-heading';
 import {BlueprintBackground} from '@/components/blueprint-background';
 import {InteractiveDots} from '@/components/interactive-dots';
+import {trackEvent} from '@/lib/analytics';
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 
@@ -28,6 +29,7 @@ function ProjectCard({project, index}: {project: Project; index: number}) {
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackEvent('project_click', {project: project.title})}
       initial={{opacity: 0, y: 20}}
       whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-80px'}}

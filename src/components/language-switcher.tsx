@@ -5,6 +5,7 @@ import {useLocale} from 'next-intl';
 import {useRouter, usePathname} from '@/i18n/navigation';
 import {routing} from '@/i18n/routing';
 import {Globe} from 'lucide-react';
+import {trackEvent} from '@/lib/analytics';
 import {
   Select,
   SelectContent,
@@ -28,6 +29,7 @@ export function LanguageSwitcher() {
   useEffect(() => setMounted(true), []);
 
   function onLocaleChange(newLocale: string) {
+    trackEvent('language_switch', {from: locale, to: newLocale});
     router.replace(pathname, {locale: newLocale});
   }
 

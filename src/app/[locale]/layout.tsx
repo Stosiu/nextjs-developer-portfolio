@@ -7,11 +7,13 @@ import {routing} from '@/i18n/routing';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import Script from 'next/script';
 import {PageLoader, PageReady} from '@/components/page-loader';
+import {AnalyticsProvider} from '@/components/analytics-provider';
+import {CookieConsent} from '@/components/cookie-consent';
 import {QueryProvider} from '@/components/query-provider';
 import {ContextMenu} from '@/components/context-menu';
 import {EasterEggSettings} from '@/components/easter-egg-settings';
+import {SpeedInsights} from '@vercel/speed-insights/next';
 import {siteConfig} from '@/config/site';
 import '@/app/globals.css';
 
@@ -135,15 +137,7 @@ export default async function LocaleLayout({children, params}: Props) {
 
   return (
     <html lang={locale} dir={dir} className="dark">
-      <head>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-LLMJZP3Y2T"
-          strategy="afterInteractive"
-        />
-        <Script id="gtag-init" strategy="afterInteractive">
-          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LLMJZP3Y2T');`}
-        </Script>
-      </head>
+      <head />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Static JSON-LD — no user input, safe to inline */}
         <script
@@ -168,6 +162,9 @@ export default async function LocaleLayout({children, params}: Props) {
             <PageReady />
             <ContextMenu />
             <EasterEggSettings />
+            <AnalyticsProvider />
+            <CookieConsent />
+            <SpeedInsights />
           </NextIntlClientProvider>
         </QueryProvider>
       </body>

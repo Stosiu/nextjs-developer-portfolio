@@ -7,6 +7,7 @@ import {Button} from '@/components/ui/button';
 import {InteractiveDots} from '@/components/interactive-dots';
 import {Mail} from 'lucide-react';
 import {siteConfig} from '@/config/site';
+import {trackEvent} from '@/lib/analytics';
 
 export function Hero() {
   const t = useTranslations('hero');
@@ -40,7 +41,7 @@ export function Hero() {
             size="lg"
             className="bg-brand-500 hover:bg-brand-600 text-black font-semibold"
           >
-            <a href={siteConfig.booking} target="_blank" rel="noopener noreferrer">
+            <a href={siteConfig.booking} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('cta_click', {location: 'hero', type: 'booking'})}>
               {t('cta')}
             </a>
           </Button>
@@ -50,7 +51,7 @@ export function Hero() {
             size="lg"
             className="border-white/20 text-white/70 hover:text-white hover:border-white/40 gap-2"
           >
-            <a href={`mailto:${siteConfig.email}`}>
+            <a href={`mailto:${siteConfig.email}`} onClick={() => trackEvent('cta_click', {location: 'hero', type: 'email'})}>
               <Mail className="w-4 h-4" />
               {siteConfig.email}
             </a>
