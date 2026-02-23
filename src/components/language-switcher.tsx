@@ -37,6 +37,7 @@ export function LanguageSwitcher() {
     <Select value={locale} onValueChange={onLocaleChange}>
       <SelectTrigger
         size="sm"
+        aria-label="Select language"
         className="border-white/10 bg-white/[0.06] text-white hover:bg-white/10 focus-visible:ring-brand-500/50 gap-1.5"
       >
         <Globe className="w-3.5 h-3.5 text-white/40" />
