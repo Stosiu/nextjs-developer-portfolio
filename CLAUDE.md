@@ -2,6 +2,8 @@
 
 A developer portfolio template built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Supports i18n (en, pl, ar with RTL) and dark theme.
 
+**This is a public template.** All features that depend on external services (analytics, Spotify, GitHub stats) must be opt-in via environment variables. If an env var is missing, the feature should be silently disabled — no errors, no broken UI. Never hardcode API keys, tracking IDs, or personal URLs.
+
 ## Quick Start
 
 ```bash
@@ -11,6 +13,19 @@ pnpm build      # Production build (ISR, requires Node.js server)
 pnpm typecheck  # Type checking
 pnpm lint       # oxlint (not ESLint)
 ```
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and fill in only what you need. All are optional:
+
+| Variable | Purpose | Effect if missing |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO | Falls back to `siteConfig.url` in `src/config/site.ts` |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics measurement ID | No GA, no consent banner, no privacy/cookie links in footer |
+| `NEXT_PUBLIC_SPEED_INSIGHTS` | Vercel Speed Insights (`"1"` to enable) | No Web Vitals collection |
+| `GITHUB_TOKEN` | GitHub stats on dashboard | Shows fallback data from `src/data/stats.json` |
+| `SPOTIFY_CLIENT_ID/SECRET/REFRESH_TOKEN` | Now-playing widget | Widget hidden |
+| `BLOB_READ_WRITE_TOKEN` | AI stats upload to Vercel Blob | Upload script fails gracefully |
 
 ## Personalizing the Template
 
@@ -60,7 +75,10 @@ src/
       page.tsx              # Single page with all sections
       not-found.tsx         # 404 page
       error.tsx             # Error boundary
+      privacy/page.tsx      # Privacy policy (only linked if GA_ID set)
   components/
+    analytics-provider.tsx  # Conditional GA loading + scroll depth tracking
+    cookie-consent.tsx      # GDPR consent banner (only if GA_ID set)
     navbar.tsx              # Sticky nav with scroll detection
     language-switcher.tsx   # EN/PL/AR locale buttons
     terminal.tsx            # Interactive typing animation
@@ -77,11 +95,14 @@ src/
     stats/                  # Individual stat card components
   hooks/
     use-count-up.ts         # IntersectionObserver count-up animation
+    use-track-section-view.ts # Section view analytics tracking
   i18n/
     routing.ts              # Locale config (en, pl, ar)
     request.ts              # Server-side locale resolution
     navigation.ts           # Locale-aware Link, useRouter, etc.
   lib/
+    analytics.ts            # GA loader + event tracking (gated by NEXT_PUBLIC_GA_ID)
+    consent.ts              # Cookie consent state (localStorage + CustomEvent)
     data.ts                 # Project entries (uses static imports)
     github.ts               # GitHub GraphQL API (server-side, ISR cached)
     spotify.ts              # Spotify now-playing API

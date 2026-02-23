@@ -162,9 +162,9 @@ export default async function LocaleLayout({children, params}: Props) {
             <PageReady />
             <ContextMenu />
             <EasterEggSettings />
-            <AnalyticsProvider />
-            <CookieConsent />
-            <SpeedInsights />
+            {process.env.NEXT_PUBLIC_GA_ID && <AnalyticsProvider />}
+            {process.env.NEXT_PUBLIC_GA_ID && <CookieConsent />}
+            {process.env.NEXT_PUBLIC_SPEED_INSIGHTS && <SpeedInsights />}
           </NextIntlClientProvider>
         </QueryProvider>
       </body>

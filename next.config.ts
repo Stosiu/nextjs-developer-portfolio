@@ -2,6 +2,14 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
+const hasGA = !!process.env.NEXT_PUBLIC_GA_ID;
+const gaDomains = hasGA
+  ? ' https://www.googletagmanager.com https://www.google-analytics.com'
+  : '';
+const gaAnalyticsDomains = hasGA
+  ? ' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com'
+  : '';
+
 const securityHeaders = [
   {key: 'X-Content-Type-Options', value: 'nosniff'},
   {key: 'X-Frame-Options', value: 'DENY'},
@@ -11,11 +19,11 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+      `script-src 'self' 'unsafe-inline' 'unsafe-eval'${gaDomains}`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob: https://i.scdn.co https://avatars.githubusercontent.com https://www.googletagmanager.com https://www.google-analytics.com",
+      `img-src 'self' data: blob: https://i.scdn.co https://avatars.githubusercontent.com${gaDomains}`,
       "font-src 'self'",
-      "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com",
+      `connect-src 'self'${gaAnalyticsDomains}`,
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

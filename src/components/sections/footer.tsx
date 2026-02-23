@@ -86,19 +86,21 @@ export function Footer() {
           <p className="mt-2 text-[10px] font-mono text-white/10 hover:text-white/30 transition-colors select-all cursor-default">
             {process.env.NEXT_PUBLIC_COMMIT_SHA}
           </p>
-          <div className="mt-4 flex items-center justify-center gap-3 text-xs font-mono text-white/20">
-            <Link href="/privacy" className="hover:text-white/40 transition-colors">
-              {t('privacy')}
-            </Link>
-            <span className="text-white/10">·</span>
-            <button
-              type="button"
-              onClick={() => window.dispatchEvent(new Event('show-consent-banner'))}
-              className="hover:text-white/40 transition-colors cursor-pointer"
-            >
-              {t('cookieSettings')}
-            </button>
-          </div>
+          {process.env.NEXT_PUBLIC_GA_ID && (
+            <div className="mt-4 flex items-center justify-center gap-3 text-xs font-mono text-white/20">
+              <Link href="/privacy" className="hover:text-white/40 transition-colors">
+                {t('privacy')}
+              </Link>
+              <span className="text-white/10">·</span>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event('show-consent-banner'))}
+                className="hover:text-white/40 transition-colors cursor-pointer"
+              >
+                {t('cookieSettings')}
+              </button>
+            </div>
+          )}
           <p className="mt-3 text-xs font-mono text-white/15 select-none">
             psst... try pressing <kbd className="px-1.5 py-0.5 mx-0.5 rounded border border-white/10 text-white/30">⌘ ,</kbd> for a surprise
           </p>

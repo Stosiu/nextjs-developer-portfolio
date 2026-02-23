@@ -1,4 +1,4 @@
-const GA_ID = 'G-LLMJZP3Y2T';
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 declare global {
   interface Window {
@@ -9,8 +9,12 @@ declare global {
 
 let loaded = false;
 
+export function isAnalyticsEnabled(): boolean {
+  return !!GA_ID;
+}
+
 export function loadGA(): void {
-  if (loaded || typeof window === 'undefined') return;
+  if (!GA_ID || loaded || typeof window === 'undefined') return;
   loaded = true;
 
   const script = document.createElement('script');
