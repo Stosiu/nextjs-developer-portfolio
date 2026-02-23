@@ -14,6 +14,24 @@ Fork it, swap the config files, and make it yours.
 
 ![screenshot](public/screenshot.jpg)
 
+## Table of Contents
+
+- [Tech Stack](#tech-stack)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Personalizing](#personalizing)
+- [Environment Variables](#environment-variables)
+  - [Canonical URL](#canonical-url)
+  - [Google Analytics](#google-analytics)
+  - [Vercel Speed Insights](#vercel-speed-insights)
+  - [GitHub Token](#github-token)
+  - [Vercel Blob (AI stats)](#vercel-blob-ai-stats-only)
+  - [Spotify](#spotify)
+- [Analytics & Privacy](#analytics--privacy)
+- [Stats Dashboard](#stats-dashboard)
+- [Scripts](#scripts)
+- [Project Structure](#project-structure)
+
 ## Tech Stack
 
 - **Framework:** Next.js 16 (App Router, React 19)
@@ -35,6 +53,18 @@ Fork it, swap the config files, and make it yours.
 - **Full i18n** with RTL support for Arabic
 - **Dark theme only** with configurable accent color
 - **Accessible** — skip-nav, ARIA labels, respects `prefers-reduced-motion`
+- **GDPR cookie consent** — opt-in analytics with consent banner and privacy policy page
+- **Event tracking** — CTA clicks, project clicks, language switches, scroll depth, section views (only when analytics enabled)
+
+## Getting Started
+
+```bash
+pnpm install
+cp .env.example .env  # fill in what you need (all optional)
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Personalizing
 
@@ -50,17 +80,42 @@ All personal data is centralized — edit these files to make it yours:
 | `messages/{en,pl,ar}.json` | All user-facing text including experience & project descriptions |
 | `src/app/globals.css` | Accent color (`--color-brand-*` variables and `--accent-rgb`) |
 | `src/data/stats.json` | Auto-generated via upload scripts, or edit manually |
-| `.env` | Vercel Blob, GitHub, Spotify credentials (see `.env.example`) |
 
-### Environment Variables
+## Environment Variables
 
-Copy `.env.example` to `.env` and fill in your values:
+Copy `.env.example` to `.env` and fill in only what you need. **All variables are optional** — missing values silently disable the corresponding feature with no errors or broken UI.
 
 ```bash
 cp .env.example .env
 ```
 
-#### GitHub Token
+### Canonical URL
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Overrides the canonical URL used in SEO metadata, sitemaps, and robots.txt |
+
+If not set, falls back to the `url` field in `src/config/site.ts`.
+
+### Google Analytics
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 measurement ID (e.g. `G-XXXXXXXXXX`) |
+
+When set: loads GA (with `anonymize_ip`), shows a GDPR consent banner on first visit, renders privacy policy and cookie settings links in the footer, adds the GA CSP domains, and tracks events (CTA clicks, project clicks, language switches, scroll depth, section views).
+
+When missing: no analytics scripts, no consent banner, no privacy/cookie links. Zero overhead.
+
+### Vercel Speed Insights
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SPEED_INSIGHTS` | Set to `1` to enable Vercel Speed Insights (Web Vitals collection) |
+
+No cookies, no PII — collects Core Web Vitals only. Works only on Vercel deployments.
+
+### GitHub Token
 
 GitHub stats are fetched server-side and cached for 1 hour via ISR. You need a token with `read:user` scope.
 
@@ -72,16 +127,16 @@ gh auth token
 
 Otherwise, create a [fine-grained PAT](https://github.com/settings/tokens?type=beta) or [classic token](https://github.com/settings/tokens) with `read:user` scope.
 
-#### Vercel Blob (AI stats only)
+### Vercel Blob (AI stats only)
 
 AI usage stats are parsed from local Claude Code session files (`~/.claude/projects/**/*.jsonl`) and uploaded to Vercel Blob via `pnpm upload:ai`.
 
 1. Create a Blob store in your [Vercel dashboard](https://vercel.com/dashboard/stores)
 2. Copy the `BLOB_READ_WRITE_TOKEN` from the store settings
 3. Set `REVALIDATE_SECRET` to a random string (e.g. `openssl rand -base64 32`) — used to trigger ISR revalidation after upload
-4. Set `SITE_URL` to your deployed URL (e.g. `https://stosiu-portfolio.vercel.app`)
+4. Set `SITE_URL` to your deployed URL (e.g. `https://your-site.vercel.app`)
 
-#### Spotify
+### Spotify
 
 1. Create an app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
 2. Copy the **Client ID** and **Client Secret** into `.env`
@@ -106,16 +161,21 @@ AI usage stats are parsed from local Claude Code session files (`~/.claude/proje
 
 7. Copy the `refresh_token` from the response into `.env` as `SPOTIFY_REFRESH_TOKEN`
 
-## Getting Started
+## Analytics & Privacy
 
-```bash
-pnpm install
-pnpm dev
-```
+Analytics is **entirely opt-in**. Without `NEXT_PUBLIC_GA_ID`, no tracking code is loaded, no cookies are set, and no consent UI is shown.
 
-Open [http://localhost:3000](http://localhost:3000).
+When enabled:
 
-### Stats Dashboard
+- **Consent-first** — GA scripts are only injected after the user clicks "Accept" on the cookie banner
+- **Privacy policy** — auto-generated at `/{locale}/privacy` covering what's collected, why, and user rights under GDPR
+- **Cookie settings** — users can change their preference anytime via a link in the footer
+- **IP anonymization** — `anonymize_ip: true` is always on
+- **Events tracked** — booking/email CTA clicks, project link clicks, language switches, scroll depth milestones (25/50/75/100%), section views, social link clicks
+
+Declining cookies means no GA, no cookies, no data sent to Google. The site works identically either way.
+
+## Stats Dashboard
 
 The stats section pulls data from three sources:
 
@@ -152,10 +212,13 @@ pnpm remove:cron      # Removes the scheduled task
 ```
 src/
   app/[locale]/
-    layout.tsx          # Locale layout (fonts, dir, providers)
+    layout.tsx          # Locale layout (fonts, dir, providers, conditional analytics)
     page.tsx            # Single page with all sections
     not-found.tsx       # Custom 404
+    privacy/page.tsx    # Privacy policy (linked only if GA_ID set)
   components/
+    analytics-provider.tsx  # Conditional GA loading + scroll depth tracking
+    cookie-consent.tsx      # GDPR consent banner
     navbar.tsx          # Sticky nav with scroll detection
     terminal.tsx        # Typing animation state machine
     cursor-comment.tsx  # Floating code comments
@@ -164,11 +227,16 @@ src/
     sections/           # Hero, About, Logos, Projects, Stats, Experience, Footer
     stats/              # GitHub heatmap, AI tokens chart, Spotify card, etc.
     ui/                 # shadcn/ui + reusable components
+  hooks/
+    use-count-up.ts     # IntersectionObserver count-up animation
+    use-track-section-view.ts # Section view analytics tracking
   i18n/                 # Locale config + routing
   data/
     stats.json          # Generated stats data
     stats-types.ts      # TypeScript types for stats
   lib/
+    analytics.ts        # GA loader + event tracking (gated by NEXT_PUBLIC_GA_ID)
+    consent.ts          # Cookie consent state (localStorage + CustomEvent)
     data.ts             # Project entries
     github.ts           # GitHub GraphQL API (server-side, ISR cached)
     spotify.ts          # Spotify API client
