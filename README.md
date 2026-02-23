@@ -27,6 +27,11 @@ Fork it, swap the config files, and make it yours.
   - [GitHub Token](#github-token)
   - [Vercel Blob (AI stats)](#vercel-blob-ai-stats-only)
   - [Spotify](#spotify)
+- [Internationalization (i18n)](#internationalization-i18n)
+  - [How it works](#how-it-works)
+  - [Adding a language](#adding-a-language)
+  - [Removing a language](#removing-a-language)
+  - [RTL support](#rtl-support)
 - [Analytics & Privacy](#analytics--privacy)
 - [Stats Dashboard](#stats-dashboard)
 - [Scripts](#scripts)
@@ -160,6 +165,63 @@ AI usage stats are parsed from local Claude Code session files (`~/.claude/proje
    ```
 
 7. Copy the `refresh_token` from the response into `.env` as `SPOTIFY_REFRESH_TOKEN`
+
+## Internationalization (i18n)
+
+### How it works
+
+All user-facing text lives in `messages/{locale}.json`. Components use `useTranslations('namespace')` (client) or `getTranslations({locale, namespace})` (server) from [next-intl](https://next-intl.dev/). The routing config in `src/i18n/routing.ts` is the single source of truth for which locales exist — everything else (static params, sitemap, language switcher, metadata alternates) reads from it automatically.
+
+The default locale (`en`) uses prefix-free URLs (`/`, `/privacy`). Other locales get a prefix (`/pl`, `/ar/privacy`).
+
+### Adding a language
+
+1. **Add the locale to routing** — edit `src/i18n/routing.ts`:
+   ```ts
+   locales: ['en', 'pl', 'ar', 'de'],  // add your locale
+   ```
+
+2. **Create the message file** — copy `messages/en.json` to `messages/de.json` and translate all values. The keys must stay the same.
+
+3. **Add a label for the language switcher** — edit the `localeLabels` map in `src/components/language-switcher.tsx`:
+   ```ts
+   const localeLabels: Record<string, string> = {
+     en: 'EN',
+     pl: 'PL',
+     ar: 'AR',
+     de: 'DE',  // add this
+   };
+   ```
+
+4. **Add an OpenGraph locale mapping** — edit `OG_LOCALE_MAP` in `src/app/[locale]/layout.tsx`:
+   ```ts
+   const OG_LOCALE_MAP: Record<string, string> = {
+     en: 'en_US',
+     pl: 'pl_PL',
+     ar: 'ar_SA',
+     de: 'de_DE',  // add this
+   };
+   ```
+
+That's it. The sitemap, `generateStaticParams`, metadata alternates, and language switcher dropdown all derive from `routing.locales` automatically.
+
+### Removing a language
+
+1. Remove the locale from the `locales` array in `src/i18n/routing.ts`
+2. Delete the corresponding `messages/{locale}.json` file
+3. Remove the entry from `localeLabels` in `src/components/language-switcher.tsx`
+4. Remove the entry from `OG_LOCALE_MAP` in `src/app/[locale]/layout.tsx`
+
+### RTL support
+
+RTL is determined by `locale === 'ar'` in the layout, which sets `dir="rtl"` on `<html>`. If you add another RTL locale (e.g. `he`, `fa`), update the condition in `src/app/[locale]/layout.tsx`:
+
+```ts
+const RTL_LOCALES = ['ar', 'he'];
+const dir = RTL_LOCALES.includes(locale) ? 'rtl' : 'ltr';
+```
+
+RTL styling uses Tailwind's `rtl:` variant throughout — directional margins, arrow rotations, and the logo marquee direction all flip automatically.
 
 ## Analytics & Privacy
 
