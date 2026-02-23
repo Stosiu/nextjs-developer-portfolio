@@ -4,7 +4,7 @@ import {useState, useEffect, useRef, useCallback} from 'react';
 import {siteConfig} from '@/config/site';
 
 const BOOT = [
-  {cmd: true, text: 'npx stosiu@latest'},
+  {cmd: true, text: siteConfig.terminal.bootCommand},
   {cmd: false, text: '  resolving dependencies...'},
   {cmd: false, text: '  \u2713 portfolio loaded'},
   {cmd: true, text: './start --production'},

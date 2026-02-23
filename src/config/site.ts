@@ -8,6 +8,7 @@ export const siteConfig = {
   terminal: {
     user: 'stosiu',
     host: 'dev',
+    bootCommand: 'npx stosiu@latest',
   },
   booking: 'https://cal.com/stosiu/consultation',
   social: {

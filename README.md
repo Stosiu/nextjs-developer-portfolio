@@ -1,4 +1,4 @@
-# stosiu.dev
+# stosiu-portfolio
 
 [![Build](https://github.com/Stosiu/stosiu-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Stosiu/stosiu-portfolio/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
@@ -6,11 +6,13 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
 
-Personal portfolio website for Aleksander Stós — CTO & Co-Founder at [The Digital Bunch](https://thedigitalbunch.com).
+A developer portfolio built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Supports i18n (English, Polish, Arabic with RTL) and ships with a dark theme, interactive terminal hero, live GitHub/Spotify stats, and scroll-driven animations.
 
-**Live:** [stosiu.dev](https://stosiu.dev)
+Fork it, swap the config files, and make it yours.
 
-![stosiu.dev screenshot](public/screenshot.jpg)
+**Live demo:** [stosiu.dev](https://stosiu.dev) (the author's personal site)
+
+![screenshot](public/screenshot.jpg)
 
 ## Tech Stack
 
