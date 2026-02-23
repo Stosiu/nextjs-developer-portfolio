@@ -21,12 +21,12 @@
   },
   "about": {
     "heading": "O mnie",
-    "p1": "Developer do zadań specjalnych.",
-    "p2": "Stawiam na budowanie zespołu i rozwój kompetencji. Nie boję się pracować z ludźmi, którzy wiedzą więcej ode mnie — i chętnie uczę tych, którzy wiedzą mniej.",
-    "p3": "Po godzinach pomagam znajomym rozkręcać startupy z potencjałem na jednorożca.",
-    "tag1": "rozwiązuję problemy",
-    "tag2": "buduję zespoły",
-    "tag3": "wspieram startupy",
+    "p1": "Piszę kod od 13. roku życia, a firmy prowadzę od 25. Gdzieś pomiędzy zrozumiałem, że kod nigdy nie był celem — budowanie rzeczy, których ludzie naprawdę potrzebują, było.",
+    "p2": "Otaczam się ludźmi mądrzejszymi od siebie, szybko się uczę i staram się to przekazywać dalej. Większość tego, co wiem, zawdzięczam komuś, kto miał wystarczająco cierpliwości, żeby mi to wytłumaczyć.",
+    "p3": "Obecnie prowadzę <tdb>The Digital Bunch</tdb> w trzech krajach, uruchamiam nowe przedsięwzięcia w Arabii Saudyjskiej i wciąż piszę kod prawie codziennie.",
+    "tag1": "buduje rzeczy",
+    "tag2": "prowadzi zespoły",
+    "tag3": "dostarcza szybko",
     "cta": "Napisz do mnie"
   },
   "logos": {
@@ -36,7 +36,7 @@
     "heading": "Firmy, z którymi współpracowałem",
     "viewProject": "Zobacz projekt",
     "moreCount": "100+",
-    "moreLabel": "produktów dostarczonych na trzech kontynentach",
+    "moreLabel": "dostarczonych produktów. każdy nauczył mnie czegoś, czego poprzedni nie zdążył.",
     "ctaHeading": "Zaprojektujmy Twój kolejny produkt",
     "ctaDescription": "Od wireframe'u do produkcji — ożywię Twój pomysł.",
     "ctaCta": "Umów darmową konsultację",
@@ -85,11 +85,11 @@
     "exp1Role": "CTO i Współzałożyciel",
     "exp1Period": "Cze 2021 - Obecnie",
     "exp1Location": "Warszawa, Polska · Stacjonarnie",
-    "exp1Description": "W mojej rodzinie każdy prowadzi małą firmę, więc założenie własnej zawsze wydawało się nieuniknione. Nigdy nie wyobrażałem sobie, że urośniemy do tylu osób.\n\nTeraz jest nas ponad 50, $2M ARR rosnące 23% rok do roku, trzy biura w Warszawie, Rijadzie i Sydney, i jakoś wciąż uruchamiamy nowe przedsięwzięcia.\n\nBycie współzałożycielem nauczyło mnie, że biznes to nie tylko budowanie świetnych produktów. To pilnowanie wypłat, utrzymywanie firmy na nogach i ogarnianie setek rzeczy, o których nikt cię nie ostrzega. Sporo trudnych momentów. Ale idziemy dalej.",
+    "exp1Description": "Zaczęliśmy w 2021 roku z garścią ludzi robiąc proste strony internetowe i wizualizacje 3D. Pięć lat później jest nas ponad 50 osób w Warszawie, Rijadzie i Sydney, $2M ARR rosnące 23% rok do roku, i wciąż uruchamiamy nowe przedsięwzięcia.\n\nNajbardziej zaskoczyło mnie, jak wiele w prowadzeniu firmy technologicznej nie ma nic wspólnego z kodem. Musiałem nauczyć się produkcji contentu, zbudować od zera studio 3D — pipeline renderowania, specyfikacje sprzętowe, zdalne workflow — i ogarnąć wszystko od sprzedaży, przez rekrutację, po utrzymanie firmy na nogach. Jako techniczny współzałożyciel, mój instynkt mówił: buduj. Prawdziwa lekcja polegała na tym, żeby wiedzieć, kiedy kupić, kiedy zlecić na zewnątrz i kiedy zabić coś, co nie działa.\n\nPrzeszliśmy od \"powiedz nam, co zbudować\" do \"sprawdźmy, czy w ogóle powinieneś to budować.\" Większość klientów przychodzi myśląc, że wie, czego potrzebuje. Po kilku warsztatach okazuje się, że to zwykle coś innego. Ta zmiana — od egzekucji do strategii — całkowicie zmieniła sposób, w jaki działamy.\n\nPróbowaliśmy też budować własny produkt, Your Next Home, na rynek saudyjski. Zrobiliśmy development, jeździliśmy na konferencje, prowadziliśmy marketing. Na razie nie zadziałało. Wciąż szukamy przyczyny. O tym nikt nie ostrzega: robisz wszystko dobrze na papierze i wciąż nie masz trakcji.\n\nZ moją współzałożycielką Dagmarą rzadko się zgadzamy, i właśnie dlatego to działa. Dwie różne perspektywy, ciągłe pętle feedbacku i wynik, który jest zwykle lepszy niż to, do czego którekolwiek z nas doszłoby samodzielnie.",
     "exp2Role": "Stażysta → Senior Developer → Team Lead",
     "exp2Period": "Lis 2015 - Cze 2021",
     "exp2Location": "Warszawa, Polska",
-    "exp2Description": "Zagadałem do nich na kursie AngularJS w drugim miesiącu studiów informatycznych. Pewnie się zastanawiali, czemu jakiś dzieciak w ogóle do nich gada. Oblałem rozmowę rekrutacyjną, bo byłem zestresowany do granic, ale Tomek (CTO) i Marcin (COO) i tak dali mi szansę. Darmowy staż, bez wynagrodzenia.\n\nTrzy miesiące później dostałem pierwszą prawdziwą wypłatę. Przez cztery lata byłem najmłodszą osobą w firmie, co stało się żartem firmowym. To była poważna firma z amerykańskimi founderami i klientami enterprise. Tam zaczęła się moja cała fala współpracy z amerykańskimi firmami.\n\nSkakałem między stackami jak ninja. JavaScript, TypeScript, React, Node.js, Electron, Python, wysoka współbieżność. Ponad 50 projektów łącznie. Ubezpieczeniowy startup warty ponad $1B, który ostatecznie przejął SwingDev (dostarczyłem dla nich pierwszy projekt próbny), platforma subskrypcyjna z ~35 tys. jednoczesnych użytkowników, badania nad rakiem u psów, logistyka wysyłkowa, strony korporacyjne, małe wizytówki. Poznałem niesamowicie zdolnych ludzi, którzy pokazali mi, czym naprawdę jest programowanie. Jestem za to wdzięczny.\n\nPrzejrzałem ponad 1000 kandydatów, przeprowadziłem ponad 150 rozmów rekrutacyjnych i zbudowałem program stażowy, żeby inni mogli dostać taką samą szansę jak ja.",
+    "exp2Description": "Zagadałem do nich na kursie AngularJS w drugim miesiącu studiów informatycznych. Pewnie się zastanawiali, czemu jakiś dzieciak w ogóle do nich gada. Oblałem rozmowę rekrutacyjną, bo byłem zestresowany do granic, ale Tomek (CTO) i Marcin (COO) i tak dali mi szansę. Darmowy staż, bez wynagrodzenia.\n\nTrzy miesiące później dostałem pierwszą prawdziwą wypłatę. Przez cztery lata byłem najmłodszą osobą w firmie, co stało się żartem firmowym. To była poważna firma — amerykańscy founderzy, klienci enterprise — i tam zaczęła się moja cała fala współpracy z amerykańskimi firmami.\n\nSkakałem między stackami non-stop. JavaScript, TypeScript, React, Node.js, Electron, Python, wysoka współbieżność. Ponad 50 projektów łącznie — ubezpieczeniowy startup warty ponad $1B, który później przejął SwingDev, platforma subskrypcyjna obsługująca ~35 tys. jednoczesnych użytkowników, logistyka wysyłkowa, strony korporacyjne. Poznałem niesamowicie zdolnych ludzi, którzy pokazali mi, jak wygląda inżynieria, kiedy jest robiona dobrze.\n\nNajważniejsza lekcja nie była techniczna. Chodziło o obserwowanie, jak mądrzy ludzie myślą o produktach — kwestionowanie briefu, odpychanie założeń, traktowanie każdego projektu jako problemu do zrozumienia, a nie rzeczy do zbudowania. To zostało ze mną.",
     "exp3Role": "Stażysta → Student informatyki",
     "exp3Period": "Lato 2015",
     "exp3Location": "Tarnów, Polska",
@@ -111,7 +111,7 @@
     "sydneyAustralia": "Sydney, Australia",
     "riyadhSaudi": "Rijad, Arabia Saudyjska",
     "builtWith": "Zbudowane z Next.js, Tailwind CSS i Framer Motion.",
-    "viewSource": "Kod źródłowy"
+    "viewSource": "Kod źródłowy i gwiazdka"
   },
   "cursorComments": {
     "hero1": "// witaj w moim zakątku internetu",
