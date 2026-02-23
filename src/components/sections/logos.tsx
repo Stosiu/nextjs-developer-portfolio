@@ -31,6 +31,9 @@ export function Logos() {
             <img
               src={company.logo}
               alt={company.name}
+              loading="lazy"
+              width={140}
+              height={40}
               className="max-h-10 max-w-[140px] w-auto h-auto object-contain transition-[filter] duration-300 [filter:brightness(0)_invert(1)_opacity(0.4)] group-hover:[filter:brightness(0)_invert(1)_opacity(1)]"
               style={company.scale ? {transform: `scale(${company.scale})`} : undefined}
             />

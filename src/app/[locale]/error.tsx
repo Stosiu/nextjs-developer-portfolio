@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from 'react';
 import {motion, useReducedMotion} from 'framer-motion';
+import {useLocale} from 'next-intl';
 
 const FAKE_STACK = [
   'at mass_produce_bugs (webpack:///src/lib/oops.ts:1337:0)',
@@ -31,6 +32,7 @@ type Props = {
 };
 
 export default function ErrorPage({error, reset}: Props) {
+  const locale = useLocale();
   const prefersReduced = useReducedMotion();
   const [glitching, setGlitching] = useState(false);
   const [showContent, setShowContent] = useState(!!prefersReduced);
@@ -127,7 +129,7 @@ export default function ErrorPage({error, reset}: Props) {
                       sudo reboot
                     </button>
                     <a
-                      href="/"
+                      href={`/${locale}`}
                       className="px-6 py-2.5 text-sm font-mono border border-white/10 text-white/50 rounded hover:bg-white/5 transition-colors"
                     >
                       cd ~

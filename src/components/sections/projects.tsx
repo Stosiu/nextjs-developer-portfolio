@@ -2,7 +2,7 @@
 
 import {useState} from 'react';
 import {useTranslations} from 'next-intl';
-import {motion, AnimatePresence} from 'framer-motion';
+import {motion} from 'framer-motion';
 import {ArrowUpRight, ArrowRight, ChevronDown, ChevronUp} from 'lucide-react';
 import Image from 'next/image';
 import {projects} from '@/lib/data';

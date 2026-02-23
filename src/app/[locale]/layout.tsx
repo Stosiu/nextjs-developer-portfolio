@@ -104,34 +104,33 @@ export default async function LocaleLayout({children, params}: Props) {
   const messages = await getMessages();
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: siteConfig.name,
-      url: SITE_URL,
-      jobTitle: siteConfig.title,
-      worksFor: {
-        '@type': 'Organization',
-        name: siteConfig.agency.name,
-        url: siteConfig.agency.url,
-      },
-      knowsAbout: [
-        'Full-Stack Development',
-        'AI Solutions',
-        'Digital Strategy',
-        'Software Architecture',
-      ],
-      sameAs: Object.values(siteConfig.social),
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: siteConfig.name,
+    url: SITE_URL,
+    jobTitle: siteConfig.title,
+    worksFor: {
+      '@type': 'Organization',
+      name: siteConfig.agency.name,
+      url: siteConfig.agency.url,
     },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: siteConfig.name,
-      url: SITE_URL,
-      inLanguage: routing.locales,
-    },
-  ];
+    knowsAbout: [
+      'Full-Stack Development',
+      'AI Solutions',
+      'Digital Strategy',
+      'Software Architecture',
+    ],
+    sameAs: Object.values(siteConfig.social),
+  };
+
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.name,
+    url: SITE_URL,
+    inLanguage: routing.locales,
+  };
 
   return (
     <html lang={locale} dir={dir} className="dark">
@@ -139,7 +138,11 @@ export default async function LocaleLayout({children, params}: Props) {
         {/* Static JSON-LD — no user input, safe to inline */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
+          dangerouslySetInnerHTML={{__html: JSON.stringify(personJsonLd)}}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(websiteJsonLd)}}
         />
         <script
           dangerouslySetInnerHTML={{__html: `console.log("%c ${siteConfig.url.replace('https://', '')} %c\\n\\nLike what you see? The source code is available at:\\n${siteConfig.repo}\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.\\n\\n%cv${process.env.NEXT_PUBLIC_COMMIT_SHA}", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px", "color:#555;font-size:10px")`}}

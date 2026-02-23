@@ -31,6 +31,7 @@ export function Hero() {
       </div>
 
       <div ref={contentRef} className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center gap-8">
+        <h1 className="sr-only">{t('response1')}</h1>
         <Terminal lines={terminalLines} />
 
         <div className="flex flex-wrap items-center justify-center gap-4">

@@ -2,6 +2,7 @@
 
 import {useState, useEffect} from 'react';
 import {motion, useReducedMotion} from 'framer-motion';
+import {useLocale} from 'next-intl';
 import {siteConfig} from '@/config/site';
 
 const ASCII_GHOST = `
@@ -34,6 +35,7 @@ const LINES = [
 ];
 
 export default function NotFound() {
+  const locale = useLocale();
   const prefersReduced = useReducedMotion();
   const [visibleCount, setVisibleCount] = useState(prefersReduced ? LINES.length : 0);
   const [showGhost, setShowGhost] = useState(!!prefersReduced);
@@ -112,7 +114,7 @@ export default function NotFound() {
                     | Signal: <span className="text-yellow-400">SIGWHERE</span>
                   </p>
                   <a
-                    href="/"
+                    href={`/${locale}`}
                     className="inline-block px-6 py-2.5 text-sm font-mono border border-brand-500/30 text-brand-400 rounded hover:bg-brand-500/10 transition-colors"
                   >
                     cd ~
