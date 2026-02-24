@@ -1,4 +1,4 @@
-# stosiu-portfolio — Developer Portfolio Template
+# nextjs-developer-portfolio — Developer Portfolio Template
 
 A developer portfolio template built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Supports i18n (en, pl, ar with RTL) and dark theme.
 

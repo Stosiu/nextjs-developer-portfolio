@@ -2,7 +2,7 @@
 
 import {useTranslations} from 'next-intl';
 import {motion} from 'framer-motion';
-import {FaGithub, FaLinkedin, FaStar} from 'react-icons/fa';
+import {FaGithub, FaLinkedin} from 'react-icons/fa';
 import {siteConfig} from '@/config/site';
 import {registeredCompanies} from '@/config/companies';
 import {WorldClock} from '@/components/world-clock';
@@ -77,11 +77,16 @@ export function Footer() {
             href={siteConfig.repo}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-white/30 hover:text-brand-400 transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono text-white/30 hover:text-brand-400 transition-colors"
           >
             <FaGithub size={12} />
             <span>{t('viewSource')}</span>
-            <FaStar size={10} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://img.shields.io/github/stars/Stosiu/nextjs-developer-portfolio?style=flat&color=10B981&label=&logo=github&logoColor=white"
+              alt="GitHub stars"
+              className="h-[18px] opacity-60 hover:opacity-100 transition-opacity"
+            />
           </a>
           <p className="mt-2 text-[10px] font-mono text-white/10 hover:text-white/30 transition-colors select-all cursor-default">
             {process.env.NEXT_PUBLIC_COMMIT_SHA}

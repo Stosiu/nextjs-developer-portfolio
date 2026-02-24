@@ -3,7 +3,7 @@ export const siteConfig = {
   title: 'Entrepreneur, CTO & Co-Founder',
   email: 'alex@thedigitalbunch.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stosiu.dev',
-  repo: 'https://github.com/Stosiu/stosiu-portfolio',
+  repo: 'https://github.com/Stosiu/nextjs-developer-portfolio',
   avatar: '/avatar.jpg',
   terminal: {
     user: 'stosiu',

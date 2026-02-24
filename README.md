@@ -1,13 +1,14 @@
-# stosiu-portfolio
+# nextjs-developer-portfolio
 
-[![Build](https://github.com/Stosiu/stosiu-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Stosiu/stosiu-portfolio/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/Stosiu/stosiu-portfolio?color=10B981&label=version)](https://github.com/Stosiu/stosiu-portfolio/releases/latest)
+[![Build](https://github.com/Stosiu/nextjs-developer-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Stosiu/nextjs-developer-portfolio/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Stosiu/nextjs-developer-portfolio?color=10B981&label=version)](https://github.com/Stosiu/nextjs-developer-portfolio/releases/latest)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio&env=NEXT_PUBLIC_SITE_URL&envDescription=Your%20deployed%20site%20URL%20(optional%20-%20used%20for%20SEO)&envLink=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio%23environment-variables&project-name=developer-portfolio&repository-name=developer-portfolio)
 
-A developer portfolio built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Supports i18n (English, Polish, Arabic with RTL) and ships with a dark theme, interactive terminal hero, live GitHub/Spotify stats, and scroll-driven animations.
+A developer portfolio that doesn't look like every other developer portfolio. Built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Dark theme only — there is no light mode, and that's a feature. Ships with i18n (English, Polish, Arabic with full RTL), a live stats dashboard pulling from GitHub and Spotify, and enough Easter eggs to keep curious devs right-clicking for a while.
 
 Fork it, swap the config files, and make it yours.
 
@@ -15,10 +16,23 @@ Fork it, swap the config files, and make it yours.
 
 ![screenshot](public/screenshot.jpg)
 
+> ```
+> // sharing is caring
+> ```
+>
+> I built this for myself, then realized it would be selfish to keep it private.
+> Every developer deserves a portfolio that doesn't make them cringe.
+> So here it is — the same template that runs my own site, open for anyone to grab.
+>
+> Good luck, use it well, make it yours, and if you build something cool with it — I'd love to see it.
+>
+> — [@Stosiu](https://github.com/Stosiu)
+
 ## Table of Contents
 
 - [Tech Stack](#tech-stack)
 - [Features](#features)
+- [Easter Eggs](#easter-eggs)
 - [Getting Started](#getting-started)
 - [Personalizing](#personalizing)
 - [Environment Variables](#environment-variables)
@@ -49,18 +63,29 @@ Fork it, swap the config files, and make it yours.
 
 ## Features
 
-- **Interactive terminal hero** with typing animation and command replay
-- **Floating cursor comments** — code-style annotations that follow the cursor
-- **Canvas dot grid** with mouse proximity glow effect
-- **Stats dashboard** — real GitHub contributions, AI token usage, Spotify now-playing
+- **Interactive terminal hero** — a real typing animation with command replay. Yes, a terminal on a website. At least it's not a blockchain.
+- **Floating cursor comments** — `// code-style annotations` that follow your cursor around the page
+- **Canvas dot grid** — background with a mouse proximity glow effect
+- **Live stats dashboard** — real GitHub contributions, AI token usage from Claude Code, and Spotify now-playing
 - **Scrolling logo marquee** with client brands
 - **Project showcase** with gradient-bordered cards
-- **Work experience timeline**
+- **Work experience timeline** — because `years_of_experience++` needs context
 - **Full i18n** with RTL support for Arabic
-- **Dark theme only** with configurable accent color
+- **Dark theme only** — non-negotiable (you can try toggling it off in the settings panel, but...)
 - **Accessible** — skip-nav, ARIA labels, respects `prefers-reduced-motion`
 - **GDPR cookie consent** — opt-in analytics with consent banner and privacy policy page
 - **Event tracking** — CTA clicks, project clicks, language switches, scroll depth, section views (only when analytics enabled)
+
+## Easter Eggs
+
+The site has a few hidden things for people who like poking around. I won't spoil all of them, but:
+
+- Try pressing **⌘ ,** (or **Ctrl ,** on Windows/Linux)
+- Right-click anywhere
+- Read the console log when the page loads
+- Watch for the floating comments — they change per section
+
+There might be more. `// no NDA was harmed in the making of this`
 
 ## Getting Started
 
