@@ -161,7 +161,7 @@ export function AiTokens({
   const {display, suffix} = formatTokens(totalTokens, count);
 
   const costTarget = Math.round(totalCost);
-  const {count: costCount} = useCountUp(costTarget);
+  const {count: costCount, ref: costRef} = useCountUp(costTarget);
 
   const hasDailyCosts = dailyUsage.some(d => d.cost != null && d.cost > 0);
   const showCostChart = view === 'cost' && hasDailyCosts;
@@ -195,6 +195,7 @@ export function AiTokens({
     <AnimatedReveal
       ref={(node) => {
         (countRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        (costRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }}
       className="h-full"
     >
