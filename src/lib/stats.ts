@@ -53,6 +53,8 @@ export async function getStats(): Promise<StatsData> {
           busiestDay: ai.busiestDay,
           busiestDayAvgTokens: ai.busiestDayAvgTokens,
           provider: ai.provider,
+          totalCost: ai.totalCost ?? 0,
+          costLast30d: ai.costLast30d ?? 0,
         }
       : fallback.ai,
   };

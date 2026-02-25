@@ -74,7 +74,11 @@
     "streakLabel": "Current Streak",
     "streakDays": "consecutive days",
     "streakMessage": "git commit -m \"consistency beats talent\"",
-    "languagesLabel": "Top Languages"
+    "languagesLabel": "Top Languages",
+    "aiCost": "spent on AI",
+    "aiCostLast30d": "last 30 days",
+    "aiViewTokens": "tokens",
+    "aiViewCost": "cost"
   },
   "experience": {
     "heading": "How I Got Here",

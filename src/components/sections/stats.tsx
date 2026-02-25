@@ -101,6 +101,8 @@ export function Stats() {
                   modelBreakdown={statsData!.ai.modelBreakdown}
                   provider={statsData!.ai.provider}
                   lastUpdated={statsData!.lastUpdated}
+                  totalCost={statsData!.ai.totalCost}
+                  costLast30d={statsData!.ai.costLast30d}
                 />
               </FadeIn>
             )}

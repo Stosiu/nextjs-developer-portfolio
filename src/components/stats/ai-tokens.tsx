@@ -18,15 +18,20 @@ type AiTokensProps = {
   modelBreakdown: AiModelBreakdown[];
   provider: string;
   lastUpdated: string;
+  totalCost: number;
+  costLast30d: number;
 };
 
 type TooltipData = {
   date: string;
   tokens: number;
+  cost?: number;
   models: Record<string, number>;
   x: number;
   y: number;
 };
+
+type ViewMode = 'cost' | 'tokens';
 
 const MODEL_COLORS: Record<string, string> = {
   Opus: '#D4A27F',
@@ -66,6 +71,12 @@ function getCountUpTarget(raw: number): number {
   if (raw >= 1_000_000) return Math.round((raw / 1_000_000) * 10);
   if (raw >= 1_000) return Math.round((raw / 1_000) * 10);
   return raw;
+}
+
+function formatCurrency(amount: number): string {
+  if (amount >= 1000) return '$' + Math.round(amount).toLocaleString();
+  if (amount >= 100) return '$' + Math.round(amount).toLocaleString();
+  return '$' + amount.toFixed(2);
 }
 
 function ModelBreakdownPopover({breakdown, totalTokens}: {breakdown: AiModelBreakdown[]; totalTokens: number}) {
@@ -135,17 +146,28 @@ export function AiTokens({
   modelBreakdown,
   provider,
   lastUpdated,
+  totalCost,
+  costLast30d,
 }: AiTokensProps) {
   const t = useTranslations('stats');
   const containerRef = useRef<HTMLDivElement>(null);
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const hasCost = totalCost > 0;
+  const [view, setView] = useState<ViewMode>(hasCost ? 'cost' : 'tokens');
 
   const target = getCountUpTarget(totalTokens);
   const {count, ref: countRef} = useCountUp(target);
   const {display, suffix} = formatTokens(totalTokens, count);
 
+  const costTarget = Math.round(totalCost);
+  const {count: costCount} = useCountUp(costTarget);
+
+  const hasDailyCosts = dailyUsage.some(d => d.cost != null && d.cost > 0);
+  const showCostChart = view === 'cost' && hasDailyCosts;
   const maxTokens = Math.max(...dailyUsage.map(d => d.tokens), 1);
+  const maxCost = Math.max(...dailyUsage.map(d => d.cost ?? 0), 0.01);
+  const maxValue = showCostChart ? maxCost : maxTokens;
   const svgWidth = dailyUsage.length * (BAR_WIDTH + BAR_GAP) - BAR_GAP;
 
   function handleColumnMouseEnter(e: MouseEvent<SVGGElement>, day: AiDailyUsage, index: number) {
@@ -157,6 +179,7 @@ export function AiTokens({
     setTooltip({
       date: day.date,
       tokens: day.tokens,
+      cost: day.cost,
       models: day.models,
       x: rect.left + rect.width / 2 - containerRect.left,
       y: rect.top - containerRect.top,
@@ -179,18 +202,58 @@ export function AiTokens({
         <div className="mb-4 flex items-baseline gap-2">
           <span className="text-sm text-white/60">{provider}</span>
           <span className="text-xs text-white/30">
-            {formatCompact(tokensLast30d)} tokens in the last 30 days (updated {formatDate(lastUpdated)})
+            {view === 'cost' && hasCost
+              ? `${formatCurrency(costLast30d)} ${t('aiCostLast30d')} (updated ${formatDate(lastUpdated)})`
+              : `${formatCompact(tokensLast30d)} tokens in the last 30 days (updated ${formatDate(lastUpdated)})`
+            }
           </span>
         </div>
 
         <div className="flex items-center gap-2 mb-3">
           <div className="flex items-baseline gap-1">
-            <span className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
-              {display}{suffix}
-            </span>
-            <span className="text-sm text-white/40">{t('aiTokensTotal')}</span>
+            {view === 'cost' && hasCost ? (
+              <>
+                <span className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
+                  ${costCount.toLocaleString()}
+                </span>
+                <span className="text-sm text-white/40">{t('aiCost')}</span>
+              </>
+            ) : (
+              <>
+                <span className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
+                  {display}{suffix}
+                </span>
+                <span className="text-sm text-white/40">{t('aiTokensTotal')}</span>
+              </>
+            )}
           </div>
-          <ModelBreakdownPopover breakdown={modelBreakdown} totalTokens={totalTokens} />
+          {view === 'tokens' && (
+            <ModelBreakdownPopover breakdown={modelBreakdown} totalTokens={totalTokens} />
+          )}
+          {hasCost && (
+            <div className="ml-auto flex rounded-md border border-white/10 overflow-hidden text-[10px]" data-no-follower>
+              <button
+                onClick={() => setView('cost')}
+                className={`px-2 py-0.5 transition-colors ${
+                  view === 'cost'
+                    ? 'bg-white/10 text-white/70'
+                    : 'text-white/30 hover:text-white/50'
+                }`}
+              >
+                $
+              </button>
+              <button
+                onClick={() => setView('tokens')}
+                className={`px-2 py-0.5 transition-colors ${
+                  view === 'tokens'
+                    ? 'bg-white/10 text-white/70'
+                    : 'text-white/30 hover:text-white/50'
+                }`}
+              >
+                {t('aiViewTokens')}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col justify-center">
@@ -202,10 +265,11 @@ export function AiTokens({
             onMouseLeave={() => { setTooltip(null); setHoveredIndex(null); }}
           >
             {dailyUsage.map((day, i) => {
-              const barHeight = day.tokens > 0
-                ? Math.max((day.tokens / maxTokens) * CHART_HEIGHT, 3)
+              const value = showCostChart ? (day.cost ?? 0) : day.tokens;
+              const barHeight = value > 0
+                ? Math.max((value / maxValue) * CHART_HEIGHT, 3)
                 : 0;
-              const level = tokenToLevel(day.tokens, maxTokens);
+              const level = tokenToLevel(value, maxValue);
               const colX = i * (BAR_WIDTH + BAR_GAP);
               const isHovered = hoveredIndex === i;
               return (
@@ -213,7 +277,6 @@ export function AiTokens({
                   key={day.date}
                   onMouseEnter={(e) => handleColumnMouseEnter(e, day, i)}
                 >
-                  {/* Full-height invisible hit area */}
                   <rect
                     x={colX}
                     y={0}
@@ -221,14 +284,13 @@ export function AiTokens({
                     height={CHART_HEIGHT}
                     fill="transparent"
                   />
-                  {/* Visible bar */}
                   <rect
                     x={colX}
                     y={CHART_HEIGHT - barHeight}
                     width={BAR_WIDTH}
                     height={barHeight || CHART_HEIGHT}
                     rx={2}
-                    fill={day.tokens > 0 ? BAR_COLORS[level] : BAR_COLORS[0]}
+                    fill={value > 0 ? BAR_COLORS[level] : BAR_COLORS[0]}
                     style={{
                       filter: isHovered ? 'brightness(1.4)' : undefined,
                       transition: 'filter 0.15s ease',
@@ -251,7 +313,14 @@ export function AiTokens({
 
         <ChartTooltip x={tooltip?.x ?? 0} y={tooltip?.y ?? 0} visible={!!tooltip}>
           <div className="flex items-center gap-1.5">
-            <span className="text-white/90 font-medium">{tooltip ? formatCompact(tooltip.tokens) : ''} tokens</span>
+            <span className="text-white/90 font-medium">
+              {tooltip
+                ? showCostChart && tooltip.cost != null
+                  ? formatCurrency(tooltip.cost)
+                  : `${formatCompact(tooltip.tokens)} tokens`
+                : ''
+              }
+            </span>
             <span className="text-white/40">{tooltip ? formatDate(tooltip.date) : ''}</span>
           </div>
           {tooltip && Object.keys(tooltip.models).length > 0 && (

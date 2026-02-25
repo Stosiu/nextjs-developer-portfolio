@@ -74,7 +74,11 @@
     "streakLabel": "Aktualna seria",
     "streakDays": "dni z rzędu",
     "streakMessage": "git commit -m \"systematyczność > talent\"",
-    "languagesLabel": "Najczęstsze języki"
+    "languagesLabel": "Najczęstsze języki",
+    "aiCost": "wydane na AI",
+    "aiCostLast30d": "ostatnie 30 dni",
+    "aiViewTokens": "tokeny",
+    "aiViewCost": "koszt"
   },
   "experience": {
     "heading": "Jak tu dotarłem",

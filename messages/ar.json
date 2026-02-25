@@ -74,7 +74,11 @@
     "streakLabel": "السلسلة الحالية",
     "streakDays": "أيام متتالية",
     "streakMessage": "git commit -m \"الاستمرارية تتفوق على الموهبة\"",
-    "languagesLabel": "أكثر اللغات استخداماً"
+    "languagesLabel": "أكثر اللغات استخداماً",
+    "aiCost": "أُنفقت على الذكاء الاصطناعي",
+    "aiCostLast30d": "آخر 30 يوم",
+    "aiViewTokens": "الرموز",
+    "aiViewCost": "التكلفة"
   },
   "experience": {
     "heading": "كيف وصلت إلى هنا",

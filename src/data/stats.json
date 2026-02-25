@@ -118,6 +118,8 @@
     "inputPercentage": 99.5,
     "busiestDay": "Wednesday",
     "busiestDayAvgTokens": 8000000,
-    "provider": "Anthropic"
+    "provider": "Anthropic",
+    "totalCost": 0,
+    "costLast30d": 0
   }
 }

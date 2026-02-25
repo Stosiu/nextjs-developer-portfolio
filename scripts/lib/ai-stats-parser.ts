@@ -71,6 +71,8 @@ export function emptyAiStats(): Omit<AiStats, 'lastUpdated'> {
     busiestDay: 'Monday',
     busiestDayAvgTokens: 0,
     provider: 'Anthropic',
+    totalCost: 0,
+    costLast30d: 0,
   };
 }
 

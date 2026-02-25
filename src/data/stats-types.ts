@@ -2,6 +2,7 @@ export type AiDailyUsage = {
   date: string;
   tokens: number;
   models: Record<string, number>;
+  cost?: number;
 };
 
 export type AiModelBreakdown = {
@@ -40,6 +41,8 @@ export type StatsData = {
     busiestDay: string;
     busiestDayAvgTokens: number;
     provider: string;
+    totalCost: number;
+    costLast30d: number;
   };
 };
 
@@ -69,4 +72,6 @@ export type AiStats = {
   busiestDay: string;
   busiestDayAvgTokens: number;
   provider: string;
+  totalCost: number;
+  costLast30d: number;
 };

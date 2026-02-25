@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import {readdirSync, statSync, existsSync} from 'node:fs';
+import {execSync} from 'node:child_process';
 import {join} from 'node:path';
 import {homedir} from 'node:os';
 import type {AiStats, AiDailyUsage, AiModelBreakdown} from '../src/data/stats-types';
@@ -7,6 +8,50 @@ import {uploadToBlob, triggerRevalidation, pc, ora} from './lib/blob-upload';
 import {parseJSONLFile, normalizeModelName, emptyAiStats, fmt, type ParsedUsage} from './lib/ai-stats-parser';
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+type CcusageResult = {
+  totalCost: number;
+  costLast30d: number;
+  dailyCosts: Record<string, number>;
+};
+
+function fetchCcusageCosts(): CcusageResult {
+  const spinner = ora('Fetching cost data via ccusage').start();
+  try {
+    const output = execSync('npx --yes ccusage daily --json', {
+      encoding: 'utf-8',
+      timeout: 120_000,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+    const parsed = JSON.parse(output) as {daily: Array<{date: string; totalCost: number}>} | Array<{date: string; totalCost: number}>;
+    const days = Array.isArray(parsed) ? parsed : parsed.daily;
+
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const cutoff = thirtyDaysAgo.toISOString().split('T')[0];
+
+    let totalCost = 0;
+    let costLast30d = 0;
+    const dailyCosts: Record<string, number> = {};
+    for (const day of days) {
+      totalCost += day.totalCost;
+      dailyCosts[day.date] = (dailyCosts[day.date] || 0) + day.totalCost;
+      if (day.date >= cutoff) {
+        costLast30d += day.totalCost;
+      }
+    }
+
+    totalCost = Math.round(totalCost * 100) / 100;
+    costLast30d = Math.round(costLast30d * 100) / 100;
+
+    spinner.succeed(`Cost data: ${pc.bold('$' + totalCost.toFixed(2))} total, ${pc.bold('$' + costLast30d.toFixed(2))} last 30d`);
+    return {totalCost, costLast30d, dailyCosts};
+  } catch {
+    spinner.warn('ccusage not available — cost data set to 0');
+    return {totalCost: 0, costLast30d: 0, dailyCosts: {}};
+  }
+}
 
 async function parseClaudeUsage(): Promise<Omit<AiStats, 'lastUpdated'>> {
   const claudeDir = join(homedir(), '.claude');
@@ -138,6 +183,8 @@ async function parseClaudeUsage(): Promise<Omit<AiStats, 'lastUpdated'>> {
     busiestDay,
     busiestDayAvgTokens: Math.round(busiestDayAvg),
     provider: 'Anthropic',
+    totalCost: 0,
+    costLast30d: 0,
   };
 }
 
@@ -148,14 +195,26 @@ async function main() {
   console.log();
 
   const ai = await parseClaudeUsage();
+  const costs = fetchCcusageCosts();
+
+  if (Object.keys(costs.dailyCosts).length > 0) {
+    for (const day of ai.dailyUsage) {
+      if (costs.dailyCosts[day.date]) {
+        day.cost = Math.round(costs.dailyCosts[day.date] * 100) / 100;
+      }
+    }
+  }
 
   const data: AiStats = {
     lastUpdated: new Date().toISOString(),
     ...ai,
+    totalCost: costs.totalCost,
+    costLast30d: costs.costLast30d,
   };
 
   console.log();
   console.log(`  ${pc.dim('Tokens')}    ${pc.bold(pc.cyan(fmt(data.totalTokens)))} total  ${pc.bold(pc.cyan(fmt(data.tokensLast30d)))} last 30d`);
+  console.log(`  ${pc.dim('Cost')}      ${pc.bold(pc.cyan('$' + data.totalCost.toFixed(2)))} total  ${pc.bold(pc.cyan('$' + data.costLast30d.toFixed(2)))} last 30d`);
   console.log(`  ${pc.dim('Sessions')}  ${pc.bold(String(data.totalSessions))} sessions  ${pc.bold(String(data.totalQueries))} queries`);
   console.log(`  ${pc.dim('Split')}     ${pc.bold(data.inputPercentage + '%')} input  ${pc.bold((100 - data.inputPercentage).toFixed(2) + '%')} output`);
   console.log(`  ${pc.dim('Busiest')}   ${pc.bold(data.busiestDay)} ${pc.dim('(' + fmt(data.busiestDayAvgTokens) + ' avg)')}`);

@@ -74,7 +74,7 @@ Fork it, swap the config files, and deploy it in one click.
 - **Interactive terminal hero** — a real typing animation with command replay. Yes, a terminal on a website. At least it's not a blockchain.
 - **Floating cursor comments** — `// code-style annotations` that follow your cursor around the page
 - **Canvas dot grid** — background with a mouse proximity glow effect
-- **Live stats dashboard** — real GitHub contributions, AI token usage from Claude Code, and Spotify now-playing
+- **Live stats dashboard** — real GitHub contributions, AI token usage and cost from Claude Code (via [ccusage](https://github.com/ryoppippi/ccusage)), and Spotify now-playing
 - **Scrolling logo marquee** with client brands
 - **Project showcase** with gradient-bordered cards
 - **Work experience timeline** — because `years_of_experience++` needs context
@@ -276,7 +276,7 @@ Declining cookies means no GA, no cookies, no data sent to Google. The site work
 The stats section pulls data from three sources:
 
 - **GitHub** — contributions, streak, and language breakdown fetched live from the GitHub GraphQL API (cached 1h via ISR, no manual upload needed)
-- **AI usage** — Claude Code token usage parsed from local session files and uploaded to Vercel Blob. Run `pnpm upload:ai` after sessions to update.
+- **AI usage** — Claude Code token usage and cost parsed from local session files (cost computed via [ccusage](https://github.com/ryoppippi/ccusage)) and uploaded to Vercel Blob. Run `pnpm upload:ai` after sessions to update. The stats card has a `$` / `tokens` toggle — defaults to cost when available.
 - **Spotify** — now-playing / recently-played track fetched server-side at render time
 
 ```bash

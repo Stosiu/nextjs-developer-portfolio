@@ -311,6 +311,8 @@ describe('ai-stats-parser', () => {
         busiestDay: 'Monday',
         busiestDayAvgTokens: 0,
         provider: 'Anthropic',
+        totalCost: 0,
+        costLast30d: 0,
       });
     });
 
@@ -329,6 +331,8 @@ describe('ai-stats-parser', () => {
       expect(stats).toHaveProperty('busiestDay');
       expect(stats).toHaveProperty('busiestDayAvgTokens');
       expect(stats).toHaveProperty('provider');
+      expect(stats).toHaveProperty('totalCost');
+      expect(stats).toHaveProperty('costLast30d');
       expect(stats).not.toHaveProperty('lastUpdated');
     });
 
