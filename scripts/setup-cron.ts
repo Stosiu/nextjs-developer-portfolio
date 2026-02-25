@@ -1,7 +1,7 @@
 import {execFileSync, execSync} from 'node:child_process';
 import {existsSync, mkdirSync, unlinkSync, writeFileSync} from 'node:fs';
 import {homedir, platform} from 'node:os';
-import {dirname, join, resolve} from 'node:path';
+import {join, resolve, dirname} from 'node:path';
 import {createInterface} from 'node:readline';
 import pc from 'picocolors';
 import ora from 'ora';
@@ -22,6 +22,7 @@ const LAUNCHD_LOG_DIR = join(HOME, 'Library', 'Logs', 'upload-ai');
 const LAUNCHD_GUI = OS === 'darwin'
   ? `gui/${execSync('id -u').toString().trim()}`
   : '';
+const SHELL_PATH = process.env.SHELL || '/bin/zsh';
 
 // Linux
 const CRON_MARKER = '# upload-ai-stats';
@@ -59,9 +60,7 @@ function detectPnpm(): string | null {
   if (OS === 'win32') {
     return tryExec('where pnpm')?.split('\n')[0] ?? null;
   }
-  const raw = tryExec('which pnpm');
-  if (!raw) return null;
-  return tryExec(`realpath "${raw}"`) ?? raw;
+  return tryExec('which pnpm') ? 'pnpm' : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -75,27 +74,30 @@ function macosIsInstalled(): boolean {
 
 function macosUninstall(): void {
   if (!macosIsInstalled()) return;
-  tryExec(`launchctl bootout ${LAUNCHD_GUI}/${LAUNCHD_LABEL}`);
+  try { execFileSync('launchctl', ['bootout', `${LAUNCHD_GUI}/${LAUNCHD_LABEL}`]); } catch { /* may already be unloaded */ }
   if (existsSync(LAUNCHD_PLIST)) unlinkSync(LAUNCHD_PLIST);
 }
 
-function macosInstall(pnpmPath: string, hour: number, minute: number): void {
+function macosInstall(_pnpmPath: string, hour: number, minute: number): void {
   mkdirSync(LAUNCHD_LOG_DIR, {recursive: true});
   macosUninstall();
 
+  // Use a login shell so nvm/fnm/volta/etc. are available — no hardcoded paths.
   const plist = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Label</key>
     <string>${LAUNCHD_LABEL}</string>
-    <key>WorkingDirectory</key>
-    <string>${PROJECT_DIR}</string>
     <key>ProgramArguments</key>
     <array>
-        <string>${pnpmPath}</string>
-        <string>upload:ai</string>
+        <string>${SHELL_PATH}</string>
+        <string>-l</string>
+        <string>-c</string>
+        <string>cd "${PROJECT_DIR}" &amp;&amp; pnpm upload:ai</string>
     </array>
+    <key>RunAtLoad</key>
+    <true/>
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
@@ -107,21 +109,16 @@ function macosInstall(pnpmPath: string, hour: number, minute: number): void {
     <string>${LAUNCHD_LOG_DIR}/stdout.log</string>
     <key>StandardErrorPath</key>
     <string>${LAUNCHD_LOG_DIR}/stderr.log</string>
-    <key>EnvironmentVariables</key>
-    <dict>
-        <key>PATH</key>
-        <string>/usr/local/bin:/usr/bin:/bin:${dirname(pnpmPath)}</string>
-        <key>HOME</key>
-        <string>${HOME}</string>
-    </dict>
 </dict>
 </plist>`;
 
   writeFileSync(LAUNCHD_PLIST, plist);
-  execSync(`launchctl bootstrap ${LAUNCHD_GUI} "${LAUNCHD_PLIST}"`);
+  execFileSync('launchctl', ['bootstrap', LAUNCHD_GUI, LAUNCHD_PLIST]);
 }
 
 function macosPostInstall(): void {
+  console.log();
+  console.log(pc.dim('  Also runs on login (RunAtLoad)'));
   console.log();
   console.log(pc.bold('  Commands'));
   console.log(`  ${pc.dim('Run now')}     launchctl kickstart ${LAUNCHD_GUI}/${LAUNCHD_LABEL}`);
@@ -288,14 +285,13 @@ async function install(plat: PlatformOps) {
   console.log(pc.dim(`  Schedules daily pnpm upload:ai via ${plat.name}`));
   console.log();
 
-  // Detect pnpm
   const spinner = ora('Detecting pnpm').start();
   const pnpmPath = detectPnpm();
   if (!pnpmPath) {
     spinner.fail(pc.red('pnpm not found in PATH'));
     process.exit(1);
   }
-  spinner.succeed(`pnpm found at ${pc.cyan(pnpmPath)}`);
+  spinner.succeed(`pnpm found`);
 
   // Check existing
   if (plat.isInstalled()) {

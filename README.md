@@ -6,13 +6,18 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio&env=NEXT_PUBLIC_SITE_URL&envDescription=Your%20deployed%20site%20URL%20(optional%20-%20used%20for%20SEO)&envLink=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio%23environment-variables&project-name=developer-portfolio&repository-name=developer-portfolio)
 
 A developer portfolio that doesn't look like every other developer portfolio. Built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Dark theme only — there is no light mode, and that's a feature. Ships with i18n (English, Polish, Arabic with full RTL), a live stats dashboard pulling from GitHub and Spotify, and enough Easter eggs to keep curious devs right-clicking for a while.
 
-Fork it, swap the config files, and make it yours.
+Fork it, swap the config files, and deploy it in one click.
 
 **Live demo:** [stosiu.dev](https://stosiu.dev) (the author's personal site)
+
+### Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio&env=NEXT_PUBLIC_SITE_URL&envDescription=Your%20deployed%20site%20URL%20(optional%20-%20used%20for%20SEO)&envLink=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio%23environment-variables&project-name=developer-portfolio&repository-name=developer-portfolio)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Stosiu/nextjs-developer-portfolio)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/nextjs-developer-portfolio?referralCode=stosiu)
 
 ![screenshot](public/screenshot.jpg)
 
@@ -30,6 +35,7 @@ Fork it, swap the config files, and make it yours.
 
 ## Table of Contents
 
+- [Deploy](#deploy)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Easter Eggs](#easter-eggs)
@@ -49,6 +55,7 @@ Fork it, swap the config files, and make it yours.
   - [RTL support](#rtl-support)
 - [Analytics & Privacy](#analytics--privacy)
 - [Stats Dashboard](#stats-dashboard)
+  - [How scheduling works](#how-scheduling-works)
 - [Scripts](#scripts)
 - [Project Structure](#project-structure)
 
@@ -278,8 +285,34 @@ pnpm upload:ai        # Parse ~/.claude session files and upload to Vercel Blob
 To automate this daily, run the interactive setup:
 
 ```bash
-pnpm setup:cron       # Schedules daily upload via launchd (macOS), crontab (Linux), or Task Scheduler (Windows)
+pnpm setup:cron       # Schedules daily upload (interactive — picks time, confirms before installing)
 pnpm remove:cron      # Removes the scheduled task
+```
+
+### How scheduling works
+
+`pnpm setup:cron` detects your OS and installs a platform-native scheduled task:
+
+| Platform | Mechanism | Trigger |
+|---|---|---|
+| macOS | launchd (`~/Library/LaunchAgents/`) | Daily at chosen time + on login |
+| Linux | crontab | Daily at chosen time |
+| Windows | Task Scheduler | Daily at chosen time |
+
+On macOS, the launchd job runs your command inside a **login shell** (`zsh -l -c "..."`). This is important — launchd runs in a minimal environment with no access to your shell profile. The login shell ensures node version managers (nvm, fnm, volta) are loaded, so `pnpm` can find `node` regardless of how you installed it. The job also has `RunAtLoad` enabled, so if your Mac was off at the scheduled time, it runs on next login.
+
+**Useful commands (macOS):**
+
+```bash
+# Check status
+launchctl print gui/$(id -u)/com.stosiu.upload-ai
+
+# Trigger manually
+launchctl kickstart gui/$(id -u)/com.stosiu.upload-ai
+
+# View logs
+tail -f ~/Library/Logs/upload-ai/stdout.log
+tail -f ~/Library/Logs/upload-ai/stderr.log
 ```
 
 ## Scripts
