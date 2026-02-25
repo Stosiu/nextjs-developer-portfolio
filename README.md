@@ -56,6 +56,7 @@ Fork it, swap the config files, and deploy it in one click.
 - [Analytics & Privacy](#analytics--privacy)
 - [Stats Dashboard](#stats-dashboard)
   - [How scheduling works](#how-scheduling-works)
+- [Testing](#testing)
 - [Scripts](#scripts)
 - [Project Structure](#project-structure)
 
@@ -315,6 +316,21 @@ tail -f ~/Library/Logs/upload-ai/stdout.log
 tail -f ~/Library/Logs/upload-ai/stderr.log
 ```
 
+## Testing
+
+Tests use [Vitest](https://vitest.dev/) and cover utility functions, API integrations, and script logic.
+
+```bash
+pnpm test              # Run all tests
+pnpm test:watch        # Watch mode
+pnpm test:coverage     # With coverage report
+```
+
+Test files live alongside source code in `__tests__/` directories:
+
+- `src/lib/__tests__/` — format, utils, rate-limit, github, consent, analytics
+- `scripts/lib/__tests__/` — AI stats parser
+
 ## Scripts
 
 | Command | Description |
@@ -322,6 +338,9 @@ tail -f ~/Library/Logs/upload-ai/stderr.log
 | `pnpm dev` | Start dev server |
 | `pnpm build` | Production build |
 | `pnpm start` | Serve production build |
+| `pnpm test` | Run tests |
+| `pnpm test:watch` | Run tests in watch mode |
+| `pnpm test:coverage` | Run tests with coverage |
 | `pnpm lint` | Run oxlint |
 | `pnpm typecheck` | TypeScript type checking |
 | `pnpm upload:ai` | Upload AI usage stats to Vercel Blob |

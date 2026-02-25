@@ -31,6 +31,11 @@ jobs:
         run: pnpm lint
         continue-on-error: true
 
+      - name: Test
+        id: test
+        run: pnpm test
+        continue-on-error: true
+
       - name: Typecheck
         id: typecheck
         run: pnpm typecheck
@@ -46,6 +51,7 @@ jobs:
           failed=""
           if [ "${{ steps.audit.outcome }}" = "failure" ]; then failed="$failed audit"; fi
           if [ "${{ steps.lint.outcome }}" = "failure" ]; then failed="$failed lint"; fi
+          if [ "${{ steps.test.outcome }}" = "failure" ]; then failed="$failed test"; fi
           if [ "${{ steps.typecheck.outcome }}" = "failure" ]; then failed="$failed typecheck"; fi
           if [ "${{ steps.build.outcome }}" = "failure" ]; then failed="$failed build"; fi
           if [ -n "$failed" ]; then

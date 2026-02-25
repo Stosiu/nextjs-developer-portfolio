@@ -10,6 +10,7 @@ A developer portfolio template built with Next.js 16, TypeScript, Tailwind CSS v
 pnpm install
 pnpm dev        # Dev server with Turbopack
 pnpm build      # Production build (ISR, requires Node.js server)
+pnpm test       # Vitest
 pnpm typecheck  # Type checking
 pnpm lint       # oxlint (not ESLint)
 ```
