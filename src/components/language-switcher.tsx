@@ -30,7 +30,13 @@ export function LanguageSwitcher() {
 
   function onLocaleChange(newLocale: string) {
     trackEvent('language_switch', {from: locale, to: newLocale});
-    router.replace(pathname, {locale: newLocale});
+    const dirChanges = (locale === 'ar') !== (newLocale === 'ar');
+    if (dirChanges) {
+      const prefix = newLocale === routing.defaultLocale ? '' : `/${newLocale}`;
+      window.location.href = `${prefix}${pathname}`;
+    } else {
+      router.replace(pathname, {locale: newLocale});
+    }
   }
 
   if (!mounted) return null;

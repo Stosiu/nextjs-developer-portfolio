@@ -21,7 +21,7 @@ const securityHeaders = [
       "default-src 'self'",
       `script-src 'self' 'unsafe-inline' 'unsafe-eval'${gaDomains}`,
       "style-src 'self' 'unsafe-inline'",
-      `img-src 'self' data: blob: https://i.scdn.co https://avatars.githubusercontent.com${gaDomains}`,
+      `img-src 'self' data: blob: https://i.scdn.co https://avatars.githubusercontent.com https://img.shields.io${gaDomains}`,
       "font-src 'self'",
       `connect-src 'self'${gaAnalyticsDomains}`,
       "frame-ancestors 'none'",
