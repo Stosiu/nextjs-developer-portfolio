@@ -67,12 +67,12 @@ export function ThoughtProgress() {
     return () => window.removeEventListener('scroll', update);
   }, [pickMessage]);
 
-  const filled = Math.round(progress / 5);
-  const bar = '█'.repeat(filled) + '░'.repeat(20 - filled);
+  const filled = Math.round(progress / 6.25);
+  const bar = '█'.repeat(filled) + '░'.repeat(16 - filled);
 
   return (
     <div
-      className={`fixed bottom-6 left-6 z-50 font-mono text-xs transition-all duration-500 ${
+      className={`fixed bottom-6 left-6 z-50 font-mono text-xs transition-all duration-500 hidden xl:block ${
         visible
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-2 pointer-events-none'

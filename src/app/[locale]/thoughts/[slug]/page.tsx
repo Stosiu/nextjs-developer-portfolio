@@ -84,66 +84,76 @@ export default async function ThoughtPage({params}: Props) {
   };
 
   return (
-    <main className="bg-black text-white min-h-screen noise dot-grid overflow-x-hidden">
+    <main className="bg-black text-white min-h-screen noise dot-grid overflow-x-clip">
       <ThoughtProgress />
       <Navbar thoughtsCount={getThoughtsCount()} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
       />
-      <article className="max-w-4xl mx-auto px-6 pt-28 pb-20">
-        {/* Mobile: back link */}
-        <Link
-          href="/thoughts"
-          className="xl:hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all mb-8 rtl:flex-row-reverse"
-        >
-          <ArrowLeft className="w-3 h-3 rtl:rotate-180" />
-          {t('backToThoughts')}
-        </Link>
+      <article className="max-w-6xl mx-auto px-4 pt-28 pb-20 xl:grid xl:grid-cols-[1fr_14rem] xl:gap-10 xl:items-start">
+        <div className="min-w-0">
+          {/* Mobile: back link */}
+          <Link
+            href="/thoughts"
+            className="xl:hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all mb-8 rtl:flex-row-reverse"
+          >
+            <ArrowLeft className="w-3 h-3 rtl:rotate-180" />
+            {t('backToThoughts')}
+          </Link>
 
-        <h1 className="text-3xl font-bold mb-3">{thought.title}</h1>
-        <div className="flex items-center gap-3 mb-4">
-          <time className="text-sm text-white/30 font-mono">{thought.date}</time>
-          <span className="text-base text-white/30">·</span>
-          <span className="flex items-center gap-1.5 text-sm text-white/30">
-            <Clock className="w-3.5 h-3.5" />
-            {t('readingTime', {minutes: thought.readingTime})}
-          </span>
-          <span className="text-base text-white/30">·</span>
-          <span className="text-sm text-white/30 font-mono">
-            {thought.wordCount.toLocaleString()} {t('words')}
-          </span>
-        </div>
-        <div className="flex flex-wrap gap-1.5 mb-8">
-          {thought.tags.map((tag) => (
-            <Link
-              key={tag}
-              href={`/thoughts?tag=${encodeURIComponent(tag)}`}
-            >
-              <Badge variant="sm" className="text-xs hover:text-white/60 hover:border-white/15 transition-colors">
-                {tag}
-              </Badge>
-            </Link>
-          ))}
-        </div>
-
-        {thought.tldr && (
-          <div className="mb-10 p-4 rounded-lg border border-brand-400/20 bg-brand-400/[0.04]">
-            <div className="flex items-center gap-2 mb-2">
-              <Lightbulb className="w-4 h-4 text-brand-400" />
-              <span className="text-sm font-semibold text-brand-400">TL;DR</span>
-            </div>
-            <p className="text-sm text-white/70 leading-relaxed">{thought.tldr}</p>
+          <h1 className="text-3xl font-bold mb-3">{thought.title}</h1>
+          <div className="flex items-center gap-3 mb-4">
+            <time className="text-sm text-white/30 font-mono">{thought.date}</time>
+            <span className="text-base text-white/30">·</span>
+            <span className="flex items-center gap-1.5 text-sm text-white/30">
+              <Clock className="w-3.5 h-3.5" />
+              {t('readingTime', {minutes: thought.readingTime})}
+            </span>
+            <span className="text-base text-white/30">·</span>
+            <span className="text-sm text-white/30 font-mono">
+              {thought.wordCount.toLocaleString()} {t('words')}
+            </span>
           </div>
-        )}
+          <div className="flex flex-wrap gap-1.5 mb-8">
+            {thought.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/thoughts?tag=${encodeURIComponent(tag)}`}
+              >
+                <Badge variant="sm" className="text-xs hover:text-white/60 hover:border-white/15 transition-colors">
+                  {tag}
+                </Badge>
+              </Link>
+            ))}
+          </div>
+
+          {thought.tldr && (
+            <div className="mb-10 p-4 rounded-lg border border-brand-400/20 bg-brand-400/[0.04]">
+              <div className="flex items-center gap-2 mb-2">
+                <Lightbulb className="w-4 h-4 text-brand-400" />
+                <span className="text-sm font-semibold text-brand-400">TL;DR</span>
+              </div>
+              <p className="text-sm text-white/70 leading-relaxed">{thought.tldr}</p>
+            </div>
+          )}
+
+          <ThoughtToc
+            entries={thought.toc}
+            title={thought.title}
+            backHref={`/${locale}/thoughts`}
+            backLabel={t('backToThoughts')}
+          />
+          <ThoughtContent html={thought.html} coverImage={thought.image} coverAlt={thought.title} coverCaption={thought.imageCaption ?? undefined} />
+        </div>
 
         <ThoughtToc
           entries={thought.toc}
           title={thought.title}
           backHref={`/${locale}/thoughts`}
           backLabel={t('backToThoughts')}
+          desktop
         />
-        <ThoughtContent html={thought.html} />
       </article>
       <Footer />
     </main>
