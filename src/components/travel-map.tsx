@@ -3,6 +3,7 @@
 import {useState, useCallback, useRef, memo} from 'react';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
+import Image from 'next/image';
 import {Plus, Minus} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {visitedCountries, type VisitedCountry} from '@/config/travel';
@@ -328,11 +329,13 @@ export function TravelMap() {
             className="absolute z-50 pointer-events-none w-56 overflow-hidden rounded-lg border border-white/10 bg-neutral-900/95 backdrop-blur-sm shadow-xl"
             style={getPopoverStyle()}
           >
-            <div className="w-full aspect-video">
-              <img
+            <div className="relative w-full aspect-video">
+              <Image
                 src={popover.country.image}
                 alt={popover.name}
-                className="w-full h-full object-cover object-center"
+                fill
+                sizes="224px"
+                className="object-cover object-center"
               />
             </div>
             <div className="px-3 py-2">
