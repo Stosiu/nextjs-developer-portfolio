@@ -1,6 +1,7 @@
 'use client';
 
 import {useState, useCallback, useRef} from 'react';
+import {Plus, Minus} from 'lucide-react';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
 import {visitedCountries, type VisitedCountry} from '@/config/travel';
@@ -99,6 +100,14 @@ export function TravelMap() {
     setZoomState(position);
   }, []);
 
+  const handleZoomIn = useCallback(() => {
+    setZoomState((prev) => ({...prev, zoom: Math.min(prev.zoom * 1.5, 5)}));
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    setZoomState((prev) => ({...prev, zoom: Math.max(prev.zoom / 1.5, 1)}));
+  }, []);
+
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
@@ -185,11 +194,11 @@ export function TravelMap() {
         style={{marginTop: '-30px', marginBottom: '-80px'}}
       >
         <ZoomableGroup
-          center={MAP_CENTER}
+          center={zoomState.coordinates}
+          zoom={zoomState.zoom}
           minZoom={1}
           maxZoom={5}
           onMoveEnd={handleMoveEnd}
-          translateExtent={[[-200, -200], [1000, 600]]}
         >
           <Geographies geography={GEO_URL}>
             {({geographies}) =>
@@ -211,16 +220,14 @@ export function TravelMap() {
                           stroke: '#2a2a2a',
                           strokeWidth: 0.5,
                           outline: 'none',
-                          cursor: isVisited ? 'pointer' : 'default',
-                          pointerEvents: isVisited ? 'auto' : 'none',
+                          cursor: isVisited ? 'pointer' : 'grab',
                         },
                         hover: {
                           fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
                           stroke: '#2a2a2a',
                           strokeWidth: 0.5,
                           outline: 'none',
-                          cursor: isVisited ? 'pointer' : 'default',
-                          pointerEvents: isVisited ? 'auto' : 'none',
+                          cursor: isVisited ? 'pointer' : 'grab',
                         },
                         pressed: {
                           fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
@@ -238,6 +245,25 @@ export function TravelMap() {
       </ComposableMap>
 
       <Minimap zoom={zoomState.zoom} coordinates={zoomState.coordinates} />
+
+      <div className="absolute bottom-3 right-3 z-40 flex flex-col gap-1">
+        <button
+          type="button"
+          onClick={handleZoomIn}
+          disabled={zoomState.zoom >= 5}
+          className="flex items-center justify-center w-8 h-8 rounded border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:border-white/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
+        <button
+          type="button"
+          onClick={handleZoomOut}
+          disabled={zoomState.zoom <= 1}
+          className="flex items-center justify-center w-8 h-8 rounded border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:border-white/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <Minus className="w-4 h-4" />
+        </button>
+      </div>
 
       <AnimatePresence>
         {popover && (
