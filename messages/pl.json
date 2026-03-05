@@ -9,7 +9,7 @@
     "stats": "Statystyki",
     "experience": "Doświadczenie",
     "agency": "Moja agencja",
-    "thoughts": "Przemyślenia ({count})"
+    "thoughts": "Przemyślenia"
   },
   "hero": {
     "command1": "whoami",

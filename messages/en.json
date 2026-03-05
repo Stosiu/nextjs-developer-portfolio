@@ -9,7 +9,7 @@
     "stats": "Stats",
     "experience": "Experience",
     "agency": "My agency",
-    "thoughts": "Thoughts ({count})"
+    "thoughts": "Thoughts"
   },
   "hero": {
     "command1": "whoami",

@@ -20,6 +20,7 @@ export function Navbar({thoughtsCount = 0}: NavbarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === '/';
+  const isThoughts = pathname.startsWith('/thoughts');
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -121,9 +122,27 @@ export function Navbar({thoughtsCount = 0}: NavbarProps) {
           {thoughtsCount > 0 && (
             <Link
               href="/thoughts"
-              className="relative px-3.5 py-1.5 text-sm rounded-full transition-all duration-300 text-white/50 hover:text-white/80"
+              className={`relative px-3.5 py-1.5 text-sm rounded-full transition-all duration-300 flex items-center gap-1.5 ${
+                isThoughts ? 'text-white' : 'text-white/50 hover:text-white/80'
+              }`}
             >
-              {t('thoughts', {count: thoughtsCount})}
+              {isThoughts && (
+                <span className="absolute inset-0 rounded-full bg-white/[0.08]" />
+              )}
+              <span className="relative flex items-center gap-1.5">
+                <span
+                  className={`w-1.5 h-1.5 rounded-full bg-brand-400 transition-all duration-300 ${
+                    isThoughts ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                  }`}
+                />
+                {t('thoughts')}
+                <span className="relative inline-flex">
+                  <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 text-[11px] font-medium rounded-full bg-brand-400/15 text-brand-400">
+                    {thoughtsCount}
+                  </span>
+                  <span className="absolute inset-0 rounded-full bg-brand-400/20 animate-[badge-ping_3s_ease-in-out_infinite]" />
+                </span>
+              </span>
             </Link>
           )}
         </div>
@@ -180,9 +199,17 @@ export function Navbar({thoughtsCount = 0}: NavbarProps) {
                 <Link
                   href="/thoughts"
                   onClick={() => setOpen(false)}
-                  className="text-lg transition-colors text-start text-white/50 hover:text-white/80"
+                  className={`text-lg transition-colors text-start inline-flex items-center gap-2 ${
+                    isThoughts ? 'text-white' : 'text-white/50 hover:text-white/80'
+                  }`}
                 >
-                  {t('thoughts', {count: thoughtsCount})}
+                  {t('thoughts')}
+                  <span className="relative inline-flex">
+                    <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 text-xs font-medium rounded-full bg-brand-400/15 text-brand-400">
+                      {thoughtsCount}
+                    </span>
+                    <span className="absolute inset-0 rounded-full bg-brand-400/20 animate-[badge-ping_3s_ease-in-out_infinite]" />
+                  </span>
                 </Link>
               )}
             </div>

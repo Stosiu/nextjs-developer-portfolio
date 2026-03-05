@@ -463,6 +463,15 @@ html {
 
 /* Lightbox styles removed - handled inline by ThoughtContent component */
 
+@keyframes badge-ping {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .blueprint-bg svg * {
     animation: none !important;
