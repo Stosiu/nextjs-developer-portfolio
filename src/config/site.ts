@@ -10,7 +10,7 @@ export const siteConfig = {
     host: 'dev',
     bootCommand: 'npx stosiu@latest',
   },
-  booking: 'https://cal.com/stosiu/consultation',
+  booking: 'https://cal.com/aleksander-stos/consultation',
   social: {
     github: 'https://github.com/Stosiu',
     linkedin: 'https://www.linkedin.com/in/aleksanderstos/',

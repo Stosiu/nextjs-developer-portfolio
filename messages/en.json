@@ -16,7 +16,7 @@
     "command2": "cat /etc/motd",
     "response2": "I build products, scale teams, and run companies. Warsaw · Riyadh · Sydney",
     "command3": "./book --consultation",
-    "response3": "Opening cal.com/stosiu... ✓",
+    "response3": "Opening cal.com/aleksander-stos... ✓",
     "cta": "Let's talk"
   },
   "about": {
@@ -48,6 +48,8 @@
     "proj5Desc": "Our own e-commerce concept for the closed Saudi market. Still under active development.",
     "proj6Desc": "Built a mobile app for wine pouring and virtual sommelier profiles with intelligent recommendations.",
     "proj7Desc": "Digitalized operations from spreadsheets to a custom web app, cutting operational time and control overhead by 90%.",
+    "proj8Desc": "Built a healthcare platform that digitalized a psychiatric clinic's paper-based operations, unifying patient data across specialists with encryption and role-based access.",
+    "proj9Desc": "Built an AI-powered wholesale arbitrage platform that matches and compares prices across thousands of suppliers, processing 100k+ SKUs daily with 99.9% product matching accuracy.",
     "showAll": "Show all projects",
     "showLess": "Show featured"
   },
@@ -114,6 +116,7 @@
     "warsawPoland": "Warsaw, Poland",
     "sydneyAustralia": "Sydney, Australia",
     "riyadhSaudi": "Riyadh, Saudi Arabia",
+    "sideProjects": "Side Projects",
     "builtWith": "Built with Next.js, Tailwind CSS & Framer Motion.",
     "viewSource": "View source & star",
     "privacy": "Privacy",

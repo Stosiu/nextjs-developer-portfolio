@@ -6,6 +6,8 @@ import fulcrumImg from '../../public/projects/fulcrum.jpg';
 import yournexthomeImg from '../../public/projects/yournexthome.jpg';
 import bazzarImg from '../../public/projects/bazzar.jpg';
 import wineUnpluggedImg from '../../public/projects/wine-unplugged.jpg';
+import gedeonMedicaImg from '../../public/projects/gedeon-medica.png';
+import electrosmartImg from '../../public/projects/electrosmart.jpg';
 
 export type Project = {
   title: string;
@@ -101,6 +103,24 @@ export const projects: Project[] = [
     logo: '/logos/valleyins.svg',
     tech: ['Next.js', 'Node.js', 'PostgreSQL', 'GCP'],
     date: '2023 – Present',
+    role: 'Tech Lead',
+  },
+  {
+    title: 'Gedeon Medica',
+    descriptionKey: 'proj8Desc',
+    url: 'https://www.thedigitalbunch.com/case-studies/gedeon-medica-digitalizing-patient-care-with-precision',
+    image: gedeonMedicaImg,
+    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'GCP', 'Docker'],
+    date: '2021 – Present',
+    role: 'Tech Lead',
+  },
+  {
+    title: 'ElectroSmart',
+    descriptionKey: 'proj9Desc',
+    url: 'https://www.thedigitalbunch.com/case-studies/electrosmart-from-spreadsheet-chaos-to-automated-arbitrage',
+    image: electrosmartImg,
+    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Python', 'ML'],
+    date: '2022 – Present',
     role: 'Tech Lead',
   },
 ];

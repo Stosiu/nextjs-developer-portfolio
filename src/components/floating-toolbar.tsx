@@ -6,14 +6,15 @@ import {MessageSquareCode} from 'lucide-react';
 
 const STORAGE_KEY = 'cursor-annotations';
 
-function getInitial(): boolean {
-  if (typeof window === 'undefined') return true;
-  const stored = localStorage.getItem(STORAGE_KEY);
-  return stored === null ? true : stored === '1';
-}
-
 export function useAnnotationsEnabled() {
-  const [enabled, setEnabled] = useState(getInitial);
+  const [enabled, setEnabled] = useState(true);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored !== null && stored !== '1') {
+      setEnabled(false);
+    }
+  }, []);
 
   const toggle = useCallback(() => {
     setEnabled((prev) => {

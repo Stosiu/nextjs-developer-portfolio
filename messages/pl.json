@@ -16,7 +16,7 @@
     "command2": "cat /etc/motd",
     "response2": "Buduję produkty, skaluję zespoły i prowadzę firmy. Warszawa · Rijad · Sydney",
     "command3": "./book --consultation",
-    "response3": "Otwieram cal.com/stosiu... ✓",
+    "response3": "Otwieram cal.com/aleksander-stos... ✓",
     "cta": "Porozmawiajmy"
   },
   "about": {
@@ -48,6 +48,8 @@
     "proj5Desc": "Nasz własny koncept e-commerce na zamknięty rynek saudyjski. Wciąż w aktywnym rozwoju.",
     "proj6Desc": "Zbudowałem aplikację mobilną do nalewania wina i wirtualnych profili sommeliera z inteligentnymi rekomendacjami.",
     "proj7Desc": "Cyfryzacja operacji z arkuszy kalkulacyjnych do dedykowanej aplikacji webowej, skracając czas operacji i kontroli o 90%.",
+    "proj8Desc": "Zbudowałem platformę medyczną, która zdigitalizowała papierowe procesy kliniki psychiatrycznej, unifikując dane pacjentów między specjalistami z szyfrowaniem i kontrolą dostępu.",
+    "proj9Desc": "Zbudowałem platformę arbitrażu hurtowego opartą na AI, która dopasowuje i porównuje ceny u tysięcy dostawców, przetwarzając ponad 100 tys. SKU dziennie z dokładnością dopasowania 99,9%.",
     "showAll": "Pokaż wszystkie projekty",
     "showLess": "Pokaż wyróżnione"
   },
@@ -114,6 +116,7 @@
     "warsawPoland": "Warszawa, Polska",
     "sydneyAustralia": "Sydney, Australia",
     "riyadhSaudi": "Rijad, Arabia Saudyjska",
+    "sideProjects": "Projekty poboczne",
     "builtWith": "Zbudowane z Next.js, Tailwind CSS i Framer Motion.",
     "viewSource": "Kod źródłowy i gwiazdka",
     "privacy": "Prywatność",

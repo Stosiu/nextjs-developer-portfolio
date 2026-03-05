@@ -221,6 +221,7 @@ html {
   z-index: 10;
   opacity: 0;
   transition: opacity 0.5s;
+  pointer-events: none;
 }
 
 .animated-border:hover::before {

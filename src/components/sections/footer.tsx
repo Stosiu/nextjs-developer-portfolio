@@ -5,6 +5,7 @@ import {motion} from 'framer-motion';
 import {FaGithub, FaLinkedin} from 'react-icons/fa';
 import {siteConfig} from '@/config/site';
 import {registeredCompanies} from '@/config/companies';
+import {sideProjects} from '@/config/side-projects';
 import {WorldClock} from '@/components/world-clock';
 import {Link} from '@/i18n/navigation';
 import {trackEvent} from '@/lib/analytics';
@@ -68,6 +69,27 @@ export function Footer() {
         <div className="mt-10 pt-8 border-t border-white/5">
           <WorldClock />
         </div>
+
+        {sideProjects.length > 0 && (
+          <div className="mt-10 pt-8 border-t border-white/5">
+            <p className="text-xs text-white/30 font-mono uppercase tracking-wider mb-4">
+              {t('sideProjects')}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+              {sideProjects.map((project) => (
+                <a
+                  key={project.url}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-mono text-white/25 hover:text-brand-400 transition-colors"
+                >
+                  {project.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-10 pt-6 border-t border-white/5 space-y-2">
           <p className="text-xs text-white/20 font-mono">
