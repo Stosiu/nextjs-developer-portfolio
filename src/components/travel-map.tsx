@@ -2,6 +2,7 @@
 
 import {useState, useCallback, useRef} from 'react';
 import {Plus, Minus} from 'lucide-react';
+import {Button} from '@/components/ui/button';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
 import {visitedCountries, type VisitedCountry} from '@/config/travel';
@@ -247,22 +248,24 @@ export function TravelMap() {
       <Minimap zoom={zoomState.zoom} coordinates={zoomState.coordinates} />
 
       <div className="absolute bottom-3 right-3 z-40 flex flex-col gap-1">
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon-sm"
           onClick={handleZoomIn}
           disabled={zoomState.zoom >= 5}
-          className="flex items-center justify-center w-8 h-8 rounded border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:border-white/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          className="border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:bg-white/10"
         >
-          <Plus className="w-4 h-4" />
-        </button>
-        <button
-          type="button"
+          <Plus />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
           onClick={handleZoomOut}
           disabled={zoomState.zoom <= 1}
-          className="flex items-center justify-center w-8 h-8 rounded border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:border-white/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          className="border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:bg-white/10"
         >
-          <Minus className="w-4 h-4" />
-        </button>
+          <Minus />
+        </Button>
       </div>
 
       <AnimatePresence>
