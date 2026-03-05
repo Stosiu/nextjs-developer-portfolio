@@ -106,7 +106,11 @@
     "exp4Location": "Tarnów, Poland",
     "exp4Description": "Age 13, barely speaking English, writing scripts, building quests, and trying to sell things to people online. Ran private game servers from a home PC with thousands of active players.\n\nMy mom kept turning off the computer at night, which meant players lost access. So I had to figure out remote hosting and how to actually sell services. Got hacked at some point. That was painful. But every broken thing taught me something.\n\nC++ game engines, Lua scripts, JavaScript, first websites. All self-taught, all by googling things I barely understood. That's where it started."
   },
-"footer": {
+  "travel": {
+    "heading": "Where I've Been",
+    "subtitle": "{count} countries and counting"
+  },
+  "footer": {
     "cta": "Let's build something",
     "copyright": "© {year} Aleksander Stós. All rights reserved.",
     "companiesHeading": "Registered Companies",
@@ -174,6 +178,9 @@
     "experience1": "// senior enough to know what I don't know",
     "experience2": "// it's not a bug, it's a career",
     "experience3": "// years_of_experience++",
+    "travel1": "// sudo rm -rf /home/sweet/home",
+    "travel2": "// 35 countries, 1 carry-on",
+    "travel3": "// ping -c 1 every-continent.dev",
     "footer1": "// you made it to the bottom",
     "footer2": "// EOF",
     "default1": "// ...",

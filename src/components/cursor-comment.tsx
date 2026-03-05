@@ -11,12 +11,13 @@ const INTERACTIVE_SELECTOR =
 const SECTION_IDS = ['hero', ...siteConfig.sections] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
-const COMMENT_KEYS: Record<SectionId | 'default' | 'footer', readonly string[]> = {
+const COMMENT_KEYS: Record<SectionId | 'default' | 'footer' | 'travel', readonly string[]> = {
   hero: ['hero1', 'hero2', 'hero3'],
   about: ['about1', 'about2', 'about3'],
   projects: ['projects1', 'projects2', 'projects3'],
   stats: ['stats1', 'stats2', 'stats3'],
   experience: ['experience1', 'experience2', 'experience3'],
+  travel: ['travel1', 'travel2', 'travel3'],
   footer: ['footer1', 'footer2'],
   default: ['default1', 'default2'],
 };

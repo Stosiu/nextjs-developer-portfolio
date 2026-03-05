@@ -34,7 +34,7 @@ const securityHeaders = [
       `style-src 'self' 'unsafe-inline'${devStyleDomains}`,
       `img-src 'self' data: blob: https://i.scdn.co https://avatars.githubusercontent.com https://img.shields.io${gaDomains}`,
       `font-src 'self'${devFontDomains}`,
-      `connect-src 'self'${gaAnalyticsDomains}${speedInsightsDomains}${devConnectDomains}`,
+      `connect-src 'self' https://cdn.jsdelivr.net${gaAnalyticsDomains}${speedInsightsDomains}${devConnectDomains}`,
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

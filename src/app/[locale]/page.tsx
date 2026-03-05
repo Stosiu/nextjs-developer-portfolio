@@ -6,6 +6,7 @@ import {Logos} from '@/components/sections/logos';
 import {Projects} from '@/components/sections/projects';
 import {Stats} from '@/components/sections/stats';
 import {Experience} from '@/components/sections/experience';
+import {Travel} from '@/components/sections/travel';
 import {Footer} from '@/components/sections/footer';
 import {CursorToolbar} from '@/components/cursor-toolbar';
 import {getThoughtsCount} from '@/lib/thoughts';
@@ -27,6 +28,7 @@ export default async function HomePage({params}: Props) {
       <Projects />
       <Stats />
       <Experience />
+      <Travel />
       <Footer />
       <CursorToolbar />
     </main>

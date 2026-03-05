@@ -106,6 +106,10 @@
     "exp4Location": "Tarnów, Polska",
     "exp4Description": "13 lat, ledwo mówiący po angielsku, piszący skrypty, budujący questy i próbujący sprzedawać rzeczy ludziom w internecie. Prowadziłem prywatne serwery gier z domowego PC z tysiącami aktywnych graczy.\n\nMama wyłączała komputer na noc, co oznaczało, że gracze tracili dostęp. Musiałem więc ogarnąć zdalny hosting i nauczyć się faktycznie sprzedawać usługi. W pewnym momencie zostałem zhackowany. To bolało. Ale każda zepsuta rzecz czegoś mnie nauczyła.\n\nSilniki gier w C++, skrypty Lua, JavaScript, pierwsze strony internetowe. Wszystko samodzielnie, wszystko googlując rzeczy, których ledwo rozumiałem. Tak to się zaczęło."
   },
+  "travel": {
+    "heading": "Gdzie bylem",
+    "subtitle": "{count} krajow i wciaz licznik idzie"
+  },
   "footer": {
     "cta": "Zbudujmy coś razem",
     "copyright": "© {year} Aleksander Stós. Wszelkie prawa zastrzeżone.",
@@ -174,6 +178,9 @@
     "experience1": "// wystarczająco senior, żeby wiedzieć czego nie wiem",
     "experience2": "// to nie bug, to kariera",
     "experience3": "// lata_doswiadczenia++",
+    "travel1": "// sudo rm -rf /home/sweet/home",
+    "travel2": "// 35 krajow, 1 walizka",
+    "travel3": "// ping -c 1 kazdy-kontynent.dev",
     "footer1": "// dotarłeś na sam dół",
     "footer2": "// EOF",
     "default1": "// ...",
