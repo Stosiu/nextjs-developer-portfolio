@@ -354,6 +354,9 @@ export function TravelMap() {
             <div className="px-3 py-2">
               <p className="text-sm font-medium text-white">{popover.name}</p>
               <p className="text-xs text-white/50">{popover.country.year}</p>
+              {popover.country.caption && (
+                <p className="text-xs text-white/40 mt-1">{popover.country.caption}</p>
+              )}
             </div>
           </motion.div>
         )}

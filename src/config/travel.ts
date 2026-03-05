@@ -29,12 +29,13 @@ export type VisitedCountry = {
   code: string;
   year: number;
   image?: StaticImageData;
+  caption?: string;
 };
 
 export const visitedCountries: VisitedCountry[] = [
   {code: 'AL', year: 2025, image: alImg},
   {code: 'AT', year: 2024, image: atImg},
-  {code: 'AU', year: 2019, image: auImg},
+  {code: 'AU', year: 2019, image: auImg, caption: 'A month solo. Camper van, open roads, too many animals.'},
   {code: 'BA', year: 2025, image: baImg},
   {code: 'CY', year: 2018, image: cyImg},
   {code: 'CZ', year: 2018},
@@ -44,15 +45,15 @@ export const visitedCountries: VisitedCountry[] = [
   {code: 'ES', year: 2019},
   {code: 'FI', year: 2019},
   {code: 'FR', year: 2025, image: frImg},
-  {code: 'GB', year: 2018, image: gbImg},
+  {code: 'GB', year: 2018, image: gbImg, caption: 'London is one of my favorite cities.'},
   {code: 'GE', year: 2023},
   {code: 'GR', year: 2024, image: grImg},
-  {code: 'HR', year: 2018, image: hrImg},
+  {code: 'HR', year: 2018, image: hrImg, caption: 'Practically a second home.'},
   {code: 'HU', year: 2018, image: huImg},
-  {code: 'IS', year: 2018, image: isImg},
+  {code: 'IS', year: 2018, image: isImg, caption: 'The best views I have ever seen.'},
   {code: 'IT', year: 2025, image: itImg},
   {code: 'LT', year: 2018, image: ltImg},
-  {code: 'MA', year: 2019, image: maImg},
+  {code: 'MA', year: 2019, image: maImg, caption: 'A harsh, beautiful way of life.'},
   {code: 'MD', year: 2018},
   {code: 'ME', year: 2022, image: meImg},
   {code: 'MT', year: 2019},
@@ -60,12 +61,12 @@ export const visitedCountries: VisitedCountry[] = [
   {code: 'PL', year: 2000},
   {code: 'RO', year: 2018, image: roImg},
   {code: 'RS', year: 2022},
-  {code: 'RU', year: 2017, image: ruImg},
-  {code: 'SA', year: 2025, image: saImg},
+  {code: 'RU', year: 2017, image: ruImg, caption: 'Fun fact: I have family here.'},
+  {code: 'SA', year: 2025, image: saImg, caption: 'Second home.'},
   {code: 'SI', year: 2018},
   {code: 'SK', year: 2018},
   {code: 'TR', year: 2019},
   {code: 'UA', year: 2018},
-  {code: 'AE', year: 2024, image: aeImg},
-  {code: 'US', year: 2019, image: usImg},
+  {code: 'AE', year: 2024, image: aeImg, caption: 'Luxury everywhere, but a bit too much for me.'},
+  {code: 'US', year: 2019, image: usImg, caption: 'Three weeks on the road in a camper van.'},
 ];
