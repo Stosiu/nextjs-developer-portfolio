@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect, useRef, useCallback} from 'react';
+import {useState, useEffect, useSyncExternalStore, useRef, useCallback} from 'react';
 import {motion, AnimatePresence, useReducedMotion} from 'framer-motion';
 import {siteConfig} from '@/config/site';
 
@@ -22,7 +22,154 @@ type DisplayLine = {
 
 type CursorMode = 'idle' | 'typing' | 'streaming' | 'none';
 
-export function Terminal({lines}: Props) {
+const noop = () => () => {};
+function getTerminalShown() {
+  return !!sessionStorage.getItem('terminal-shown');
+}
+function getServerSnapshot() {
+  return false;
+}
+
+function TerminalShell({
+  children,
+  containerRef,
+  showSkip,
+  isComplete,
+  onSkip,
+  onReplay,
+}: {
+  children: React.ReactNode;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  showSkip: boolean;
+  isComplete: boolean;
+  onSkip: () => void;
+  onReplay: () => void;
+}) {
+  return (
+    <div className="rounded-lg border border-white/10 bg-black/60 backdrop-blur-sm overflow-hidden shadow-2xl shadow-brand-500/5">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/5">
+        <motion.div
+          className="w-3 h-3 rounded-full bg-red-500/80"
+          whileHover={{scale: 1.3, backgroundColor: 'rgb(239 68 68)'}}
+          transition={{type: 'spring', stiffness: 400}}
+        />
+        <motion.div
+          className="w-3 h-3 rounded-full bg-yellow-500/80"
+          whileHover={{scale: 1.3, backgroundColor: 'rgb(234 179 8)'}}
+          transition={{type: 'spring', stiffness: 400}}
+        />
+        <motion.div
+          className="w-3 h-3 rounded-full bg-green-500/80"
+          whileHover={{scale: 1.3, backgroundColor: 'rgb(34 197 94)'}}
+          transition={{type: 'spring', stiffness: 400}}
+        />
+        <span className="ml-2 text-xs text-white/40 font-mono">{siteConfig.terminal.user}@{siteConfig.terminal.host} ~ %</span>
+
+        <AnimatePresence mode="wait">
+          {showSkip && !isComplete && (
+            <motion.button
+              key="skip"
+              initial={{opacity: 0, x: 5}}
+              animate={{opacity: 1, x: 0}}
+              exit={{opacity: 0, x: -5}}
+              transition={{duration: 0.3}}
+              onClick={onSkip}
+              className="ml-auto text-[10px] text-white/20 hover:text-white/40 transition-colors font-mono cursor-pointer flex items-center gap-1.5"
+            >
+              skip
+              <kbd className="px-1 py-0.5 rounded border border-white/10 text-[9px] leading-none">↵</kbd>
+            </motion.button>
+          )}
+          {isComplete && (
+            <motion.button
+              key="replay"
+              initial={{opacity: 0, scale: 0.8}}
+              animate={{opacity: 1, scale: 1}}
+              exit={{opacity: 0, scale: 0.8}}
+              onClick={onReplay}
+              className="ml-auto text-xs text-white/30 hover:text-brand-400 transition-colors font-mono cursor-pointer"
+            >
+              replay ↻
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <div ref={containerRef} className="p-4 font-mono text-sm leading-relaxed min-h-[200px] max-h-[400px] overflow-y-auto overflow-x-hidden break-words">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function TerminalLines({
+  displayedLines,
+  cursor,
+  isComplete,
+}: {
+  displayedLines: DisplayLine[];
+  cursor: CursorMode;
+  isComplete: boolean;
+}) {
+  const showPrompt = cursor === 'idle' && !isComplete;
+
+  return (
+    <>
+      {displayedLines.map((line, i) => (
+        <div key={i} className="mb-1.5">
+          {line.type === 'command' ? (
+            <span>
+              <span className="text-brand-400">$</span>{' '}
+              <span className="text-white">{line.text}</span>
+            </span>
+          ) : (
+            <span className="text-white/60">{line.text}</span>
+          )}
+        </div>
+      ))}
+
+      {cursor === 'streaming' && (
+        <motion.span
+          className="inline-block w-[7px] h-[14px] bg-brand-400/80 align-middle ms-0.5"
+          animate={{opacity: [1, 0.3, 1]}}
+          transition={{duration: 0.6, repeat: Infinity}}
+        />
+      )}
+
+      {(cursor === 'typing' || showPrompt) && (
+        <div className="mb-1.5">
+          {showPrompt && <span className="text-brand-400">$ </span>}
+          <motion.span
+            className="inline-block w-[7px] h-[14px] bg-brand-400 align-middle"
+            animate={{opacity: [1, 0, 1]}}
+            transition={{duration: 1, repeat: Infinity}}
+          />
+        </div>
+      )}
+
+      <AnimatePresence>
+        {isComplete && (
+          <motion.div
+            initial={{opacity: 0, y: 5}}
+            animate={{opacity: 1, y: 0}}
+            transition={{delay: 0.3, duration: 0.4}}
+            className="mt-3 pt-3 border-t border-white/5"
+          >
+            <span className="text-brand-400">$</span>{' '}
+            <motion.span
+              className="inline-block w-[7px] h-[14px] bg-brand-400/40 align-middle"
+              animate={{opacity: [0.4, 0.8, 0.4]}}
+              transition={{duration: 2, repeat: Infinity}}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+// Animated terminal - entrance animation + typing effect (first visit only)
+function AnimatedTerminal({lines}: Props) {
   const prefersReduced = useReducedMotion();
   const [displayedLines, setDisplayedLines] = useState<DisplayLine[]>([]);
   const [cursor, setCursor] = useState<CursorMode>('idle');
@@ -188,19 +335,16 @@ export function Terminal({lines}: Props) {
     if (!ready) return;
     if (prefersReduced) {
       setDisplayedLines(
-        lines.map((l) => ({
-          type: l.type,
-          text: l.text,
-          complete: true,
-        }))
+        lines.map((l) => ({type: l.type, text: l.text, complete: true}))
       );
       setIsComplete(true);
       setCursor('none');
       return;
     }
+    sessionStorage.setItem('terminal-shown', '1');
     run();
     return stop;
-  }, [ready, prefersReduced, run, stop]);
+  }, [ready, prefersReduced, run, stop, lines]);
 
   useEffect(() => {
     if (!ready || prefersReduced || isComplete) return;
@@ -224,8 +368,6 @@ export function Terminal({lines}: Props) {
     }
   }, [displayedLines]);
 
-  const showPrompt = cursor === 'idle' && !isComplete;
-
   return (
     <motion.div
       initial={{opacity: 0, y: 30, scale: 0.95}}
@@ -233,107 +375,49 @@ export function Terminal({lines}: Props) {
       transition={{duration: 0.8, ease: [0.16, 1, 0.3, 1]}}
       className="w-full max-w-2xl mx-auto"
     >
-      <div className="rounded-lg border border-white/10 bg-black/60 backdrop-blur-sm overflow-hidden shadow-2xl shadow-brand-500/5">
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/5">
-          <motion.div
-            className="w-3 h-3 rounded-full bg-red-500/80"
-            whileHover={{scale: 1.3, backgroundColor: 'rgb(239 68 68)'}}
-            transition={{type: 'spring', stiffness: 400}}
-          />
-          <motion.div
-            className="w-3 h-3 rounded-full bg-yellow-500/80"
-            whileHover={{scale: 1.3, backgroundColor: 'rgb(234 179 8)'}}
-            transition={{type: 'spring', stiffness: 400}}
-          />
-          <motion.div
-            className="w-3 h-3 rounded-full bg-green-500/80"
-            whileHover={{scale: 1.3, backgroundColor: 'rgb(34 197 94)'}}
-            transition={{type: 'spring', stiffness: 400}}
-          />
-          <span className="ml-2 text-xs text-white/40 font-mono">{siteConfig.terminal.user}@{siteConfig.terminal.host} ~ %</span>
-
-          <AnimatePresence mode="wait">
-            {showSkip && !isComplete && (
-              <motion.button
-                key="skip"
-                initial={{opacity: 0, x: 5}}
-                animate={{opacity: 1, x: 0}}
-                exit={{opacity: 0, x: -5}}
-                transition={{duration: 0.3}}
-                onClick={skip}
-                className="ml-auto text-[10px] text-white/20 hover:text-white/40 transition-colors font-mono cursor-pointer flex items-center gap-1.5"
-              >
-                skip
-                <kbd className="px-1 py-0.5 rounded border border-white/10 text-[9px] leading-none">↵</kbd>
-              </motion.button>
-            )}
-            {isComplete && (
-              <motion.button
-                key="replay"
-                initial={{opacity: 0, scale: 0.8}}
-                animate={{opacity: 1, scale: 1}}
-                exit={{opacity: 0, scale: 0.8}}
-                onClick={run}
-                className="ml-auto text-xs text-white/30 hover:text-brand-400 transition-colors font-mono cursor-pointer"
-              >
-                replay ↻
-              </motion.button>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <div ref={containerRef} className="p-4 font-mono text-sm leading-relaxed min-h-[200px] max-h-[400px] overflow-y-auto overflow-x-hidden break-words">
-          {displayedLines.map((line, i) => (
-            <div key={i} className="mb-1.5">
-              {line.type === 'command' ? (
-                <span>
-                  <span className="text-brand-400">$</span>{' '}
-                  <span className="text-white">{line.text}</span>
-                </span>
-              ) : (
-                <span className="text-white/60">{line.text}</span>
-              )}
-            </div>
-          ))}
-
-          {cursor === 'streaming' && (
-            <motion.span
-              className="inline-block w-[7px] h-[14px] bg-brand-400/80 align-middle ms-0.5"
-              animate={{opacity: [1, 0.3, 1]}}
-              transition={{duration: 0.6, repeat: Infinity}}
-            />
-          )}
-
-          {(cursor === 'typing' || showPrompt) && (
-            <div className="mb-1.5">
-              {showPrompt && <span className="text-brand-400">$ </span>}
-              <motion.span
-                className="inline-block w-[7px] h-[14px] bg-brand-400 align-middle"
-                animate={{opacity: [1, 0, 1]}}
-                transition={{duration: 1, repeat: Infinity}}
-              />
-            </div>
-          )}
-
-          <AnimatePresence>
-            {isComplete && (
-              <motion.div
-                initial={{opacity: 0, y: 5}}
-                animate={{opacity: 1, y: 0}}
-                transition={{delay: 0.3, duration: 0.4}}
-                className="mt-3 pt-3 border-t border-white/5"
-              >
-                <span className="text-brand-400">$</span>{' '}
-                <motion.span
-                  className="inline-block w-[7px] h-[14px] bg-brand-400/40 align-middle"
-                  animate={{opacity: [0.4, 0.8, 0.4]}}
-                  transition={{duration: 2, repeat: Infinity}}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
+      <TerminalShell
+        containerRef={containerRef}
+        showSkip={showSkip}
+        isComplete={isComplete}
+        onSkip={skip}
+        onReplay={run}
+      >
+        <TerminalLines displayedLines={displayedLines} cursor={cursor} isComplete={isComplete} />
+      </TerminalShell>
     </motion.div>
   );
+}
+
+// Reads sessionStorage synchronously during render (no flash).
+// useSyncExternalStore handles SSR vs client safely.
+export function Terminal({lines}: Props) {
+  const alreadyShown = useSyncExternalStore(noop, getTerminalShown, getServerSnapshot);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  if (alreadyShown) {
+    const completedLines: DisplayLine[] = lines.map((l) => ({
+      type: l.type,
+      text: l.text,
+      complete: true,
+    }));
+
+    return (
+      <div className="w-full max-w-2xl mx-auto">
+        <TerminalShell
+          containerRef={containerRef}
+          showSkip={false}
+          isComplete={true}
+          onSkip={() => {}}
+          onReplay={() => {
+            sessionStorage.removeItem('terminal-shown');
+            window.location.reload();
+          }}
+        >
+          <TerminalLines displayedLines={completedLines} cursor="none" isComplete={true} />
+        </TerminalShell>
+      </div>
+    );
+  }
+
+  return <AnimatedTerminal lines={lines} />;
 }

@@ -55,6 +55,20 @@ export function PageLoader() {
   }, []);
 
   useEffect(() => {
+    // Only show loader animation on the homepage, and only once per session
+    const path = window.location.pathname;
+    const isHome = path === '/' || /^\/(?:en|pl|ar)\/?$/.test(path);
+    const alreadyShown = sessionStorage.getItem('loader-shown');
+    if (!isHome || alreadyShown) {
+      const backdrop = document.getElementById('page-loader');
+      backdrop?.classList.remove('active');
+      setPhase('done');
+      document.body.style.overflow = '';
+      window.dispatchEvent(new Event('loader-exit'));
+      return;
+    }
+    sessionStorage.setItem('loader-shown', '1');
+
     window.scrollTo(0, 0);
     document.body.style.overflow = 'hidden';
 
