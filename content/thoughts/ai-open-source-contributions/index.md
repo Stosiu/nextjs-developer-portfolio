@@ -2,6 +2,8 @@
 title: I Fixed a Bug in a Library I'd Never Read Before
 date: 2026-03-05
 tags: [Open Source, AI, Tools]
+image: thumbnail.jpg
+imageCaption: Human intent, AI execution. Passing the fix between them.
 description: AI coding tools collapsed the barrier to contributing to open source. That's both the best and worst thing happening to maintainers right now.
 tldr: I contributed two features to bull-board without ever reading its codebase manually. Claude Code handled the exploration. This is happening everywhere now and it cuts both ways. More people can fix things in libraries they use daily. But maintainers are drowning in low-quality PRs from people who let AI write code they don't understand. The fix isn't banning AI. It's preparing codebases for it (AGENTS.md, clear contribution guides) and expecting contributors to verify what they submit.
 ---

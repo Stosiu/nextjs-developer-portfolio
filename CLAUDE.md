@@ -151,13 +151,61 @@ proxy.ts                    # Locale detection + redirect
 
 1. Create `content/thoughts/your-slug/index.md` with YAML frontmatter (`title`, `date`, `tags` required; `description`, `tldr`, `image` optional)
 2. Put images in `public/images/thoughts/your-slug/`
-3. Reference images in markdown: `![alt](/images/thoughts/your-slug/file.png)`
+3. Reference images in markdown: `![alt](/images/thoughts/your-slug/file.jpg)`
+   - **Image format:** Use JPG for all images (preferred for file size). Use PNG only when transparency is needed. Never commit WebP files to the repo. Convert downloaded WebP files to JPG before saving.
 4. Internal links use root-relative paths without locale prefix: `[text](/thoughts/other-slug)` (locale is prepended automatically at render time)
 5. Add a test case in `src/lib/__tests__/thoughts.test.ts`
 
 The system auto-discovers new directories under `content/thoughts/`. No route registration needed.
 
 When writing or editing article content, use the [humanizer](https://github.com/blader/humanizer) Claude Code skill (`/humanizer`) to scan for AI writing patterns and fix them.
+
+### Generating thought thumbnails with Gemini (Nano Banana)
+
+Thumbnails are generated using [Google Gemini's image generation](https://gemini.google.com) (internally called "Nano Banana"). Generate the image in Gemini chat, then save it to `public/images/thoughts/<slug>/`.
+
+**House style (all thumbnails must match this):**
+
+All thought thumbnails share a consistent visual identity. Every prompt must include these style anchors:
+
+- **Medium:** Detailed dark digital illustration, concept-art style. Not flat vector, not photorealistic. Rich in detail with subtle textures and material rendering, like game UI art or cinematic concept art.
+- **Color palette:** Near-black background (#0a0a0a to #0D1216). Emerald green (#10B981) for "healthy/normal/positive" elements (LEDs, screens, status indicators). Orange-red (#E05A33 to #FF6B35) for "emphasis/danger/action" elements. Minimal use of other colors.
+- **Background:** Always dark with a subtle dot grid or halftone texture pattern, matching the website's own dot grid overlay.
+- **Lighting:** Dramatic, directional. Soft light from upper-left or above. Elements glow from within (LEDs, screens, status lights) creating self-illumination against the dark background.
+- **Composition:** Close-up to medium shot. Slight low angle for presence. Single focal subject, not cluttered scenes. 16:9 aspect ratio.
+- **Mood:** Dark, moody, cinematic. Technical but atmospheric. The illustrations should feel like they belong in the same universe.
+- **Text:** No text in images unless specifically needed.
+
+**Prompt structure** (include all five elements):
+
+1. **Style** — always start with: "Detailed dark digital illustration, concept-art style, rich textures and material rendering"
+2. **Subject** — the main object with specific visual details (what's glowing green, what's glowing orange)
+3. **Setting** — dark environment with subtle dot grid texture in the background
+4. **Action/State** — what's happening, the narrative of the scene
+5. **Composition** — "close-up" or "medium shot", "slight low angle", "16:9 aspect ratio", "no text"
+
+**Rules for good prompts:**
+
+- Describe the scene as a narrative paragraph, not a keyword list. Gemini responds better to natural descriptions.
+- Be hyper-specific. Replace vague terms ("a server") with detailed descriptions ("a dark server rack with blinking green LEDs and one unit glowing red").
+- Always reference the house style colors explicitly: emerald green (#10B981) and orange-red for contrast.
+- Start simple (1-2 sentences), generate, then refine iteratively. Change one variable per iteration.
+- If you need a specific aspect ratio and prompting alone doesn't produce it, upload a reference image with the correct dimensions.
+- To maintain consistency across articles, upload a previous thumbnail as a style reference when generating new ones.
+
+**What to avoid:**
+
+- Flat vector or cartoon styles (too simple for our look)
+- Bright or colorful backgrounds (always near-black)
+- Keyword soup ("server, hacking, cyber, dark, neon, tech")
+- Multiple competing subjects in one prompt
+- Listing things to exclude instead of describing what you want
+
+**Example prompt (Coolify article, the reference standard):**
+
+> Detailed dark digital illustration, concept-art style with rich textures and material rendering. A server rack viewed in close-up, its units stacked vertically. Most indicator lights and a small monitor display glow emerald green (#10B981), showing a hexagonal logo on screen. One unit in the lower half glows an intense orange-red, with a pickaxe symbol and interlocking pattern visible on its face, suggesting cryptocurrency mining. The background is near-black with a subtle dot grid texture. Dramatic lighting from the upper left, elements self-illuminate against the darkness. Slight low angle, medium shot. 16:9 aspect ratio. No text.
+
+When proposing a thumbnail prompt, always output the full prompt ready to copy-paste into Gemini chat. Always suggest uploading a previous thumbnail as a style reference.
 
 ## Key Patterns
 
