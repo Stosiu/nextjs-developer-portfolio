@@ -2,6 +2,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
+const isDev = process.env.NODE_ENV === 'development';
 const hasGA = !!process.env.NEXT_PUBLIC_GA_ID;
 const gaDomains = hasGA
   ? ' https://www.googletagmanager.com https://www.google-analytics.com'
@@ -9,6 +10,16 @@ const gaDomains = hasGA
 const gaAnalyticsDomains = hasGA
   ? ' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com'
   : '';
+
+const hasSpeedInsights = !!process.env.NEXT_PUBLIC_SPEED_INSIGHTS;
+const speedInsightsDomains = hasSpeedInsights ? ' https://va.vercel-scripts.com' : '';
+const devDomains = isDev ? ' https://unpkg.com' : '';
+const devConnectDomains = isDev ? ' https://www.react-grab.com' : '';
+const devStyleDomains = isDev ? ' https://fonts.googleapis.com' : '';
+const devFontDomains = isDev ? ' https://fonts.gstatic.com' : '';
+const scriptSrc = isDev
+  ? `script-src 'self' 'unsafe-inline' 'unsafe-eval'${gaDomains}${devDomains}${speedInsightsDomains}`
+  : `script-src 'self' 'unsafe-inline'${gaDomains}${speedInsightsDomains}`;
 
 const securityHeaders = [
   {key: 'X-Content-Type-Options', value: 'nosniff'},
@@ -19,11 +30,11 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline' 'unsafe-eval'${gaDomains}`,
-      "style-src 'self' 'unsafe-inline'",
+      scriptSrc,
+      `style-src 'self' 'unsafe-inline'${devStyleDomains}`,
       `img-src 'self' data: blob: https://i.scdn.co https://avatars.githubusercontent.com https://img.shields.io${gaDomains}`,
-      "font-src 'self'",
-      `connect-src 'self'${gaAnalyticsDomains}`,
+      `font-src 'self'${devFontDomains}`,
+      `connect-src 'self'${gaAnalyticsDomains}${speedInsightsDomains}${devConnectDomains}`,
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -53,6 +64,7 @@ const nextConfig = {
   headers: async () => [
     {source: '/(.*)', headers: securityHeaders},
   ],
+  rewrites: async () => [],
 };
 
 export default withNextIntl(nextConfig);

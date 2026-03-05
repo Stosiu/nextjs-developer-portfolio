@@ -6,12 +6,20 @@ import {LanguageSwitcher} from './language-switcher';
 import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
 import {Button} from '@/components/ui/button';
 import {FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt} from 'react-icons/fa';
+import {Link, usePathname, useRouter} from '@/i18n/navigation';
 import {siteConfig} from '@/config/site';
 
 const {sections} = siteConfig;
 
-export function Navbar() {
+type NavbarProps = {
+  thoughtsCount?: number;
+};
+
+export function Navbar({thoughtsCount = 0}: NavbarProps) {
   const t = useTranslations('nav');
+  const pathname = usePathname();
+  const router = useRouter();
+  const isHome = pathname === '/';
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -25,6 +33,10 @@ export function Navbar() {
   }, []);
 
   const updateActiveSection = useCallback(() => {
+    if (!isHome) {
+      setActiveSection(null);
+      return;
+    }
     const firstEl = document.getElementById(sections[0]);
     if (!firstEl || firstEl.getBoundingClientRect().top > window.innerHeight * 0.5) {
       setActiveSection(null);
@@ -36,7 +48,7 @@ export function Navbar() {
       return {id, top: Math.abs(el.getBoundingClientRect().top - 100)};
     });
     setActiveSection(offsets.reduce((a, b) => (a.top < b.top ? a : b)).id);
-  }, []);
+  }, [isHome]);
 
   useEffect(() => {
     window.addEventListener('scroll', updateActiveSection, {passive: true});
@@ -45,7 +57,12 @@ export function Navbar() {
   }, [updateActiveSection]);
 
   function scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({behavior: 'smooth'});
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({behavior: 'smooth'});
+    } else {
+      router.push(`/#${id}`);
+    }
     setOpen(false);
   }
 
@@ -101,6 +118,14 @@ export function Navbar() {
               </button>
             );
           })}
+          {thoughtsCount > 0 && (
+            <Link
+              href="/thoughts"
+              className="relative px-3.5 py-1.5 text-sm rounded-full transition-all duration-300 text-white/50 hover:text-white/80"
+            >
+              {t('thoughts', {count: thoughtsCount})}
+            </Link>
+          )}
         </div>
 
         {/* Right: socials + language */}
@@ -151,6 +176,15 @@ export function Navbar() {
                   </button>
                 );
               })}
+              {thoughtsCount > 0 && (
+                <Link
+                  href="/thoughts"
+                  onClick={() => setOpen(false)}
+                  className="text-lg transition-colors text-start text-white/50 hover:text-white/80"
+                >
+                  {t('thoughts', {count: thoughtsCount})}
+                </Link>
+              )}
             </div>
             <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 text-white/40 hover:text-white transition-colors">
               {t('agency')}

@@ -8,7 +8,8 @@
     "projects": "المشاريع",
     "stats": "الإحصائيات",
     "experience": "الخبرة",
-    "agency": "وكالتي"
+    "agency": "وكالتي",
+    "thoughts": "أفكار ({count})"
   },
   "hero": {
     "command1": "whoami",
@@ -177,5 +178,16 @@
     "footer2": "// EOF",
     "default1": "// ...",
     "default2": "// تتصفح فقط؟"
+  },
+  "thoughts": {
+    "title": "أفكار",
+    "metaDescription": "أفكار وتأملات ودروس من بناء المنتجات وإدارة الشركات.",
+    "searchPlaceholder": "ابحث...",
+    "allTags": "الكل",
+    "noResults": "لا توجد أفكار تطابق بحثك.",
+    "backToThoughts": "العودة إلى الأفكار",
+    "backHome": "العودة إلى الصفحة الرئيسية",
+    "readingTime": "{minutes} دقيقة قراءة",
+    "words": "كلمة"
   }
 }

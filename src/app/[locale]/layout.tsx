@@ -14,6 +14,8 @@ import {QueryProvider} from '@/components/query-provider';
 import {ContextMenu} from '@/components/context-menu';
 import {EasterEggSettings} from '@/components/easter-egg-settings';
 import {SpeedInsights} from '@vercel/speed-insights/next';
+import NextTopLoader from 'nextjs-toploader';
+import Script from 'next/script';
 import {siteConfig} from '@/config/site';
 import '@/app/globals.css';
 
@@ -55,10 +57,15 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     title,
     description,
     metadataBase: new URL(SITE_URL),
+    manifest: '/site.webmanifest',
     icons: {
       icon: [
+        {url: '/favicon.ico', sizes: '16x16 32x32'},
         {url: '/favicon.svg', type: 'image/svg+xml'},
+        {url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32'},
+        {url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16'},
       ],
+      apple: [{url: '/apple-touch-icon.png', sizes: '180x180'}],
     },
     alternates: {
       canonical: canonicalUrl,
@@ -89,6 +96,9 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     robots: {
       index: true,
       follow: true,
+    },
+    other: {
+      'theme-color': '#000000',
     },
   };
 }
@@ -137,7 +147,15 @@ export default async function LocaleLayout({children, params}: Props) {
 
   return (
     <html lang={locale} dir={dir} className="dark">
-      <head />
+      <head>
+        {process.env.NODE_ENV === 'development' && (
+          <Script
+            src="https://unpkg.com/react-grab/dist/index.global.js"
+            crossOrigin="anonymous"
+            strategy="beforeInteractive"
+          />
+        )}
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Static JSON-LD — no user input, safe to inline */}
         <script
@@ -154,7 +172,14 @@ export default async function LocaleLayout({children, params}: Props) {
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded focus:text-sm focus:font-medium">
           Skip to content
         </a>
+        <NextTopLoader color="#10B981" height={2} showSpinner={false} shadow={false} />
         <div id="page-loader" aria-hidden="true" />
+        {/* Inline script activates the page-loader overlay only on homepage first visit.
+            Runs synchronously before paint to prevent flash of black on non-homepage routes.
+            No user input — static string only. */}
+        <script
+          dangerouslySetInnerHTML={{__html: `(function(){var p=location.pathname;if((p==="/"||/^\\/(?:en|pl|ar)\\/?$/.test(p))&&!sessionStorage.getItem("loader-shown")){document.getElementById("page-loader").classList.add("active")}})()`}}
+        />
         <PageLoader />
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>
