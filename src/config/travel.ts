@@ -35,7 +35,7 @@ export type VisitedCountry = {
 export const visitedCountries: VisitedCountry[] = [
   {code: 'AL', year: 2025, image: alImg},
   {code: 'AT', year: 2024, image: atImg},
-  {code: 'AU', year: 2019, image: auImg, caption: 'A month solo. Camper van, open roads, too many animals.'},
+  {code: 'AU', year: 2019, image: auImg, caption: 'Three weeks in a camper van. Open roads, too many animals.'},
   {code: 'BA', year: 2025, image: baImg},
   {code: 'CY', year: 2018, image: cyImg},
   {code: 'CZ', year: 2018},
@@ -68,5 +68,5 @@ export const visitedCountries: VisitedCountry[] = [
   {code: 'TR', year: 2019},
   {code: 'UA', year: 2018},
   {code: 'AE', year: 2024, image: aeImg, caption: 'Luxury everywhere, but a bit too much for me.'},
-  {code: 'US', year: 2019, image: usImg, caption: 'Three weeks on the road in a camper van.'},
+  {code: 'US', year: 2019, image: usImg, caption: 'A month-long solo trip.'},
 ];
