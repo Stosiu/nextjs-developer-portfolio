@@ -77,6 +77,9 @@ src/
       not-found.tsx         # 404 page
       error.tsx             # Error boundary
       privacy/page.tsx      # Privacy policy (only linked if GA_ID set)
+      thoughts/
+        page.tsx            # Thoughts listing (search, tag filter, pagination)
+        [slug]/page.tsx     # Individual thought article
   components/
     analytics-provider.tsx  # Conditional GA loading + scroll depth tracking
     cookie-consent.tsx      # GDPR consent banner (only if GA_ID set)
@@ -84,6 +87,7 @@ src/
     language-switcher.tsx   # EN/PL/AR locale buttons
     terminal.tsx            # Interactive typing animation
     cursor-comment.tsx      # Floating code comments that follow scroll
+    thoughts-list.tsx       # Client-side search, tag filter, pagination (uses nuqs)
     ui/                     # shadcn/ui + reusable components (stat-card, section-heading, badge, etc.)
     sections/
       hero.tsx              # Terminal + CTA
@@ -108,6 +112,7 @@ src/
     github.ts               # GitHub GraphQL API (server-side, ISR cached)
     spotify.ts              # Spotify now-playing API
     stats.ts                # Stats aggregator (GitHub + AI blob)
+    thoughts.ts             # Markdown parser + renderer (remark/rehype pipeline)
     format.ts               # Number/date formatting utilities
     utils.ts                # shadcn cn() utility
   data/
@@ -120,6 +125,10 @@ messages/
   en.json                   # English translations
   pl.json                   # Polish translations
   ar.json                   # Arabic translations
+content/
+  thoughts/
+    my-article/
+      index.md              # Markdown article with YAML frontmatter
 proxy.ts                    # Locale detection + redirect
 ```
 
@@ -137,6 +146,18 @@ proxy.ts                    # Locale detection + redirect
 1. Remove the id from `siteConfig.sections` in `src/config/site.ts`
 2. Remove the component from `src/app/[locale]/page.tsx`
 3. Optionally delete the component file and translation keys
+
+## Adding a Thought
+
+1. Create `content/thoughts/your-slug/index.md` with YAML frontmatter (`title`, `date`, `tags` required; `description`, `tldr`, `image` optional)
+2. Put images in `public/images/thoughts/your-slug/`
+3. Reference images in markdown: `![alt](/images/thoughts/your-slug/file.png)`
+4. Internal links use root-relative paths without locale prefix: `[text](/thoughts/other-slug)` (locale is prepended automatically at render time)
+5. Add a test case in `src/lib/__tests__/thoughts.test.ts`
+
+The system auto-discovers new directories under `content/thoughts/`. No route registration needed.
+
+When writing or editing article content, use the [humanizer](https://github.com/blader/humanizer) Claude Code skill (`/humanizer`) to scan for AI writing patterns and fix them.
 
 ## Key Patterns
 

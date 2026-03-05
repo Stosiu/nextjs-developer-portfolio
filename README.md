@@ -56,6 +56,12 @@ Fork it, swap the config files, and deploy it in one click.
 - [Analytics & Privacy](#analytics--privacy)
 - [Stats Dashboard](#stats-dashboard)
   - [How scheduling works](#how-scheduling-works)
+- [Thoughts (Blog)](#thoughts-blog)
+  - [Adding a thought](#adding-a-thought)
+  - [Frontmatter reference](#frontmatter-reference)
+  - [Images](#images)
+  - [Internal links](#internal-links)
+  - [Writing quality](#writing-quality)
 - [Testing](#testing)
 - [Scripts](#scripts)
 - [Project Structure](#project-structure)
@@ -78,6 +84,7 @@ Fork it, swap the config files, and deploy it in one click.
 - **Scrolling logo marquee** with client brands
 - **Project showcase** with gradient-bordered cards
 - **Work experience timeline** — because `years_of_experience++` needs context
+- **Thoughts (blog)** — markdown articles with frontmatter, tag filtering, search, and pagination
 - **Full i18n** with RTL support for Arabic
 - **Dark theme only** — non-negotiable (you can try toggling it off in the settings panel, but...)
 - **Accessible** — skip-nav, ARIA labels, respects `prefers-reduced-motion`
@@ -316,6 +323,95 @@ tail -f ~/Library/Logs/upload-ai/stdout.log
 tail -f ~/Library/Logs/upload-ai/stderr.log
 ```
 
+## Thoughts (Blog)
+
+The thoughts section is a markdown-powered blog built into the portfolio. Articles live as plain `.md` files, get rendered at build time, and are available at `/{locale}/thoughts/{slug}`.
+
+### How it works
+
+Each thought is a directory under `content/thoughts/` containing an `index.md` file:
+
+```
+content/thoughts/
+  my-article/
+    index.md          # Markdown with YAML frontmatter
+public/images/thoughts/
+  my-article/
+    hero.png          # Optional images referenced from markdown
+```
+
+The markdown pipeline uses remark/rehype with GFM support, auto-generated heading IDs, autolinked headings, and image-to-figure wrapping. Internal links (starting with `/`) are automatically prefixed with the current locale at render time, so you can write `[link text](/thoughts/other-article)` without worrying about locale prefixes.
+
+The thoughts listing page at `/{locale}/thoughts` supports:
+- Full-text search across titles, descriptions, TL;DRs, and tags
+- Tag filtering via clickable tag badges (synced to URL query params)
+- Pagination (12 per page)
+
+### Adding a thought
+
+1. Create a directory: `content/thoughts/your-slug/`
+2. Create `content/thoughts/your-slug/index.md` with frontmatter (see below)
+3. Put any images in `public/images/thoughts/your-slug/`
+4. Reference images in markdown with `/images/thoughts/your-slug/filename.png`
+5. Add a test case in `src/lib/__tests__/thoughts.test.ts` to verify rendering
+
+No config files, no route registration. The system picks up new directories automatically.
+
+### Frontmatter reference
+
+```yaml
+---
+title: Your Article Title
+date: 2026-03-05
+tags: [Tools, AI, React]
+description: One-line summary for SEO meta and the listing page.
+tldr: A longer summary shown at the top of the article. Readers see this before the full content.
+image: hero.png  # Optional. Filename in public/images/thoughts/your-slug/
+---
+```
+
+| Field | Required | Used for |
+|---|---|---|
+| `title` | Yes | Page title, listing card, SEO |
+| `date` | Yes | Sort order, display date |
+| `tags` | Yes | Filtering, tag badges |
+| `description` | No | Meta description, listing card subtitle |
+| `tldr` | No | Summary box at the top of the article |
+| `image` | No | Cover image with blur placeholder (auto-generated via sharp) |
+
+### Images
+
+Images referenced in markdown use standard syntax:
+
+```markdown
+![Alt text describing the image](/images/thoughts/your-slug/screenshot.png)
+```
+
+The renderer wraps images in `<figure>` elements with the alt text as `<figcaption>`. Place image files in `public/images/thoughts/your-slug/`.
+
+If you set the `image` field in frontmatter, that image appears as a cover on the listing page. The system generates blur placeholders automatically using sharp.
+
+### Internal links
+
+Write internal links as root-relative paths without locale prefixes:
+
+```markdown
+Check out [my other article](/thoughts/other-slug).
+```
+
+The renderer prepends the current locale automatically (e.g., `/en/thoughts/other-slug`, `/pl/thoughts/other-slug`). This works for any internal path, not just thoughts.
+
+### Writing quality
+
+If you're using Claude Code to help write or edit articles, install the [humanizer](https://github.com/blader/humanizer) skill:
+
+```bash
+mkdir -p ~/.claude/skills
+git clone https://github.com/blader/humanizer.git ~/.claude/skills/humanizer
+```
+
+Then run `/humanizer` in Claude Code to scan your writing for common AI tells: promotional language, em dash overuse, vague attributions, rule-of-three patterns, and 20+ other patterns cataloged from Wikipedia's AI writing guide. It rewrites flagged sections while keeping your voice intact.
+
 ## Testing
 
 Tests use [Vitest](https://vitest.dev/) and cover utility functions, API integrations, and script logic.
@@ -328,7 +424,7 @@ pnpm test:coverage     # With coverage report
 
 Test files live alongside source code in `__tests__/` directories:
 
-- `src/lib/__tests__/` — format, utils, rate-limit, github, consent, analytics
+- `src/lib/__tests__/` — format, utils, rate-limit, github, consent, analytics, thoughts
 - `scripts/lib/__tests__/` — AI stats parser
 
 ## Scripts
@@ -350,42 +446,51 @@ Test files live alongside source code in `__tests__/` directories:
 ## Project Structure
 
 ```
+content/
+  thoughts/
+    my-article/
+      index.md            # Markdown article with YAML frontmatter
 src/
   app/[locale]/
-    layout.tsx          # Locale layout (fonts, dir, providers, conditional analytics)
-    page.tsx            # Single page with all sections
-    not-found.tsx       # Custom 404
-    privacy/page.tsx    # Privacy policy (linked only if GA_ID set)
+    layout.tsx            # Locale layout (fonts, dir, providers, conditional analytics)
+    page.tsx              # Single page with all sections
+    not-found.tsx         # Custom 404
+    privacy/page.tsx      # Privacy policy (linked only if GA_ID set)
+    thoughts/
+      page.tsx            # Thoughts listing with search, filtering, pagination
+      [slug]/page.tsx     # Individual thought article
   components/
     analytics-provider.tsx  # Conditional GA loading + scroll depth tracking
     cookie-consent.tsx      # GDPR consent banner
-    navbar.tsx          # Sticky nav with scroll detection
-    terminal.tsx        # Typing animation state machine
-    cursor-comment.tsx  # Floating code comments
-    interactive-dots.tsx # Canvas dot grid
+    navbar.tsx            # Sticky nav with scroll detection
+    terminal.tsx          # Typing animation state machine
+    cursor-comment.tsx    # Floating code comments
+    interactive-dots.tsx  # Canvas dot grid
     language-switcher.tsx
-    sections/           # Hero, About, Logos, Projects, Stats, Experience, Footer
-    stats/              # GitHub heatmap, AI tokens chart, Spotify card, etc.
-    ui/                 # shadcn/ui + reusable components
+    thoughts-list.tsx     # Client-side search, tag filter, pagination (uses nuqs)
+    sections/             # Hero, About, Logos, Projects, Stats, Experience, Footer
+    stats/                # GitHub heatmap, AI tokens chart, Spotify card, etc.
+    ui/                   # shadcn/ui + reusable components
   hooks/
-    use-count-up.ts     # IntersectionObserver count-up animation
+    use-count-up.ts       # IntersectionObserver count-up animation
     use-track-section-view.ts # Section view analytics tracking
-  i18n/                 # Locale config + routing
+  i18n/                   # Locale config + routing
   data/
-    stats.json          # Generated stats data
-    stats-types.ts      # TypeScript types for stats
+    stats.json            # Generated stats data
+    stats-types.ts        # TypeScript types for stats
   lib/
-    analytics.ts        # GA loader + event tracking (gated by NEXT_PUBLIC_GA_ID)
-    consent.ts          # Cookie consent state (localStorage + CustomEvent)
-    data.ts             # Project entries
-    github.ts           # GitHub GraphQL API (server-side, ISR cached)
-    spotify.ts          # Spotify API client
-    stats.ts            # Stats aggregator (GitHub API + AI blob)
-    format.ts           # Number/date formatting utilities
+    analytics.ts          # GA loader + event tracking (gated by NEXT_PUBLIC_GA_ID)
+    consent.ts            # Cookie consent state (localStorage + CustomEvent)
+    data.ts               # Project entries
+    github.ts             # GitHub GraphQL API (server-side, ISR cached)
+    spotify.ts            # Spotify API client
+    stats.ts              # Stats aggregator (GitHub API + AI blob)
+    thoughts.ts           # Markdown parser + renderer (remark/rehype pipeline)
+    format.ts             # Number/date formatting utilities
 messages/
-  en.json               # English
-  pl.json               # Polish
-  ar.json               # Arabic
+  en.json                 # English
+  pl.json                 # Polish
+  ar.json                 # Arabic
 scripts/
   upload-ai-stats.ts      # Upload AI usage stats to Vercel Blob
 .github/workflows/
