@@ -4,7 +4,7 @@ import {useState, useCallback, useRef, memo} from 'react';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
 import Image from 'next/image';
-import {Plus, Minus} from 'lucide-react';
+import {Plus, Minus, X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {visitedCountries, type VisitedCountry} from '@/config/travel';
 
@@ -107,13 +107,13 @@ function Minimap({zoom, coordinates}: ZoomState) {
 
   const viewW = 100 / zoom;
   const viewH = 60 / zoom;
-  const offsetX = ((coordinates[0] - MAP_CENTER[0]) / 360) * -100;
+  const offsetX = ((coordinates[0] - MAP_CENTER[0]) / 360) * 100;
   const offsetY = ((coordinates[1] - MAP_CENTER[1]) / 180) * -60;
   const rectX = 50 - viewW / 2 + offsetX;
   const rectY = 30 - viewH / 2 + offsetY;
 
   return (
-    <div className="absolute bottom-3 left-3 z-40 w-32 h-[76px] rounded border border-white/10 bg-black/80 backdrop-blur-sm overflow-hidden">
+    <div className="absolute bottom-2 left-2 z-40 w-20 h-12 sm:w-32 sm:h-[76px] rounded border border-white/10 bg-black/80 backdrop-blur-sm overflow-hidden">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{scale: 28, center: MAP_CENTER}}
@@ -208,16 +208,27 @@ export function TravelMap() {
     setPopover(null);
   }, []);
 
+  const isTouchDevice = useRef(false);
+
+  const handleTouchStart = useCallback(() => {
+    isTouchDevice.current = true;
+  }, []);
+
   const handleGeoClick = useCallback(
     (geo: {id: string | number; properties: {name: string}}) => {
       const country = visitedByNumeric.get(geo.id as string);
       if (!country) return;
 
-      setMobileActive((prev) => {
-        if (prev === country.code) return null;
-        setPopover({country, name: geo.properties.name});
-        return country.code;
-      });
+      if (isTouchDevice.current) {
+        setMobileActive((prev) => {
+          if (prev === country.code) {
+            setPopover(null);
+            return null;
+          }
+          setPopover({country, name: geo.properties.name});
+          return country.code;
+        });
+      }
     },
     [],
   );
@@ -234,6 +245,7 @@ export function TravelMap() {
       ref={containerRef}
       className="relative w-full overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.03] to-transparent"
       onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
       onClick={handleContainerClick}
     >
       <ComposableMap
@@ -298,7 +310,7 @@ export function TravelMap() {
 
       <Minimap zoom={zoomState.zoom} coordinates={zoomState.coordinates} />
 
-      <div className="absolute bottom-3 right-3 z-40 flex flex-col gap-1">
+      <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-40 flex flex-col gap-1">
         <Button
           variant="ghost"
           size="icon-sm"
@@ -319,12 +331,13 @@ export function TravelMap() {
         </Button>
       </div>
 
+      {/* Desktop: cursor-following popover */}
       <AnimatePresence>
-        {popover && (
+        {popover && !mobileActive && (
           <motion.div
             initial={reducedMotion ? {opacity: 1} : {opacity: 0}}
             animate={{opacity: 1}}
-            exit={reducedMotion ? {opacity: 0} : {opacity: 0}}
+            exit={{opacity: 0}}
             transition={{duration: reducedMotion ? 0 : 0.15}}
             className={`absolute z-50 pointer-events-none overflow-hidden rounded-lg border border-white/10 bg-neutral-900/95 backdrop-blur-sm shadow-xl ${
               popover.country.image && popover.country.image.width < popover.country.image.height ? 'w-48' : 'w-56'
@@ -358,6 +371,46 @@ export function TravelMap() {
                 <p className="text-xs text-white/40 mt-1">{popover.country.caption}</p>
               )}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile: bottom bar popover */}
+      <AnimatePresence>
+        {popover && mobileActive && (
+          <motion.div
+            initial={reducedMotion ? {opacity: 1} : {opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            exit={{opacity: 0, y: 20}}
+            transition={{duration: reducedMotion ? 0 : 0.2}}
+            className="absolute bottom-0 inset-x-0 z-50 flex items-center gap-3 rounded-b-xl border-t border-white/10 bg-neutral-900/95 backdrop-blur-sm p-3"
+          >
+            {popover.country.image && (
+              <div className="relative w-16 h-16 shrink-0 rounded overflow-hidden">
+                <Image
+                  src={popover.country.image}
+                  alt={popover.name}
+                  fill
+                  sizes="64px"
+                  placeholder="blur"
+                  className="object-cover object-center"
+                />
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-white">{popover.name}</p>
+              <p className="text-xs text-white/50">{popover.country.year}</p>
+              {popover.country.caption && (
+                <p className="text-xs text-white/40 mt-0.5 line-clamp-2">{popover.country.caption}</p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => { setMobileActive(null); setPopover(null); }}
+              className="shrink-0 p-1 rounded text-white/40 hover:text-white/70"
+            >
+              <X size={16} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
