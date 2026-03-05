@@ -158,7 +158,9 @@ proxy.ts                    # Locale detection + redirect
 
 The system auto-discovers new directories under `content/thoughts/`. No route registration needed.
 
-When writing or editing article content, use the [humanizer](https://github.com/blader/humanizer) Claude Code skill (`/humanizer`) to scan for AI writing patterns and fix them.
+When writing or editing article content:
+1. Use the [humanizer](https://github.com/blader/humanizer) Claude Code skill (`/humanizer`) to scan for AI writing patterns and fix them.
+2. Do an explicit "AI voice" pass: read through every standalone short sentence and ask whether it sounds like a person sharing a thought or like an AI trying to land a point. Common tells: fortune-cookie closers ("That's what good X feels like."), dramatic fragment chains ("Maybe X. Maybe Y."), punchy one-liners that restate what the paragraph already said, and section-ending sentences designed to be quotable. Fold these into surrounding text or cut them.
 
 ### Generating thought thumbnails with Gemini (Nano Banana)
 

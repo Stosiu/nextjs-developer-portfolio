@@ -95,6 +95,4 @@ What I actually want is lightweight glasses that give me two 27-inch virtual scr
 
 Every year, fewer tools, each doing more. Wispr replaced a keyboard for most text input. Claude replaced a monitor full of Stack Overflow tabs and documentation. The tools that survive long term are the ones you stop noticing because they just work.
 
-Wispr Flow is the best example. I forget it's running. I just talk, and text appears where I need it.
-
-That's what good software feels like. You don't use it. It just becomes part of how you think.
+Wispr Flow is the best example. I forget it's running. I just talk, and text appears where I need it. That's the whole point.

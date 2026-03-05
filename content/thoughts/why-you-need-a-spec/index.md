@@ -10,7 +10,7 @@ tldr: AI commoditized the coding part. The hard part was always understanding th
 
 A developer who has never built a production application can now generate one in an afternoon. The code will compile. It might even look professional. It will have an API, a database schema, authentication, and a clean UI.
 
-It will also fall apart the moment real users touch it.
+It will also fall apart the moment real users touch it, because nobody thought about what happens when real users touch it.
 
 AI made code generation nearly free. The cost of writing software dropped to almost zero. But the cost of writing the *wrong* software stayed exactly where it always was. That cost is what kills projects.
 
@@ -99,8 +99,6 @@ Check that there's a maintenance agreement. Software isn't a one-time delivery. 
 Pay attention to how they handle scope. A good team pushes back on features that don't make sense. They tell you when something is out of scope. They suggest cheaper alternatives. A team that says yes to everything hasn't thought about any of it.
 
 ## The point
-
-The tools got better. The judgment didn't come with them.
 
 AI made it possible for anyone to produce code. It did not make it possible for anyone to understand what code should be produced. That understanding comes from experience. It comes from sitting in a room with an insurance accounting firm and realizing their "to-do list" is actually a workflow automation platform with state-specific regulatory logic. You don't get that from a prompt. You get it from years of building things, shipping them, watching them break, and learning why.
 

@@ -14,7 +14,7 @@ I didn't sit down and read through the project structure. I didn't trace the req
 
 ![My two contributions to bull-board on GitHub: global concurrency support and job retry state fix](/images/thoughts/ai-open-source-contributions/bull-board-commits.png)
 
-A year ago, I would have opened an issue and waited. Maybe months. Maybe forever.
+A year ago, I would have just opened an issue and waited.
 
 ## The barrier that used to exist
 
@@ -74,4 +74,4 @@ Now we need something else to do that job. AGENTS.md is a start. GitHub's new co
 
 I fixed two real problems in bull-board because I understood the domain well enough to verify the output. The people flooding repos with unverified AI code skip that part. They generate a PR, move on, and leave the maintainer to figure out if it even works.
 
-That's not new. People submitted bad patches before AI existed. There are just a lot more of them now.
+People submitted bad patches before AI existed. There are just a lot more of them now.
