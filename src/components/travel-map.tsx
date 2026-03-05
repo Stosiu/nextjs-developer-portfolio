@@ -326,10 +326,20 @@ export function TravelMap() {
             animate={{opacity: 1}}
             exit={reducedMotion ? {opacity: 0} : {opacity: 0}}
             transition={{duration: reducedMotion ? 0 : 0.15}}
-            className="absolute z-50 pointer-events-none w-56 overflow-hidden rounded-lg border border-white/10 bg-neutral-900/95 backdrop-blur-sm shadow-xl"
+            className={`absolute z-50 pointer-events-none overflow-hidden rounded-lg border border-white/10 bg-neutral-900/95 backdrop-blur-sm shadow-xl ${
+              popover.country.image.width > popover.country.image.height ? 'w-56' : 'w-40'
+            }`}
             style={getPopoverStyle()}
           >
-            <div className="relative w-full aspect-video">
+            <div
+              className="relative w-full"
+              style={{
+                aspectRatio:
+                  popover.country.image.width > popover.country.image.height
+                    ? '16 / 9'
+                    : '3 / 4',
+              }}
+            >
               <Image
                 src={popover.country.image}
                 alt={popover.name}
