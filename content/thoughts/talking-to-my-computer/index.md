@@ -2,6 +2,8 @@
 title: My Keyboard is Collecting Dust
 date: 2026-03-03
 tags: [Tools, AI, Workflow]
+image: thumbnail.png
+imageCaption: Voice in, code out. The keyboard is just there for shortcuts.
 description: How Wispr Flow changed the way I interact with my machine and why I barely type anymore.
 tldr: Over 100k words dictated, top 1% by speed at 157 wpm. Between voice dictation and AI coding, my keyboard is mostly for shortcuts. The mouse is for checking if websites look right. We write tests instead of clicking around. Say it out loud and it sounds absurd. But it's just how work looks now.
 ---

@@ -30,6 +30,7 @@ export type ThoughtMeta = {
   tags: string[];
   image: ThoughtImage | null;
   description: string | null;
+  imageCaption: string | null;
   tldr: string | null;
   readingTime: number;
   wordCount: number;
@@ -89,6 +90,7 @@ function parseThought(slug: string): Omit<ThoughtMeta, 'image'> & {imageFilename
     tags: Array.isArray(data.tags) ? data.tags : [],
     imageFilename: data.image ?? null,
     description: data.description ?? null,
+    imageCaption: data.imageCaption ?? null,
     tldr: data.tldr ?? null,
     readingTime,
     wordCount,
