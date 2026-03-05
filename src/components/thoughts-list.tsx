@@ -136,23 +136,10 @@ export function ThoughtsList({thoughts}: Props) {
               animate={{opacity: 1, y: 0}}
               exit={{opacity: 0, y: -10}}
               transition={{delay: i * 0.05, duration: 0.2}}
-              className="group block p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.12] transition-all"
+              className="group block p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.12] transition-all cursor-pointer overflow-hidden"
             >
               <div className="flex gap-5">
-                {thought.image && (
-                  <div className="shrink-0 w-24 h-24 rounded-lg overflow-hidden border border-white/[0.06]">
-                    <Image
-                      src={thought.image.src}
-                      alt={thought.title}
-                      width={96}
-                      height={96}
-                      placeholder="blur"
-                      blurDataURL={thought.image.blurDataURL}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <h2 className="text-lg font-semibold text-white/90 group-hover:text-white transition-colors mb-1">
                     {thought.title}
                   </h2>
@@ -192,6 +179,19 @@ export function ThoughtsList({thoughts}: Props) {
                     ))}
                   </div>
                 </div>
+                {thought.image && (
+                  <div className="shrink-0 w-36 rounded-lg overflow-hidden border border-white/[0.06] self-center">
+                    <Image
+                      src={thought.image.src}
+                      alt={thought.title}
+                      width={thought.image.width}
+                      height={thought.image.height}
+                      placeholder="blur"
+                      blurDataURL={thought.image.blurDataURL}
+                      className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                    />
+                  </div>
+                )}
               </div>
             </MotionLink>
           ))}
