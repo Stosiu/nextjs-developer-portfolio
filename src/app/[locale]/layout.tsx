@@ -174,7 +174,7 @@ export default async function LocaleLayout({children, params}: Props) {
           Skip to content
         </a>
         <NextTopLoader color="#10B981" height={2} showSpinner={false} shadow={false} />
-        <div id="page-loader" aria-hidden="true" />
+        <div id="page-loader" aria-hidden="true" suppressHydrationWarning />
         {/* Inline script activates the page-loader overlay only on homepage first visit.
             Runs synchronously before paint to prevent flash of black on non-homepage routes.
             No user input — static string only. */}
