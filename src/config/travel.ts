@@ -14,7 +14,11 @@ import meImg from '../../public/images/travel/me.jpg';
 import noImg from '../../public/images/travel/no.jpg';
 import roImg from '../../public/images/travel/ro.jpg';
 import saImg from '../../public/images/travel/sa.jpg';
+import atImg from '../../public/images/travel/at.jpg';
+import deImg from '../../public/images/travel/de.jpg';
 import dkImg from '../../public/images/travel/dk.jpg';
+import frImg from '../../public/images/travel/fr.jpg';
+import huImg from '../../public/images/travel/hu.jpg';
 import eeImg from '../../public/images/travel/ee.jpg';
 import ltImg from '../../public/images/travel/lt.jpg';
 import ruImg from '../../public/images/travel/ru.jpg';
@@ -42,7 +46,11 @@ export const visitedCountries: VisitedCountry[] = [
   {code: 'NO', year: 2023, image: noImg},
   {code: 'RO', year: 2018, image: roImg},
   {code: 'SA', year: 2025, image: saImg},
+  {code: 'AT', year: 2024, image: atImg},
+  {code: 'DE', year: 2024, image: deImg},
   {code: 'DK', year: 2024, image: dkImg},
+  {code: 'FR', year: 2025, image: frImg},
+  {code: 'HU', year: 2018, image: huImg},
   {code: 'EE', year: 2019, image: eeImg},
   {code: 'LT', year: 2018, image: ltImg},
   {code: 'RU', year: 2017, image: ruImg},
