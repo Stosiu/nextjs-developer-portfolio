@@ -27,7 +27,8 @@ type ZoomState = {
 };
 
 function Minimap({zoom, coordinates}: ZoomState) {
-  const isZoomed = zoom > 1.05;
+  if (zoom <= 1.05) return null;
+
   const viewW = 100 / zoom;
   const viewH = 60 / zoom;
   const offsetX = ((coordinates[0] - MAP_CENTER[0]) / 360) * -100;
@@ -70,18 +71,16 @@ function Minimap({zoom, coordinates}: ZoomState) {
               ))
           }
         </Geographies>
-        {isZoomed && (
-          <rect
-            x={rectX}
-            y={rectY}
-            width={viewW}
-            height={viewH}
-            fill="rgba(16, 185, 129, 0.1)"
-            stroke="rgba(16, 185, 129, 0.6)"
-            strokeWidth={0.8}
-            rx={0.5}
-          />
-        )}
+        <rect
+          x={rectX}
+          y={rectY}
+          width={viewW}
+          height={viewH}
+          fill="rgba(16, 185, 129, 0.1)"
+          stroke="rgba(16, 185, 129, 0.6)"
+          strokeWidth={0.8}
+          rx={0.5}
+        />
       </ComposableMap>
     </div>
   );
@@ -97,6 +96,13 @@ export function TravelMap() {
     coordinates: MAP_CENTER,
     zoom: 1,
   });
+
+  const handleMove = useCallback(
+    (position: {x: number; y: number; zoom: number}) => {
+      setZoomState((prev) => ({...prev, zoom: position.zoom}));
+    },
+    [],
+  );
 
   const handleMoveEnd = useCallback((position: ZoomState) => {
     setZoomState(position);
@@ -200,6 +206,7 @@ export function TravelMap() {
           zoom={zoomState.zoom}
           minZoom={1}
           maxZoom={5}
+          onMove={handleMove}
           onMoveEnd={handleMoveEnd}
         >
           <Geographies geography={GEO_URL}>
