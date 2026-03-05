@@ -1,20 +1,64 @@
 'use client';
 
-import {useState, useCallback, useRef} from 'react';
-import {Plus, Minus} from 'lucide-react';
-import {Button} from '@/components/ui/button';
+import {useState, useCallback, useRef, memo} from 'react';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
+import {Plus, Minus} from 'lucide-react';
+import {Button} from '@/components/ui/button';
 import {visitedCountries, type VisitedCountry} from '@/config/travel';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
-const visitedSet = new Map(visitedCountries.map((c) => [c.code, c]));
-
-const ANTARCTICA = 'AQ';
-
+const ANTARCTICA_ID = '010';
 const MAP_CENTER: [number, number] = [10, 35];
 const MAP_SCALE = 150;
+
+// ISO 3166-1 numeric → alpha-2 mapping
+// world-atlas topojson uses numeric IDs, our config uses alpha-2
+const NUM_TO_ALPHA2: Record<string, string> = {
+  '004': 'AF', '008': 'AL', '012': 'DZ', '020': 'AD', '024': 'AO',
+  '028': 'AG', '032': 'AR', '051': 'AM', '036': 'AU', '040': 'AT',
+  '031': 'AZ', '044': 'BS', '048': 'BH', '050': 'BD', '052': 'BB',
+  '112': 'BY', '056': 'BE', '084': 'BZ', '204': 'BJ', '064': 'BT',
+  '068': 'BO', '070': 'BA', '072': 'BW', '076': 'BR', '096': 'BN',
+  '100': 'BG', '854': 'BF', '108': 'BI', '132': 'CV', '116': 'KH',
+  '120': 'CM', '124': 'CA', '140': 'CF', '148': 'TD', '152': 'CL',
+  '156': 'CN', '170': 'CO', '174': 'KM', '178': 'CG', '180': 'CD',
+  '188': 'CR', '191': 'HR', '192': 'CU', '196': 'CY', '203': 'CZ',
+  '208': 'DK', '262': 'DJ', '212': 'DM', '214': 'DO', '218': 'EC',
+  '818': 'EG', '222': 'SV', '226': 'GQ', '232': 'ER', '233': 'EE',
+  '748': 'SZ', '231': 'ET', '242': 'FJ', '246': 'FI', '250': 'FR',
+  '266': 'GA', '270': 'GM', '268': 'GE', '276': 'DE', '288': 'GH',
+  '300': 'GR', '308': 'GD', '320': 'GT', '324': 'GN', '328': 'GY',
+  '332': 'HT', '340': 'HN', '348': 'HU', '352': 'IS', '356': 'IN',
+  '360': 'ID', '364': 'IR', '368': 'IQ', '372': 'IE', '376': 'IL',
+  '380': 'IT', '384': 'CI', '388': 'JM', '392': 'JP', '400': 'JO',
+  '398': 'KZ', '404': 'KE', '408': 'KP', '410': 'KR', '414': 'KW',
+  '417': 'KG', '418': 'LA', '428': 'LV', '422': 'LB', '426': 'LS',
+  '430': 'LR', '434': 'LY', '438': 'LI', '440': 'LT', '442': 'LU',
+  '450': 'MG', '454': 'MW', '458': 'MY', '462': 'MV', '466': 'ML',
+  '470': 'MT', '478': 'MR', '480': 'MU', '484': 'MX', '498': 'MD',
+  '492': 'MC', '496': 'MN', '499': 'ME', '504': 'MA', '508': 'MZ',
+  '104': 'MM', '516': 'NA', '524': 'NP', '528': 'NL', '554': 'NZ',
+  '558': 'NI', '562': 'NE', '566': 'NG', '578': 'NO', '512': 'OM',
+  '586': 'PK', '591': 'PA', '598': 'PG', '600': 'PY', '604': 'PE',
+  '608': 'PH', '616': 'PL', '620': 'PT', '634': 'QA', '642': 'RO',
+  '643': 'RU', '646': 'RW', '682': 'SA', '686': 'SN', '688': 'RS',
+  '694': 'SL', '702': 'SG', '703': 'SK', '705': 'SI', '706': 'SO',
+  '710': 'ZA', '724': 'ES', '144': 'LK', '736': 'SD', '740': 'SR',
+  '752': 'SE', '756': 'CH', '760': 'SY', '762': 'TJ', '834': 'TZ',
+  '764': 'TH', '768': 'TG', '780': 'TT', '788': 'TN', '792': 'TR',
+  '795': 'TM', '800': 'UG', '804': 'UA', '784': 'AE', '826': 'GB',
+  '840': 'US', '858': 'UY', '860': 'UZ', '862': 'VE', '704': 'VN',
+  '887': 'YE', '894': 'ZM', '716': 'ZW', '-99': '', '010': 'AQ',
+};
+
+const visitedByNumeric = new Map<string, VisitedCountry>();
+const visitedByAlpha2 = new Map(visitedCountries.map((c) => [c.code, c]));
+for (const [num, alpha2] of Object.entries(NUM_TO_ALPHA2)) {
+  const country = visitedByAlpha2.get(alpha2);
+  if (country) visitedByNumeric.set(num, country);
+}
 
 type PopoverData = {
   country: VisitedCountry;
@@ -25,6 +69,37 @@ type ZoomState = {
   coordinates: [number, number];
   zoom: number;
 };
+
+const MinimapGeographies = memo(function MinimapGeographies() {
+  return (
+    <Geographies geography={GEO_URL}>
+      {({geographies}) =>
+        geographies
+          .filter((geo) => geo.id !== ANTARCTICA_ID)
+          .map((geo) => (
+            <Geography
+              key={geo.rsmKey}
+              geography={geo}
+              tabIndex={-1}
+              style={{
+                default: {
+                  fill: visitedByNumeric.has(geo.id as string)
+                    ? 'rgba(16, 185, 129, 0.4)'
+                    : '#1a1a1a',
+                  stroke: '#2a2a2a',
+                  strokeWidth: 0.3,
+                  outline: 'none',
+                  pointerEvents: 'none' as const,
+                },
+                hover: {fill: '', outline: 'none'},
+                pressed: {fill: '', outline: 'none'},
+              }}
+            />
+          ))
+      }
+    </Geographies>
+  );
+});
 
 function Minimap({zoom, coordinates}: ZoomState) {
   if (zoom <= 1.05) return null;
@@ -45,32 +120,7 @@ function Minimap({zoom, coordinates}: ZoomState) {
         height={60}
         className="w-full h-full"
       >
-        <Geographies geography={GEO_URL}>
-          {({geographies}) =>
-            geographies
-              .filter((geo) => geo.properties.ISO_A2 !== ANTARCTICA)
-              .map((geo) => (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  tabIndex={-1}
-                  style={{
-                    default: {
-                      fill: visitedSet.has(geo.properties.ISO_A2)
-                        ? 'rgba(16, 185, 129, 0.4)'
-                        : '#1a1a1a',
-                      stroke: '#2a2a2a',
-                      strokeWidth: 0.3,
-                      outline: 'none',
-                      pointerEvents: 'none',
-                    },
-                    hover: {fill: '', outline: 'none'},
-                    pressed: {fill: '', outline: 'none'},
-                  }}
-                />
-              ))
-          }
-        </Geographies>
+        <MinimapGeographies />
         <rect
           x={rectX}
           y={rectY}
@@ -96,13 +146,6 @@ export function TravelMap() {
     coordinates: MAP_CENTER,
     zoom: 1,
   });
-
-  const handleMove = useCallback(
-    (position: {x: number; y: number; zoom: number}) => {
-      setZoomState((prev) => ({...prev, zoom: position.zoom}));
-    },
-    [],
-  );
 
   const handleMoveEnd = useCallback((position: ZoomState) => {
     setZoomState(position);
@@ -151,8 +194,8 @@ export function TravelMap() {
   }, [mouse]);
 
   const handleGeoMouseEnter = useCallback(
-    (geo: {properties: {name: string; ISO_A2: string}}) => {
-      const country = visitedSet.get(geo.properties.ISO_A2);
+    (geo: {id: string | number; properties: {name: string}}) => {
+      const country = visitedByNumeric.get(geo.id as string);
       if (country) {
         setPopover({country, name: geo.properties.name});
       }
@@ -165,8 +208,8 @@ export function TravelMap() {
   }, []);
 
   const handleGeoClick = useCallback(
-    (geo: {properties: {name: string; ISO_A2: string}}) => {
-      const country = visitedSet.get(geo.properties.ISO_A2);
+    (geo: {id: string | number; properties: {name: string}}) => {
+      const country = visitedByNumeric.get(geo.id as string);
       if (!country) return;
 
       setMobileActive((prev) => {
@@ -206,21 +249,20 @@ export function TravelMap() {
           zoom={zoomState.zoom}
           minZoom={1}
           maxZoom={5}
-          onMove={handleMove}
           onMoveEnd={handleMoveEnd}
         >
           <Geographies geography={GEO_URL}>
             {({geographies}) =>
               geographies
-                .filter((geo) => geo.properties.ISO_A2 !== ANTARCTICA)
+                .filter((geo) => geo.id !== ANTARCTICA_ID)
                 .map((geo) => {
-                  const isVisited = visitedSet.has(geo.properties.ISO_A2);
+                  const isVisited = visitedByNumeric.has(geo.id as string);
 
                   return (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
-                      onMouseEnter={() => isVisited && handleGeoMouseEnter(geo)}
+                      onMouseEnter={() => handleGeoMouseEnter(geo)}
                       onMouseLeave={handleGeoMouseLeave}
                       onClick={() => isVisited && handleGeoClick(geo)}
                       style={{
