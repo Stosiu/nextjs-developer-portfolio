@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import {Suspense} from 'react';
 import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
 import {siteConfig} from '@/config/site';
@@ -6,6 +7,7 @@ import {getAllThoughts, getThoughtsCount} from '@/lib/thoughts';
 import {Navbar} from '@/components/navbar';
 import {Footer} from '@/components/sections/footer';
 import {ThoughtsList} from '@/components/thoughts-list';
+import {ThoughtsListFallback} from '@/components/thoughts-list-fallback';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -68,7 +70,9 @@ export default async function ThoughtsPage({params}: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
       <div className="max-w-4xl mx-auto px-6 pt-28 pb-20">
         <h1 className="text-3xl font-bold mb-8">{t('title')}</h1>
-        <ThoughtsList thoughts={thoughts} />
+        <Suspense fallback={<ThoughtsListFallback thoughts={thoughts} />}>
+          <ThoughtsList thoughts={thoughts} />
+        </Suspense>
       </div>
       <Footer />
     </main>
