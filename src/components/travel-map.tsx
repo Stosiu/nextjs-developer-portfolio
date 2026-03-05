@@ -27,8 +27,7 @@ type ZoomState = {
 };
 
 function Minimap({zoom, coordinates}: ZoomState) {
-  if (zoom <= 1.05) return null;
-
+  const isZoomed = zoom > 1.05;
   const viewW = 100 / zoom;
   const viewH = 60 / zoom;
   const offsetX = ((coordinates[0] - MAP_CENTER[0]) / 360) * -100;
@@ -37,7 +36,7 @@ function Minimap({zoom, coordinates}: ZoomState) {
   const rectY = 30 - viewH / 2 + offsetY;
 
   return (
-    <div className="absolute bottom-3 left-3 z-40 w-28 h-[68px] rounded border border-white/10 bg-black/80 backdrop-blur-sm overflow-hidden">
+    <div className="absolute bottom-3 left-3 z-40 w-32 h-[76px] rounded border border-white/10 bg-black/80 backdrop-blur-sm overflow-hidden">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{scale: 28, center: MAP_CENTER}}
@@ -71,16 +70,18 @@ function Minimap({zoom, coordinates}: ZoomState) {
               ))
           }
         </Geographies>
-        <rect
-          x={rectX}
-          y={rectY}
-          width={viewW}
-          height={viewH}
-          fill="rgba(16, 185, 129, 0.1)"
-          stroke="rgba(16, 185, 129, 0.6)"
-          strokeWidth={0.8}
-          rx={0.5}
-        />
+        {isZoomed && (
+          <rect
+            x={rectX}
+            y={rectY}
+            width={viewW}
+            height={viewH}
+            fill="rgba(16, 185, 129, 0.1)"
+            stroke="rgba(16, 185, 129, 0.6)"
+            strokeWidth={0.8}
+            rx={0.5}
+          />
+        )}
       </ComposableMap>
     </div>
   );
