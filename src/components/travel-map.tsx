@@ -325,14 +325,16 @@ export function TravelMap() {
             animate={{opacity: 1}}
             exit={reducedMotion ? {opacity: 0} : {opacity: 0}}
             transition={{duration: reducedMotion ? 0 : 0.15}}
-            className="absolute z-50 pointer-events-none w-64 overflow-hidden rounded-lg border border-white/10 bg-neutral-900/95 backdrop-blur-sm shadow-xl"
+            className="absolute z-50 pointer-events-none w-56 overflow-hidden rounded-lg border border-white/10 bg-neutral-900/95 backdrop-blur-sm shadow-xl"
             style={getPopoverStyle()}
           >
-            <img
-              src={popover.country.image}
-              alt={popover.name}
-              className="w-full h-32 object-cover"
-            />
+            <div className="w-full aspect-video">
+              <img
+                src={popover.country.image}
+                alt={popover.name}
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
             <div className="px-3 py-2">
               <p className="text-sm font-medium text-white">{popover.name}</p>
               <p className="text-xs text-white/50">{popover.country.year}</p>
