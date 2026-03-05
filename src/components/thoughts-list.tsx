@@ -1,31 +1,45 @@
 'use client';
 
-import {useState, useMemo} from 'react';
+import {useMemo, useEffect} from 'react';
 import Image from 'next/image';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/i18n/navigation';
-import {motion} from 'framer-motion';
-import {Search, X, Clock} from 'lucide-react';
+import {motion, AnimatePresence} from 'framer-motion';
+import {useQueryState, parseAsArrayOf, parseAsString, parseAsInteger} from 'nuqs';
+import {Search, X, Clock, ChevronLeft, ChevronRight} from 'lucide-react';
 import {Badge} from '@/components/ui/badge';
 import type {ThoughtMeta} from '@/lib/thoughts';
 
+const PAGE_SIZE = 12;
+const MotionLink = motion.create(Link);
+
 type Props = {
   thoughts: ThoughtMeta[];
-  locale: string;
 };
 
-export function ThoughtsList({thoughts, locale}: Props) {
+export function ThoughtsList({thoughts}: Props) {
   const t = useTranslations('thoughts');
-  const [query, setQuery] = useState('');
-  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [query, setQuery] = useQueryState('q', parseAsString.withDefault(''));
+  const [activeTags, setActiveTags] = useQueryState('tag', parseAsArrayOf(parseAsString, ',').withDefault([]));
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
+
+  const tagCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const thought of thoughts) {
+      for (const tag of thought.tags) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    return counts;
+  }, [thoughts]);
 
   const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    for (const thought of thoughts) {
-      for (const tag of thought.tags) tags.add(tag);
-    }
-    return Array.from(tags).sort();
-  }, [thoughts]);
+    return Array.from(tagCounts.keys()).sort();
+  }, [tagCounts]);
+
+  useEffect(() => {
+    setPage(null);
+  }, [query, activeTags, setPage]);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
@@ -44,13 +58,15 @@ export function ThoughtsList({thoughts, locale}: Props) {
     });
   }, [thoughts, query, activeTags]);
 
-  function toggleTag(tag: string) {
-    setActiveTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  }
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  const MotionLink = motion.create(Link);
+  function toggleTag(tag: string) {
+    setActiveTags((prev) => {
+      const next = prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag];
+      return next.length === 0 ? null : next;
+    });
+  }
 
   return (
     <div>
@@ -60,13 +76,13 @@ export function ThoughtsList({thoughts, locale}: Props) {
         <input
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => setQuery(e.target.value || null)}
           placeholder={t('searchPlaceholder')}
           className="w-full pl-10 pr-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-lg text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-brand-400/50 transition-colors"
         />
         {query && (
           <button
-            onClick={() => setQuery('')}
+            onClick={() => setQuery(null)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60"
           >
             <X className="w-4 h-4" />
@@ -89,13 +105,13 @@ export function ThoughtsList({thoughts, locale}: Props) {
                     : 'bg-white/[0.04] border-white/[0.08] text-white/50 hover:text-white/70 hover:border-white/20'
                 }`}
               >
-                {tag}
+                {tag} <span className="opacity-50">{tagCounts.get(tag)}</span>
               </button>
             );
           })}
           {activeTags.length > 0 && (
             <button
-              onClick={() => setActiveTags([])}
+              onClick={() => setActiveTags(null)}
               className="px-2.5 py-1 text-xs rounded-full text-white/30 hover:text-white/60 transition-colors"
             >
               {t('allTags')}
@@ -108,14 +124,18 @@ export function ThoughtsList({thoughts, locale}: Props) {
       {filtered.length === 0 ? (
         <p className="text-white/30 text-sm py-12 text-center">{t('noResults')}</p>
       ) : (
+        <>
+        <AnimatePresence mode="popLayout">
         <div className="grid gap-4">
-          {filtered.map((thought, i) => (
+          {paginated.map((thought, i) => (
             <MotionLink
               key={thought.slug}
               href={`/thoughts/${thought.slug}`}
+              layout
               initial={{opacity: 0, y: 20}}
               animate={{opacity: 1, y: 0}}
-              transition={{delay: i * 0.05, duration: 0.3}}
+              exit={{opacity: 0, y: -10}}
+              transition={{delay: i * 0.05, duration: 0.2}}
               className="group block p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.12] transition-all"
             >
               <div className="flex gap-5">
@@ -151,9 +171,24 @@ export function ThoughtsList({thoughts, locale}: Props) {
                   </div>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {thought.tags.map((tag) => (
-                      <Badge key={tag} variant="sm" className="text-xs">
-                        {tag}
-                      </Badge>
+                      <button
+                        key={tag}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleTag(tag);
+                        }}
+                      >
+                        <Badge
+                          variant="sm"
+                          className={`text-xs transition-colors ${
+                            activeTags.includes(tag)
+                              ? 'bg-brand-400/20 border-brand-400/40 text-brand-400'
+                              : 'hover:text-white/60 hover:border-white/15'
+                          }`}
+                        >
+                          {tag}
+                        </Badge>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -161,6 +196,40 @@ export function ThoughtsList({thoughts, locale}: Props) {
             </MotionLink>
           ))}
         </div>
+        </AnimatePresence>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-8">
+            <button
+              onClick={() => setPage(page <= 2 ? null : page - 1)}
+              disabled={page === 1}
+              className="p-2 rounded-lg border border-white/[0.08] bg-white/[0.04] text-white/50 hover:text-white/80 hover:border-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            {Array.from({length: totalPages}, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p === 1 ? null : p)}
+                className={`w-8 h-8 rounded-lg text-sm font-mono transition-all ${
+                  p === page
+                    ? 'bg-brand-400/20 border border-brand-400/40 text-brand-400'
+                    : 'border border-white/[0.08] bg-white/[0.04] text-white/50 hover:text-white/80 hover:border-white/20'
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+              className="p-2 rounded-lg border border-white/[0.08] bg-white/[0.04] text-white/50 hover:text-white/80 hover:border-white/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+        </>
       )}
     </div>
   );

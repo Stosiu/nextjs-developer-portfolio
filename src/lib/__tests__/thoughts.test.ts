@@ -30,9 +30,19 @@ describe('thoughts', () => {
     it('returns a thought with rendered HTML', async () => {
       const thought = await getThoughtBySlug('talking-to-my-computer');
       expect(thought).not.toBeNull();
-      expect(thought!.title).toBe('I Talk to My Computer Now');
+      expect(thought!.title).toBe('My Keyboard is Collecting Dust');
       expect(thought!.html).toContain('<h2');
       expect(thought!.html).toContain('Wispr Flow');
+    });
+
+    it('returns the react-grab thought with rendered HTML', async () => {
+      const thought = await getThoughtBySlug('react-grab-ai-context');
+      expect(thought).not.toBeNull();
+      expect(thought!.title).toBe('React Grab Changed How I Talk to AI About UI');
+      expect(thought!.html).toContain('<h2');
+      expect(thought!.html).toContain('React Grab');
+      expect(thought!.tags).toContain('React');
+      expect(thought!.tags).toContain('AI');
     });
 
     it('returns null for non-existent slug', async () => {

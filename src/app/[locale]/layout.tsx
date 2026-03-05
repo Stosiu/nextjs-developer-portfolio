@@ -10,6 +10,7 @@ import {Geist, Geist_Mono} from 'next/font/google';
 import {PageLoader, PageReady} from '@/components/page-loader';
 import {AnalyticsProvider} from '@/components/analytics-provider';
 import {CookieConsent} from '@/components/cookie-consent';
+import {NuqsAdapter} from 'nuqs/adapters/next/app';
 import {QueryProvider} from '@/components/query-provider';
 import {ContextMenu} from '@/components/context-menu';
 import {EasterEggSettings} from '@/components/easter-egg-settings';
@@ -181,17 +182,19 @@ export default async function LocaleLayout({children, params}: Props) {
           dangerouslySetInnerHTML={{__html: `(function(){var p=location.pathname;if((p==="/"||/^\\/(?:en|pl|ar)\\/?$/.test(p))&&!sessionStorage.getItem("loader-shown")){document.getElementById("page-loader").classList.add("active")}})()`}}
         />
         <PageLoader />
-        <QueryProvider>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-            <PageReady />
-            <ContextMenu />
-            <EasterEggSettings />
-            {process.env.NEXT_PUBLIC_GA_ID && <AnalyticsProvider />}
-            {process.env.NEXT_PUBLIC_GA_ID && <CookieConsent />}
-            {process.env.NEXT_PUBLIC_SPEED_INSIGHTS && <SpeedInsights />}
-          </NextIntlClientProvider>
-        </QueryProvider>
+        <NuqsAdapter>
+          <QueryProvider>
+            <NextIntlClientProvider messages={messages}>
+              {children}
+              <PageReady />
+              <ContextMenu />
+              <EasterEggSettings />
+              {process.env.NEXT_PUBLIC_GA_ID && <AnalyticsProvider />}
+              {process.env.NEXT_PUBLIC_GA_ID && <CookieConsent />}
+              {process.env.NEXT_PUBLIC_SPEED_INSIGHTS && <SpeedInsights />}
+            </NextIntlClientProvider>
+          </QueryProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

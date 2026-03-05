@@ -173,14 +173,26 @@ function extractToc(tree: Root): TocEntry[] {
   return entries;
 }
 
-async function renderMarkdown(content: string): Promise<{html: string; toc: TocEntry[]}> {
+function rehypeLocalizeLinks(locale: string) {
+  return (tree: Root) => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName !== 'a') return;
+      const href = node.properties?.href as string | undefined;
+      if (!href || !href.startsWith('/')) return;
+      node.properties!.href = `/${locale}${href}`;
+    });
+  };
+}
+
+async function renderMarkdown(content: string, locale = 'en'): Promise<{html: string; toc: TocEntry[]}> {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings)
-    .use(rehypeImageFigure);
+    .use(rehypeImageFigure)
+    .use(rehypeLocalizeLinks, locale);
 
   const mdast = processor.parse(content);
   const hast = await processor.run(mdast);
@@ -195,12 +207,12 @@ async function renderMarkdown(content: string): Promise<{html: string; toc: TocE
   return {html, toc};
 }
 
-export async function getThoughtBySlug(slug: string): Promise<Thought | null> {
+export async function getThoughtBySlug(slug: string, locale = 'en'): Promise<Thought | null> {
   const parsed = parseThought(slug);
   if (!parsed) return null;
 
   const {imageFilename, ...rest} = parsed;
   const image = imageFilename ? await generateImageData(slug, imageFilename) : null;
-  const {html, toc} = await renderMarkdown(rest.content);
+  const {html, toc} = await renderMarkdown(rest.content, locale);
   return {...rest, image, html, toc};
 }

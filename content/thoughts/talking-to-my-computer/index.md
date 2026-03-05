@@ -1,6 +1,6 @@
 ---
 title: My Keyboard is Collecting Dust
-date: 2026-03-05
+date: 2026-03-03
 tags: [Tools, AI, Workflow]
 description: How Wispr Flow changed the way I interact with my machine and why I barely type anymore.
 tldr: Over 100k words dictated, top 1% by speed at 157 wpm. Between voice dictation and AI coding, my keyboard is mostly for shortcuts. The mouse is for checking if websites look right. We write tests instead of clicking around. Say it out loud and it sounds absurd. But it's just how work looks now.
@@ -43,7 +43,7 @@ The three I consciously interact with throughout the day are Wispr, Claude Code,
 
 ## Two boosts, not one
 
-AI coding is one productivity boost. You describe what you want, review what comes back, adjust, and repeat. That's real and it matters a lot.
+AI coding is one productivity boost. You describe what you want, review what comes back, adjust, and repeat. Tools like [React Grab](/thoughts/react-grab-ai-context) push this further by letting you point at a UI element and hand the AI its exact source location instead of describing it in words. That's real and it matters a lot.
 
 But talking to your computer is a separate, compounding boost on top of that. I don't type my prompts to Claude. I don't type Slack messages to my team. I don't type emails to clients. I press `fn` and talk. When you do the math on 50 wpm typing versus 150+ wpm dictating, that gap compounds across every single interaction in a day. By the end of the week, it's hours saved.
 

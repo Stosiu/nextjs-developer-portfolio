@@ -68,7 +68,7 @@ export default async function ThoughtsPage({params}: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
       <div className="max-w-4xl mx-auto px-6 pt-28 pb-20">
         <h1 className="text-3xl font-bold mb-8">{t('title')}</h1>
-        <ThoughtsList thoughts={thoughts} locale={locale} />
+        <ThoughtsList thoughts={thoughts} />
       </div>
       <Footer />
     </main>

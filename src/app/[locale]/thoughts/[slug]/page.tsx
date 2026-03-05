@@ -56,7 +56,7 @@ export async function generateStaticParams() {
 export default async function ThoughtPage({params}: Props) {
   const {locale, slug} = await params;
   setRequestLocale(locale);
-  const thought = await getThoughtBySlug(slug);
+  const thought = await getThoughtBySlug(slug, locale);
   if (!thought) notFound();
 
   const t = await getTranslations({locale, namespace: 'thoughts'});
@@ -116,9 +116,14 @@ export default async function ThoughtPage({params}: Props) {
         </div>
         <div className="flex flex-wrap gap-1.5 mb-8">
           {thought.tags.map((tag) => (
-            <Badge key={tag} variant="sm" className="text-xs">
-              {tag}
-            </Badge>
+            <Link
+              key={tag}
+              href={`/thoughts?tag=${encodeURIComponent(tag)}`}
+            >
+              <Badge variant="sm" className="text-xs hover:text-white/60 hover:border-white/15 transition-colors">
+                {tag}
+              </Badge>
+            </Link>
           ))}
         </div>
 
