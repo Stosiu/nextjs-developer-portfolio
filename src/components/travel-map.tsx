@@ -1,13 +1,15 @@
 'use client';
 
 import {useState, useCallback, useRef} from 'react';
-import {ComposableMap, Geographies, Geography} from 'react-simple-maps';
+import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
 import {visitedCountries, type VisitedCountry} from '@/config/travel';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
 const visitedSet = new Map(visitedCountries.map((c) => [c.code, c]));
+
+const ANTARCTICA = 'AQ';
 
 type PopoverData = {
   country: VisitedCountry;
@@ -93,59 +95,69 @@ export function TravelMap() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full"
+      className="relative w-full overflow-hidden rounded-lg"
+      style={{maxHeight: '420px'}}
       onMouseMove={handleMouseMove}
       onClick={handleContainerClick}
     >
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 130,
-          center: [0, 30],
+          scale: 150,
+          center: [10, 35],
         }}
         className="w-full h-auto"
+        style={{marginTop: '-30px', marginBottom: '-80px'}}
       >
-        <Geographies geography={GEO_URL}>
-          {({geographies}) =>
-            geographies.map((geo) => {
-              const isVisited = visitedSet.has(geo.properties.ISO_A2);
+        <ZoomableGroup
+          minZoom={1}
+          maxZoom={5}
+          translateExtent={[[-200, -200], [1000, 600]]}
+        >
+          <Geographies geography={GEO_URL}>
+            {({geographies}) =>
+              geographies
+                .filter((geo) => geo.properties.ISO_A2 !== ANTARCTICA)
+                .map((geo) => {
+                  const isVisited = visitedSet.has(geo.properties.ISO_A2);
 
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  onMouseEnter={() => isVisited && handleGeoMouseEnter(geo)}
-                  onMouseLeave={handleGeoMouseLeave}
-                  onClick={() => isVisited && handleGeoClick(geo)}
-                  style={{
-                    default: {
-                      fill: isVisited ? 'rgba(16, 185, 129, 0.3)' : '#1a1a1a',
-                      stroke: '#2a2a2a',
-                      strokeWidth: 0.5,
-                      outline: 'none',
-                      cursor: isVisited ? 'pointer' : 'default',
-                      pointerEvents: isVisited ? 'auto' : 'none',
-                    },
-                    hover: {
-                      fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
-                      stroke: '#2a2a2a',
-                      strokeWidth: 0.5,
-                      outline: 'none',
-                      cursor: isVisited ? 'pointer' : 'default',
-                      pointerEvents: isVisited ? 'auto' : 'none',
-                    },
-                    pressed: {
-                      fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
-                      stroke: '#2a2a2a',
-                      strokeWidth: 0.5,
-                      outline: 'none',
-                    },
-                  }}
-                />
-              );
-            })
-          }
-        </Geographies>
+                  return (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      onMouseEnter={() => isVisited && handleGeoMouseEnter(geo)}
+                      onMouseLeave={handleGeoMouseLeave}
+                      onClick={() => isVisited && handleGeoClick(geo)}
+                      style={{
+                        default: {
+                          fill: isVisited ? 'rgba(16, 185, 129, 0.3)' : '#1a1a1a',
+                          stroke: '#2a2a2a',
+                          strokeWidth: 0.5,
+                          outline: 'none',
+                          cursor: isVisited ? 'pointer' : 'default',
+                          pointerEvents: isVisited ? 'auto' : 'none',
+                        },
+                        hover: {
+                          fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
+                          stroke: '#2a2a2a',
+                          strokeWidth: 0.5,
+                          outline: 'none',
+                          cursor: isVisited ? 'pointer' : 'default',
+                          pointerEvents: isVisited ? 'auto' : 'none',
+                        },
+                        pressed: {
+                          fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
+                          stroke: '#2a2a2a',
+                          strokeWidth: 0.5,
+                          outline: 'none',
+                        },
+                      }}
+                    />
+                  );
+                })
+            }
+          </Geographies>
+        </ZoomableGroup>
       </ComposableMap>
 
       <AnimatePresence>
