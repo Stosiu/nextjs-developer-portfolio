@@ -45,9 +45,9 @@ The three I consciously interact with throughout the day are Wispr, Claude Code,
 
 AI coding is one productivity boost. You describe what you want, review what comes back, adjust, and repeat. Tools like [React Grab](/thoughts/react-grab-ai-context) push this further by letting you point at a UI element and hand the AI its exact source location instead of describing it in words. That's real and it matters a lot.
 
-But talking to your computer is a separate, compounding boost on top of that. I don't type my prompts to Claude. I don't type Slack messages to my team. I don't type emails to clients. I press `fn` and talk. When you do the math on 50 wpm typing versus 150+ wpm dictating, that gap compounds across every single interaction in a day. By the end of the week, it's hours saved.
+But talking to your computer is a separate, compounding boost on top of that. I don't type my prompts to Claude. I don't type Slack messages to my team. I don't type emails to clients. I press `fn` and talk. When you do the math on 50 wpm typing versus 150+ wpm dictating, that gap compounds across every interaction in a day. By the end of the week, it's hours saved.
 
-Put both together and the picture changes dramatically. AI writes the code while voice handles all the communication. I barely touch the keyboard anymore. It's `fn` to dictate, mouse to navigate, and shortcuts for everything else. The keyboard went from being the primary input device to a secondary one.
+Put both together and the picture changes dramatically. AI writes the code while voice handles all the communication. I barely touch the keyboard anymore. It's `fn` to dictate, mouse to navigate, and shortcuts for everything else. The keyboard became a secondary device.
 
 ## Brain dumps
 
@@ -59,7 +59,7 @@ Now I tell people: "What's on your mind? Just tell me." They talk. We transcribe
 
 When a customer comes with a business problem, we ask them to just talk about it. Don't worry about structure or presentation. Just dump everything that's in your head. What comes out often changes the entire project direction. The customer thinks they need feature X. After parsing their brain dump, the real problem turns out to be something else entirely. We end up solving the actual problem instead of building what they assumed was the solution.
 
-Every engineer knows this pattern. The proposed solution is rarely the right one, but the underlying pain is always real. Brain dumps surface that pain more effectively than any structured requirements document. LLMs help parse through the noise and find the signal.
+Every engineer knows this pattern. The proposed solution is rarely the right one, but the underlying pain is always real. Brain dumps surface that pain more effectively than any structured requirements document. LLMs help pull out the actual problem from the rambling.
 
 ## We touch our products less
 

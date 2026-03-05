@@ -6,7 +6,7 @@ description: React Grab lets you point at any element on your page and hand its 
 tldr: React Grab by Aiden Bai captures React component context (file path, props, HTML) when you click any element, then copies it for AI agents like Claude Code or Cursor. It uses React's internal Fiber tree, only runs in dev, and cuts token usage by ~55%. One line to install. The kind of tool that makes you wonder why it didn't exist sooner.
 ---
 
-There's a specific type of frustration that every developer using AI coding tools knows. You're looking at a button on your page. You know exactly which button. It's right there. But now you have to describe it to your AI agent in words. "The green CTA button in the hero section, it's in src/components/hero.tsx around line 47, it uses the Button component from shadcn with variant primary..." By the time you've typed all that, you could have just fixed it yourself.
+Every developer using AI coding tools knows this frustration. You're looking at a button on your page. You know exactly which button. It's right there. But now you have to describe it to your AI agent in words. "The green CTA button in the hero section, it's in src/components/hero.tsx around line 47, it uses the Button component from shadcn with variant primary..." By the time you've typed all that, you could have just fixed it yourself.
 
 [React Grab](https://react-grab.com) makes that entire process disappear.
 
@@ -33,7 +33,7 @@ That's everything an AI agent needs to navigate directly to the right file and l
 
 ## The numbers matter
 
-Better Stack ran a detailed comparison and the results are telling. On complex UI modification tasks, React Grab reduced token consumption by approximately 55%. Cost per task dropped from around $0.06 to $0.02. That might sound trivial for a single interaction, but multiply it across a full day of development and it adds up fast.
+Better Stack ran a detailed comparison. On complex UI modification tasks, React Grab reduced token consumption by approximately 55%. Cost per task dropped from around $0.06 to $0.02. Trivial for one interaction, but it compounds over a full day.
 
 The speed improvement is even more noticeable. When an AI agent doesn't have to search through your project structure to find the right component, it skips what is often the most expensive part of the interaction. The agent goes straight to the code, understands the context, and starts working. The Better Stack article describes this as up to 3x faster for certain tasks.
 
@@ -67,26 +67,26 @@ This opens up a more direct pipeline between your running application and AI too
 
 ## The plugin system
 
-Aiden Bai (the creator, also known for [Million.js](https://million.dev) and [React Scan](https://react-scan.com)) built React Grab with extensibility in mind. You can register plugins that add context menu actions, toolbar items, lifecycle hooks, and theme overrides. Want to open the clicked file directly in your IDE? That's a plugin. Want to send element context to a custom backend? Also a plugin.
+Aiden Bai (the creator, also known for [Million.js](https://million.dev) and [React Scan](https://react-scan.com)) built React Grab with a plugin system. You can register plugins that add context menu actions, toolbar items, lifecycle hooks, and theme overrides. Want to open the clicked file directly in your IDE? That's a plugin. Want to send element context to a custom backend? Also a plugin.
 
-The customization API lets you adjust the keyboard shortcut, change the overlay appearance, and attach callbacks to the selection event. For teams with specific workflows, this flexibility matters.
+The customization API lets you adjust the keyboard shortcut, change the overlay appearance, and attach callbacks to the selection event.
 
 ## Why this tool clicks
 
 I've been using AI coding agents for months. The single biggest friction point was always context. You know what you want changed. The AI doesn't know where to look. Every approach before React Grab was some variation of "search the codebase and hope for the best."
 
-React Grab flips that. You point at the thing. The AI gets the context. Work happens. There's no middle step of translating visual knowledge into text descriptions. The tool bridges the gap between what you see in the browser and what the AI needs to see in the code.
+React Grab flips that. You point at the thing. The AI gets the context. Work happens. There's no middle step of translating visual knowledge into text descriptions.
 
 What's clever about the implementation is that it's written in Solid.js, not React. Running two React instances on the same page causes conflicts, so Bai used Solid for the overlay UI. Same approach he used with Preact for React Scan. It's a pragmatic engineering decision that shows attention to real-world constraints.
 
 ## The broader pattern
 
-React Grab fits into a trend I keep noticing: the best AI developer tools are the ones that reduce the translation layer between human intent and machine action. [Voice dictation removes the translation from thought to typed text.](/thoughts/talking-to-my-computer) AI coding removes the translation from requirements to implementation. React Grab removes the translation from "I can see this element" to "the AI knows which file and line."
+React Grab fits into a pattern I keep noticing. [Voice dictation](/thoughts/talking-to-my-computer) removes the gap between thinking and typing. AI coding removes the gap between requirements and implementation. React Grab removes the gap between "I can see this element" and "the AI knows which file and line."
 
-Each of these tools eliminates a step where information gets lost or distorted. That's where the real productivity gains come from. Not from faster models or bigger context windows, but from removing the moments where humans have to convert what they know into a format machines can process.
+Every one of those gaps is a place where information gets lost. The productivity gains don't come from faster models or bigger context windows. They come from having less to explain in the first place.
 
 ## Getting started
 
 The [GitHub repo](https://github.com/aidenybai/react-grab) has 5.3k stars and is actively maintained with new releases every few days. It's MIT licensed and works with any React project. The [documentation](https://react-grab.com) covers framework-specific setup, the plugin API, and MCP configuration.
 
-If you're doing any amount of AI-assisted React development, this should already be installed. The five seconds it takes to set up will save you hours of describing UI elements in words.
+If you're doing AI-assisted React development, it's worth the five seconds to set up.
