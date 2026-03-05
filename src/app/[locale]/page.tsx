@@ -8,6 +8,7 @@ import {Stats} from '@/components/sections/stats';
 import {Experience} from '@/components/sections/experience';
 import {Footer} from '@/components/sections/footer';
 import {CursorToolbar} from '@/components/cursor-toolbar';
+import {getThoughtsCount} from '@/lib/thoughts';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -19,7 +20,7 @@ export default async function HomePage({params}: Props) {
 
   return (
     <main id="main-content" className="bg-black text-white min-h-screen noise dot-grid overflow-x-hidden">
-      <Navbar />
+      <Navbar thoughtsCount={getThoughtsCount()} />
       <Hero />
       <Logos />
       <About />

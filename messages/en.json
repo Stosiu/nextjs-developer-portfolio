@@ -8,7 +8,8 @@
     "projects": "Projects",
     "stats": "Stats",
     "experience": "Experience",
-    "agency": "My agency"
+    "agency": "My agency",
+    "thoughts": "Thoughts ({count})"
   },
   "hero": {
     "command1": "whoami",
@@ -177,5 +178,16 @@
     "footer2": "// EOF",
     "default1": "// ...",
     "default2": "// just browsing?"
+  },
+  "thoughts": {
+    "title": "Thoughts",
+    "metaDescription": "Ideas, reflections, and lessons from building products and running companies.",
+    "searchPlaceholder": "Search thoughts...",
+    "allTags": "All",
+    "noResults": "No thoughts match your search.",
+    "backToThoughts": "Back to thoughts",
+    "backHome": "Back to home",
+    "readingTime": "{minutes} min read",
+    "words": "words"
   }
 }

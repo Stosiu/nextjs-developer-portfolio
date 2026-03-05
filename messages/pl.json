@@ -8,7 +8,8 @@
     "projects": "Projekty",
     "stats": "Statystyki",
     "experience": "Doświadczenie",
-    "agency": "Moja agencja"
+    "agency": "Moja agencja",
+    "thoughts": "Przemyślenia ({count})"
   },
   "hero": {
     "command1": "whoami",
@@ -177,5 +178,16 @@
     "footer2": "// EOF",
     "default1": "// ...",
     "default2": "// tylko przeglądasz?"
+  },
+  "thoughts": {
+    "title": "Przemyślenia",
+    "metaDescription": "Pomysły, refleksje i lekcje z budowania produktów i prowadzenia firm.",
+    "searchPlaceholder": "Szukaj...",
+    "allTags": "Wszystkie",
+    "noResults": "Brak przemyśleń pasujących do wyszukiwania.",
+    "backToThoughts": "Wróć do przemyśleń",
+    "backHome": "Wróć do strony głównej",
+    "readingTime": "{minutes} min czytania",
+    "words": "słów"
   }
 }
