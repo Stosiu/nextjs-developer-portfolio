@@ -3,7 +3,6 @@
 import {useRef, useState, useEffect, useCallback} from 'react';
 import Image from 'next/image';
 import {X} from 'lucide-react';
-import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock-upgrade';
 import type {ThoughtImage} from '@/lib/thoughts';
 
 type Props = {
@@ -16,30 +15,25 @@ type Props = {
 type LightboxState = {
   src: string;
   alt: string;
-  rect: DOMRect;
+  naturalWidth?: number;
+  naturalHeight?: number;
 };
 
 export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props) {
   const proseRef = useRef<HTMLDivElement>(null);
-  const lightboxRef = useRef<HTMLDivElement>(null);
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
-  const [animating, setAnimating] = useState(false);
-  const [closing, setClosing] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  const openLightbox = useCallback((src: string, alt: string, rect: DOMRect) => {
-    setLightbox({src, alt, rect});
-    setAnimating(true);
+  const openLightbox = useCallback((src: string, alt: string, naturalWidth?: number, naturalHeight?: number) => {
+    setLightbox({src, alt, naturalWidth, naturalHeight});
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => setAnimating(false));
+      requestAnimationFrame(() => setVisible(true));
     });
   }, []);
 
   const closeLightbox = useCallback(() => {
-    setClosing(true);
-    setTimeout(() => {
-      setLightbox(null);
-      setClosing(false);
-    }, 250);
+    setVisible(false);
+    setTimeout(() => setLightbox(null), 200);
   }, []);
 
   useEffect(() => {
@@ -50,7 +44,7 @@ export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props
       const target = e.target as HTMLElement;
       if (target.tagName === 'IMG') {
         const img = target as HTMLImageElement;
-        openLightbox(img.src, img.alt, img.getBoundingClientRect());
+        openLightbox(img.src, img.alt, img.naturalWidth, img.naturalHeight);
       }
     };
 
@@ -106,16 +100,19 @@ export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props
 
   useEffect(() => {
     if (!lightbox) return;
-    const el = lightboxRef.current;
-    if (el) disableBodyScroll(el);
+
+    const preventScroll = (e: Event) => e.preventDefault();
+    window.addEventListener('wheel', preventScroll, {passive: false});
+    window.addEventListener('touchmove', preventScroll, {passive: false});
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') closeLightbox();
     };
     window.addEventListener('keydown', handleKey);
     return () => {
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
       window.removeEventListener('keydown', handleKey);
-      if (el) enableBodyScroll(el);
     };
   }, [lightbox, closeLightbox]);
 
@@ -127,7 +124,7 @@ export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props
             className="rounded-lg overflow-hidden border border-white/[0.06] cursor-zoom-in inline-block"
             onClick={(e) => {
               const img = (e.currentTarget as HTMLElement).querySelector('img');
-              if (img) openLightbox(coverImage.src, coverAlt ?? '', img.getBoundingClientRect());
+              if (img) openLightbox(coverImage.src, coverAlt ?? '', coverImage.width, coverImage.height);
             }}
           >
             <Image
@@ -156,12 +153,11 @@ export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props
 
       {lightbox && (
         <Lightbox
-          ref={lightboxRef}
           src={lightbox.src}
           alt={lightbox.alt}
-          sourceRect={lightbox.rect}
-          animating={animating}
-          closing={closing}
+          naturalWidth={lightbox.naturalWidth}
+          naturalHeight={lightbox.naturalHeight}
+          visible={visible}
           onClose={closeLightbox}
         />
       )}
@@ -169,57 +165,30 @@ export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props
   );
 }
 
-import {forwardRef} from 'react';
-
 type LightboxProps = {
   src: string;
   alt: string;
-  sourceRect: DOMRect;
-  animating: boolean;
-  closing: boolean;
+  naturalWidth?: number;
+  naturalHeight?: number;
+  visible: boolean;
   onClose: () => void;
 };
 
-const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(function Lightbox(
-  {src, alt, sourceRect, animating, closing, onClose},
-  ref,
-) {
-  const vw = typeof window !== 'undefined' ? window.innerWidth : 1200;
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-  const padding = 80;
-  const maxW = vw - padding * 2;
-  const maxH = vh - padding * 2;
-
-  // Compute the scale and position for the "from" state (source image position)
-  const imgAspect = sourceRect.width / sourceRect.height;
-  const fitW = Math.min(maxW, maxH * imgAspect);
-  const fitH = fitW / imgAspect;
-  const finalLeft = (vw - fitW) / 2;
-  const finalTop = (vh - fitH) / 2;
-
-  const fromTransform = `translate(${sourceRect.left - finalLeft}px, ${sourceRect.top - finalTop}px) scale(${sourceRect.width / fitW})`;
-  const toTransform = 'translate(0, 0) scale(1)';
-
-  const showFrom = animating || closing;
-
+function Lightbox({src, alt, naturalWidth, naturalHeight, visible, onClose}: LightboxProps) {
   return (
     <div
-      ref={ref}
-      className="fixed inset-0 z-[99990] cursor-zoom-out"
+      className="fixed inset-0 z-[99990] flex items-center justify-center cursor-zoom-out p-10"
       onClick={onClose}
       style={{
-        background: showFrom ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.9)',
-        backdropFilter: showFrom ? 'blur(0px)' : 'blur(8px)',
-        transition: 'background 0.3s ease, backdrop-filter 0.3s ease',
+        background: visible ? 'rgba(0,0,0,0.9)' : 'rgba(0,0,0,0)',
+        backdropFilter: visible ? 'blur(8px)' : 'blur(0px)',
+        transition: 'background 0.2s ease, backdrop-filter 0.2s ease',
       }}
     >
       <button
         onClick={onClose}
         className="absolute top-6 right-6 z-10 p-2 rounded-lg bg-white/[0.08] border border-white/[0.15] text-white/60 hover:text-white hover:bg-white/[0.12] transition-all"
-        style={{
-          opacity: showFrom ? 0 : 1,
-          transition: 'opacity 0.3s ease',
-        }}
+        style={{opacity: visible ? 1 : 0, transition: 'opacity 0.2s ease'}}
         aria-label="Close"
       >
         <X className="w-5 h-5" />
@@ -227,19 +196,16 @@ const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(function Lightbox(
       <img
         src={src}
         alt={alt}
+        className="rounded-lg"
         style={{
-          position: 'absolute',
-          left: finalLeft,
-          top: finalTop,
-          width: fitW,
-          height: fitH,
+          maxWidth: naturalWidth ? Math.min(naturalWidth, window.innerWidth - 80) : undefined,
+          maxHeight: naturalHeight ? Math.min(naturalHeight, window.innerHeight - 80) : undefined,
           objectFit: 'contain',
-          borderRadius: '0.5rem',
-          transformOrigin: 'top left',
-          transform: showFrom ? fromTransform : toTransform,
-          transition: 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'scale(1)' : 'scale(0.95)',
+          transition: 'opacity 0.2s ease, transform 0.2s ease',
         }}
       />
     </div>
   );
-});
+}
