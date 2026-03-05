@@ -335,6 +335,7 @@ export function TravelMap() {
                 alt={popover.name}
                 fill
                 sizes="224px"
+                placeholder="blur"
                 className="object-cover object-center"
               />
             </div>
