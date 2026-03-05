@@ -10,7 +10,7 @@ export function Travel() {
 
   return (
     <section id="travel" className="py-24 px-4">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <SectionHeading
           title={t('heading')}
           subtitle={t('subtitle', {count: visitedCountries.length})}

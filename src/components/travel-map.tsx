@@ -11,10 +11,78 @@ const visitedSet = new Map(visitedCountries.map((c) => [c.code, c]));
 
 const ANTARCTICA = 'AQ';
 
+const MAP_CENTER: [number, number] = [10, 35];
+const MAP_SCALE = 150;
+
 type PopoverData = {
   country: VisitedCountry;
   name: string;
 };
+
+type ZoomState = {
+  coordinates: [number, number];
+  zoom: number;
+};
+
+function Minimap({zoom, coordinates}: ZoomState) {
+  if (zoom <= 1.05) return null;
+
+  const viewW = 100 / zoom;
+  const viewH = 60 / zoom;
+  const offsetX = ((coordinates[0] - MAP_CENTER[0]) / 360) * -100;
+  const offsetY = ((coordinates[1] - MAP_CENTER[1]) / 180) * -60;
+  const rectX = 50 - viewW / 2 + offsetX;
+  const rectY = 30 - viewH / 2 + offsetY;
+
+  return (
+    <div className="absolute bottom-3 left-3 z-40 w-28 h-[68px] rounded border border-white/10 bg-black/80 backdrop-blur-sm overflow-hidden">
+      <ComposableMap
+        projection="geoMercator"
+        projectionConfig={{scale: 28, center: MAP_CENTER}}
+        width={100}
+        height={60}
+        className="w-full h-full"
+      >
+        <Geographies geography={GEO_URL}>
+          {({geographies}) =>
+            geographies
+              .filter((geo) => geo.properties.ISO_A2 !== ANTARCTICA)
+              .map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  tabIndex={-1}
+                  style={{
+                    default: {
+                      fill: visitedSet.has(geo.properties.ISO_A2)
+                        ? 'rgba(16, 185, 129, 0.4)'
+                        : '#1a1a1a',
+                      stroke: '#2a2a2a',
+                      strokeWidth: 0.3,
+                      outline: 'none',
+                      pointerEvents: 'none',
+                    },
+                    hover: {fill: '', outline: 'none'},
+                    pressed: {fill: '', outline: 'none'},
+                  }}
+                />
+              ))
+          }
+        </Geographies>
+        <rect
+          x={rectX}
+          y={rectY}
+          width={viewW}
+          height={viewH}
+          fill="rgba(16, 185, 129, 0.1)"
+          stroke="rgba(16, 185, 129, 0.6)"
+          strokeWidth={0.8}
+          rx={0.5}
+        />
+      </ComposableMap>
+    </div>
+  );
+}
 
 export function TravelMap() {
   const reducedMotion = useReducedMotion();
@@ -22,6 +90,14 @@ export function TravelMap() {
   const [mouse, setMouse] = useState({x: 0, y: 0});
   const [popover, setPopover] = useState<PopoverData | null>(null);
   const [mobileActive, setMobileActive] = useState<string | null>(null);
+  const [zoomState, setZoomState] = useState<ZoomState>({
+    coordinates: MAP_CENTER,
+    zoom: 1,
+  });
+
+  const handleMoveEnd = useCallback((position: ZoomState) => {
+    setZoomState(position);
+  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -95,23 +171,24 @@ export function TravelMap() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-lg"
-      style={{maxHeight: '420px'}}
+      className="relative w-full overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.03] to-transparent"
       onMouseMove={handleMouseMove}
       onClick={handleContainerClick}
     >
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 150,
-          center: [10, 35],
+          scale: MAP_SCALE,
+          center: MAP_CENTER,
         }}
         className="w-full h-auto"
         style={{marginTop: '-30px', marginBottom: '-80px'}}
       >
         <ZoomableGroup
+          center={MAP_CENTER}
           minZoom={1}
           maxZoom={5}
+          onMoveEnd={handleMoveEnd}
           translateExtent={[[-200, -200], [1000, 600]]}
         >
           <Geographies geography={GEO_URL}>
@@ -159,6 +236,8 @@ export function TravelMap() {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+
+      <Minimap zoom={zoomState.zoom} coordinates={zoomState.coordinates} />
 
       <AnimatePresence>
         {popover && (
