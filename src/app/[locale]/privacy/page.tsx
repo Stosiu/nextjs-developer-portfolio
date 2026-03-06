@@ -11,10 +11,25 @@ type Props = {
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'privacy'});
+  const url = `${siteConfig.url}/${locale}/privacy`;
 
   return {
     title: `${t('title')} — ${siteConfig.name}`,
     description: t('metaDescription'),
+    openGraph: {
+      title: `${t('title')} — ${siteConfig.name}`,
+      description: t('metaDescription'),
+      type: 'website',
+      url,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${t('title')} — ${siteConfig.name}`,
+      description: t('metaDescription'),
+    },
+    alternates: {
+      canonical: url,
+    },
   };
 }
 

@@ -79,20 +79,11 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
       siteName: siteConfig.name,
       type: 'website',
       locale: OG_LOCALE_MAP[locale] ?? 'en_US',
-      images: [
-        {
-          url: '/og-image.png',
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: ['/og-image.png'],
     },
     robots: {
       index: true,
@@ -118,34 +109,6 @@ export default async function LocaleLayout({children, params}: Props) {
   const messages = await getMessages();
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
-  const personJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: siteConfig.name,
-    url: SITE_URL,
-    jobTitle: siteConfig.title,
-    worksFor: {
-      '@type': 'Organization',
-      name: siteConfig.agency.name,
-      url: siteConfig.agency.url,
-    },
-    knowsAbout: [
-      'Full-Stack Development',
-      'AI Solutions',
-      'Digital Strategy',
-      'Software Architecture',
-    ],
-    sameAs: Object.values(siteConfig.social),
-  };
-
-  const websiteJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: siteConfig.name,
-    url: SITE_URL,
-    inLanguage: routing.locales,
-  };
-
   return (
     <html lang={locale} dir={dir} className="dark">
       <head>
@@ -158,15 +121,6 @@ export default async function LocaleLayout({children, params}: Props) {
         )}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Static JSON-LD — no user input, safe to inline */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify(personJsonLd)}}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify(websiteJsonLd)}}
-        />
         <script
           dangerouslySetInnerHTML={{__html: `console.log("%c ${siteConfig.url.replace('https://', '')} %c\\n\\nLike what you see? The source code is available at:\\n${siteConfig.repo}\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.\\n\\n%cv${process.env.NEXT_PUBLIC_COMMIT_SHA}", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px", "color:#555;font-size:10px")`}}
         />
