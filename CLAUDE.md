@@ -160,7 +160,16 @@ The system auto-discovers new directories under `content/thoughts/`. No route re
 
 When writing or editing article content:
 1. Use the [humanizer](https://github.com/blader/humanizer) Claude Code skill (`/humanizer`) to scan for AI writing patterns and fix them.
-2. Do an explicit "AI voice" pass: read through every standalone short sentence and ask whether it sounds like a person sharing a thought or like an AI trying to land a point. Common tells: fortune-cookie closers ("That's what good X feels like."), dramatic fragment chains ("Maybe X. Maybe Y."), punchy one-liners that restate what the paragraph already said, and section-ending sentences designed to be quotable. Fold these into surrounding text or cut them.
+2. Do an explicit "AI voice" pass checking for these specific patterns:
+   - **Landing sentences:** Standalone short sentences at the end of sections designed to "nail the point." Fortune-cookie closers ("That's what good X feels like."), punchy one-liners that restate what the paragraph already said, section-ending sentences designed to be quotable. Fold into surrounding text or cut.
+   - **Dramatic fragment chains:** "Maybe X. Maybe Y. Maybe Z." or "Not months. Years." Artificially choppy for effect. Write a normal sentence instead.
+   - **Negative parallelisms:** "It's not just X, it's Y" or "Not only...but also..." Overused AI cadence. Just state what it is.
+   - **Significance inflation:** Words like "pivotal", "testament", "enduring", "transformative", "reshaping." If the sentence works without the adjective, remove it.
+   - **The grand-theme move:** Tying a specific observation to "a broader pattern" or "a larger shift." Let the reader draw that conclusion.
+   - **Em dashes (—):** Never use them in article content. Use periods, commas, or restructure the sentence.
+   - **Rule of three:** AI forces ideas into groups of three ("speed, quality, and reliability"). If two items say it, don't pad to three.
+   - **Copula avoidance:** "Serves as", "stands as", "represents" when "is" works fine.
+   - **Synonym cycling:** Calling the same thing by different names in consecutive sentences to avoid repetition ("the tool", "the assistant", "the system"). Just use the same word or a pronoun.
 
 ### Generating thought thumbnails with Gemini (Nano Banana)
 
