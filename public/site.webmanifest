@@ -1,6 +1,7 @@
 {
-  "name": "Aleksander Stos",
+  "name": "Aleksander Stós",
   "short_name": "stosiu.dev",
+  "start_url": "/",
   "icons": [
     {
       "src": "/favicon-32x32.png",

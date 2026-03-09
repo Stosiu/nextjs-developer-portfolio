@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Aleksander Stós — Przedsiębiorca, CTO i Współzałożyciel",
-    "description": "Przedsiębiorca i CTO — buduję produkty i rozwijam zespoły w The Digital Bunch. Warszawa, Rijad, Sydney."
+    "description": "Portfolio Aleksandra Stósia. Przedsiębiorca, CTO i full-stack developer budujący produkty i rozwijający zespoły w The Digital Bunch. Warszawa, Rijad, Sydney."
   },
   "nav": {
     "about": "O mnie",
@@ -195,6 +195,10 @@
     "backToThoughts": "Wróć do przemyśleń",
     "backHome": "Wróć do strony głównej",
     "readingTime": "{minutes} min czytania",
-    "words": "słów"
+    "words": "słów",
+    "relatedThoughts": "Powiązane przemyślenia",
+    "share": "Udostępnij",
+    "copyLink": "Skopiuj link",
+    "linkCopied": "Skopiowano link"
   }
 }

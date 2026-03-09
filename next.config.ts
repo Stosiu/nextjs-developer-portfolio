@@ -63,6 +63,10 @@ const nextConfig = {
   },
   headers: async () => [
     {source: '/(.*)', headers: securityHeaders},
+    {
+      source: '/sitemap.xml',
+      headers: [{key: 'Content-Type', value: 'application/xml'}],
+    },
   ],
   rewrites: async () => [],
 };

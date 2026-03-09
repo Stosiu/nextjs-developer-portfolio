@@ -9,9 +9,9 @@ export function Logos() {
 
   return (
     <section className="py-16 border-y border-white/5">
-      <p className="text-center text-sm text-white/40 uppercase tracking-widest mb-8">
+      <h2 className="text-center text-sm text-white/40 uppercase tracking-widest mb-8">
         {t('heading')}
-      </p>
+      </h2>
       <Marquee
         speed={40}
         gradient

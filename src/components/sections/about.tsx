@@ -131,6 +131,7 @@ export function About() {
           <PhotoCard />
 
           <div className="space-y-6">
+            <h2 className="text-3xl md:text-4xl font-bold">{t('heading')}</h2>
             {(['p1', 'p2', 'p3'] as const).map((key, i) => (
               <motion.p
                 key={key}

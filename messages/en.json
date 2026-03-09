@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Aleksander Stós — Entrepreneur, CTO & Co-Founder",
-    "description": "Entrepreneur and CTO building products and scaling teams at The Digital Bunch. Warsaw, Riyadh, Sydney."
+    "description": "Portfolio of Aleksander Stós. Entrepreneur, CTO and full-stack developer building products and scaling teams at The Digital Bunch. Warsaw, Riyadh, Sydney."
   },
   "nav": {
     "about": "About",
@@ -195,6 +195,10 @@
     "backToThoughts": "Back to thoughts",
     "backHome": "Back to home",
     "readingTime": "{minutes} min read",
-    "words": "words"
+    "words": "words",
+    "relatedThoughts": "Related thoughts",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied"
   }
 }

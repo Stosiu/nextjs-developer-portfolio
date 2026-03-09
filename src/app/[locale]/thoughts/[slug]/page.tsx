@@ -3,13 +3,15 @@ import {notFound} from 'next/navigation';
 import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {ArrowLeft, Clock, Lightbulb} from 'lucide-react';
 import {siteConfig} from '@/config/site';
-import {getThoughtBySlug, getAllThoughts, getThoughtsCount} from '@/lib/thoughts';
+import {getThoughtBySlug, getAllThoughts, getRelatedThoughts, getThoughtsCount} from '@/lib/thoughts';
 import {Badge} from '@/components/ui/badge';
 import {Navbar} from '@/components/navbar';
 import {Footer} from '@/components/sections/footer';
 import {ThoughtContent} from '@/components/thought-content';
 import {ThoughtProgress} from '@/components/thought-progress';
 import {ThoughtToc} from '@/components/thought-toc';
+import {ShareButtons} from '@/components/share-buttons';
+import {RelatedThoughts} from '@/components/related-thoughts';
 import {routing} from '@/i18n/routing';
 import {Link} from '@/i18n/navigation';
 
@@ -115,7 +117,7 @@ export default async function ThoughtPage({params}: Props) {
               {thought.wordCount.toLocaleString()} {t('words')}
             </span>
           </div>
-          <div className="flex flex-wrap gap-1.5 mb-8">
+          <div className="flex flex-wrap gap-1.5 mb-4">
             {thought.tags.map((tag) => (
               <Link
                 key={tag}
@@ -126,6 +128,9 @@ export default async function ThoughtPage({params}: Props) {
                 </Badge>
               </Link>
             ))}
+          </div>
+          <div className="mb-8">
+            <ShareButtons url={url} title={thought.title} />
           </div>
 
           {thought.tldr && (
@@ -145,6 +150,7 @@ export default async function ThoughtPage({params}: Props) {
             backLabel={t('backToThoughts')}
           />
           <ThoughtContent html={thought.html} coverImage={thought.image} coverAlt={thought.title} coverCaption={thought.imageCaption ?? undefined} />
+          <RelatedThoughts thoughts={await getRelatedThoughts(slug, thought.tags)} locale={locale} />
         </div>
 
         <ThoughtToc

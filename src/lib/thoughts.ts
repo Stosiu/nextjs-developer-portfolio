@@ -209,6 +209,20 @@ async function renderMarkdown(content: string, locale = 'en'): Promise<{html: st
   return {html, toc};
 }
 
+export async function getRelatedThoughts(slug: string, tags: string[], count = 2): Promise<ThoughtMeta[]> {
+  const all = await getAllThoughts();
+  const others = all.filter((t) => t.slug !== slug);
+
+  const scored = others.map((t) => {
+    const shared = t.tags.filter((tag) => tags.includes(tag)).length;
+    return {thought: t, score: shared};
+  });
+
+  scored.sort((a, b) => b.score - a.score || new Date(b.thought.date).getTime() - new Date(a.thought.date).getTime());
+
+  return scored.slice(0, count).map((s) => s.thought);
+}
+
 export async function getThoughtBySlug(slug: string, locale = 'en'): Promise<Thought | null> {
   const parsed = parseThought(slug);
   if (!parsed) return null;
