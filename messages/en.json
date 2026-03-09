@@ -135,7 +135,7 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "metaDescription": "Privacy policy for stosiu.dev — what data is collected and how it's used.",
+    "metaDescription": "Privacy policy for stosiu.dev. Learn what anonymous analytics data is collected, how cookies work, and how to opt out. No personal data is sold or used for ads.",
     "backHome": "Back to home",
     "lastUpdated": "Last updated: February 2026",
     "introTitle": "The short version",
@@ -188,7 +188,7 @@
   },
   "thoughts": {
     "title": "Thoughts",
-    "metaDescription": "Ideas, reflections, and lessons from building products and running companies.",
+    "metaDescription": "Ideas, reflections, and lessons from building products and running companies. Articles on DevOps, AI tools, workflow, and software architecture by Aleksander Stós.",
     "searchPlaceholder": "Search thoughts...",
     "allTags": "All",
     "noResults": "No thoughts match your search.",

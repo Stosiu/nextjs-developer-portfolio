@@ -4,7 +4,7 @@ import {join} from 'path';
 import {getThoughtBySlug} from '@/lib/thoughts';
 import {siteConfig} from '@/config/site';
 
-export const alt = 'Thought article';
+export const alt = 'Article by Aleksander Stós on building products and technology';
 export const size = {width: 1200, height: 630};
 export const contentType = 'image/png';
 

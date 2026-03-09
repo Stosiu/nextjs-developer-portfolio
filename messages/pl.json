@@ -135,7 +135,7 @@
   },
   "privacy": {
     "title": "Polityka prywatności",
-    "metaDescription": "Polityka prywatności stosiu.dev — jakie dane są zbierane i jak są wykorzystywane.",
+    "metaDescription": "Polityka prywatności stosiu.dev. Dowiedz się, jakie anonimowe dane analityczne są zbierane, jak działają ciasteczka i jak zrezygnować. Żadne dane osobowe nie są sprzedawane.",
     "backHome": "Wróć na stronę główną",
     "lastUpdated": "Ostatnia aktualizacja: luty 2026",
     "introTitle": "W skrócie",
@@ -188,7 +188,7 @@
   },
   "thoughts": {
     "title": "Przemyślenia",
-    "metaDescription": "Pomysły, refleksje i lekcje z budowania produktów i prowadzenia firm.",
+    "metaDescription": "Pomysły, refleksje i lekcje z budowania produktów i prowadzenia firm. Artykuły o DevOps, narzędziach AI, workflow i architekturze oprogramowania od Aleksandra Stósia.",
     "searchPlaceholder": "Szukaj...",
     "allTags": "Wszystkie",
     "noResults": "Brak przemyśleń pasujących do wyszukiwania.",

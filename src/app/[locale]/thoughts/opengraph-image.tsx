@@ -3,7 +3,7 @@ import {getTranslations} from 'next-intl/server';
 import {siteConfig} from '@/config/site';
 import {getAllThoughts} from '@/lib/thoughts';
 
-export const alt = 'Thoughts — Aleksander Stós';
+export const alt = 'Thoughts on products, technology, and running companies by Aleksander Stós';
 export const size = {width: 1200, height: 630};
 export const contentType = 'image/png';
 
