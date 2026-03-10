@@ -31,4 +31,5 @@ export const clientLogos: ClientLogo[] = [
   {name: 'C&R Software', logo: '/logos/cr-software.svg', url: 'https://www.crsoftware.com', scale: 0.9},
   {name: 'Premier Construction Software', logo: '/logos/premier.svg', url: 'https://premiercs.com'},
   {name: 'Tamam', logo: '/logos/tamam.svg', url: 'https://www.tamam.sa', scale: 1.1},
+  {name: 'Furnobly', logo: '/logos/furnobly.svg', url: 'https://www.furnobly.com'},
 ];
