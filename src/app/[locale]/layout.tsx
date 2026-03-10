@@ -15,6 +15,7 @@ import {QueryProvider} from '@/components/query-provider';
 import {ContextMenu} from '@/components/context-menu';
 import {EasterEggSettings} from '@/components/easter-egg-settings';
 import {SpeedInsights} from '@vercel/speed-insights/next';
+import {Analytics} from '@vercel/analytics/next';
 import NextTopLoader from 'nextjs-toploader';
 import Script from 'next/script';
 import {siteConfig} from '@/config/site';
@@ -146,6 +147,7 @@ export default async function LocaleLayout({children, params}: Props) {
               {process.env.NEXT_PUBLIC_GA_ID && <AnalyticsProvider />}
               {process.env.NEXT_PUBLIC_GA_ID && <CookieConsent />}
               {process.env.NEXT_PUBLIC_SPEED_INSIGHTS && <SpeedInsights />}
+              {process.env.NEXT_PUBLIC_VERCEL_ANALYTICS && <Analytics />}
             </NextIntlClientProvider>
           </QueryProvider>
         </NuqsAdapter>

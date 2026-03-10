@@ -24,6 +24,7 @@ Copy `.env.example` to `.env` and fill in only what you need. All are optional:
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO | Falls back to `siteConfig.url` in `src/config/site.ts` |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics measurement ID | No GA, no consent banner, no privacy/cookie links in footer |
 | `NEXT_PUBLIC_SPEED_INSIGHTS` | Vercel Speed Insights (`"1"` to enable) | No Web Vitals collection |
+| `NEXT_PUBLIC_VERCEL_ANALYTICS` | Vercel Analytics (`"1"` to enable) | No page view tracking |
 | `GITHUB_TOKEN` | GitHub stats on dashboard | Shows fallback data from `src/data/stats.json` |
 | `SPOTIFY_CLIENT_ID/SECRET/REFRESH_TOKEN` | Now-playing widget | Widget hidden |
 | `BLOB_READ_WRITE_TOKEN` | AI stats upload to Vercel Blob | Upload script fails gracefully |
