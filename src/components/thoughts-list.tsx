@@ -50,9 +50,9 @@ export function ThoughtsList({thoughts}: Props) {
         thought.tags.some((tag) => tag.toLowerCase().includes(q)) ||
         thought.content.toLowerCase().includes(q);
 
-      const matchesTags =
-        activeTags.length === 0 ||
-        activeTags.every((tag) => thought.tags.includes(tag));
+      const matchesTags = activeTags.every((tag) =>
+        thought.tags.includes(tag)
+      );
 
       return matchesQuery && matchesTags;
     });
