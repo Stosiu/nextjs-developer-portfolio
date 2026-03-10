@@ -48,6 +48,18 @@ Array of `{name, logo}` for the scrolling marquee. SVGs go in `public/logos/`.
 
 Array of registered companies with legal details. Uses translation keys for localizable names.
 
+### `src/config/travel.ts` — Travel map (optional)
+
+Array of `VisitedCountry` entries (`code`, `year`, optional `image` and `caption`). Powers an interactive world map section showing countries you've visited. Uses `react-simple-maps` with ISO 3166-1 alpha-2 country codes (e.g., `'US'`, `'GB'`, `'PL'`).
+
+To enable the map, add `'travel'` to `siteConfig.sections` in `src/config/site.ts` and add `travel` translation keys to all `messages/*.json` files. The section component is at `src/components/sections/travel.tsx`.
+
+To add a country:
+1. Add an entry to the `visitedCountries` array in `src/config/travel.ts`
+2. Optionally add a photo at `public/images/travel/{code}.jpg` (lowercase country code) and import it at the top of the file
+
+The map highlights visited countries in emerald green. On desktop, hovering a visited country shows a popover with the photo, year, and caption. On mobile, tapping a country shows a bottom bar with the same info. The map supports zoom/pan with a minimap overlay.
+
 ### `src/lib/data.ts` — Projects
 
 Project entries with static image imports. Left as a separate file since it uses `import` for images.
@@ -65,6 +77,7 @@ src/
     experience.ts           # Work history entries
     logos.ts                # Client logo list
     companies.ts            # Footer company registrations
+    travel.ts               # Visited countries for travel map (optional)
   app/
     layout.tsx              # Root layout (pass-through)
     globals.css             # Tailwind + custom styles
@@ -87,6 +100,7 @@ src/
     language-switcher.tsx   # EN/PL/AR locale buttons
     terminal.tsx            # Interactive typing animation
     cursor-comment.tsx      # Floating code comments that follow scroll
+    travel-map.tsx          # Interactive world map with zoom/pan and popovers
     thoughts-list.tsx       # Client-side search, tag filter, pagination (uses nuqs)
     ui/                     # shadcn/ui + reusable components (stat-card, section-heading, badge, etc.)
     sections/
@@ -96,6 +110,7 @@ src/
       projects.tsx          # Project cards grid
       stats.tsx             # Bento dashboard (GitHub + AI + Spotify)
       experience.tsx        # Work history timeline
+      travel.tsx            # Travel map section (optional, add to siteConfig.sections)
       footer.tsx            # Social links + companies + repo link
     stats/                  # Individual stat card components
   hooks/
