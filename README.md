@@ -15,6 +15,8 @@ Fork it, swap the config files, and deploy it in one click.
 
 ### Deploy
 
+**Vercel is the recommended platform.** The template uses Vercel Cron Jobs to keep the stats dashboard cache warm, so visitors never wait for cold API fetches. Vercel Blob is used for AI stats storage. Both features degrade gracefully on other platforms, but you'll need to set up your own cron jobs (see [Stats Dashboard](#stats-dashboard)).
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio&env=NEXT_PUBLIC_SITE_URL&envDescription=Your%20deployed%20site%20URL%20(optional%20-%20used%20for%20SEO)&envLink=https%3A%2F%2Fgithub.com%2FStosiu%2Fnextjs-developer-portfolio%23environment-variables&project-name=developer-portfolio&repository-name=developer-portfolio)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Stosiu/nextjs-developer-portfolio)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Stosiu/nextjs-developer-portfolio)
@@ -47,6 +49,7 @@ Fork it, swap the config files, and deploy it in one click.
   - [Vercel Speed Insights](#vercel-speed-insights)
   - [GitHub Token](#github-token)
   - [Vercel Blob (AI stats)](#vercel-blob-ai-stats-only)
+  - [Cron Secret](#cron-secret)
   - [Spotify](#spotify)
 - [Internationalization (i18n)](#internationalization-i18n)
   - [How it works](#how-it-works)
@@ -55,6 +58,8 @@ Fork it, swap the config files, and deploy it in one click.
   - [RTL support](#rtl-support)
 - [Analytics & Privacy](#analytics--privacy)
 - [Stats Dashboard](#stats-dashboard)
+  - [Cache warming (Vercel Cron)](#cache-warming-vercel-cron)
+  - [AI stats upload](#ai-stats-upload)
   - [How scheduling works](#how-scheduling-works)
 - [Thoughts (Blog)](#thoughts-blog)
   - [Adding a thought](#adding-a-thought)
@@ -182,6 +187,14 @@ AI usage stats are parsed from local Claude Code session files (`~/.claude/proje
 3. Set `REVALIDATE_SECRET` to a random string (e.g. `openssl rand -base64 32`) — used to trigger ISR revalidation after upload
 4. Set `SITE_URL` to your deployed URL (e.g. `https://your-site.vercel.app`)
 
+### Cron Secret
+
+| Variable | Purpose |
+|---|---|
+| `CRON_SECRET` | Authenticates Vercel Cron Job requests to `/api/cron/stats` |
+
+On Vercel, this is set automatically when you configure cron jobs. If using an external cron service, generate a secret (`openssl rand -hex 32`) and set it in both your environment and the cron request's `Authorization: Bearer` header.
+
 ### Spotify
 
 1. Create an app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard)
@@ -282,9 +295,24 @@ Declining cookies means no GA, no cookies, no data sent to Google. The site work
 
 The stats section pulls data from three sources:
 
-- **GitHub** — contributions, streak, and language breakdown fetched live from the GitHub GraphQL API (cached 1h via ISR, no manual upload needed)
+- **GitHub** — contributions, streak, and language breakdown fetched live from the GitHub GraphQL API (cached via ISR, no manual upload needed)
 - **AI usage** — Claude Code token usage and cost parsed from local session files (cost computed via [ccusage](https://github.com/ryoppippi/ccusage)) and uploaded to Vercel Blob. Run `pnpm upload:ai` after sessions to update. The stats card has a `$` / `tokens` toggle — defaults to cost when available.
 - **Spotify** — now-playing / recently-played track fetched server-side at render time
+
+### Cache warming (Vercel Cron)
+
+On Vercel, a cron job (`/api/cron/stats`) runs twice daily (6:00 and 18:00 UTC) to revalidate and pre-fetch stats. This means visitors always get cached data instead of waiting for the GitHub API. The schedule is defined in `vercel.json` and requires the `CRON_SECRET` environment variable (Vercel sets this automatically for cron invocations).
+
+If the cache is empty (first deploy, or after revalidation), the stats are fetched on-demand and cached for subsequent visitors.
+
+**Not using Vercel?** The cron endpoint is a standard `GET /api/cron/stats` protected by a Bearer token. Set up an external cron service (e.g., cron-job.org, GitHub Actions, or your server's crontab) to hit it on a schedule:
+
+```bash
+curl -X GET https://your-site.com/api/cron/stats \
+  -H "Authorization: Bearer $CRON_SECRET"
+```
+
+### AI stats upload
 
 ```bash
 pnpm upload:ai        # Parse ~/.claude session files and upload to Vercel Blob
