@@ -28,6 +28,7 @@ Copy `.env.example` to `.env` and fill in only what you need. All are optional:
 | `GITHUB_TOKEN` | GitHub stats on dashboard | Shows fallback data from `src/data/stats.json` |
 | `SPOTIFY_CLIENT_ID/SECRET/REFRESH_TOKEN` | Now-playing widget | Widget hidden |
 | `BLOB_READ_WRITE_TOKEN` | AI stats upload to Vercel Blob | Upload script fails gracefully |
+| `CRON_SECRET` | Vercel Cron Job authentication | Cron endpoint returns 401 (stats still work on-demand) |
 
 ## Personalizing the Template
 
@@ -261,7 +262,8 @@ When proposing a thumbnail prompt, always output the full prompt ready to copy-p
 - All animations respect `prefers-reduced-motion`
 
 ### Stats Dashboard
-- GitHub stats fetched server-side from GitHub GraphQL API, cached 1h via ISR (`src/lib/github.ts`)
+- GitHub stats fetched server-side from GitHub GraphQL API, cached via ISR (`src/lib/github.ts`)
+- Vercel Cron Job (`/api/cron/stats`) revalidates and warms the stats cache twice daily (6:00 and 18:00 UTC), configured in `vercel.json`. Requires `CRON_SECRET` env var.
 - AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai` (parses `~/.claude/projects/**/*.jsonl`)
 - Spotify now-playing fetched server-side at page render
 - Fallback data in `src/data/stats.json` used when APIs unavailable
