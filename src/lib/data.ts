@@ -8,6 +8,7 @@ import bazzarImg from '../../public/projects/bazzar.jpg';
 import wineUnpluggedImg from '../../public/projects/wine-unplugged.jpg';
 import gedeonMedicaImg from '../../public/projects/gedeon-medica.png';
 import electrosmartImg from '../../public/projects/electrosmart.jpg';
+import houseOfBambooImg from '../../public/projects/house-of-bamboo.jpg';
 
 export type Project = {
   title: string;
@@ -121,6 +122,15 @@ export const projects: Project[] = [
     image: electrosmartImg,
     tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Python', 'ML'],
     date: '2022 – Present',
+    role: 'Tech Lead',
+  },
+  {
+    title: 'House of Bamboo',
+    descriptionKey: 'proj10Desc',
+    url: 'https://www.thedigitalbunch.com/case-studies/house-of-bamboo-five-decades-of-bamboo-on-one-unified-platform',
+    image: houseOfBambooImg,
+    tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL'],
+    date: '2025',
     role: 'Tech Lead',
   },
 ];

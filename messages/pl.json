@@ -51,6 +51,7 @@
     "proj7Desc": "Cyfryzacja operacji z arkuszy kalkulacyjnych do dedykowanej aplikacji webowej, skracając czas operacji i kontroli o 90%.",
     "proj8Desc": "Zbudowałem platformę medyczną, która zdigitalizowała papierowe procesy kliniki psychiatrycznej, unifikując dane pacjentów między specjalistami z szyfrowaniem i kontrolą dostępu.",
     "proj9Desc": "Zbudowałem platformę arbitrażu hurtowego opartą na AI, która dopasowuje i porównuje ceny u tysięcy dostawców, przetwarzając ponad 100 tys. SKU dziennie z dokładnością dopasowania 99,9%.",
+    "proj10Desc": "Przebudowałem platformę e-commerce premium dostawcy bambusa z dwoma ścieżkami zakupowymi, zintegrowanym zarządzaniem magazynem i katalogiem produktów przeorganizowanym pod workflow architektów.",
     "showAll": "Pokaż wszystkie projekty",
     "showLess": "Pokaż wyróżnione"
   },
