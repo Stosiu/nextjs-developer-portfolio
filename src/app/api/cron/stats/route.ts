@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from 'next/server';
-import {revalidateTag} from 'next/cache';
+import {revalidatePath, revalidateTag} from 'next/cache';
 import {getStats} from '@/lib/stats';
 
 export async function GET(request: NextRequest) {
@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
 
   revalidateTag('github-stats', 'default');
   revalidateTag('stats', 'default');
+  revalidatePath('/api/stats');
 
   const stats = await getStats();
 
