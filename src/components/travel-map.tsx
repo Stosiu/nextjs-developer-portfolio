@@ -243,6 +243,7 @@ export function TravelMap() {
   return (
     <div
       ref={containerRef}
+      data-no-follower
       className="relative w-full overflow-hidden rounded-xl border border-white/[0.08] bg-gradient-to-b from-white/[0.03] to-transparent"
       onMouseMove={handleMouseMove}
       onTouchStart={handleTouchStart}
