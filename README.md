@@ -47,6 +47,7 @@ Fork it, swap the config files, and deploy it in one click.
   - [Canonical URL](#canonical-url)
   - [Google Analytics](#google-analytics)
   - [Vercel Speed Insights](#vercel-speed-insights)
+  - [Vercel Analytics](#vercel-analytics)
   - [GitHub Token](#github-token)
   - [Vercel Blob (AI stats)](#vercel-blob-ai-stats-only)
   - [Cron Secret](#cron-secret)
@@ -90,6 +91,7 @@ Fork it, swap the config files, and deploy it in one click.
 - **Project showcase** with gradient-bordered cards
 - **Work experience timeline** — because `years_of_experience++` needs context
 - **Thoughts (blog)** — markdown articles with frontmatter, tag filtering, search, and pagination
+- **Interactive travel map** — world map with visited countries, photo popovers on hover/tap, zoom/pan with minimap overlay
 - **Full i18n** with RTL support for Arabic
 - **Dark theme only** — non-negotiable (you can try toggling it off in the settings panel, but...)
 - **Accessible** — skip-nav, ARIA labels, respects `prefers-reduced-motion`
@@ -127,6 +129,7 @@ All personal data is centralized — edit these files to make it yours:
 | `src/config/experience.ts` | Work history (structural data: company names, URLs, icons) |
 | `src/config/logos.ts` | Client logos for the scrolling marquee |
 | `src/config/companies.ts` | Footer company registrations |
+| `src/config/travel.ts` | Visited countries for the travel map (optional) |
 | `src/lib/data.ts` | Project entries (titles, tech stacks, images) |
 | `messages/{en,pl,ar}.json` | All user-facing text including experience & project descriptions |
 | `src/app/globals.css` | Accent color (`--color-brand-*` variables and `--accent-rgb`) |
@@ -165,6 +168,14 @@ When missing: no analytics scripts, no consent banner, no privacy/cookie links. 
 | `NEXT_PUBLIC_SPEED_INSIGHTS` | Set to `1` to enable Vercel Speed Insights (Web Vitals collection) |
 
 No cookies, no PII — collects Core Web Vitals only. Works only on Vercel deployments.
+
+### Vercel Analytics
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_VERCEL_ANALYTICS` | Set to `1` to enable Vercel Analytics (page view tracking) |
+
+Privacy-friendly page view analytics via Vercel. No cookies, no PII. Works only on Vercel deployments.
 
 ### GitHub Token
 
@@ -496,7 +507,8 @@ src/
     interactive-dots.tsx  # Canvas dot grid
     language-switcher.tsx
     thoughts-list.tsx     # Client-side search, tag filter, pagination (uses nuqs)
-    sections/             # Hero, About, Logos, Projects, Stats, Experience, Footer
+    travel-map.tsx        # Interactive world map with zoom/pan and popovers
+    sections/             # Hero, About, Logos, Projects, Stats, Experience, Travel, Footer
     stats/                # GitHub heatmap, AI tokens chart, Spotify card, etc.
     ui/                   # shadcn/ui + reusable components
   hooks/
@@ -506,6 +518,12 @@ src/
   data/
     stats.json            # Generated stats data
     stats-types.ts        # TypeScript types for stats
+  config/
+    site.ts               # Central config (name, socials, booking, sections)
+    experience.ts         # Work history entries
+    logos.ts              # Client logo list
+    companies.ts          # Footer company registrations
+    travel.ts             # Visited countries for travel map (optional)
   lib/
     analytics.ts          # GA loader + event tracking (gated by NEXT_PUBLIC_GA_ID)
     consent.ts            # Cookie consent state (localStorage + CustomEvent)
