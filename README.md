@@ -312,7 +312,7 @@ The stats section pulls data from three sources:
 
 ### Cache warming (Vercel Cron)
 
-On Vercel, a cron job (`/api/cron/stats`) runs twice daily (6:00 and 18:00 UTC) to revalidate and pre-fetch stats. This means visitors always get cached data instead of waiting for the GitHub API. The schedule is defined in `vercel.json` and requires the `CRON_SECRET` environment variable (Vercel sets this automatically for cron invocations).
+On Vercel, a cron job (`/api/cron/stats`) runs daily (6:00 UTC) to revalidate and pre-fetch stats. The stats API route uses ISR with 1-hour revalidation, so visitors always get cached data instantly. The cron proactively warms the cache so the first visitor of the day doesn't trigger a background revalidation. The schedule is defined in `vercel.json` and requires the `CRON_SECRET` environment variable (Vercel sets this automatically for cron invocations). Vercel Hobby plan allows 1 cron job running once per day.
 
 If the cache is empty (first deploy, or after revalidation), the stats are fetched on-demand and cached for subsequent visitors.
 

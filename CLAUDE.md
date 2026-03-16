@@ -263,7 +263,7 @@ When proposing a thumbnail prompt, always output the full prompt ready to copy-p
 
 ### Stats Dashboard
 - GitHub stats fetched server-side from GitHub GraphQL API, cached via ISR (`src/lib/github.ts`)
-- Vercel Cron Job (`/api/cron/stats`) revalidates and warms the stats cache twice daily (6:00 and 18:00 UTC), configured in `vercel.json`. Requires `CRON_SECRET` env var.
+- Vercel Cron Job (`/api/cron/stats`) revalidates and warms the stats cache daily (6:00 UTC), configured in `vercel.json`. Requires `CRON_SECRET` env var. Hobby plan allows 1 cron/day.
 - AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai` (parses `~/.claude/projects/**/*.jsonl`)
 - Spotify now-playing fetched server-side at page render
 - Fallback data in `src/data/stats.json` used when APIs unavailable
