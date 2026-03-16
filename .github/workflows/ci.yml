@@ -23,37 +23,43 @@ jobs:
 
       - name: Audit
         id: audit
-        run: pnpm audit --prod
+        run: pnpm audit --prod 2>&1 | tee /tmp/ci-audit.log
         continue-on-error: true
 
       - name: Lint
         id: lint
-        run: pnpm lint
+        run: pnpm lint 2>&1 | tee /tmp/ci-lint.log
         continue-on-error: true
 
       - name: Test
         id: test
-        run: pnpm test
+        run: pnpm test 2>&1 | tee /tmp/ci-test.log
         continue-on-error: true
 
       - name: Typecheck
         id: typecheck
-        run: pnpm typecheck
+        run: pnpm typecheck 2>&1 | tee /tmp/ci-typecheck.log
         continue-on-error: true
 
       - name: Build
         id: build
-        run: pnpm build
+        run: pnpm build 2>&1 | tee /tmp/ci-build.log
         continue-on-error: true
 
       - name: Check results
+        if: always()
         run: |
           failed=""
-          if [ "${{ steps.audit.outcome }}" = "failure" ]; then failed="$failed audit"; fi
-          if [ "${{ steps.lint.outcome }}" = "failure" ]; then failed="$failed lint"; fi
-          if [ "${{ steps.test.outcome }}" = "failure" ]; then failed="$failed test"; fi
-          if [ "${{ steps.typecheck.outcome }}" = "failure" ]; then failed="$failed typecheck"; fi
-          if [ "${{ steps.build.outcome }}" = "failure" ]; then failed="$failed build"; fi
+          steps=("audit" "lint" "test" "typecheck" "build")
+          outcomes=("${{ steps.audit.outcome }}" "${{ steps.lint.outcome }}" "${{ steps.test.outcome }}" "${{ steps.typecheck.outcome }}" "${{ steps.build.outcome }}")
+          for i in "${!steps[@]}"; do
+            if [ "${outcomes[$i]}" = "failure" ]; then
+              failed="$failed ${steps[$i]}"
+              echo "::group::${steps[$i]} output"
+              tail -40 "/tmp/ci-${steps[$i]}.log" 2>/dev/null || echo "No log captured"
+              echo "::endgroup::"
+            fi
+          done
           if [ -n "$failed" ]; then
             echo "::error::Failed steps:$failed"
             exit 1
