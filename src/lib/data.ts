@@ -84,7 +84,7 @@ export const projects: Project[] = [
     logo: '/logos/bazzar.svg',
     image: bazzarImg,
     tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Vercel', 'OpenAI'],
-    date: '2025',
+    date: '2025 – Present',
     role: 'Tech Lead',
   },
   {
@@ -130,7 +130,7 @@ export const projects: Project[] = [
     url: 'https://www.thedigitalbunch.com/case-studies/house-of-bamboo-five-decades-of-bamboo-on-one-unified-platform',
     image: houseOfBambooImg,
     tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL'],
-    date: '2025',
+    date: '2026 – Present',
     role: 'Tech Lead',
   },
 ];
