@@ -12,6 +12,16 @@ describe('thoughts rendering', () => {
     }
   });
 
+  it('claude-code-setup renders correctly', async () => {
+    const thought = await getThoughtBySlug('claude-code-setup');
+    expect(thought).not.toBeNull();
+    expect(thought!.title).toBe('It Took Me Six Months to Trust AI With My Code');
+    expect(thought!.html).toContain('<h2');
+    expect(thought!.html).toContain('Superpowers');
+    expect(thought!.html).toContain('Context7');
+    expect(thought!.tags).toEqual(['Tools', 'AI', 'Workflow']);
+  });
+
   it('returns null for non-existent slug', async () => {
     const thought = await getThoughtBySlug('does-not-exist');
     expect(thought).toBeNull();
