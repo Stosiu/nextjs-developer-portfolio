@@ -6,8 +6,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10B981)](LICENSE)
 
-A developer portfolio that doesn't look like every other developer portfolio. Built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Dark theme only — there is no light mode, and that's a feature. Ships with i18n (English, Polish, Arabic with full RTL), a live stats dashboard pulling from GitHub and Spotify, and enough Easter eggs to keep curious devs right-clicking for a while.
+A developer portfolio that doesn't look like every other developer portfolio. Built with Next.js 16, TypeScript, Tailwind CSS v4, and Framer Motion. Dark theme only. There is no light mode, and that's a feature. Ships with i18n (English, Polish, Arabic with full RTL), a live stats dashboard pulling from GitHub and Spotify, and enough Easter eggs to keep curious devs right-clicking for a while.
 
 Fork it, swap the config files, and deploy it in one click.
 
@@ -29,7 +30,7 @@ Fork it, swap the config files, and deploy it in one click.
 >
 > I built this for myself, then realized it would be selfish to keep it private.
 > Every developer deserves a portfolio that doesn't make them cringe.
-> So here it is — the same template that runs my own site, open for anyone to grab.
+> So here it is. The same template that runs my own site, open for anyone to grab.
 >
 > Good luck, use it well, make it yours, and if you build something cool with it — I'd love to see it.
 >
