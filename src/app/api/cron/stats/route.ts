@@ -1,12 +1,13 @@
 import {NextRequest, NextResponse} from 'next/server';
 import {revalidatePath, revalidateTag} from 'next/cache';
 import {getStats} from '@/lib/stats';
+import {timingSafeEqual} from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization')?.trim();
   const cronSecret = process.env.CRON_SECRET?.trim();
 
-  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+  if (!cronSecret || !authHeader || !timingSafeEqual(authHeader, `Bearer ${cronSecret}`)) {
     return NextResponse.json({error: 'Unauthorized'}, {status: 401});
   }
 

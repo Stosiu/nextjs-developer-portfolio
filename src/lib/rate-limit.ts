@@ -47,6 +47,18 @@ export function rateLimit(ip: string, maxRequests: number): NextResponse | null 
   return null;
 }
 
+export function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  const encoder = new TextEncoder();
+  const bufA = encoder.encode(a);
+  const bufB = encoder.encode(b);
+  let mismatch = 0;
+  for (let i = 0; i < bufA.length; i++) {
+    mismatch |= bufA[i] ^ bufB[i];
+  }
+  return mismatch === 0;
+}
+
 export function getClientIp(headers: Headers): string {
   return (
     headers.get('x-forwarded-for')?.split(',')[0].trim() ??

@@ -86,7 +86,7 @@ async function fetchWithToken(url: string, accessToken: string, retries = 3): Pr
 }
 
 export async function getSpotifyData(): Promise<SpotifyData> {
-  if (process.env.NODE_ENV === 'development' || !client_id || !client_secret || !refresh_token) {
+  if (process.env.NODE_ENV === 'development' || !process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET || !process.env.SPOTIFY_REFRESH_TOKEN) {
     return {nowPlaying: null, topTracks: [], topArtist: null};
   }
 

@@ -35,13 +35,17 @@ The tool was half the story. Learning how to work with it was the other half.
 
 ## Why the terminal
 
-I've used [WebStorm](https://www.jetbrains.com/webstorm/) for 12 years. Is VS Code faster? Is something else better? Probably. I don't care. I'm so deeply rooted in the WebStorm ecosystem that switching costs more than it saves. The keybindings are in my muscle memory. The project structure feels right. The debugger works the way I expect.
+I've used [WebStorm](https://www.jetbrains.com/webstorm/) for 12 years. Is VS Code faster? Probably. I don't care. I'm so deeply rooted in the WebStorm ecosystem that switching costs more than it saves. The keybindings are in my muscle memory. The debugger works the way I expect.
 
-Claude Code in [iTerm](https://iterm2.com) is the same thing. There's an app called [Conductor](https://www.conductor.build/) that orchestrates multiple coding agents on your Mac. It looks genuinely nice. I tried it. I came back to the terminal. Same pattern I've had with 15 or 20 different tools over the years. Sublime, VS Code, Atom, whatever was trending that month. I always end up back where I started.
+Claude Code in [iTerm](https://iterm2.com) is the same thing. There's an app called [Conductor](https://www.conductor.build/) that orchestrates multiple coding agents on your Mac. It looks genuinely nice. I tried it. I came back to the terminal.
+
+Same pattern I've had with 15 or 20 different tools over the years. Sublime, VS Code, Atom, whatever was trending that month. I always end up back where I started.
 
 The console feels right because it's my setup. I customize iTerm, configure zsh, add hooks, control the workflow. The AI lives inside my environment, not the other way around.
 
-There's a practical reason too. Most of the services I work with already have CLIs. [GitHub CLI](https://cli.github.com/), [Vercel CLI](https://vercel.com/docs/cli), [gcloud](https://cloud.google.com/sdk/gcloud), Heroku CLI. These are authenticated, well-documented, and reliable. I tell Claude Code to use them and it does. The alternative is [MCP servers](https://modelcontextprotocol.io/) (Model Context Protocol, a way for AI tools to connect to external services). Some MCP servers work. GitHub MCP doesn't. It's broken in my setup and I've stopped trying to fix it because `gh` just works.
+There's a practical reason too. Most of the services I work with already have CLIs. [GitHub CLI](https://cli.github.com/), [Vercel CLI](https://vercel.com/docs/cli), [gcloud](https://cloud.google.com/sdk/gcloud), Heroku CLI. These are authenticated and reliable. I tell Claude Code to use them and it does.
+
+The alternative is [MCP servers](https://modelcontextprotocol.io/) (Model Context Protocol, a way for AI tools to connect to external services). Some work. GitHub MCP doesn't. It's broken in my setup and I've stopped trying to fix it because `gh` just works.
 
 The CLI approach is boring. I've stopped apologizing for that.
 
@@ -99,7 +103,9 @@ The AI is that colleague, except it can also process the logs, write the queries
 
 You still have to evaluate whether its theory makes sense though. You still need to understand the system well enough to say "that's plausible" or "no, that can't be the issue because of X." The debugging skill didn't replace my judgment. It replaced the mechanical work of correlating data across multiple sources.
 
-I remember too many 4-5 hour debugging sessions from before this. The ones where you finally discover that one line change fixes everything because there's a concurrency issue under very specific circumstances. A dependency on a hook, on a comment, on a model, in a service. Two workers stuck in a queue that isn't processing events in the right order. Something on the frontend letting users click the same button multiple times. You know that mix of exhaustion and adrenaline when you finally find it? I still get that feeling. It just takes an hour instead of five.
+I remember too many 4-5 hour debugging sessions from before this. The ones where you finally discover that one line change fixes everything because there's a concurrency issue under very specific circumstances. Two workers stuck in a queue that isn't processing events in the right order. Something on the frontend letting users click the same button multiple times.
+
+You know that mix of exhaustion and adrenaline when you finally find it? I still get that feeling. It just takes an hour instead of five.
 
 One thing I had to learn: sometimes the AI gets stuck. It loops on a wrong approach for 30 minutes. You need to know when to stop it, re-adjust the prompt, redirect the investigation. You're steering the whole time.
 
@@ -113,7 +119,7 @@ With Context7, it pulls the actual current docs before writing code. Not perfect
 
 ### Humanizer
 
-This one is specific to my use case. I write articles for [this site](/thoughts), and I don't want them to read like AI wrote them. The [humanizer skill](https://github.com/blader/humanizer) scans text for AI writing patterns and flags them. Em dashes (I hate em dashes in articles, they scream "AI wrote this"), rule of three, synonym cycling where the same thing gets called five different names in consecutive sentences, significance inflation ("pivotal," "transformative," "reshaping").
+This one is specific to my use case. I write articles for [this site](/thoughts), and I don't want them to read like AI wrote them. The [humanizer skill](https://github.com/blader/humanizer) scans text for AI writing patterns and flags them. Em dashes (I hate em dashes in articles, they scream "AI wrote this"), rule of three, synonym cycling where the same thing gets called five different names in consecutive sentences, significance inflation ("groundbreaking," "transformative," "reshaping").
 
 The irony of using AI to detect and remove signs of AI writing is not lost on me. But it works. It catches patterns I'd miss on my own because I'm too close to the text after writing it.
 
@@ -139,11 +145,17 @@ I'm not going to pretend this setup is perfect. There are real problems.
 
 **The scroll bug.** This is a nightmare. In iTerm, if you scroll up even slightly while Claude Code is outputting text, it jumps to the very top of the buffer. You lose your place entirely. You can't follow the AI's thinking process because the moment you try to scroll back to see what it did, you're teleported to the beginning. Other users [complain about this](https://github.com/anthropics/claude-code/issues) too. It's the single most frustrating thing about the tool.
 
-**Mobile workflow.** Unsolved. I work from my phone more than I'd like to admit, especially when traveling. Claude Code on a phone screen is either too small to read or too clunky to navigate. What actually works for me is [TeamViewer](https://www.teamviewer.com/) into my desktop. I get the same 49-inch screen, same terminal panes, same workflow. Just controlled with my thumb. It's a hack, not a solution. But it's the best hack I've found.
+**Mobile workflow.** Unsolved. I work from my phone more than I'd like to admit, especially when traveling. Claude Code on a phone screen is either too small to read or too clunky to navigate.
 
-**AI getting stuck in loops.** Sometimes you ask the AI to do something and it fails. So you rephrase. It fails differently. You rephrase again. Ten attempts later it still can't get it right. At some point you have to recognize that the AI isn't going to figure this one out and just do it yourself. Knowing when to give up on the AI and switch to manual work is a skill in itself. One that the AI evangelists never mention.
+What actually works is [TeamViewer](https://www.teamviewer.com/) into my desktop. Same 49-inch screen, same terminal panes, same workflow. Just controlled with my thumb. It's a hack, not a solution.
 
-MCP servers are inconsistent. Some connect and work. Some fail silently. Some connect but produce wrong results. GitHub MCP is broken in my setup. I've seen the AI make 10 incorrect tool calls through MCP because the argument format was wrong with no clear error message. This is why I prefer CLIs. Less elegant, predictable.
+**AI getting stuck in loops.** Sometimes you ask the AI to do something and it fails. You rephrase. It fails differently. Ten attempts later it still can't get it right.
+
+At some point you have to recognize that the AI isn't going to figure this one out and just do it yourself. Knowing when to give up and switch to manual work is a skill the AI evangelists never mention.
+
+**MCP reliability.** Some servers connect and work. Some fail silently. Some connect but produce wrong results. GitHub MCP is broken in my setup.
+
+I've seen the AI make 10 incorrect tool calls through MCP because the argument format was wrong with no clear error message. This is why I prefer CLIs.
 
 **The access problem.** Giving the AI access to the right things is the hardest part of the initial setup. A production database with thousands of tables? You don't hand over the keys. You create a specific database user with read-only access to specific tables. You might need to anonymize sensitive columns. For logs, you need to configure the right filters so the AI sees relevant data without drowning in noise.
 
@@ -157,7 +169,7 @@ Every company uses different project management. [Linear](https://linear.app/), 
 
 Product companies that stay on one stack build this over time and it compounds. They create internal tools that surface customer data, check permissions, pull up dashboards. No one jumps into the database manually anymore. The tooling becomes a competitive advantage.
 
-This is similar to how companies build custom Raycast plugins. You type a customer ID and it pulls up their account details, subscription status, recent activity. No context switching, no logging into five different admin panels. Once you build it, everyone on the team benefits. The same logic applies to AI workflows. Build the access layer once, the whole team moves faster.
+Same logic as companies building custom Raycast plugins. Type a customer ID, get their account details. No context switching, no logging into five admin panels. Build the access layer once, the whole team moves faster.
 
 For agencies like [The Digital Bunch](https://thedigitalbunch.com), this is getting harder. Product teams iterate on one codebase, one tool stack, one set of integrations. They get faster every month. Agencies switch projects, switch clients, switch tools. The ramp-up time for each client's ecosystem is significant.
 
