@@ -143,9 +143,23 @@ function rehypeImageFigure() {
   };
 }
 
+function rehypeGifToVideo() {
+  return (tree: Root) => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName !== 'img') return;
+      const src = node.properties?.src as string | undefined;
+      if (!src?.endsWith('.gif')) return;
+      const mp4Src = src.replace(/\.gif$/, '.mp4');
+      node.tagName = 'video';
+      node.properties = {src: mp4Src, autoPlay: true, loop: true, muted: true, playsInline: true};
+      node.children = [];
+    });
+  };
+}
+
 const sanitizeSchema = {
   ...defaultSchema,
-  tagNames: [...(defaultSchema.tagNames ?? []), 'figure', 'figcaption'],
+  tagNames: [...(defaultSchema.tagNames ?? []), 'figure', 'figcaption', 'video'],
   attributes: {
     ...defaultSchema.attributes,
     h1: [...(defaultSchema.attributes?.h1 ?? []), 'id'],
@@ -156,6 +170,7 @@ const sanitizeSchema = {
     h6: [...(defaultSchema.attributes?.h6 ?? []), 'id'],
     a: [...(defaultSchema.attributes?.a ?? []), 'className'],
     img: [...(defaultSchema.attributes?.img ?? []), 'alt'],
+    video: ['src', 'autoPlay', 'loop', 'muted', 'playsInline'],
   },
 };
 
@@ -193,6 +208,7 @@ async function renderMarkdown(content: string, locale = 'en'): Promise<{html: st
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings)
+    .use(rehypeGifToVideo)
     .use(rehypeImageFigure)
     .use(rehypeLocalizeLinks, locale);
 

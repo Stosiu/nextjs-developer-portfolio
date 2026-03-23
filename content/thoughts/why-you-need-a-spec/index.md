@@ -4,7 +4,7 @@ date: 2026-03-05
 tags: [Business, AI, Product]
 image: thumbnail.jpg
 imageCaption: Structured blueprints vs walls of generated code. Know what you're building before you build it.
-description: AI made coding accessible to everyone. That's great for the world and terrible for your project if the person writing the code doesn't understand your business. Why Design Sprints and proper specs matter more now than they ever did.
+description: AI made coding accessible to everyone. That's great for the world and terrible for your project. Design Sprints and proper specs matter more now than ever.
 tldr: AI commoditized the coding part. The hard part was always understanding the problem, defining scope, and knowing what to build. Now that anyone can generate code, the gap between experienced teams and prompt-and-pray operators is wider than ever. Design Sprints force you to do the thinking before the building. That thinking is what separates products that work from expensive prototypes that fall apart.
 ---
 

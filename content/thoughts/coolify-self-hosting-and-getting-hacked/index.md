@@ -4,7 +4,7 @@ date: 2025-12-03
 tags: [DevOps, AI, Tools, Security]
 image: thumbnail.jpg
 imageCaption: One compromised server unit. That's all it takes.
-description: How a CVSS 10.0 vulnerability turned our Coolify server into a crypto mine, and what I learned about self-hosting, managed services, and knowing what you don't know.
+description: How a CVSS 10.0 vulnerability turned our Coolify server into a crypto mine, and what I learned about self-hosting and managed services.
 tldr: Our Hetzner server running Coolify got hacked within an hour of the React2Shell CVE going public. Attackers started mining crypto. We nuked and rebuilt from scratch. Self-hosting with Coolify is genuinely nice, but bare metal means more attack surface. AI helped me set up the whole thing in one hour versus eight hours of manual pain. Pick the right hosting for the job. Know what you don't know.
 ---
 
