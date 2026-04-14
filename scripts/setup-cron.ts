@@ -94,7 +94,7 @@ function macosInstall(_pnpmPath: string, hour: number, minute: number): void {
         <string>${SHELL_PATH}</string>
         <string>-l</string>
         <string>-c</string>
-        <string>cd "${PROJECT_DIR}" &amp;&amp; pnpm upload:ai</string>
+        <string>cd "${PROJECT_DIR}" &amp;&amp; pnpm upload:ai || osascript -e 'display notification "Cron failed. See ~/Library/Logs/upload-ai/stderr.log" with title "stos-website: upload AI stats" sound name "Basso"'</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
