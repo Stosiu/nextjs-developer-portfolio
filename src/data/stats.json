@@ -114,7 +114,6 @@
       {"model": "Haiku", "tokens": 1000000}
     ],
     "totalSessions": 250,
-    "totalQueries": 5000,
     "inputPercentage": 99.5,
     "busiestDay": "Wednesday",
     "busiestDayAvgTokens": 8000000,

@@ -48,7 +48,6 @@ export async function getStats(): Promise<StatsData> {
           dailyUsage: ai.dailyUsage,
           modelBreakdown: ai.modelBreakdown,
           totalSessions: ai.totalSessions,
-          totalQueries: ai.totalQueries,
           inputPercentage: ai.inputPercentage,
           busiestDay: ai.busiestDay,
           busiestDayAvgTokens: ai.busiestDayAvgTokens,

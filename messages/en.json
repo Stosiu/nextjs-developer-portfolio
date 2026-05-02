@@ -63,7 +63,6 @@
     "aiTokens": "AI Tokens (30d)",
     "aiTokensTotal": "total tokens",
     "aiSessions": "Sessions",
-    "aiMessages": "Messages",
     "lastUpdated": "Last updated",
     "ratioLabel": "Token Ratio",
     "ratioInput": "of all tokens are re-reading context",

@@ -97,7 +97,6 @@ export function Stats() {
                   tokensLast30d={statsData!.ai.tokensLast30d}
                   dailyUsage={statsData!.ai.dailyUsage}
                   totalSessions={statsData!.ai.totalSessions}
-                  totalQueries={statsData!.ai.totalQueries}
                   modelBreakdown={statsData!.ai.modelBreakdown}
                   provider={statsData!.ai.provider}
                   lastUpdated={statsData!.lastUpdated}

@@ -36,7 +36,6 @@ export type StatsData = {
     dailyUsage: AiDailyUsage[];
     modelBreakdown: AiModelBreakdown[];
     totalSessions: number;
-    totalQueries: number;
     inputPercentage: number;
     busiestDay: string;
     busiestDayAvgTokens: number;
@@ -67,7 +66,6 @@ export type AiStats = {
   dailyUsage: AiDailyUsage[];
   modelBreakdown: AiModelBreakdown[];
   totalSessions: number;
-  totalQueries: number;
   inputPercentage: number;
   busiestDay: string;
   busiestDayAvgTokens: number;

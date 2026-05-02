@@ -14,7 +14,6 @@ type AiTokensProps = {
   tokensLast30d: number;
   dailyUsage: AiDailyUsage[];
   totalSessions: number;
-  totalQueries: number;
   modelBreakdown: AiModelBreakdown[];
   provider: string;
   lastUpdated: string;
@@ -142,7 +141,6 @@ export function AiTokens({
   tokensLast30d,
   dailyUsage,
   totalSessions,
-  totalQueries,
   modelBreakdown,
   provider,
   lastUpdated,
@@ -188,7 +186,6 @@ export function AiTokens({
 
   const stats = [
     {label: t('aiSessions'), value: totalSessions.toLocaleString()},
-    {label: t('aiMessages'), value: totalQueries.toLocaleString()},
   ];
 
   return (
