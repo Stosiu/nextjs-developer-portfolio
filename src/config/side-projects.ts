@@ -12,4 +12,8 @@ export const sideProjects: SideProject[] = [
     name: 'nickcheckr.stosiu.dev',
     url: 'https://nickcheckr.stosiu.dev',
   },
+  {
+    name: 'getaperi.com',
+    url: 'https://www.getaperi.com',
+  },
 ];
