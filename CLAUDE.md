@@ -50,6 +50,10 @@ Array of `{name, logo}` for the scrolling marquee. SVGs go in `public/logos/`.
 
 Array of registered companies with legal details. Uses translation keys for localizable names.
 
+### `src/config/side-projects.ts` — Side projects list
+
+Array of `{name, url}` entries rendered in the footer alongside the main companies/social links.
+
 ### `src/config/travel.ts` — Travel map (optional)
 
 Array of `VisitedCountry` entries (`code`, `year`, optional `image` and `caption`). Powers an interactive world map section showing countries you've visited. Uses `react-simple-maps` with ISO 3166-1 alpha-2 country codes (e.g., `'US'`, `'GB'`, `'PL'`).
@@ -79,22 +83,32 @@ src/
     experience.ts           # Work history entries
     logos.ts                # Client logo list
     companies.ts            # Footer company registrations
+    side-projects.ts        # Footer side projects list
     travel.ts               # Visited countries for travel map (optional)
+  proxy.ts                  # next-intl middleware (locale detection + redirect)
   app/
     layout.tsx              # Root layout (pass-through)
     globals.css             # Tailwind + custom styles
     global-error.tsx        # Global error boundary
     robots.ts               # Robots.txt generation
     sitemap.ts              # Sitemap generation
+    api/
+      cron/stats/route.ts   # Vercel cron endpoint (warms ISR cache; auth via CRON_SECRET)
+      revalidate/route.ts   # On-demand ISR revalidation (called by upload:ai)
+      spotify/route.ts      # Spotify now-playing proxy
+      stats/route.ts        # Stats JSON endpoint
     [locale]/
       layout.tsx            # Locale layout (html/body, fonts, JSON-LD, console log)
       page.tsx              # Single page with all sections
+      opengraph-image.tsx   # Dynamic OG image for the homepage
       not-found.tsx         # 404 page
       error.tsx             # Error boundary
       privacy/page.tsx      # Privacy policy (only linked if GA_ID set)
       thoughts/
         page.tsx            # Thoughts listing (search, tag filter, pagination)
-        [slug]/page.tsx     # Individual thought article
+        [slug]/
+          page.tsx          # Individual thought article
+          opengraph-image.tsx # Per-article OG image
   components/
     analytics-provider.tsx  # Conditional GA loading + scroll depth tracking
     cookie-consent.tsx      # GDPR consent banner (only if GA_ID set)
@@ -130,14 +144,19 @@ src/
     spotify.ts              # Spotify now-playing API
     stats.ts                # Stats aggregator (GitHub + AI blob)
     thoughts.ts             # Markdown parser + renderer (remark/rehype pipeline)
+    thought-quality.ts      # Readability scoring for thoughts content
+    rate-limit.ts           # In-memory rate limiting for API routes
     format.ts               # Number/date formatting utilities
     utils.ts                # shadcn cn() utility
   data/
     stats.json              # Generated stats data
     stats-types.ts          # TypeScript types for stats data
 scripts/
-  upload-ai-stats.ts        # Uploads AI usage stats to Vercel Blob
+  upload-ai-stats.ts        # Entry point: fetches ccusage data and uploads to Vercel Blob
   setup-cron.ts             # Cross-platform cron setup (launchd/crontab/schtasks)
+  lib/
+    ai-stats-aggregator.ts  # Aggregates ccusage daily/session JSON into AiStats shape
+    blob-upload.ts          # Shared Vercel Blob upload + revalidation helper
 messages/
   en.json                   # English translations
   pl.json                   # Polish translations
@@ -146,7 +165,6 @@ content/
   thoughts/
     my-article/
       index.md              # Markdown article with YAML frontmatter
-proxy.ts                    # Locale detection + redirect
 ```
 
 ## Adding a New Section
@@ -264,7 +282,7 @@ When proposing a thumbnail prompt, always output the full prompt ready to copy-p
 ### Stats Dashboard
 - GitHub stats fetched server-side from GitHub GraphQL API, cached via ISR (`src/lib/github.ts`)
 - Vercel Cron Job (`/api/cron/stats`) revalidates and warms the stats cache daily (6:00 UTC), configured in `vercel.json`. Requires `CRON_SECRET` env var. Hobby plan allows 1 cron/day.
-- AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai` (parses `~/.claude/projects/**/*.jsonl`)
+- AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai`. Sources usage from the `ccusage` CLI (`npx ccusage daily --json` + `session --json`), aggregated in `scripts/lib/ai-stats-aggregator.ts`. The old JSONL parser was removed.
 - Spotify now-playing fetched server-side at page render
 - Fallback data in `src/data/stats.json` used when APIs unavailable
 - `pnpm setup:cron` schedules daily `upload:ai` — supports macOS (launchd), Linux (crontab), Windows (Task Scheduler)
