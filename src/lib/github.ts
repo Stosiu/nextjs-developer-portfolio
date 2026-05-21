@@ -116,7 +116,7 @@ async function fetchAllTimeContributions(token: string, years: number[]): Promis
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({query: yearQuery}),
-      next: {revalidate: 3600, tags: ['github-stats']},
+      next: {revalidate: 86400, tags: ['github-stats']},
     });
     if (!res.ok) return 0;
     const json = (await res.json()) as GHYearlyResponse;
@@ -141,7 +141,7 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({query}),
-      next: {revalidate: 3600, tags: ['github-stats']},
+      next: {revalidate: 86400, tags: ['github-stats']},
     });
 
     if (!res.ok) return null;

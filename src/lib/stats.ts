@@ -11,7 +11,7 @@ async function fetchAiFromBlob(): Promise<AiStats | null> {
     if (blobs.length === 0) return null;
 
     const res = await fetch(blobs[0].url, {
-      next: {revalidate: 3600, tags: ['stats']},
+      next: {revalidate: 86400, tags: ['stats']},
     });
     if (!res.ok) return null;
     return (await res.json()) as AiStats;
