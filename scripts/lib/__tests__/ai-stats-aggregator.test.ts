@@ -1,6 +1,7 @@
 import {describe, it, expect} from 'vitest';
 import {
   aggregate,
+  mergeDailyHistory,
   emptyAiStats,
   fmt,
   normalizeModelName,
@@ -82,7 +83,7 @@ describe('aggregate', () => {
     expect(result.costLast30d).toBe(75);
   });
 
-  it('counts cache tokens as input in the legacy totals', () => {
+  it('tracks the four token buckets separately', () => {
     const result = aggregate({
       daily: [
         day({
@@ -97,12 +98,14 @@ describe('aggregate', () => {
       sessions: [],
       referenceDate: REF,
     });
-    expect(result.totalInputTokens).toBe(600); // 100 + 200 + 300
+    expect(result.totalInputTokens).toBe(100);
+    expect(result.totalCacheWriteTokens).toBe(200);
+    expect(result.totalCacheReadTokens).toBe(300);
     expect(result.totalOutputTokens).toBe(50);
-    expect(result.totalTokens).toBe(650);
+    expect(result.totalTokens).toBe(650); // sum of all four buckets
   });
 
-  it('inputPercentage uses real input vs output (excludes cache)', () => {
+  it('derives totalTokens from the four buckets when ccusage omits totalTokens', () => {
     const result = aggregate({
       daily: [
         day({
@@ -111,12 +114,14 @@ describe('aggregate', () => {
           outputTokens: 250,
           cacheCreationTokens: 10_000,
           cacheReadTokens: 100_000,
+          totalTokens: undefined,
         }),
       ],
       sessions: [],
       referenceDate: REF,
     });
-    expect(result.inputPercentage).toBe(75);
+    expect(result.totalTokens).toBe(111_000);
+    expect(result.totalCacheReadTokens).toBe(100_000);
   });
 
   it('aggregates model breakdowns across days and normalizes names', () => {
@@ -215,6 +220,41 @@ describe('aggregate', () => {
     });
     expect(result.busiestDay).toBe('Monday');
     expect(result.busiestDayAvgTokens).toBe(50_000);
+  });
+});
+
+describe('mergeDailyHistory', () => {
+  it('preserves stored dates the local machine no longer has', () => {
+    const stored = [day({period: '2026-01-10', totalCost: 5})];
+    const local = [day({period: '2026-05-21', totalCost: 9})];
+    const merged = mergeDailyHistory(stored, local);
+    expect(merged.map((e) => e.period)).toEqual(['2026-01-10', '2026-05-21']);
+  });
+
+  it('lets the local machine win for overlapping dates', () => {
+    const stored = [day({period: '2026-05-21', totalCost: 5})];
+    const local = [day({period: '2026-05-21', totalCost: 99})];
+    const merged = mergeDailyHistory(stored, local);
+    expect(merged).toHaveLength(1);
+    expect(merged[0].totalCost).toBe(99);
+  });
+
+  it('returns entries sorted by date', () => {
+    const merged = mergeDailyHistory(
+      [day({period: '2026-03-01'}), day({period: '2026-01-01'})],
+      [day({period: '2026-02-01'})],
+    );
+    expect(merged.map((e) => e.period)).toEqual(['2026-01-01', '2026-02-01', '2026-03-01']);
+  });
+
+  it('drops entries without a valid date key', () => {
+    const merged = mergeDailyHistory([day({period: 'not-a-date'})], [day({period: '2026-05-21'})]);
+    expect(merged.map((e) => e.period)).toEqual(['2026-05-21']);
+  });
+
+  it('handles an empty stored history', () => {
+    const local = [day({period: '2026-05-21'})];
+    expect(mergeDailyHistory([], local)).toHaveLength(1);
   });
 });
 

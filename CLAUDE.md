@@ -282,7 +282,9 @@ When proposing a thumbnail prompt, always output the full prompt ready to copy-p
 ### Stats Dashboard
 - GitHub stats fetched server-side from GitHub GraphQL API, cached via ISR (`src/lib/github.ts`)
 - Vercel Cron Job (`/api/cron/stats`) revalidates and warms the stats cache daily (6:00 UTC), configured in `vercel.json`. Requires `CRON_SECRET` env var. Hobby plan allows 1 cron/day.
-- AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai`. Sources usage from the `ccusage` CLI (`npx ccusage daily --json` + `session --json`), aggregated in `scripts/lib/ai-stats-aggregator.ts`. The old JSONL parser was removed.
+- AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai`. Sources usage from the `ccusage` CLI (`npx ccusage daily --json` + `session --json`, pinned version), aggregated in `scripts/lib/ai-stats-aggregator.ts`. The old JSONL parser was removed.
+- `upload:ai` merges the local ccusage `daily` output into a cumulative `stats/daily-history.json` blob (per-date token/cost aggregates, no conversation content) and aggregates the dashboard from that merged history. Local data wins for dates it has; stored dates the machine no longer has are preserved. This keeps history durable across laptop changes. Session count is still per current machine (not merged).
+- The AI ratio card (`ai-ratio.tsx`) shows the four token buckets separately: new input, cache write, cache read (the dominant "re-reading context" share, ~96%+), and output (Claude actually writing, well under 1%). The headline percentage is cache-read / total.
 - Spotify now-playing fetched server-side at page render
 - Fallback data in `src/data/stats.json` used when APIs unavailable
 - `pnpm setup:cron` schedules daily `upload:ai` — supports macOS (launchd), Linux (crontab), Windows (Task Scheduler)

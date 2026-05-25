@@ -7,15 +7,38 @@ import {StatCard} from '@/components/ui/stat-card';
 import {formatCompact} from '@/lib/format';
 
 type AiRatioProps = {
-  inputPercentage: number;
   totalTokens: number;
+  totalInputTokens: number;
+  totalCacheWriteTokens: number;
+  totalCacheReadTokens: number;
+  totalOutputTokens: number;
 };
 
-export function AiRatio({inputPercentage, totalTokens}: AiRatioProps) {
+export function AiRatio({
+  totalTokens,
+  totalInputTokens,
+  totalCacheWriteTokens,
+  totalCacheReadTokens,
+  totalOutputTokens,
+}: AiRatioProps) {
   const t = useTranslations('stats');
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const outputPercentage = Math.round((100 - inputPercentage) * 100) / 100;
-  const wastedTokens = Math.round(totalTokens * (inputPercentage / 100));
+
+  const total = totalTokens || 1;
+  const pct = (n: number) => Math.round((n / total) * 1000) / 10;
+
+  const segments = [
+    {key: 'cacheRead', label: t('ratioSegCacheRead'), tokens: totalCacheReadTokens, color: '#10B981'},
+    {key: 'cacheWrite', label: t('ratioSegCacheWrite'), tokens: totalCacheWriteTokens, color: '#047857'},
+    {key: 'input', label: t('ratioSegInput'), tokens: totalInputTokens, color: 'rgba(255,255,255,0.28)'},
+    {key: 'output', label: t('ratioSegOutput'), tokens: totalOutputTokens, color: '#E05A33'},
+  ];
+
+  const reReadPercentage = pct(totalCacheReadTokens);
+  const writePercentage = pct(totalOutputTokens);
+
+  // Bar order follows the request lifecycle: new input, cache write, cache read, output.
+  const barOrder = ['input', 'cacheWrite', 'cacheRead', 'output'];
 
   return (
     <AnimatedReveal className="h-full">
@@ -31,10 +54,20 @@ export function AiRatio({inputPercentage, totalTokens}: AiRatioProps) {
               ?
             </span>
             {popoverOpen && (
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-20 min-w-[200px] px-3 py-3 rounded-lg bg-zinc-900 border border-white/10 shadow-xl">
-                <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2">{t('ratioFunTitle')}</p>
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-20 min-w-[240px] px-3 py-3 rounded-lg bg-zinc-900 border border-white/10 shadow-xl">
+                <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2.5">{t('ratioFunTitle')}</p>
+                <div className="flex flex-col gap-1.5 mb-2.5">
+                  {segments.map((s) => (
+                    <div key={s.key} className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full shrink-0" style={{backgroundColor: s.color}} />
+                      <span className="text-xs text-white/70 flex-1">{s.label}</span>
+                      <span className="text-xs text-white/40 font-mono">{formatCompact(s.tokens)}</span>
+                      <span className="text-[10px] text-white/25 font-mono w-12 text-right">{pct(s.tokens)}%</span>
+                    </div>
+                  ))}
+                </div>
                 <p className="text-xs text-white/60 leading-relaxed">
-                  {t('ratioFunStat', {tokens: formatCompact(wastedTokens)})}
+                  {t('ratioFunStat', {tokens: formatCompact(totalCacheReadTokens)})}
                 </p>
               </div>
             )}
@@ -42,20 +75,28 @@ export function AiRatio({inputPercentage, totalTokens}: AiRatioProps) {
         </div>
 
         <p className="text-3xl font-bold text-brand-400 font-mono tabular-nums">
-          {inputPercentage}%
+          {reReadPercentage}%
         </p>
         <p className="text-xs text-white/40 mt-1">{t('ratioInput')}</p>
 
         <div className="mt-auto pt-4">
-          <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden">
-            <div
-              className="h-full rounded-full bg-brand-500"
-              style={{width: `${inputPercentage}%`}}
-            />
+          <div className="flex h-2 rounded-full bg-white/[0.06] overflow-hidden">
+            {barOrder.map((key) => {
+              const seg = segments.find((s) => s.key === key)!;
+              const width = (seg.tokens / total) * 100;
+              if (width <= 0) return null;
+              return (
+                <div
+                  key={key}
+                  className="h-full shrink-0 first:rounded-l-full last:rounded-r-full"
+                  style={{width: `${width}%`, minWidth: '2px', backgroundColor: seg.color}}
+                />
+              );
+            })}
           </div>
           <div className="flex justify-between mt-1.5">
-            <span className="text-[10px] text-white/30">{t('ratioReading')} {inputPercentage}%</span>
-            <span className="text-[10px] text-brand-400/60">{t('ratioWriting')} {outputPercentage}%</span>
+            <span className="text-[10px] text-white/30">{t('ratioReading')} {reReadPercentage}%</span>
+            <span className="text-[10px] text-[#E05A33]/70">{t('ratioWriting')} {writePercentage}%</span>
           </div>
         </div>
 

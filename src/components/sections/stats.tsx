@@ -113,7 +113,13 @@ export function Stats() {
               <SmallCardSkeleton />
             ) : (
               <FadeIn>
-                <AiRatio inputPercentage={statsData!.ai.inputPercentage} totalTokens={statsData!.ai.totalTokens} />
+                <AiRatio
+                  totalTokens={statsData!.ai.totalTokens}
+                  totalInputTokens={statsData!.ai.totalInputTokens}
+                  totalCacheWriteTokens={statsData!.ai.totalCacheWriteTokens}
+                  totalCacheReadTokens={statsData!.ai.totalCacheReadTokens}
+                  totalOutputTokens={statsData!.ai.totalOutputTokens}
+                />
               </FadeIn>
             )}
           </div>

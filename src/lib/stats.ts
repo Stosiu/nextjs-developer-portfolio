@@ -42,13 +42,14 @@ export async function getStats(): Promise<StatsData> {
     ai: ai
       ? {
           totalTokens: ai.totalTokens,
-          totalInputTokens: ai.totalInputTokens,
-          totalOutputTokens: ai.totalOutputTokens,
+          totalInputTokens: ai.totalInputTokens ?? 0,
+          totalCacheWriteTokens: ai.totalCacheWriteTokens ?? 0,
+          totalCacheReadTokens: ai.totalCacheReadTokens ?? 0,
+          totalOutputTokens: ai.totalOutputTokens ?? 0,
           tokensLast30d: ai.tokensLast30d,
           dailyUsage: ai.dailyUsage,
           modelBreakdown: ai.modelBreakdown,
           totalSessions: ai.totalSessions,
-          inputPercentage: ai.inputPercentage,
           busiestDay: ai.busiestDay,
           busiestDayAvgTokens: ai.busiestDayAvgTokens,
           provider: ai.provider,

@@ -1,20 +1,27 @@
 import 'dotenv/config';
 import {execSync} from 'node:child_process';
-import {uploadToBlob, triggerRevalidation, pc, ora} from './lib/blob-upload';
+import {uploadToBlob, fetchBlobJson, triggerRevalidation, pc, ora} from './lib/blob-upload';
 import {
   aggregate,
+  dailyArray,
+  mergeDailyHistory,
   emptyAiStats,
   fmt,
+  type CcusageDailyEntry,
   type CcusageDailyResponse,
   type CcusageSessionResponse,
 } from './lib/ai-stats-aggregator';
 import type {AiStats} from '../src/data/stats-types';
 
 const AI_BLOB_PATH = 'stats/ai.json';
+const DAILY_HISTORY_BLOB_PATH = 'stats/daily-history.json';
+
+// Pinned so cost figures don't drift between runs when ccusage updates its pricing tables.
+const CCUSAGE_VERSION = '20.0.4';
 
 function runCcusage<T>(subcommand: 'daily' | 'session'): T | null {
   try {
-    const output = execSync(`npx --yes ccusage ${subcommand} --json`, {
+    const output = execSync(`npx --yes ccusage@${CCUSAGE_VERSION} ${subcommand} --json`, {
       encoding: 'utf-8',
       timeout: 120_000,
       stdio: ['pipe', 'pipe', 'pipe'],
@@ -46,8 +53,17 @@ async function main() {
   const sessions = runCcusage<CcusageSessionResponse>('session') ?? [];
   sessionSpinner.succeed('Session count fetched');
 
+  const mergeSpinner = ora('Merging with cumulative history').start();
+  const stored = (await fetchBlobJson<CcusageDailyEntry[]>(DAILY_HISTORY_BLOB_PATH)) ?? [];
+  const mergedDaily = mergeDailyHistory(stored, dailyArray(daily));
+  const newDates = mergedDaily.length - stored.length;
+  mergeSpinner.succeed(
+    `History merged ${pc.dim(`(${mergedDaily.length} days total, +${newDates} new)`)}`,
+  );
+  await uploadToBlob(DAILY_HISTORY_BLOB_PATH, mergedDaily);
+
   const aggregateSpinner = ora('Aggregating stats').start();
-  const aggregated = aggregate({daily, sessions, referenceDate: new Date()});
+  const aggregated = aggregate({daily: mergedDaily, sessions, referenceDate: new Date()});
   aggregateSpinner.succeed('Stats aggregated');
 
   const data: AiStats = {
@@ -59,7 +75,9 @@ async function main() {
   console.log(`  ${pc.dim('Tokens')}    ${pc.bold(pc.cyan(fmt(data.totalTokens)))} total  ${pc.bold(pc.cyan(fmt(data.tokensLast30d)))} last 30d`);
   console.log(`  ${pc.dim('Cost')}      ${pc.bold(pc.cyan('$' + data.totalCost.toFixed(2)))} total  ${pc.bold(pc.cyan('$' + data.costLast30d.toFixed(2)))} last 30d`);
   console.log(`  ${pc.dim('Sessions')}  ${pc.bold(String(data.totalSessions))}`);
-  console.log(`  ${pc.dim('Split')}     ${pc.bold(data.inputPercentage + '%')} input  ${pc.bold((100 - data.inputPercentage).toFixed(2) + '%')} output`);
+  const totalForPct = data.totalTokens || 1;
+  const pct = (n: number) => ((n / totalForPct) * 100).toFixed(1) + '%';
+  console.log(`  ${pc.dim('Split')}     ${pc.bold(pct(data.totalCacheReadTokens))} cache read  ${pc.bold(pct(data.totalCacheWriteTokens))} cache write  ${pc.bold(pct(data.totalInputTokens))} input  ${pc.bold(pct(data.totalOutputTokens))} output`);
   console.log(`  ${pc.dim('Busiest')}   ${pc.bold(data.busiestDay)} ${pc.dim('(' + fmt(data.busiestDayAvgTokens) + ' avg)')}`);
 
   if (data.modelBreakdown.length > 0) {

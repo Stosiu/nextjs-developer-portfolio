@@ -31,12 +31,13 @@ export type StatsData = {
   ai: {
     totalTokens: number;
     totalInputTokens: number;
+    totalCacheWriteTokens: number;
+    totalCacheReadTokens: number;
     totalOutputTokens: number;
     tokensLast30d: number;
     dailyUsage: AiDailyUsage[];
     modelBreakdown: AiModelBreakdown[];
     totalSessions: number;
-    inputPercentage: number;
     busiestDay: string;
     busiestDayAvgTokens: number;
     provider: string;
@@ -61,12 +62,13 @@ export type AiStats = {
   lastUpdated: string;
   totalTokens: number;
   totalInputTokens: number;
+  totalCacheWriteTokens: number;
+  totalCacheReadTokens: number;
   totalOutputTokens: number;
   tokensLast30d: number;
   dailyUsage: AiDailyUsage[];
   modelBreakdown: AiModelBreakdown[];
   totalSessions: number;
-  inputPercentage: number;
   busiestDay: string;
   busiestDayAvgTokens: number;
   provider: string;

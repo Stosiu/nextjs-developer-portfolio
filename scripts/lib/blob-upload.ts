@@ -1,8 +1,20 @@
-import {put} from '@vercel/blob';
+import {put, list} from '@vercel/blob';
 import pc from 'picocolors';
 import ora from 'ora';
 
 export {pc, ora};
+
+export async function fetchBlobJson<T>(path: string): Promise<T | null> {
+  try {
+    const {blobs} = await list({prefix: path, limit: 1});
+    if (blobs.length === 0) return null;
+    const res = await fetch(blobs[0].url, {cache: 'no-store'});
+    if (!res.ok) return null;
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
+}
 
 export async function uploadToBlob(path: string, data: unknown): Promise<string> {
   const spinner = ora('Uploading to Vercel Blob').start();

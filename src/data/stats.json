@@ -73,8 +73,10 @@
   },
   "ai": {
     "totalTokens": 500000000,
-    "totalInputTokens": 497500000,
-    "totalOutputTokens": 2500000,
+    "totalInputTokens": 250000,
+    "totalCacheWriteTokens": 15000000,
+    "totalCacheReadTokens": 483000000,
+    "totalOutputTokens": 1750000,
     "tokensLast30d": 200000000,
     "dailyUsage": [
       {"date": "2025-12-02", "tokens": 5000000, "models": {"Opus": 5000000}},
@@ -114,7 +116,6 @@
       {"model": "Haiku", "tokens": 1000000}
     ],
     "totalSessions": 250,
-    "inputPercentage": 99.5,
     "busiestDay": "Wednesday",
     "busiestDayAvgTokens": 8000000,
     "provider": "Anthropic",

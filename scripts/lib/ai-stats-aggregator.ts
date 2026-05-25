@@ -44,12 +44,13 @@ export function emptyAiStats(): Omit<AiStats, 'lastUpdated'> {
   return {
     totalTokens: 0,
     totalInputTokens: 0,
+    totalCacheWriteTokens: 0,
+    totalCacheReadTokens: 0,
     totalOutputTokens: 0,
     tokensLast30d: 0,
     dailyUsage: [],
     modelBreakdown: [],
     totalSessions: 0,
-    inputPercentage: 0,
     busiestDay: 'Monday',
     busiestDayAvgTokens: 0,
     provider: 'Anthropic',
@@ -65,7 +66,7 @@ export function fmt(n: number): string {
   return String(n);
 }
 
-function dailyArray(response: CcusageDailyResponse): CcusageDailyEntry[] {
+export function dailyArray(response: CcusageDailyResponse): CcusageDailyEntry[] {
   return Array.isArray(response) ? response : (response.daily ?? []);
 }
 
@@ -73,11 +74,29 @@ function sessionsArray(response: CcusageSessionResponse): unknown[] {
   return Array.isArray(response) ? response : (response.session ?? []);
 }
 
-function dateKey(entry: CcusageDailyEntry): string | null {
+export function dateKey(entry: CcusageDailyEntry): string | null {
   const raw = entry.date ?? entry.period;
   if (!raw) return null;
   // Accept ISO date prefix (YYYY-MM-DD); reject session ids that don't match.
   return /^\d{4}-\d{2}-\d{2}/.test(raw) ? raw.slice(0, 10) : null;
+}
+
+// Cumulative per-date history so the dashboard survives a laptop change: stored
+// dates are preserved, and the local machine is authoritative for any date it has.
+export function mergeDailyHistory(
+  stored: CcusageDailyEntry[],
+  local: CcusageDailyEntry[],
+): CcusageDailyEntry[] {
+  const byDate = new Map<string, CcusageDailyEntry>();
+  for (const entry of stored) {
+    const d = dateKey(entry);
+    if (d) byDate.set(d, entry);
+  }
+  for (const entry of local) {
+    const d = dateKey(entry);
+    if (d) byDate.set(d, entry);
+  }
+  return [...byDate.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([, entry]) => entry);
 }
 
 function dateOnly(d: Date): string {
@@ -96,12 +115,12 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
   const today = dateOnly(input.referenceDate);
   const cutoff = dateOnly(addDays(input.referenceDate, -30));
 
-  let totalInput = 0;
+  let rawInput = 0;
+  let cacheWrite = 0;
+  let cacheRead = 0;
   let totalOutput = 0;
   let totalCost = 0;
   let costLast30d = 0;
-  let realInputForRatio = 0;
-  let realOutputForRatio = 0;
 
   const modelTotals: Record<string, number> = {};
   const dailyMap: Record<string, {tokens: number; cost?: number; models: Record<string, number>}> = {};
@@ -113,14 +132,13 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     const input_ = day.inputTokens ?? 0;
     const output = day.outputTokens ?? 0;
     const cacheCreate = day.cacheCreationTokens ?? 0;
-    const cacheRead = day.cacheReadTokens ?? 0;
-    const dayInputAll = input_ + cacheCreate + cacheRead;
-    const dayTotal = day.totalTokens ?? (dayInputAll + output);
+    const cacheReadDay = day.cacheReadTokens ?? 0;
+    const dayTotal = day.totalTokens ?? (input_ + cacheCreate + cacheReadDay + output);
 
-    totalInput += dayInputAll;
+    rawInput += input_;
+    cacheWrite += cacheCreate;
+    cacheRead += cacheReadDay;
     totalOutput += output;
-    realInputForRatio += input_;
-    realOutputForRatio += output;
     totalCost += day.totalCost ?? 0;
     if (date >= cutoff) costLast30d += day.totalCost ?? 0;
 
@@ -160,10 +178,7 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     .sort((a, b) => b[1] - a[1])
     .map(([model, tokens]) => ({model, tokens}));
 
-  const totalTokens = totalInput + totalOutput;
-  const realTotal = realInputForRatio + realOutputForRatio;
-  const inputPercentage =
-    realTotal > 0 ? Math.round((realInputForRatio / realTotal) * 10000) / 100 : 0;
+  const totalTokens = rawInput + cacheWrite + cacheRead + totalOutput;
 
   const dowAccumulator: Record<number, {tokens: number; days: Set<string>}> = {};
   for (const [date, bucket] of Object.entries(dailyMap)) {
@@ -186,13 +201,14 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
 
   return {
     totalTokens,
-    totalInputTokens: totalInput,
+    totalInputTokens: rawInput,
+    totalCacheWriteTokens: cacheWrite,
+    totalCacheReadTokens: cacheRead,
     totalOutputTokens: totalOutput,
     tokensLast30d,
     dailyUsage,
     modelBreakdown,
     totalSessions: sessions.length,
-    inputPercentage,
     busiestDay,
     busiestDayAvgTokens: Math.round(busiestDayAvg),
     provider: 'Anthropic',
