@@ -96,7 +96,9 @@ src/
       cron/stats/route.ts   # Vercel cron endpoint (warms ISR cache; auth via CRON_SECRET)
       revalidate/route.ts   # On-demand ISR revalidation (called by upload:ai)
       spotify/route.ts      # Spotify now-playing proxy
-      stats/route.ts        # Stats JSON endpoint
+      stats/route.ts        # Combined stats JSON (github + ai); used by cron warming
+      stats/ai/route.ts     # AI stats only (fast, from blob) — fetched independently by the FE
+      stats/github/route.ts # GitHub stats only (slow GraphQL) — fetched independently by the FE
     [locale]/
       layout.tsx            # Locale layout (html/body, fonts, JSON-LD, console log)
       page.tsx              # Single page with all sections

@@ -4,6 +4,7 @@ import {type ReactNode} from 'react';
 import {useTranslations} from 'next-intl';
 import {useQuery} from '@tanstack/react-query';
 import type {StatsData} from '@/data/stats-types';
+import type {AiStatsResult} from '@/lib/stats';
 import type {SpotifyData} from '@/lib/spotify';
 import {GitHubHeatmap} from '@/components/stats/github-heatmap';
 import {AiTokens} from '@/components/stats/ai-tokens';
@@ -36,9 +37,16 @@ function FadeIn({children}: {children: ReactNode}) {
 export function Stats() {
   const t = useTranslations('stats');
 
-  const {data: statsData, isPending: statsLoading} = useQuery<StatsData>({
-    queryKey: ['stats'],
-    queryFn: () => fetchJson<StatsData>('/api/stats'),
+  const {data: github, isPending: githubLoading} = useQuery<StatsData['github']>({
+    queryKey: ['stats', 'github'],
+    queryFn: () => fetchJson<StatsData['github']>('/api/stats/github'),
+    staleTime: 5 * 60_000,
+    refetchInterval: 5 * 60_000,
+  });
+
+  const {data: aiData, isPending: aiLoading} = useQuery<AiStatsResult>({
+    queryKey: ['stats', 'ai'],
+    queryFn: () => fetchJson<AiStatsResult>('/api/stats/ai'),
     staleTime: 5 * 60_000,
     refetchInterval: 5 * 60_000,
   });
@@ -61,17 +69,17 @@ export function Stats() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Row 1: GitHub heatmap */}
           <div className="md:col-span-3">
-            {statsLoading ? (
+            {githubLoading ? (
               <HeatmapSkeleton />
             ) : (
               <FadeIn>
                 <GitHubHeatmap
-                  contributions={statsData!.github.contributions}
-                  totalContributions={statsData!.github.totalContributions}
-                  allTimeContributions={statsData!.github.allTimeContributions}
-                  totalRepos={statsData!.github.totalRepos}
-                  busiestDay={statsData!.github.busiestDay}
-                  memberSince={statsData!.github.memberSince}
+                  contributions={github!.contributions}
+                  totalContributions={github!.totalContributions}
+                  allTimeContributions={github!.allTimeContributions}
+                  totalRepos={github!.totalRepos}
+                  busiestDay={github!.busiestDay}
+                  memberSince={github!.memberSince}
                 />
               </FadeIn>
             )}
@@ -88,20 +96,20 @@ export function Stats() {
             )}
           </div>
           <div className="md:col-span-2">
-            {statsLoading ? (
+            {aiLoading ? (
               <AiTokensSkeleton />
             ) : (
               <FadeIn>
                 <AiTokens
-                  totalTokens={statsData!.ai.totalTokens}
-                  tokensLast30d={statsData!.ai.tokensLast30d}
-                  dailyUsage={statsData!.ai.dailyUsage}
-                  totalSessions={statsData!.ai.totalSessions}
-                  modelBreakdown={statsData!.ai.modelBreakdown}
-                  provider={statsData!.ai.provider}
-                  lastUpdated={statsData!.lastUpdated}
-                  totalCost={statsData!.ai.totalCost}
-                  costLast30d={statsData!.ai.costLast30d}
+                  totalTokens={aiData!.ai.totalTokens}
+                  tokensLast30d={aiData!.ai.tokensLast30d}
+                  dailyUsage={aiData!.ai.dailyUsage}
+                  totalSessions={aiData!.ai.totalSessions}
+                  modelBreakdown={aiData!.ai.modelBreakdown}
+                  provider={aiData!.ai.provider}
+                  lastUpdated={aiData!.lastUpdated}
+                  totalCost={aiData!.ai.totalCost}
+                  costLast30d={aiData!.ai.costLast30d}
                 />
               </FadeIn>
             )}
@@ -109,46 +117,46 @@ export function Stats() {
 
           {/* Row 3: Ratio + Busiest day + Streak */}
           <div>
-            {statsLoading ? (
+            {aiLoading ? (
               <SmallCardSkeleton />
             ) : (
               <FadeIn>
                 <AiRatio
-                  totalTokens={statsData!.ai.totalTokens}
-                  totalInputTokens={statsData!.ai.totalInputTokens}
-                  totalCacheWriteTokens={statsData!.ai.totalCacheWriteTokens}
-                  totalCacheReadTokens={statsData!.ai.totalCacheReadTokens}
-                  totalOutputTokens={statsData!.ai.totalOutputTokens}
+                  totalTokens={aiData!.ai.totalTokens}
+                  totalInputTokens={aiData!.ai.totalInputTokens}
+                  totalCacheWriteTokens={aiData!.ai.totalCacheWriteTokens}
+                  totalCacheReadTokens={aiData!.ai.totalCacheReadTokens}
+                  totalOutputTokens={aiData!.ai.totalOutputTokens}
                 />
               </FadeIn>
             )}
           </div>
           <div>
-            {statsLoading ? (
+            {aiLoading ? (
               <SmallCardSkeleton />
             ) : (
               <FadeIn>
-                <BusiestDay day={statsData!.ai.busiestDay} avgTokens={statsData!.ai.busiestDayAvgTokens} />
+                <BusiestDay day={aiData!.ai.busiestDay} avgTokens={aiData!.ai.busiestDayAvgTokens} />
               </FadeIn>
             )}
           </div>
           <div>
-            {statsLoading ? (
+            {githubLoading ? (
               <SmallCardSkeleton />
             ) : (
               <FadeIn>
-                <GitHubStreak streak={statsData!.github.currentStreak} />
+                <GitHubStreak streak={github!.currentStreak} />
               </FadeIn>
             )}
           </div>
 
           {/* Row 4: Languages */}
           <div className="md:col-span-3">
-            {statsLoading ? (
+            {githubLoading ? (
               <LanguagesSkeleton />
             ) : (
               <FadeIn>
-                <GitHubLanguages languages={statsData!.github.languages} />
+                <GitHubLanguages languages={github!.languages} />
               </FadeIn>
             )}
           </div>
