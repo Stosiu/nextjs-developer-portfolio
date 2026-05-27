@@ -38,15 +38,18 @@ export async function triggerRevalidation(): Promise<void> {
     return;
   }
 
+  const endpoint = `${siteUrl.replace(/\/+$/, '')}/api/revalidate`;
   const spinner = ora('Revalidating cache').start();
-  const res = await fetch(`${siteUrl}/api/revalidate`, {
+  const res = await fetch(endpoint, {
     method: 'POST',
     headers: {Authorization: `Bearer ${secret}`},
   });
 
   if (!res.ok) {
     spinner.fail(pc.red(`Revalidation failed (${res.status})`));
-  } else {
-    spinner.succeed('Cache revalidated');
+    // Throw so the scheduled job exits non-zero and its failure notification fires.
+    // A silent warning here let stale data serve unnoticed for a long time.
+    throw new Error(`Revalidation POST ${endpoint} returned ${res.status}`);
   }
+  spinner.succeed('Cache revalidated');
 }

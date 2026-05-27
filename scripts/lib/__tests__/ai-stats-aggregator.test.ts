@@ -256,6 +256,20 @@ describe('mergeDailyHistory', () => {
     const local = [day({period: '2026-05-21'})];
     expect(mergeDailyHistory([], local)).toHaveLength(1);
   });
+
+  it('preserves stored history when local data is empty (ccusage failure self-heal)', () => {
+    const stored = [day({period: '2026-01-10'}), day({period: '2026-01-11'})];
+    const merged = mergeDailyHistory(stored, []);
+    expect(merged.map((e) => e.period)).toEqual(['2026-01-10', '2026-01-11']);
+  });
+
+  it('aggregating merged history with no local data still yields real totals, not zeros', () => {
+    const stored = [day({period: '2026-05-20', totalTokens: 1500, totalCost: 1.5})];
+    const merged = mergeDailyHistory(stored, []);
+    const result = aggregate({daily: merged, sessions: [], referenceDate: REF});
+    expect(result.totalTokens).toBe(1500);
+    expect(result.totalCost).toBe(1.5);
+  });
 });
 
 describe('normalizeModelName', () => {
