@@ -22,6 +22,18 @@ describe('thoughts rendering', () => {
     expect(thought!.tags).toEqual(['Tools', 'AI', 'Workflow']);
   });
 
+  it('brain-i-cant-explain renders correctly', async () => {
+    const thought = await getThoughtBySlug('brain-i-cant-explain');
+    expect(thought).not.toBeNull();
+    expect(thought!.title).toBe(
+      "We Built the Brain of Our Company. I Can't Fully Explain How It Works.",
+    );
+    expect(thought!.html).toContain('<h2');
+    expect(thought!.html).toContain('NestJS');
+    expect(thought!.html).toContain('bottleneck');
+    expect(thought!.tags).toEqual(['AI', 'Workflow', 'Product']);
+  });
+
   it('returns null for non-existent slug', async () => {
     const thought = await getThoughtBySlug('does-not-exist');
     expect(thought).toBeNull();
