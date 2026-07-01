@@ -10,3 +10,7 @@ export function formatCompact(n: number): string {
 export function formatDate(dateStr: string): string {
   return dayjs(dateStr).format('MMM D, YYYY');
 }
+
+export function formatWeekdayDate(dateStr: string): string {
+  return dayjs(dateStr).format('ddd, MMM D, YYYY');
+}

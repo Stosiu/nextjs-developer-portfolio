@@ -7,7 +7,7 @@ import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {StatCard} from '@/components/ui/stat-card';
 import {ChartTooltip} from '@/components/ui/chart-tooltip';
 import {EmberShower, useEmberShower} from '@/components/ui/ember-shower';
-import {formatDate} from '@/lib/format';
+import {formatDate, formatWeekdayDate} from '@/lib/format';
 
 type GitHubHeatmapProps = {
   contributions: number[][];
@@ -146,7 +146,7 @@ export function GitHubHeatmap({contributions, totalContributions, allTimeContrib
 
         <ChartTooltip x={tooltip?.x ?? 0} y={tooltip?.y ?? 0} visible={!!tooltip}>
           <span className="text-white/90 font-medium">{tooltip?.count} contribution{tooltip?.count !== 1 ? 's' : ''}</span>
-          <span className="text-white/40 ml-1.5">{tooltip ? formatDate(tooltip.date) : ''}</span>
+          <span className="text-white/40 ml-1.5">{tooltip ? formatWeekdayDate(tooltip.date) : ''}</span>
         </ChartTooltip>
       </StatCard>
     </AnimatedReveal>

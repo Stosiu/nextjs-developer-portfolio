@@ -105,7 +105,7 @@ export function Footer() {
             <span>{t('viewSource')}</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://img.shields.io/github/stars/Stosiu/nextjs-developer-portfolio?style=flat&color=10B981&label=&logo=github&logoColor=white"
+              src="https://img.shields.io/github/stars/Stosiu/nextjs-developer-portfolio?style=flat&color=10B981&label=%20&logo=github&logoColor=white"
               alt="GitHub stars"
               className="h-[18px] opacity-60 hover:opacity-100 transition-opacity"
             />

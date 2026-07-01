@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatCompact, formatDate } from '@/lib/format';
+import { formatCompact, formatDate, formatWeekdayDate } from '@/lib/format';
 
 describe('formatCompact', () => {
   it('should return the number as string when less than 1000', () => {
@@ -32,5 +32,17 @@ describe('formatDate', () => {
 
   it('should handle ISO date strings', () => {
     expect(formatDate('2023-12-25T10:30:00Z')).toBe('Dec 25, 2023');
+  });
+});
+
+describe('formatWeekdayDate', () => {
+  it('should prefix the abbreviated weekday to the date', () => {
+    expect(formatWeekdayDate('2024-02-14')).toBe('Wed, Feb 14, 2024');
+    expect(formatWeekdayDate('2026-01-01')).toBe('Thu, Jan 1, 2026');
+  });
+
+  it('should mark weekend days', () => {
+    expect(formatWeekdayDate('2026-06-27')).toBe('Sat, Jun 27, 2026');
+    expect(formatWeekdayDate('2026-06-28')).toBe('Sun, Jun 28, 2026');
   });
 });

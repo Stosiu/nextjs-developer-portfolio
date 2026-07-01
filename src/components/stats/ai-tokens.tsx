@@ -7,7 +7,7 @@ import type {AiDailyUsage, AiModelBreakdown} from '@/data/stats-types';
 import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {StatCard} from '@/components/ui/stat-card';
 import {ChartTooltip} from '@/components/ui/chart-tooltip';
-import {formatCompact, formatDate} from '@/lib/format';
+import {formatCompact, formatDate, formatWeekdayDate} from '@/lib/format';
 
 type AiTokensProps = {
   totalTokens: number;
@@ -319,7 +319,7 @@ export function AiTokens({
                 : ''
               }
             </span>
-            <span className="text-white/40">{tooltip ? formatDate(tooltip.date) : ''}</span>
+            <span className="text-white/40">{tooltip ? formatWeekdayDate(tooltip.date) : ''}</span>
           </div>
           {tooltip && Object.keys(tooltip.models).length > 0 && (
             <div className="flex gap-2 mt-1">
