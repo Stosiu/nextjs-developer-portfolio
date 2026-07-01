@@ -2,4 +2,16 @@ ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
 
-onlyBuiltDependencies: '@parcel/watcher'
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - esbuild
+  - msw
+
+overrides:
+  d3-color: '>=3.1.0'
+  undici: '>=6.24.0'
+  postcss: '>=8.5.10'
+  js-yaml: '>=3.15.0 <4'
+  vite: '7.3.6'
+  esbuild: '>=0.28.1'
