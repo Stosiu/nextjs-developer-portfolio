@@ -34,6 +34,18 @@ describe('thoughts rendering', () => {
     expect(thought!.tags).toEqual(['AI', 'Workflow', 'Product']);
   });
 
+  it('docker-sandboxes-ai-agents renders correctly', async () => {
+    const thought = await getThoughtBySlug('docker-sandboxes-ai-agents');
+    expect(thought).not.toBeNull();
+    expect(thought!.title).toBe(
+      "Docker Built a Padded Room for AI Agents. I'm Not Moving In Yet.",
+    );
+    expect(thought!.html).toContain('<h2');
+    expect(thought!.html).toContain('microVM');
+    expect(thought!.html).toContain('dangerously-skip-permissions');
+    expect(thought!.tags).toEqual(['AI', 'Tools', 'Security']);
+  });
+
   it('returns null for non-existent slug', async () => {
     const thought = await getThoughtBySlug('does-not-exist');
     expect(thought).toBeNull();
