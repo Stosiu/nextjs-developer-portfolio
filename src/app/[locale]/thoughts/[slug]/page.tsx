@@ -48,6 +48,11 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   };
 }
 
+// Thoughts are file-based and fully known at build time. Without this, an unknown
+// slug is rendered on demand and notFound() produces an empty error shell instead
+// of the 404 page.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const thoughts = await getAllThoughts();
   return routing.locales.flatMap((locale) =>
