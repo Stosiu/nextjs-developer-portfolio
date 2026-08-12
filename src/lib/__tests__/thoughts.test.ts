@@ -46,6 +46,18 @@ describe('thoughts rendering', () => {
     expect(thought!.tags).toEqual(['AI', 'Tools', 'Security']);
   });
 
+  it('why-is-everyone-in-tech-so-sad renders correctly', async () => {
+    const thought = await getThoughtBySlug('why-is-everyone-in-tech-so-sad');
+    expect(thought).not.toBeNull();
+    expect(thought!.title).toBe(
+      'Tech Made Work Its Religion. AI Just Turned On the Lights.',
+    );
+    expect(thought!.html).toContain('<h2');
+    expect(thought!.html).toContain('Workism');
+    expect(thought!.html).toContain('knitted hat');
+    expect(thought!.tags).toEqual(['AI', 'Career', 'Culture']);
+  });
+
   it('returns null for non-existent slug', async () => {
     const thought = await getThoughtBySlug('does-not-exist');
     expect(thought).toBeNull();
