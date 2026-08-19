@@ -221,6 +221,23 @@ describe('aggregate', () => {
     expect(result.busiestDay).toBe('Monday');
     expect(result.busiestDayAvgTokens).toBe(50_000);
   });
+
+  it('dayOfWeekAvgTokens averages every weekday and agrees with busiestDay', () => {
+    const result = aggregate({
+      daily: [
+        day({period: '2026-05-04', totalTokens: 50_000}),
+        day({period: '2026-05-06', totalTokens: 10_000}),
+        day({period: '2026-05-13', totalTokens: 30_000}),
+      ],
+      sessions: [],
+      referenceDate: REF,
+    });
+    expect(result.dayOfWeekAvgTokens).toEqual([0, 50_000, 0, 20_000, 0, 0, 0]);
+
+    const peak = Math.max(...result.dayOfWeekAvgTokens);
+    expect(peak).toBe(result.busiestDayAvgTokens);
+    expect(result.dayOfWeekAvgTokens.indexOf(peak)).toBe(1);
+  });
 });
 
 describe('mergeDailyHistory', () => {

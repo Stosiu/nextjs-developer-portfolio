@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Aleksander Stós — Entrepreneur, CTO & Co-Founder",
+    "title": "Aleksander Stós · Entrepreneur, CTO & Co-Founder",
     "description": "Portfolio of Aleksander Stós. Entrepreneur, CTO and full-stack developer building products and scaling teams at The Digital Bunch. Warsaw, Riyadh, Sydney."
   },
   "nav": {
@@ -13,7 +13,7 @@
   },
   "hero": {
     "command1": "whoami",
-    "response1": "Aleksander Stós — Entrepreneur, CTO & Co-Founder at The Digital Bunch",
+    "response1": "Aleksander Stós · Entrepreneur, CTO & Co-Founder at The Digital Bunch",
     "command2": "cat /etc/motd",
     "response2": "I build products, scale teams, and run companies. Warsaw · Riyadh · Sydney",
     "command3": "./book --consultation",
@@ -21,13 +21,10 @@
     "cta": "Let's talk"
   },
   "about": {
-    "heading": "About Me",
-    "p1": "I've been writing code since I was 13 and running companies since I was 25. Somewhere in between I realized that code was never the point — building things people actually need was.",
+    "heading": "The Short Version",
+    "p1": "I've been writing code since I was 13 and running companies since I was 25. Somewhere in between I realized that code was never the point; building things people actually need was.",
     "p2": "I surround myself with people smarter than me, I learn fast, and I try to pass it on. Most of what I know came from someone being patient enough to explain it.",
     "p3": "Currently running <tdb>The Digital Bunch</tdb> across three countries, launching new ventures in Saudi Arabia, and still shipping code most days.",
-    "tag1": "builds things",
-    "tag2": "runs teams",
-    "tag3": "ships fast",
     "cta": "Get in touch"
   },
   "logos": {
@@ -39,12 +36,12 @@
     "moreCount": "100+",
     "moreLabel": "products shipped. each one taught me something the last one didn't.",
     "ctaHeading": "Let's design your next product",
-    "ctaDescription": "From wireframe to production — I'll bring your idea to life.",
+    "ctaDescription": "I'll take your idea from wireframe to production.",
     "ctaCta": "Book a free consultation",
-    "proj0Desc": "Built the entire web + mobile platform in 3 months with a team of 4 — after another team spent 12+ months without delivering.",
+    "proj0Desc": "Built the entire web + mobile platform in 3 months with a team of 4, after another team spent 12+ months without delivering.",
     "proj1Desc": "My first venture going independent. Three pivots later, the company was acquired by Cytracom and passed full due diligence.",
     "proj2Desc": "Built the document generation pipeline and initial Applied Epic integration for insurance account management.",
-    "proj3Desc": "Built from scratch — unified a 3D rendering pipeline to production, serving 1 TB of property images monthly.",
+    "proj3Desc": "Unified a 3D rendering pipeline and took it to production from scratch, serving 1 TB of property images monthly.",
     "proj4Desc": "Developed initial 3rd-party integrations for reconciliation: Applied Epic, Veruna, AMS360, and Salesforce.",
     "proj5Desc": "Our own e-commerce concept for the closed Saudi market. Still under active development.",
     "proj6Desc": "Built a mobile app for wine pouring and virtual sommelier profiles with intelligent recommendations.",
@@ -80,12 +77,12 @@
     "ratioFunStat": "{tokens} tokens spent just re-reading the conversation. LLMs have no memory, so every message starts from scratch.",
     "streakLabel": "Current Streak",
     "streakDays": "consecutive days",
-    "streakMessage": "git commit -m \"consistency beats talent\"",
     "languagesLabel": "Top Languages",
     "aiCost": "spent on AI",
     "aiCostLast30d": "last 30 days",
     "aiViewTokens": "tokens",
-    "aiViewCost": "cost"
+    "aiViewCost": "cost",
+    "streakExplanation": "Daily contributions over the last {days} days."
   },
   "experience": {
     "heading": "How I Got Here",
@@ -96,11 +93,11 @@
     "exp1Role": "CTO & Co-Founder",
     "exp1Period": "Jun 2021 - Present",
     "exp1Location": "Warsaw, Poland · On-site",
-    "exp1Description": "We started in 2021 with a handful of people doing simple websites and 3D visualization renders. Five years later we're 50+ people across Warsaw, Riyadh, and Sydney, $2M ARR growing 23% year-over-year, and still spawning new ventures.\n\nWhat surprised me most was how much of running a tech company has nothing to do with code. I had to learn content production, build out a 3D studio from scratch — render pipelines, hardware specs, remote workflows — and figure out everything from sales to hiring to keeping the lights on. As the technical co-founder, my instinct was to build. The real lesson was knowing when to buy, when to outsource, and when to kill something that isn't working.\n\nWe evolved from \"tell us what to build\" to \"let's figure out if you should build this at all.\" Most clients show up thinking they know what they need. A few workshops later, it's usually something different. That shift — from execution to strategy — changed how we operate entirely.\n\nWe also tried building our own product, Your Next Home, for the Saudi market. Did the development, went to conferences, ran marketing. It hasn't worked yet. Still figuring out why. That's the part nobody warns you about: doing everything right on paper and still not getting traction.\n\nMy co-founder Dagmara and I rarely agree on things, which is exactly what makes it work. Two different perspectives, constant feedback loops, and a result that's usually better than either of us would reach alone.",
+    "exp1Description": "We started in 2021 with a handful of people doing simple websites and 3D visualization renders. Five years later we're 50+ people across Warsaw, Riyadh, and Sydney, $2M ARR growing 23% year-over-year, and still spawning new ventures.\n\nWhat surprised me most was how much of running a tech company has nothing to do with code. I had to learn content production, build out a 3D studio from scratch (render pipelines, hardware specs, remote workflows), and figure out everything from sales to hiring to keeping the lights on. As the technical co-founder, my instinct was to build. The real lesson was knowing when to buy, when to outsource, and when to kill something that isn't working.\n\nWe evolved from \"tell us what to build\" to \"let's figure out if you should build this at all.\" Most clients show up thinking they know what they need. A few workshops later, it's usually something different. That shift from execution to strategy changed how we operate entirely.\n\nWe also tried building our own product, Your Next Home, for the Saudi market. Did the development, went to conferences, ran marketing. It hasn't worked yet. Still figuring out why. That's the part nobody warns you about: doing everything right on paper and still not getting traction.\n\nMy co-founder Dagmara and I rarely agree on things, which is exactly what makes it work. Two different perspectives, constant feedback loops, and a result that's usually better than either of us would reach alone.",
     "exp2Role": "Intern → Senior Developer → Team Lead",
     "exp2Period": "Nov 2015 - Jun 2021",
     "exp2Location": "Warsaw, Poland",
-    "exp2Description": "I approached them at an AngularJS course during my second month of CS studies. They probably wondered why some kid was even talking to them. I bombed the interview because I was stressed out of my mind, but Tomek (CTO) and Marcin (COO) gave me a chance anyway. Free internship, no salary.\n\nThree months later I got my first real paycheck. For four years I was the youngest person in the company, which became a running joke. This was a serious outfit — U.S. founders, enterprise clients — and it's where my whole run of working with American companies started.\n\nI jumped across stacks constantly. JavaScript, TypeScript, React, Node.js, Electron, Python, high concurrency. 50+ projects total — a $1B+ insurance startup that later acquired SwingDev, a subscription platform handling ~35k concurrent users, shipping logistics, enterprise sites. Met incredibly skilled people who showed me what engineering actually looks like when it's done well.\n\nThe biggest takeaway wasn't technical. It was watching how smart people think about products — questioning the brief, pushing back on assumptions, treating every project as a problem to understand before a thing to build. That stuck.",
+    "exp2Description": "I approached them at an AngularJS course during my second month of CS studies. They probably wondered why some kid was even talking to them. I bombed the interview because I was stressed out of my mind, but Tomek (CTO) and Marcin (COO) gave me a chance anyway. Free internship, no salary.\n\nThree months later I got my first real paycheck. For four years I was the youngest person in the company, which became a running joke. This was a serious outfit with U.S. founders and enterprise clients, and it's where my whole run of working with American companies started.\n\nI jumped across stacks constantly. JavaScript, TypeScript, React, Node.js, Electron, Python, high concurrency. 50+ projects total: a $1B+ insurance startup that later acquired SwingDev, a subscription platform handling ~35k concurrent users, shipping logistics, enterprise sites. Met incredibly skilled people who showed me what engineering actually looks like when it's done well.\n\nThe biggest takeaway wasn't technical. It was watching how smart people think about products: questioning the brief, pushing back on assumptions, treating every project as a problem to understand before a thing to build. That stuck.",
     "exp3Role": "Intern → CS Student",
     "exp3Period": "Summer 2015",
     "exp3Location": "Tarnów, Poland",
@@ -129,7 +126,9 @@
     "builtWith": "Built with Next.js, Tailwind CSS & Framer Motion.",
     "viewSource": "View source & star",
     "privacy": "Privacy",
-    "cookieSettings": "Cookie settings"
+    "cookieSettings": "Cookie settings",
+    "elsewhere": "Elsewhere",
+    "shortcutHint": "psst... try pressing <kbd>⌘ ,</kbd> for a surprise"
   },
   "consent": {
     "message": "This site uses cookies for anonymous analytics (Google Analytics). No personal data is sold or used for advertising.",
@@ -143,11 +142,11 @@
     "backHome": "Back to home",
     "lastUpdated": "Last updated: February 2026",
     "introTitle": "The short version",
-    "introText": "This is a personal portfolio website. I don't sell anything here, I don't run ads, and I don't collect personal data beyond basic analytics. If you decline cookies, nothing changes about your experience — I just won't know you visited.",
+    "introText": "This is a personal portfolio website. I don't sell anything here, I don't run ads, and I don't collect personal data beyond basic analytics. If you decline cookies, nothing changes about your experience. I just won't know you visited.",
     "whatTitle": "What gets collected",
     "whatText": "When you accept cookies, this site loads Google Analytics (GA4) to collect anonymous usage data: pages visited, time on page, scroll depth, button clicks, and general device/browser info. Google Analytics uses two cookies:",
-    "whatCookie1": "_ga — distinguishes unique visitors. Expires after 2 years.",
-    "whatCookie2": "_ga_* — tracks session state. Expires after 24 hours.",
+    "whatCookie1": "_ga: distinguishes unique visitors. Expires after 2 years.",
+    "whatCookie2": "_ga_*: tracks session state. Expires after 24 hours.",
     "whatNote": "IP anonymization is enabled, so your full IP address is never stored by Google Analytics.",
     "whyTitle": "Why",
     "whyText": "Curiosity, mostly. I like knowing which sections people actually read, whether anyone makes it to the bottom, and which projects get the most clicks. It helps me improve the site. That's it.",
@@ -155,14 +154,14 @@
     "noConsentText": "No cookies are set, no analytics scripts are loaded, and no data is sent to Google. The site works exactly the same way.",
     "rightsTitle": "Your rights",
     "rightsText": "Under GDPR, you have the right to:",
-    "right1": "Change your mind — click \"Cookie settings\" in the footer to update your preference at any time.",
-    "right2": "Access or delete your data — since GA data is anonymous and aggregated, there's nothing personally identifiable to retrieve. But if you have questions, email me.",
+    "right1": "Change your mind: click \"Cookie settings\" in the footer to update your preference at any time.",
+    "right2": "Access or delete your data: since GA data is anonymous and aggregated, there's nothing personally identifiable to retrieve. But if you have questions, email me.",
     "right3": "Lodge a complaint with a supervisory authority if you believe your data rights have been violated.",
     "thirdPartyTitle": "Third-party services",
     "thirdPartyText": "Beyond Google Analytics (only when you consent), this site connects to:",
-    "thirdParty1": "GitHub API — to fetch contribution stats. No cookies, no personal data.",
-    "thirdParty2": "Spotify API — to show what I'm listening to. No cookies, server-side only.",
-    "thirdParty3": "Cal.com — the booking link opens an external page. Their own privacy policy applies.",
+    "thirdParty1": "GitHub API: to fetch contribution stats. No cookies, no personal data.",
+    "thirdParty2": "Spotify API: to show what I'm listening to. No cookies, server-side only.",
+    "thirdParty3": "Cal.com: the booking link opens an external page. Their own privacy policy applies.",
     "contactTitle": "Contact",
     "contactText": "Questions about this policy? Email me at {email}."
   },

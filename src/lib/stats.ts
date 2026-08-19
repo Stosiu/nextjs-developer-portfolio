@@ -54,6 +54,7 @@ export async function getAiStats(): Promise<AiStatsResult> {
       totalSessions: ai.totalSessions,
       busiestDay: ai.busiestDay,
       busiestDayAvgTokens: ai.busiestDayAvgTokens,
+      dayOfWeekAvgTokens: ai.dayOfWeekAvgTokens ?? [],
       provider: ai.provider,
       totalCost: ai.totalCost ?? 0,
       costLast30d: ai.costLast30d ?? 0,

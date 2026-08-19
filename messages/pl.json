@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Aleksander Stós — Przedsiębiorca, CTO i Współzałożyciel",
+    "title": "Aleksander Stós · Przedsiębiorca, CTO i Współzałożyciel",
     "description": "Portfolio Aleksandra Stósia. Przedsiębiorca, CTO i full-stack developer budujący produkty i rozwijający zespoły w The Digital Bunch. Warszawa, Rijad, Sydney."
   },
   "nav": {
@@ -13,7 +13,7 @@
   },
   "hero": {
     "command1": "whoami",
-    "response1": "Aleksander Stós — Przedsiębiorca, CTO i Współzałożyciel The Digital Bunch",
+    "response1": "Aleksander Stós · Przedsiębiorca, CTO i Współzałożyciel The Digital Bunch",
     "command2": "cat /etc/motd",
     "response2": "Buduję produkty, skaluję zespoły i prowadzę firmy. Warszawa · Rijad · Sydney",
     "command3": "./book --consultation",
@@ -21,13 +21,10 @@
     "cta": "Porozmawiajmy"
   },
   "about": {
-    "heading": "O mnie",
-    "p1": "Piszę kod od 13. roku życia, a firmy prowadzę od 25. Gdzieś pomiędzy zrozumiałem, że kod nigdy nie był celem — budowanie rzeczy, których ludzie naprawdę potrzebują, było.",
+    "heading": "W skrócie",
+    "p1": "Piszę kod od 13. roku życia, a firmy prowadzę od 25. Gdzieś pomiędzy zrozumiałem, że kod nigdy nie był celem; celem było budowanie rzeczy, których ludzie naprawdę potrzebują.",
     "p2": "Otaczam się ludźmi mądrzejszymi od siebie, szybko się uczę i staram się to przekazywać dalej. Większość tego, co wiem, zawdzięczam komuś, kto miał wystarczająco cierpliwości, żeby mi to wytłumaczyć.",
     "p3": "Obecnie prowadzę <tdb>The Digital Bunch</tdb> w trzech krajach, uruchamiam nowe przedsięwzięcia w Arabii Saudyjskiej i wciąż piszę kod prawie codziennie.",
-    "tag1": "buduje rzeczy",
-    "tag2": "prowadzi zespoły",
-    "tag3": "dostarcza szybko",
     "cta": "Napisz do mnie"
   },
   "logos": {
@@ -39,12 +36,12 @@
     "moreCount": "100+",
     "moreLabel": "dostarczonych produktów. każdy nauczył mnie czegoś, czego poprzedni nie zdążył.",
     "ctaHeading": "Zaprojektujmy Twój kolejny produkt",
-    "ctaDescription": "Od wireframe'u do produkcji — ożywię Twój pomysł.",
+    "ctaDescription": "Przeprowadzę Twój pomysł od wireframe'u do produkcji.",
     "ctaCta": "Umów darmową konsultację",
-    "proj0Desc": "Zbudowałem całą platformę web + mobile w 3 miesiące z 4-osobowym zespołem — po tym, jak inny zespół nie dostarczył przez ponad 12 miesięcy.",
+    "proj0Desc": "Zbudowałem całą platformę web + mobile w 3 miesiące z 4-osobowym zespołem, po tym, jak inny zespół nie dostarczył przez ponad 12 miesięcy.",
     "proj1Desc": "Mój pierwszy projekt po wyjściu na swoje. Trzy pivoty później firma została przejęta przez Cytracom i przeszła pełne due diligence.",
     "proj2Desc": "Zbudowałem pipeline generowania dokumentów i początkową integrację z Applied Epic do zarządzania kontami ubezpieczeniowymi.",
-    "proj3Desc": "Zbudowany od zera — zunifikowałem pipeline renderowania 3D do produkcji, serwując 1 TB obrazów nieruchomości miesięcznie.",
+    "proj3Desc": "Zunifikowałem pipeline renderowania 3D i doprowadziłem go do produkcji od zera, serwując 1 TB obrazów nieruchomości miesięcznie.",
     "proj4Desc": "Opracowałem początkowe integracje z systemami zewnętrznymi do uzgadniania: Applied Epic, Veruna, AMS360 i Salesforce.",
     "proj5Desc": "Nasz własny koncept e-commerce na zamknięty rynek saudyjski. Wciąż w aktywnym rozwoju.",
     "proj6Desc": "Zbudowałem aplikację mobilną do nalewania wina i wirtualnych profili sommeliera z inteligentnymi rekomendacjami.",
@@ -80,12 +77,12 @@
     "ratioFunStat": "{tokens} tokenów wydanych na ponowne czytanie rozmowy. LLM-y nie mają pamięci, więc każda wiadomość zaczyna od zera.",
     "streakLabel": "Aktualna seria",
     "streakDays": "dni z rzędu",
-    "streakMessage": "git commit -m \"systematyczność > talent\"",
     "languagesLabel": "Najczęstsze języki",
     "aiCost": "wydane na AI",
     "aiCostLast30d": "ostatnie 30 dni",
     "aiViewTokens": "tokeny",
-    "aiViewCost": "koszt"
+    "aiViewCost": "koszt",
+    "streakExplanation": "Dzienne kontrybucje z ostatnich {days} dni."
   },
   "experience": {
     "heading": "Jak tu dotarłem",
@@ -96,11 +93,11 @@
     "exp1Role": "CTO i Współzałożyciel",
     "exp1Period": "Cze 2021 - Obecnie",
     "exp1Location": "Warszawa, Polska · Stacjonarnie",
-    "exp1Description": "Zaczęliśmy w 2021 roku z garścią ludzi robiąc proste strony internetowe i wizualizacje 3D. Pięć lat później jest nas ponad 50 osób w Warszawie, Rijadzie i Sydney, $2M ARR rosnące 23% rok do roku, i wciąż uruchamiamy nowe przedsięwzięcia.\n\nNajbardziej zaskoczyło mnie, jak wiele w prowadzeniu firmy technologicznej nie ma nic wspólnego z kodem. Musiałem nauczyć się produkcji contentu, zbudować od zera studio 3D — pipeline renderowania, specyfikacje sprzętowe, zdalne workflow — i ogarnąć wszystko od sprzedaży, przez rekrutację, po utrzymanie firmy na nogach. Jako techniczny współzałożyciel, mój instynkt mówił: buduj. Prawdziwa lekcja polegała na tym, żeby wiedzieć, kiedy kupić, kiedy zlecić na zewnątrz i kiedy zabić coś, co nie działa.\n\nPrzeszliśmy od \"powiedz nam, co zbudować\" do \"sprawdźmy, czy w ogóle powinieneś to budować.\" Większość klientów przychodzi myśląc, że wie, czego potrzebuje. Po kilku warsztatach okazuje się, że to zwykle coś innego. Ta zmiana — od egzekucji do strategii — całkowicie zmieniła sposób, w jaki działamy.\n\nPróbowaliśmy też budować własny produkt, Your Next Home, na rynek saudyjski. Zrobiliśmy development, jeździliśmy na konferencje, prowadziliśmy marketing. Na razie nie zadziałało. Wciąż szukamy przyczyny. O tym nikt nie ostrzega: robisz wszystko dobrze na papierze i wciąż nie masz trakcji.\n\nZ moją współzałożycielką Dagmarą rzadko się zgadzamy, i właśnie dlatego to działa. Dwie różne perspektywy, ciągłe pętle feedbacku i wynik, który jest zwykle lepszy niż to, do czego którekolwiek z nas doszłoby samodzielnie.",
+    "exp1Description": "Zaczęliśmy w 2021 roku z garścią ludzi robiąc proste strony internetowe i wizualizacje 3D. Pięć lat później jest nas ponad 50 osób w Warszawie, Rijadzie i Sydney, $2M ARR rosnące 23% rok do roku, i wciąż uruchamiamy nowe przedsięwzięcia.\n\nNajbardziej zaskoczyło mnie, jak wiele w prowadzeniu firmy technologicznej nie ma nic wspólnego z kodem. Musiałem nauczyć się produkcji contentu, zbudować od zera studio 3D (pipeline renderowania, specyfikacje sprzętowe, zdalne workflow) i ogarnąć wszystko od sprzedaży, przez rekrutację, po utrzymanie firmy na nogach. Jako techniczny współzałożyciel, mój instynkt mówił: buduj. Prawdziwa lekcja polegała na tym, żeby wiedzieć, kiedy kupić, kiedy zlecić na zewnątrz i kiedy zabić coś, co nie działa.\n\nPrzeszliśmy od \"powiedz nam, co zbudować\" do \"sprawdźmy, czy w ogóle powinieneś to budować.\" Większość klientów przychodzi myśląc, że wie, czego potrzebuje. Po kilku warsztatach okazuje się, że to zwykle coś innego. Ta zmiana od egzekucji do strategii całkowicie zmieniła sposób, w jaki działamy.\n\nPróbowaliśmy też budować własny produkt, Your Next Home, na rynek saudyjski. Zrobiliśmy development, jeździliśmy na konferencje, prowadziliśmy marketing. Na razie nie zadziałało. Wciąż szukamy przyczyny. O tym nikt nie ostrzega: robisz wszystko dobrze na papierze i wciąż nie masz trakcji.\n\nZ moją współzałożycielką Dagmarą rzadko się zgadzamy, i właśnie dlatego to działa. Dwie różne perspektywy, ciągłe pętle feedbacku i wynik, który jest zwykle lepszy niż to, do czego którekolwiek z nas doszłoby samodzielnie.",
     "exp2Role": "Stażysta → Senior Developer → Team Lead",
     "exp2Period": "Lis 2015 - Cze 2021",
     "exp2Location": "Warszawa, Polska",
-    "exp2Description": "Zagadałem do nich na kursie AngularJS w drugim miesiącu studiów informatycznych. Pewnie się zastanawiali, czemu jakiś dzieciak w ogóle do nich gada. Oblałem rozmowę rekrutacyjną, bo byłem zestresowany do granic, ale Tomek (CTO) i Marcin (COO) i tak dali mi szansę. Darmowy staż, bez wynagrodzenia.\n\nTrzy miesiące później dostałem pierwszą prawdziwą wypłatę. Przez cztery lata byłem najmłodszą osobą w firmie, co stało się żartem firmowym. To była poważna firma — amerykańscy founderzy, klienci enterprise — i tam zaczęła się moja cała fala współpracy z amerykańskimi firmami.\n\nSkakałem między stackami non-stop. JavaScript, TypeScript, React, Node.js, Electron, Python, wysoka współbieżność. Ponad 50 projektów łącznie — ubezpieczeniowy startup warty ponad $1B, który później przejął SwingDev, platforma subskrypcyjna obsługująca ~35 tys. jednoczesnych użytkowników, logistyka wysyłkowa, strony korporacyjne. Poznałem niesamowicie zdolnych ludzi, którzy pokazali mi, jak wygląda inżynieria, kiedy jest robiona dobrze.\n\nNajważniejsza lekcja nie była techniczna. Chodziło o obserwowanie, jak mądrzy ludzie myślą o produktach — kwestionowanie briefu, odpychanie założeń, traktowanie każdego projektu jako problemu do zrozumienia, a nie rzeczy do zbudowania. To zostało ze mną.",
+    "exp2Description": "Zagadałem do nich na kursie AngularJS w drugim miesiącu studiów informatycznych. Pewnie się zastanawiali, czemu jakiś dzieciak w ogóle do nich gada. Oblałem rozmowę rekrutacyjną, bo byłem zestresowany do granic, ale Tomek (CTO) i Marcin (COO) i tak dali mi szansę. Darmowy staż, bez wynagrodzenia.\n\nTrzy miesiące później dostałem pierwszą prawdziwą wypłatę. Przez cztery lata byłem najmłodszą osobą w firmie, co stało się żartem firmowym. To była poważna firma z amerykańskimi founderami i klientami enterprise, i tam zaczęła się moja cała fala współpracy z amerykańskimi firmami.\n\nSkakałem między stackami non-stop. JavaScript, TypeScript, React, Node.js, Electron, Python, wysoka współbieżność. Ponad 50 projektów łącznie: ubezpieczeniowy startup warty ponad $1B, który później przejął SwingDev, platforma subskrypcyjna obsługująca ~35 tys. jednoczesnych użytkowników, logistyka wysyłkowa, strony korporacyjne. Poznałem niesamowicie zdolnych ludzi, którzy pokazali mi, jak wygląda inżynieria, kiedy jest robiona dobrze.\n\nNajważniejsza lekcja nie była techniczna. Chodziło o obserwowanie, jak mądrzy ludzie myślą o produktach: kwestionowanie briefu, odpychanie założeń, traktowanie każdego projektu jako problemu do zrozumienia, a nie rzeczy do zbudowania. To zostało ze mną.",
     "exp3Role": "Stażysta → Student informatyki",
     "exp3Period": "Lato 2015",
     "exp3Location": "Tarnów, Polska",
@@ -129,7 +126,9 @@
     "builtWith": "Zbudowane z Next.js, Tailwind CSS i Framer Motion.",
     "viewSource": "Kod źródłowy i gwiazdka",
     "privacy": "Prywatność",
-    "cookieSettings": "Ustawienia cookies"
+    "cookieSettings": "Ustawienia cookies",
+    "elsewhere": "Gdzie indziej",
+    "shortcutHint": "psst... spróbuj wcisnąć <kbd>⌘ ,</kbd> dla niespodzianki"
   },
   "consent": {
     "message": "Ta strona używa ciasteczek do anonimowej analityki (Google Analytics). Żadne dane osobowe nie są sprzedawane ani wykorzystywane do reklam.",
@@ -143,11 +142,11 @@
     "backHome": "Wróć na stronę główną",
     "lastUpdated": "Ostatnia aktualizacja: luty 2026",
     "introTitle": "W skrócie",
-    "introText": "To jest osobista strona portfolio. Nic tu nie sprzedaję, nie wyświetlam reklam i nie zbieram danych osobowych poza podstawową analityką. Jeśli odrzucisz ciasteczka, nic się nie zmieni w Twoim doświadczeniu — po prostu nie będę wiedział, że tu byłeś.",
+    "introText": "To jest osobista strona portfolio. Nic tu nie sprzedaję, nie wyświetlam reklam i nie zbieram danych osobowych poza podstawową analityką. Jeśli odrzucisz ciasteczka, nic się nie zmieni w Twoim doświadczeniu. Po prostu nie będę wiedział, że tu byłeś.",
     "whatTitle": "Co jest zbierane",
     "whatText": "Gdy zaakceptujesz ciasteczka, strona ładuje Google Analytics (GA4), które zbiera anonimowe dane o użytkowaniu: odwiedzone strony, czas na stronie, głębokość przewijania, kliknięcia przycisków i ogólne informacje o urządzeniu/przeglądarce. Google Analytics używa dwóch ciasteczek:",
-    "whatCookie1": "_ga — rozróżnia unikalnych odwiedzających. Wygasa po 2 latach.",
-    "whatCookie2": "_ga_* — śledzi stan sesji. Wygasa po 24 godzinach.",
+    "whatCookie1": "_ga: rozróżnia unikalnych odwiedzających. Wygasa po 2 latach.",
+    "whatCookie2": "_ga_*: śledzi stan sesji. Wygasa po 24 godzinach.",
     "whatNote": "Anonimizacja IP jest włączona, więc Twój pełny adres IP nigdy nie jest przechowywany przez Google Analytics.",
     "whyTitle": "Dlaczego",
     "whyText": "Głównie z ciekawości. Lubię wiedzieć, które sekcje ludzie faktycznie czytają, czy ktoś dociera na sam dół i które projekty dostają najwięcej kliknięć. Pomaga mi to ulepszać stronę. Tyle.",
@@ -155,14 +154,14 @@
     "noConsentText": "Żadne ciasteczka nie są ustawiane, żadne skrypty analityczne nie są ładowane i żadne dane nie są wysyłane do Google. Strona działa dokładnie tak samo.",
     "rightsTitle": "Twoje prawa",
     "rightsText": "Zgodnie z RODO masz prawo do:",
-    "right1": "Zmiany decyzji — kliknij \"Ustawienia cookies\" w stopce, żeby zaktualizować swoje preferencje w dowolnym momencie.",
-    "right2": "Dostępu lub usunięcia danych — ponieważ dane GA są anonimowe i zagregowane, nie ma nic, co można byłoby przypisać do konkretnej osoby. Ale jeśli masz pytania, napisz do mnie.",
+    "right1": "Zmiany decyzji: kliknij \"Ustawienia cookies\" w stopce, żeby zaktualizować swoje preferencje w dowolnym momencie.",
+    "right2": "Dostępu lub usunięcia danych: ponieważ dane GA są anonimowe i zagregowane, nie ma nic, co można byłoby przypisać do konkretnej osoby. Ale jeśli masz pytania, napisz do mnie.",
     "right3": "Złożenia skargi do organu nadzorczego, jeśli uważasz, że Twoje prawa do danych zostały naruszone.",
     "thirdPartyTitle": "Usługi zewnętrzne",
     "thirdPartyText": "Poza Google Analytics (tylko za Twoją zgodą), ta strona łączy się z:",
-    "thirdParty1": "GitHub API — do pobierania statystyk kontrybucji. Bez ciasteczek, bez danych osobowych.",
-    "thirdParty2": "Spotify API — do pokazywania, czego aktualnie słucham. Bez ciasteczek, tylko po stronie serwera.",
-    "thirdParty3": "Cal.com — link do rezerwacji otwiera zewnętrzną stronę. Obowiązuje ich własna polityka prywatności.",
+    "thirdParty1": "GitHub API: do pobierania statystyk kontrybucji. Bez ciasteczek, bez danych osobowych.",
+    "thirdParty2": "Spotify API: do pokazywania, czego aktualnie słucham. Bez ciasteczek, tylko po stronie serwera.",
+    "thirdParty3": "Cal.com: link do rezerwacji otwiera zewnętrzną stronę. Obowiązuje ich własna polityka prywatności.",
     "contactTitle": "Kontakt",
     "contactText": "Pytania dotyczące tej polityki? Napisz do mnie na {email}."
   },

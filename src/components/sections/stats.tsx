@@ -136,7 +136,12 @@ export function Stats() {
               <SmallCardSkeleton />
             ) : (
               <FadeIn>
-                <BusiestDay day={aiData!.ai.busiestDay} avgTokens={aiData!.ai.busiestDayAvgTokens} />
+                <BusiestDay
+                  day={aiData!.ai.busiestDay}
+                  avgTokens={aiData!.ai.busiestDayAvgTokens}
+                  dayOfWeekAvgTokens={aiData!.ai.dayOfWeekAvgTokens}
+                  dailyUsage={aiData!.ai.dailyUsage}
+                />
               </FadeIn>
             )}
           </div>
@@ -145,7 +150,10 @@ export function Stats() {
               <SmallCardSkeleton />
             ) : (
               <FadeIn>
-                <GitHubStreak streak={github!.currentStreak} />
+                <GitHubStreak
+                  streak={github!.currentStreak}
+                  contributions={github!.contributions}
+                />
               </FadeIn>
             )}
           </div>
