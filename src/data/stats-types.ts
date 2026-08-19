@@ -40,6 +40,7 @@ export type StatsData = {
     totalSessions: number;
     busiestDay: string;
     busiestDayAvgTokens: number;
+    dayOfWeekAvgTokens: number[];
     provider: string;
     totalCost: number;
     costLast30d: number;
@@ -71,6 +72,7 @@ export type AiStats = {
   totalSessions: number;
   busiestDay: string;
   busiestDayAvgTokens: number;
+  dayOfWeekAvgTokens: number[];
   provider: string;
   totalCost: number;
   costLast30d: number;

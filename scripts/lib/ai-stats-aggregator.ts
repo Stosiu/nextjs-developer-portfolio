@@ -53,6 +53,7 @@ export function emptyAiStats(): Omit<AiStats, 'lastUpdated'> {
     totalSessions: 0,
     busiestDay: 'Monday',
     busiestDayAvgTokens: 0,
+    dayOfWeekAvgTokens: Array.from({length: 7}, () => 0),
     provider: 'Anthropic',
     totalCost: 0,
     costLast30d: 0,
@@ -189,13 +190,17 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     dowAccumulator[dow].days.add(date);
   }
 
+  const dayOfWeekAvgTokens = Array.from({length: 7}, (_, dow) => {
+    const data = dowAccumulator[dow];
+    return data && data.days.size > 0 ? Math.round(data.tokens / data.days.size) : 0;
+  });
+
   let busiestDay = 'Monday';
   let busiestDayAvg = 0;
-  for (const [dow, data] of Object.entries(dowAccumulator)) {
-    const avg = data.days.size > 0 ? data.tokens / data.days.size : 0;
+  for (const [dow, avg] of dayOfWeekAvgTokens.entries()) {
     if (avg > busiestDayAvg) {
       busiestDayAvg = avg;
-      busiestDay = DAY_NAMES[Number(dow)];
+      busiestDay = DAY_NAMES[dow];
     }
   }
 
@@ -211,6 +216,7 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     totalSessions: sessions.length,
     busiestDay,
     busiestDayAvgTokens: Math.round(busiestDayAvg),
+    dayOfWeekAvgTokens,
     provider: 'Anthropic',
     totalCost: Math.round(totalCost * 100) / 100,
     costLast30d: Math.round(costLast30d * 100) / 100,

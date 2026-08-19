@@ -3,42 +3,35 @@
 import {useTranslations} from 'next-intl';
 import {motion, useMotionValue, useSpring, useTransform} from 'framer-motion';
 import Image from 'next/image';
-import {useRef, useState} from 'react';
+import {useRef} from 'react';
 import {Button} from '@/components/ui/button';
-import {Badge} from '@/components/ui/badge';
 import {ArrowUpRight} from 'lucide-react';
+import {SectionHeading} from '@/components/ui/section-heading';
 import {siteConfig} from '@/config/site';
 
-function PhotoCard() {
+function Portrait() {
   const ref = useRef<HTMLDivElement>(null);
-  const [hovering, setHovering] = useState(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), {
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), {
     stiffness: 200,
     damping: 30,
   });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), {
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), {
     stiffness: 200,
     damping: 30,
   });
-
-  const glowX = useTransform(mouseX, [-0.5, 0.5], [0, 100]);
-  const glowY = useTransform(mouseY, [-0.5, 0.5], [0, 100]);
 
   function handleMouseMove(e: React.MouseEvent) {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
   }
 
   function handleMouseLeave() {
-    setHovering(false);
     mouseX.set(0);
     mouseY.set(0);
   }
@@ -47,70 +40,28 @@ function PhotoCard() {
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovering(true)}
       onMouseLeave={handleMouseLeave}
       style={{rotateX, rotateY, transformStyle: 'preserve-3d'}}
-      className="relative w-64 h-64 md:w-72 md:h-72 mx-auto md:mt-2 cursor-default"
-      initial={{opacity: 0, scale: 0.9}}
-      whileInView={{opacity: 1, scale: 1}}
+      className="relative w-56 sm:w-64 md:w-[300px] aspect-[4/5] mx-auto"
+      initial={{opacity: 0, y: 16}}
+      whileInView={{opacity: 1, y: 0}}
       viewport={{once: true, margin: '-50px'}}
       transition={{duration: 0.5}}
     >
-      <motion.div
-        className="absolute -inset-4 rounded-full blur-2xl transition-opacity duration-300"
-        style={{
-          background: hovering
-            ? `radial-gradient(circle at ${glowX.get()}% ${glowY.get()}%, rgba(var(--accent-rgb), 0.25), transparent 60%)`
-            : 'radial-gradient(circle, rgba(var(--accent-rgb), 0.1), transparent 60%)',
-          opacity: hovering ? 1 : 0.6,
-        }}
-      />
+      <div className="absolute -inset-10 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(var(--accent-rgb),0.18),transparent_70%)] blur-2xl" />
 
-      <motion.div
-        className="absolute -inset-[2px] rounded-full"
-        style={{
-          background: 'conic-gradient(from var(--border-angle), transparent 40%, rgba(var(--accent-rgb), 0.5), rgba(6, 182, 212, 0.3), transparent 60%)',
-          animation: hovering ? 'rotate-border 3s linear infinite' : 'none',
-          opacity: hovering ? 1 : 0,
-          transition: 'opacity 0.4s',
-        }}
-      />
-
-      <div className="relative w-full h-full rounded-full overflow-hidden border border-white/10">
+      <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10">
         <Image
-          src="/avatar.jpg"
+          src={siteConfig.avatar}
           alt={siteConfig.name}
           fill
-          className="object-cover"
-          sizes="(max-width: 768px) 256px, 288px"
+          className="object-cover object-top"
+          sizes="(max-width: 640px) 224px, (max-width: 768px) 256px, 300px"
           priority
         />
-
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{
-            background: hovering
-              ? 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(var(--accent-rgb), 0.03) 2px, rgba(var(--accent-rgb), 0.03) 4px)'
-              : 'none',
-          }}
-          transition={{duration: 0.3}}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,transparent_30%,rgba(0,0,0,0.55)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
-
-      <motion.div
-        className="absolute -bottom-3 inset-x-0 mx-auto w-fit flex items-center gap-2 bg-black/80 backdrop-blur-sm border border-white/10 rounded-full px-3 py-1.5"
-        style={{transform: 'translateZ(20px)'}}
-        initial={{opacity: 0, y: 10}}
-        whileInView={{opacity: 1, y: 0}}
-        viewport={{once: true}}
-        transition={{delay: 0.6}}
-      >
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500" />
-        </span>
-        <span className="text-xs text-white/70 font-mono">available</span>
-      </motion.div>
     </motion.div>
   );
 }
@@ -118,28 +69,25 @@ function PhotoCard() {
 export function About() {
   const t = useTranslations('about');
 
-  const highlights = [
-    {icon: '>', label: t('tag1')},
-    {icon: '>', label: t('tag2')},
-    {icon: '>', label: t('tag3')},
-  ];
-
   return (
     <section id="about" className="py-24 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-[auto_1fr] gap-12 md:gap-16 items-start">
-          <PhotoCard />
+        <SectionHeading title={t('heading')} />
 
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">{t('heading')}</h2>
+        <div className="grid md:grid-cols-[1fr_auto] gap-12 md:gap-20 items-center">
+          <div className="order-2 md:order-1 space-y-6">
             {(['p1', 'p2', 'p3'] as const).map((key, i) => (
               <motion.p
                 key={key}
-                initial={{opacity: 0, x: 20}}
-                whileInView={{opacity: 1, x: 0}}
+                initial={{opacity: 0, y: 12}}
+                whileInView={{opacity: 1, y: 0}}
                 viewport={{once: true, margin: '-50px'}}
-                transition={{duration: 0.4, delay: 0.2 + i * 0.1}}
-                className="text-lg text-white/70 leading-relaxed"
+                transition={{duration: 0.4, delay: 0.1 + i * 0.1}}
+                className={
+                  i === 0
+                    ? 'text-xl md:text-2xl text-white/85 leading-snug'
+                    : 'text-base md:text-lg text-white/55 leading-relaxed'
+                }
               >
                 {t.rich(key, {
                   tdb: (chunks) => (
@@ -156,35 +104,12 @@ export function About() {
               </motion.p>
             ))}
 
-            {/* Tag pills */}
             <motion.div
-              className="flex flex-wrap gap-3 pt-2"
-              initial={{opacity: 0}}
-              whileInView={{opacity: 1}}
-              viewport={{once: true}}
-              transition={{delay: 0.5}}
-            >
-              {highlights.map((h, i) => (
-                <motion.span
-                  key={i}
-                  initial={{opacity: 0, scale: 0.9}}
-                  whileInView={{opacity: 1, scale: 1}}
-                  viewport={{once: true}}
-                  transition={{delay: 0.6 + i * 0.08}}
-                >
-                  <Badge className="hover:border-brand-500/40 hover:text-brand-400/80 transition-colors duration-200">
-                    <span className="text-brand-500 text-xs">{h.icon}</span>
-                    {h.label}
-                  </Badge>
-                </motion.span>
-              ))}
-            </motion.div>
-
-            <motion.div
+              className="pt-2"
               initial={{opacity: 0, y: 10}}
               whileInView={{opacity: 1, y: 0}}
               viewport={{once: true}}
-              transition={{delay: 0.7}}
+              transition={{delay: 0.4}}
             >
               <Button
                 asChild
@@ -192,10 +117,14 @@ export function About() {
               >
                 <a href={siteConfig.booking} target="_blank" rel="noopener noreferrer">
                   {t('cta')}
-                  <ArrowUpRight className="w-4 h-4" />
+                  <ArrowUpRight className="w-4 h-4 rtl:rotate-[-90deg]" />
                 </a>
               </Button>
             </motion.div>
+          </div>
+
+          <div className="order-1 md:order-2">
+            <Portrait />
           </div>
         </div>
       </div>
