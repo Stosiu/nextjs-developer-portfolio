@@ -49,7 +49,7 @@ export default async function PrivacyPage({params}: Props) {
   return (
     <main id="main-content" className="bg-black text-white min-h-screen noise dot-grid overflow-x-hidden">
       <Navbar thoughtsCount={getThoughtsCount()} />
-      <div className="max-w-2xl mx-auto px-6 pt-28 pb-20">
+      <div className="max-w-4xl mx-auto px-6 pt-28 pb-20">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all mb-8 rtl:flex-row-reverse"
