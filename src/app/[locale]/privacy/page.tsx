@@ -2,6 +2,10 @@ import type {Metadata} from 'next';
 import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
 import {siteConfig} from '@/config/site';
+import {getThoughtsCount} from '@/lib/thoughts';
+import {Navbar} from '@/components/navbar';
+import {Footer} from '@/components/sections/footer';
+import {Link} from '@/i18n/navigation';
 import {ArrowLeft} from 'lucide-react';
 
 type Props = {
@@ -43,15 +47,16 @@ export default async function PrivacyPage({params}: Props) {
   const t = await getTranslations({locale, namespace: 'privacy'});
 
   return (
-    <main className="min-h-screen bg-black text-white noise dot-grid">
-      <div className="max-w-2xl mx-auto px-6 py-20">
-        <a
-          href={`/${locale === routing.defaultLocale ? '' : locale}`}
-          className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-colors mb-12 rtl:flex-row-reverse"
+    <main id="main-content" className="bg-black text-white min-h-screen noise dot-grid overflow-x-hidden">
+      <Navbar thoughtsCount={getThoughtsCount()} />
+      <div className="max-w-2xl mx-auto px-6 pt-28 pb-20">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all mb-8 rtl:flex-row-reverse"
         >
-          <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+          <ArrowLeft className="w-3 h-3 rtl:rotate-180" />
           {t('backHome')}
-        </a>
+        </Link>
 
         <h1 className="text-3xl font-bold mb-2">{t('title')}</h1>
         <p className="text-sm text-white/30 font-mono mb-12">{t('lastUpdated')}</p>
@@ -101,6 +106,7 @@ export default async function PrivacyPage({params}: Props) {
           </Section>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }
