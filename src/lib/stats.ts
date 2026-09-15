@@ -5,13 +5,18 @@ import fallbackData from '@/data/stats.json';
 const AI_STATS_KEY = 'stats/ai.json';
 
 async function fetchAiFromStorage(publicUrl: string): Promise<AiStats | null> {
+  const url = `${publicUrl.replace(/\/+$/, '')}/${AI_STATS_KEY}`;
   try {
-    const res = await fetch(`${publicUrl.replace(/\/+$/, '')}/${AI_STATS_KEY}`, {
+    const res = await fetch(url, {
       next: {revalidate: 86400, tags: ['stats']},
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error(`AI stats fetch ${url} returned ${res.status} (cf-mitigated: ${res.headers.get('cf-mitigated') ?? 'none'})`);
+      return null;
+    }
     return (await res.json()) as AiStats;
-  } catch {
+  } catch (err) {
+    console.error(`AI stats fetch ${url} failed`, err);
     return null;
   }
 }
