@@ -25,7 +25,7 @@ Dark theme only. There is no light mode, and that's a feature. Ships with i18n (
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Stosiu/nextjs-developer-portfolio)
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Stosiu/nextjs-developer-portfolio)
 
-Vercel is the recommended host. The template uses Vercel Cron to keep the stats cache warm and Vercel Blob to store AI usage stats. On other hosts those two features still work, you just point your own cron at the endpoint.
+Vercel is the recommended host. The template uses Vercel Cron to keep the stats cache warm. AI usage stats live in a Cloudflare R2 bucket, which works on any host. On other hosts, point your own cron at the endpoint.
 
 ## Features
 
@@ -88,7 +88,8 @@ All of them are optional. A missing value disables its feature silently, with no
 | `NEXT_PUBLIC_SPEED_INSIGHTS` | `1` enables Vercel Speed Insights | No Web Vitals collection |
 | `NEXT_PUBLIC_VERCEL_ANALYTICS` | `1` enables Vercel Analytics | No page view tracking |
 | `GITHUB_TOKEN` | GitHub stats, needs `read:user` scope (`gh auth token` works) | Fallback data from `src/data/stats.json` |
-| `BLOB_READ_WRITE_TOKEN` | Vercel Blob store for AI stats | `pnpm upload:ai` fails gracefully |
+| `R2_PUBLIC_URL` | Public URL of the R2 bucket (custom domain or `r2.dev`) the site reads AI stats from | Fallback data from `src/data/stats.json` |
+| `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` | S3 credentials `pnpm upload:ai` writes AI stats with. Only needed where the upload runs, not on the host | `pnpm upload:ai` exits with an error naming the missing variables |
 | `REVALIDATE_SECRET`, `SITE_URL` | Trigger ISR revalidation after an AI stats upload | Upload works, the page serves stale data until the next revalidate |
 | `CRON_SECRET` | Authenticates `/api/cron/stats` | Cron endpoint returns 401, stats still work on demand |
 | `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | Now-playing widget | Widget hidden |
@@ -122,7 +123,7 @@ All of them are optional. A missing value disables its feature silently, with no
 
 ## Stats Dashboard
 
-GitHub contributions and the language breakdown come from the GraphQL API, cached by ISR for an hour. Claude Code token usage and cost are aggregated from the `ccusage` CLI and uploaded to Vercel Blob with `pnpm upload:ai`. Spotify now-playing is fetched server-side at render time.
+GitHub contributions and the language breakdown come from the GraphQL API, cached by ISR for an hour. Claude Code token usage and cost are aggregated from the `ccusage` CLI and uploaded to R2 with `pnpm upload:ai`. The site reads `stats/ai.json` from the bucket's public URL and caches it for a day. Spotify now-playing is fetched server-side at render time.
 
 On Vercel, `/api/cron/stats` runs daily at 6:00 UTC (configured in `vercel.json`) to warm the ISR cache so the first visitor of the day doesn't wait. Anywhere else, point a cron service at the same endpoint:
 
@@ -191,10 +192,10 @@ image: hero.jpg                # cover image, blur placeholder generated via sha
 | `pnpm test` | Vitest, with `:watch` and `:coverage` variants |
 | `pnpm lint` | oxlint |
 | `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm upload:ai` | Upload AI usage stats to Vercel Blob |
+| `pnpm upload:ai` | Upload AI usage stats to R2 |
 | `pnpm setup:cron`, `pnpm remove:cron` | Schedule or remove the daily `upload:ai` |
 
-Tests sit in `__tests__/` directories next to the code they cover: `src/lib/__tests__/` for format, utils, rate-limit, github, consent, analytics and thoughts, and `scripts/lib/__tests__/` for AI stats aggregation. A directory-by-directory map of the codebase is in [CLAUDE.md](CLAUDE.md).
+Tests sit in `__tests__/` directories next to the code they cover: `src/lib/__tests__/` for format, utils, rate-limit, github, consent, analytics and thoughts, and `scripts/lib/__tests__/` for AI stats aggregation and R2 storage. A directory-by-directory map of the codebase is in [CLAUDE.md](CLAUDE.md).
 
 ## License
 

@@ -27,7 +27,8 @@ Copy `.env.example` to `.env` and fill in only what you need. All are optional:
 | `NEXT_PUBLIC_VERCEL_ANALYTICS` | Vercel Analytics (`"1"` to enable) | No page view tracking |
 | `GITHUB_TOKEN` | GitHub stats on dashboard | Shows fallback data from `src/data/stats.json` |
 | `SPOTIFY_CLIENT_ID/SECRET/REFRESH_TOKEN` | Now-playing widget | Widget hidden |
-| `BLOB_READ_WRITE_TOKEN` | AI stats upload to Vercel Blob | Upload script fails gracefully |
+| `R2_PUBLIC_URL` | Public URL of the R2 bucket the site reads AI stats from | Shows fallback data from `src/data/stats.json` |
+| `R2_ACCOUNT_ID/ACCESS_KEY_ID/SECRET_ACCESS_KEY/BUCKET` | S3 credentials for the AI stats upload (upload machine only) | Upload script exits with an error naming the missing variables |
 | `CRON_SECRET` | Vercel Cron Job authentication | Cron endpoint returns 401 (stats still work on-demand) |
 
 ## Personalizing the Template
@@ -97,7 +98,7 @@ src/
       revalidate/route.ts   # On-demand ISR revalidation (called by upload:ai)
       spotify/route.ts      # Spotify now-playing proxy
       stats/route.ts        # Combined stats JSON (github + ai); used by cron warming
-      stats/ai/route.ts     # AI stats only (fast, from blob) — fetched independently by the FE
+      stats/ai/route.ts     # AI stats only (fast, from R2) — fetched independently by the FE
       stats/github/route.ts # GitHub stats only (slow GraphQL) — fetched independently by the FE
     [locale]/
       layout.tsx            # Locale layout (html/body, fonts, JSON-LD, console log)
@@ -144,7 +145,7 @@ src/
     data.ts                 # Project entries (uses static imports)
     github.ts               # GitHub GraphQL API (server-side, ISR cached)
     spotify.ts              # Spotify now-playing API
-    stats.ts                # Stats aggregator (GitHub + AI blob)
+    stats.ts                # Stats aggregator (GitHub + AI stats from R2)
     thoughts.ts             # Markdown parser + renderer (remark/rehype pipeline)
     thought-quality.ts      # Readability scoring for thoughts content
     rate-limit.ts           # In-memory rate limiting for API routes
@@ -154,11 +155,11 @@ src/
     stats.json              # Generated stats data
     stats-types.ts          # TypeScript types for stats data
 scripts/
-  upload-ai-stats.ts        # Entry point: fetches ccusage data and uploads to Vercel Blob
+  upload-ai-stats.ts        # Entry point: fetches ccusage data and uploads to R2
   setup-cron.ts             # Cross-platform cron setup (launchd/crontab/schtasks)
   lib/
     ai-stats-aggregator.ts  # Aggregates ccusage daily/session JSON into AiStats shape
-    blob-upload.ts          # Shared Vercel Blob upload + revalidation helper
+    storage.ts              # R2 (S3 API via aws4fetch) read/upload + revalidation helper
 messages/
   en.json                   # English translations
   pl.json                   # Polish translations
@@ -284,10 +285,20 @@ When proposing a thumbnail prompt, always output the full prompt ready to copy-p
 ### Stats Dashboard
 - GitHub stats fetched server-side from GitHub GraphQL API, cached via ISR (`src/lib/github.ts`)
 - Vercel Cron Job (`/api/cron/stats`) revalidates and warms the stats cache daily (6:00 UTC), configured in `vercel.json`. Requires `CRON_SECRET` env var. Hobby plan allows 1 cron/day.
-- AI stats stored in Vercel Blob, uploaded via `pnpm upload:ai`. Sources usage from the `ccusage` CLI (`npx ccusage daily --json` + `session --json`, pinned version), aggregated in `scripts/lib/ai-stats-aggregator.ts`. The old JSONL parser was removed.
-- `upload:ai` merges the local ccusage `daily` output into a cumulative `stats/daily-history.json` blob (per-date token/cost aggregates, no conversation content) and aggregates the dashboard from that merged history. Local data wins for dates it has; stored dates the machine no longer has are preserved. This keeps history durable across laptop changes. Session count is still per current machine (not merged).
+- AI stats stored in a Cloudflare R2 bucket, uploaded via `pnpm upload:ai` over the S3 API. The site reads `stats/ai.json` from `R2_PUBLIC_URL` with a plain `fetch` (Next data cache, 1 day, tag `stats`), so the host needs no R2 credentials. A read that fails with anything other than 404 aborts the upload, so partial local data never overwrites stored history. Moved off Vercel Blob because Hobby blocks the store for 30 days once 2,000 advanced operations (`list`/`put`) are used in a month. Sources usage from the `ccusage` CLI (`npx ccusage daily --json` + `session --json`, pinned version), aggregated in `scripts/lib/ai-stats-aggregator.ts`. The old JSONL parser was removed.
+- `upload:ai` merges the local ccusage `daily` output into a cumulative `stats/daily-history.json` object (per-date token/cost aggregates, no conversation content) and aggregates the dashboard from that merged history. Local data wins for dates it has; stored dates the machine no longer has are preserved. This keeps history durable across laptop changes. Session count is still per current machine (not merged).
 - The AI ratio card (`ai-ratio.tsx`) shows the four token buckets separately: new input, cache write, cache read (the dominant "re-reading context" share, ~96%+), and output (Claude actually writing, well under 1%). The headline percentage is cache-read / total.
 - Spotify now-playing fetched server-side at page render
 - Fallback data in `src/data/stats.json` used when APIs unavailable
 - `pnpm setup:cron` schedules daily `upload:ai` — supports macOS (launchd), Linux (crontab), Windows (Task Scheduler)
 - `pnpm remove:cron` uninstalls the scheduled task
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

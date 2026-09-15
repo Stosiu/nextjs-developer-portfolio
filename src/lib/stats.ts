@@ -1,16 +1,12 @@
-import {list} from '@vercel/blob';
 import type {StatsData, AiStats} from '@/data/stats-types';
 import {fetchGitHubStats} from '@/lib/github';
 import fallbackData from '@/data/stats.json';
 
-const AI_BLOB_PATH = 'stats/ai.json';
+const AI_STATS_KEY = 'stats/ai.json';
 
-async function fetchAiFromBlob(): Promise<AiStats | null> {
+async function fetchAiFromStorage(publicUrl: string): Promise<AiStats | null> {
   try {
-    const {blobs} = await list({prefix: AI_BLOB_PATH, limit: 1});
-    if (blobs.length === 0) return null;
-
-    const res = await fetch(blobs[0].url, {
+    const res = await fetch(`${publicUrl.replace(/\/+$/, '')}/${AI_STATS_KEY}`, {
       next: {revalidate: 86400, tags: ['stats']},
     });
     if (!res.ok) return null;
@@ -35,7 +31,8 @@ export async function getAiStats(): Promise<AiStatsResult> {
     return {lastUpdated: fallback.lastUpdated, ai: fallback.ai};
   }
 
-  const ai = process.env.BLOB_READ_WRITE_TOKEN ? await fetchAiFromBlob() : null;
+  const publicUrl = process.env.R2_PUBLIC_URL;
+  const ai = publicUrl ? await fetchAiFromStorage(publicUrl) : null;
   if (!ai) {
     return {lastUpdated: fallback.lastUpdated, ai: fallback.ai};
   }

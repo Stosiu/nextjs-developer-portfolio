@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import {execSync} from 'node:child_process';
-import {uploadToBlob, fetchBlobJson, triggerRevalidation, pc, ora} from './lib/blob-upload';
+import {createStorage, triggerRevalidation, pc, ora} from './lib/storage';
 import {
   aggregate,
   dailyArray,
@@ -12,8 +12,8 @@ import {
 } from './lib/ai-stats-aggregator';
 import type {AiStats} from '../src/data/stats-types';
 
-const AI_BLOB_PATH = 'stats/ai.json';
-const DAILY_HISTORY_BLOB_PATH = 'stats/daily-history.json';
+const AI_STATS_KEY = 'stats/ai.json';
+const DAILY_HISTORY_KEY = 'stats/daily-history.json';
 
 // Pinned so cost figures don't drift between runs when ccusage updates its pricing tables.
 const CCUSAGE_VERSION = '20.0.4';
@@ -46,6 +46,8 @@ function runCcusage<T>(subcommand: 'daily' | 'session'): T | null {
 }
 
 async function main() {
+  const storage = createStorage();
+
   console.log();
   console.log(pc.bold('  Claude Code Usage Stats'));
   console.log(pc.dim('  ─────────────────────────'));
@@ -65,7 +67,7 @@ async function main() {
   sessionSpinner.succeed('Session count fetched');
 
   const mergeSpinner = ora('Merging with cumulative history').start();
-  const stored = (await fetchBlobJson<CcusageDailyEntry[]>(DAILY_HISTORY_BLOB_PATH)) ?? [];
+  const stored = (await storage.fetchJson<CcusageDailyEntry[]>(DAILY_HISTORY_KEY)) ?? [];
   const mergedDaily = mergeDailyHistory(stored, localDaily);
   const newDates = mergedDaily.length - stored.length;
   mergeSpinner.succeed(
@@ -73,7 +75,7 @@ async function main() {
   );
 
   // Never publish zeros over good data. If there is genuinely nothing to show
-  // (ccusage failed AND no stored history), leave the existing blobs untouched.
+  // (ccusage failed AND no stored history), leave the existing files untouched.
   if (mergedDaily.length === 0) {
     ora().warn(pc.yellow('No usage data available (ccusage failed, no stored history). Existing stats left untouched.'));
     return;
@@ -81,7 +83,7 @@ async function main() {
 
   // Only rewrite durable history when we actually fetched fresh local data to add.
   if (localDaily.length > 0) {
-    await uploadToBlob(DAILY_HISTORY_BLOB_PATH, mergedDaily);
+    await storage.uploadJson(DAILY_HISTORY_KEY, mergedDaily);
   }
 
   const aggregateSpinner = ora('Aggregating stats').start();
@@ -93,7 +95,7 @@ async function main() {
   // to zero sessions while still showing the real token history.
   let totalSessions = aggregated.totalSessions;
   if (totalSessions === 0) {
-    const previous = await fetchBlobJson<AiStats>(AI_BLOB_PATH);
+    const previous = await storage.fetchJson<AiStats>(AI_STATS_KEY);
     if (previous?.totalSessions) totalSessions = previous.totalSessions;
   }
 
@@ -118,7 +120,7 @@ async function main() {
 
   console.log();
 
-  await uploadToBlob(AI_BLOB_PATH, data);
+  await storage.uploadJson(AI_STATS_KEY, data);
   await triggerRevalidation();
 
   console.log();
