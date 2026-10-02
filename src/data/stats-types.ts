@@ -34,7 +34,6 @@ export type StatsData = {
     totalCacheWriteTokens: number;
     totalCacheReadTokens: number;
     totalOutputTokens: number;
-    tokensLast30d: number;
     dailyUsage: AiDailyUsage[];
     modelBreakdown: AiModelBreakdown[];
     totalSessions: number;
@@ -43,7 +42,6 @@ export type StatsData = {
     dayOfWeekAvgTokens: number[];
     provider: string;
     totalCost: number;
-    costLast30d: number;
   };
 };
 
@@ -66,7 +64,6 @@ export type AiStats = {
   totalCacheWriteTokens: number;
   totalCacheReadTokens: number;
   totalOutputTokens: number;
-  tokensLast30d: number;
   dailyUsage: AiDailyUsage[];
   modelBreakdown: AiModelBreakdown[];
   totalSessions: number;
@@ -75,5 +72,4 @@ export type AiStats = {
   dayOfWeekAvgTokens: number[];
   provider: string;
   totalCost: number;
-  costLast30d: number;
 };

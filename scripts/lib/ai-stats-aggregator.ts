@@ -30,6 +30,8 @@ export type AggregatorInput = {
   referenceDate: Date;
 };
 
+export const WINDOW_DAYS = 30;
+
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export function normalizeModelName(model: string): string {
@@ -47,7 +49,6 @@ export function emptyAiStats(): Omit<AiStats, 'lastUpdated'> {
     totalCacheWriteTokens: 0,
     totalCacheReadTokens: 0,
     totalOutputTokens: 0,
-    tokensLast30d: 0,
     dailyUsage: [],
     modelBreakdown: [],
     totalSessions: 0,
@@ -56,7 +57,6 @@ export function emptyAiStats(): Omit<AiStats, 'lastUpdated'> {
     dayOfWeekAvgTokens: Array.from({length: 7}, () => 0),
     provider: 'Anthropic',
     totalCost: 0,
-    costLast30d: 0,
   };
 }
 
@@ -114,21 +114,20 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
   const days = dailyArray(input.daily);
   const sessions = sessionsArray(input.sessions);
   const today = dateOnly(input.referenceDate);
-  const cutoff = dateOnly(addDays(input.referenceDate, -30));
+  const cutoff = dateOnly(addDays(input.referenceDate, -(WINDOW_DAYS - 1)));
 
   let rawInput = 0;
   let cacheWrite = 0;
   let cacheRead = 0;
   let totalOutput = 0;
   let totalCost = 0;
-  let costLast30d = 0;
 
   const modelTotals: Record<string, number> = {};
   const dailyMap: Record<string, {tokens: number; cost?: number; models: Record<string, number>}> = {};
 
   for (const day of days) {
     const date = dateKey(day);
-    if (!date) continue;
+    if (!date || date < cutoff || date > today) continue;
 
     const input_ = day.inputTokens ?? 0;
     const output = day.outputTokens ?? 0;
@@ -141,7 +140,6 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     cacheRead += cacheReadDay;
     totalOutput += output;
     totalCost += day.totalCost ?? 0;
-    if (date >= cutoff) costLast30d += day.totalCost ?? 0;
 
     const models: Record<string, number> = {};
     for (const m of day.modelBreakdowns ?? []) {
@@ -164,15 +162,13 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
   }
 
   const dailyUsage: AiDailyUsage[] = [];
-  let tokensLast30d = 0;
-  for (let i = 30; i >= 0; i--) {
+  for (let i = WINDOW_DAYS - 1; i >= 0; i--) {
     const d = dateOnly(addDays(input.referenceDate, -i));
     const bucket = dailyMap[d];
     const tokens = bucket?.tokens ?? 0;
     const models = bucket?.models ?? {};
     const cost = bucket?.cost ? Math.round(bucket.cost * 100) / 100 : undefined;
     dailyUsage.push({date: d, tokens, models, ...(cost !== undefined ? {cost} : {})});
-    tokensLast30d += tokens;
   }
 
   const modelBreakdown: AiModelBreakdown[] = Object.entries(modelTotals)
@@ -210,7 +206,6 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     totalCacheWriteTokens: cacheWrite,
     totalCacheReadTokens: cacheRead,
     totalOutputTokens: totalOutput,
-    tokensLast30d,
     dailyUsage,
     modelBreakdown,
     totalSessions: sessions.length,
@@ -219,6 +214,5 @@ export function aggregate(input: AggregatorInput): Omit<AiStats, 'lastUpdated'> 
     dayOfWeekAvgTokens,
     provider: 'Anthropic',
     totalCost: Math.round(totalCost * 100) / 100,
-    costLast30d: Math.round(costLast30d * 100) / 100,
   };
 }

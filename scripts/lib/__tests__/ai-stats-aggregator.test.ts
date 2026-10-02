@@ -37,11 +37,9 @@ describe('aggregate', () => {
   it('returns empty-ish stats for empty input', () => {
     const result = aggregate({daily: [], sessions: [], referenceDate: REF});
     expect(result.totalTokens).toBe(0);
-    expect(result.tokensLast30d).toBe(0);
     expect(result.totalSessions).toBe(0);
     expect(result.totalCost).toBe(0);
-    expect(result.costLast30d).toBe(0);
-    expect(result.dailyUsage).toHaveLength(31);
+    expect(result.dailyUsage).toHaveLength(30);
     expect(result.dailyUsage.every(d => d.tokens === 0)).toBe(true);
     expect(result.modelBreakdown).toEqual([]);
   });
@@ -56,7 +54,6 @@ describe('aggregate', () => {
       referenceDate: REF,
     });
     expect(result.totalCost).toBe(3.0);
-    expect(result.costLast30d).toBe(3.0);
   });
 
   it('rejects non-date `period` values (session ids)', () => {
@@ -69,18 +66,21 @@ describe('aggregate', () => {
     expect(result.totalTokens).toBe(0);
   });
 
-  it('separates total cost from last-30d cost on the boundary', () => {
+  it('only counts the 30 days ending at referenceDate', () => {
     const result = aggregate({
       daily: [
-        day({period: '2026-04-20', totalCost: 100}), // 31 days back: NOT in last 30d
-        day({period: '2026-04-21', totalCost: 50}),  // 30 days back: IS in last 30d
-        day({period: '2026-05-21', totalCost: 25}),  // today: IS in last 30d
+        day({period: '2026-04-21', totalCost: 100, totalTokens: 1_000_000, modelBreakdowns: [{modelName: 'claude-sonnet-4', inputTokens: 1_000_000}]}),
+        day({period: '2026-04-22', totalCost: 50}),
+        day({period: '2026-05-21', totalCost: 25}),
+        day({period: '2026-05-22', totalCost: 10}),
       ],
       sessions: [],
       referenceDate: REF,
     });
-    expect(result.totalCost).toBe(175);
-    expect(result.costLast30d).toBe(75);
+    expect(result.totalCost).toBe(75);
+    expect(result.totalTokens).toBe(3000);
+    expect(result.modelBreakdown).toEqual([{model: 'Opus', tokens: 3000}]);
+    expect(result.dayOfWeekAvgTokens.filter((n) => n > 0)).toHaveLength(2);
   });
 
   it('tracks the four token buckets separately', () => {
@@ -150,16 +150,16 @@ describe('aggregate', () => {
     ]);
   });
 
-  it('builds last-30-day dailyUsage with 31 entries ending at referenceDate', () => {
+  it('builds dailyUsage with 30 entries ending at referenceDate', () => {
     const result = aggregate({
       daily: [day({period: '2026-05-21', totalTokens: 5000})],
       sessions: [],
       referenceDate: REF,
     });
-    expect(result.dailyUsage).toHaveLength(31);
+    expect(result.dailyUsage).toHaveLength(30);
     expect(result.dailyUsage.at(-1)?.date).toBe('2026-05-21');
     expect(result.dailyUsage.at(-1)?.tokens).toBe(5000);
-    expect(result.dailyUsage.at(0)?.date).toBe('2026-04-21');
+    expect(result.dailyUsage.at(0)?.date).toBe('2026-04-22');
   });
 
   it('includes cost on dailyUsage only when known', () => {

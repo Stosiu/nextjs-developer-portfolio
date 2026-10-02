@@ -11,6 +11,10 @@ export function formatDate(dateStr: string): string {
   return dayjs(dateStr).format('MMM D, YYYY');
 }
 
+export function formatShortDate(dateStr: string): string {
+  return dayjs(dateStr).format('MMM D');
+}
+
 export function formatWeekdayDate(dateStr: string): string {
   return dayjs(dateStr).format('ddd, MMM D, YYYY');
 }

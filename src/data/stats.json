@@ -525,7 +525,6 @@
     "totalCacheWriteTokens": 15000000,
     "totalCacheReadTokens": 483000000,
     "totalOutputTokens": 1750000,
-    "tokensLast30d": 200000000,
     "dailyUsage": [
       {
         "date": "2025-12-02",
@@ -765,7 +764,6 @@
       4231000
     ],
     "provider": "Anthropic",
-    "totalCost": 0,
-    "costLast30d": 0
+    "totalCost": 0
   }
 }

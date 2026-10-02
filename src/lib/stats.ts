@@ -50,7 +50,6 @@ export async function getAiStats(): Promise<AiStatsResult> {
       totalCacheWriteTokens: ai.totalCacheWriteTokens ?? 0,
       totalCacheReadTokens: ai.totalCacheReadTokens ?? 0,
       totalOutputTokens: ai.totalOutputTokens ?? 0,
-      tokensLast30d: ai.tokensLast30d,
       dailyUsage: ai.dailyUsage,
       modelBreakdown: ai.modelBreakdown,
       totalSessions: ai.totalSessions,
@@ -59,7 +58,6 @@ export async function getAiStats(): Promise<AiStatsResult> {
       dayOfWeekAvgTokens: ai.dayOfWeekAvgTokens ?? [],
       provider: ai.provider,
       totalCost: ai.totalCost ?? 0,
-      costLast30d: ai.costLast30d ?? 0,
     },
   };
 }

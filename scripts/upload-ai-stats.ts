@@ -106,8 +106,8 @@ async function main() {
   };
 
   console.log();
-  console.log(`  ${pc.dim('Tokens')}    ${pc.bold(pc.cyan(fmt(data.totalTokens)))} total  ${pc.bold(pc.cyan(fmt(data.tokensLast30d)))} last 30d`);
-  console.log(`  ${pc.dim('Cost')}      ${pc.bold(pc.cyan('$' + data.totalCost.toFixed(2)))} total  ${pc.bold(pc.cyan('$' + data.costLast30d.toFixed(2)))} last 30d`);
+  console.log(`  ${pc.dim('Tokens')}    ${pc.bold(pc.cyan(fmt(data.totalTokens)))} last 30d`);
+  console.log(`  ${pc.dim('Cost')}      ${pc.bold(pc.cyan('$' + data.totalCost.toFixed(2)))} last 30d`);
   console.log(`  ${pc.dim('Sessions')}  ${pc.bold(String(data.totalSessions))}`);
   const totalForPct = data.totalTokens || 1;
   const pct = (n: number) => ((n / totalForPct) * 100).toFixed(1) + '%';

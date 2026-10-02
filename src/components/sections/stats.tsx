@@ -102,14 +102,12 @@ export function Stats() {
               <FadeIn>
                 <AiTokens
                   totalTokens={aiData!.ai.totalTokens}
-                  tokensLast30d={aiData!.ai.tokensLast30d}
                   dailyUsage={aiData!.ai.dailyUsage}
                   totalSessions={aiData!.ai.totalSessions}
                   modelBreakdown={aiData!.ai.modelBreakdown}
                   provider={aiData!.ai.provider}
                   lastUpdated={aiData!.lastUpdated}
                   totalCost={aiData!.ai.totalCost}
-                  costLast30d={aiData!.ai.costLast30d}
                 />
               </FadeIn>
             )}

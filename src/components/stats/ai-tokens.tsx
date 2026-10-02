@@ -7,18 +7,16 @@ import type {AiDailyUsage, AiModelBreakdown} from '@/data/stats-types';
 import {AnimatedReveal} from '@/components/ui/animated-reveal';
 import {StatCard} from '@/components/ui/stat-card';
 import {ChartTooltip} from '@/components/ui/chart-tooltip';
-import {formatCompact, formatDate, formatWeekdayDate} from '@/lib/format';
+import {formatCompact, formatDate, formatShortDate, formatWeekdayDate} from '@/lib/format';
 
 type AiTokensProps = {
   totalTokens: number;
-  tokensLast30d: number;
   dailyUsage: AiDailyUsage[];
   totalSessions: number;
   modelBreakdown: AiModelBreakdown[];
   provider: string;
   lastUpdated: string;
   totalCost: number;
-  costLast30d: number;
 };
 
 type TooltipData = {
@@ -138,14 +136,12 @@ function ModelBreakdownPopover({breakdown, totalTokens}: {breakdown: AiModelBrea
 
 export function AiTokens({
   totalTokens,
-  tokensLast30d,
   dailyUsage,
   totalSessions,
   modelBreakdown,
   provider,
   lastUpdated,
   totalCost,
-  costLast30d,
 }: AiTokensProps) {
   const t = useTranslations('stats');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -167,6 +163,10 @@ export function AiTokens({
   const maxCost = Math.max(...dailyUsage.map(d => d.cost ?? 0), 0.01);
   const maxValue = showCostChart ? maxCost : maxTokens;
   const svgWidth = dailyUsage.length * (BAR_WIDTH + BAR_GAP) - BAR_GAP;
+  const activeDays = dailyUsage.filter(d => d.tokens > 0).length;
+  const days = Math.max(dailyUsage.length, 1);
+  const avgValue = dailyUsage.reduce((sum, d) => sum + (showCostChart ? (d.cost ?? 0) : d.tokens), 0) / days;
+  const avgY = CHART_HEIGHT - (avgValue / maxValue) * CHART_HEIGHT;
 
   function handleColumnMouseEnter(e: MouseEvent<SVGGElement>, day: AiDailyUsage, index: number) {
     const container = containerRef.current;
@@ -185,6 +185,11 @@ export function AiTokens({
   }
 
   const stats = [
+    {
+      label: t('aiDailyAvg'),
+      value: showCostChart ? formatCurrency(avgValue) : formatCompact(Math.round(avgValue)),
+    },
+    {label: t('aiActiveDays'), value: `${activeDays}/${dailyUsage.length}`},
     {label: t('aiSessions'), value: totalSessions.toLocaleString()},
   ];
 
@@ -200,10 +205,7 @@ export function AiTokens({
         <div className="mb-4 flex items-baseline gap-2">
           <span className="text-sm text-white/60">{provider}</span>
           <span className="text-xs text-white/30">
-            {view === 'cost' && hasCost
-              ? `${formatCurrency(costLast30d)} ${t('aiCostLast30d')} (updated ${formatDate(lastUpdated)})`
-              : `${formatCompact(tokensLast30d)} tokens in the last 30 days (updated ${formatDate(lastUpdated)})`
-            }
+            {t('aiLast30d')} · {t('aiUpdated', {date: formatDate(lastUpdated)})}
           </span>
         </div>
 
@@ -262,6 +264,19 @@ export function AiTokens({
             data-no-follower
             onMouseLeave={() => { setTooltip(null); setHoveredIndex(null); }}
           >
+            {avgValue > 0 && (
+              <line
+                x1={0}
+                x2={svgWidth}
+                y1={avgY}
+                y2={avgY}
+                stroke="rgba(255,255,255,0.25)"
+                strokeWidth={1}
+                strokeDasharray="3 3"
+                vectorEffect="non-scaling-stroke"
+                pointerEvents="none"
+              />
+            )}
             {dailyUsage.map((day, i) => {
               const value = showCostChart ? (day.cost ?? 0) : day.tokens;
               const barHeight = value > 0
@@ -298,6 +313,16 @@ export function AiTokens({
               );
             })}
           </svg>
+          {dailyUsage.length > 0 && (
+            <div className="flex justify-between mt-1.5 text-[10px] font-mono text-white/25" dir="ltr">
+              <span>{formatShortDate(dailyUsage[0].date)}</span>
+              <span className="flex items-center gap-1.5">
+                <span className="inline-block w-3 border-t border-dashed border-white/30" />
+                {t('aiDailyAvg')}
+              </span>
+              <span>{formatShortDate(dailyUsage[dailyUsage.length - 1].date)}</span>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-3 pt-3 mt-3 border-t border-white/[0.06]">
