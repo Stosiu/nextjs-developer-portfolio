@@ -5,8 +5,26 @@ tags: [Tools, AI, Workflow]
 image: thumbnail.jpg
 imageCaption: Voice in, code out. The keyboard is just there for shortcuts.
 description: How Wispr Flow changed the way I interact with my machine and why I barely type anymore.
-tldr: Over 100k words dictated, top 1% by speed at 157 wpm. Between voice dictation and AI coding, my keyboard is mostly for shortcuts. The mouse is for checking if websites look right. We write tests instead of clicking around. Say it out loud and it sounds absurd. But it's just how work looks now.
+tldr: Updated October 2026, still using it every working day. 426k words dictated at 167 wpm, top 0.1% of Flow users, and more than half of it goes into AI prompts. In March it was just over 100k words dictated, top 1% by speed at 157 wpm. Between voice dictation and AI coding, my keyboard is mostly for shortcuts. The mouse is for checking if websites look right. We write tests instead of clicking around. Say it out loud and it sounds absurd. But it's just how work looks now.
 ---
+
+## Update, October 2026
+
+I'm dictating this update, which feels like the right way to write it. Seven months after publishing this article I still use Wispr Flow every working day, and I haven't found a reason to go back to typing.
+
+The numbers moved a lot since March. Back then I had dictated about 100,000 words at 157 wpm, which put me in the top 1% of Flow users. Today the counter says 426,191 words across 56 apps at 167 wpm, and Flow puts that speed in the top 0.1%. It also says I've written four complete books, which is a generous way to describe a lot of prompts. Along the way Flow made 37,200 fixes to what I said: 32,174 corrected words and 5,026 dictionary fixes.
+
+![Wispr Flow insights in October 2026: 426,191 words dictated, 167 wpm, top 0.1%, 56 apps, 55% of desktop usage on AI prompts](/images/thoughts/talking-to-my-computer/wispr-insights-october.jpg)
+
+The breakdown surprised me more than the totals. 55% of my desktop dictation, 6,075 dictations, went into AI prompts. Another 44% is "other tasks", which Flow doesn't split further. Work messages are 1%, and emails and documents round down to zero. Further down I wrote that I dictate Slack messages and emails instead of typing them. I still do, but 92 work messages and 11 emails are nothing next to 6,075 prompts, so most of my talking goes to Claude Code.
+
+The activity calendar has weekdays filled in and weekends mostly empty, and my longest streak is 13 days.
+
+If you want to try it, my [referral link](https://wisprflow.ai/r?ALEKSANDER88) gives you a free month of Pro, and I get a free month too once you dictate 2,000 words. One person has used it so far, so I'm currently on a free month myself.
+
+The rest of the article is the original from March, with a few small edits.
+
+## Where it started
 
 There's a moment when you realize you haven't typed a full sentence in hours. You've been talking to your computer the entire time. Prompts, Slack messages, emails, even this article. All dictated. The keyboard sits there mostly for `fn` and shortcuts. That moment happened to me about two months ago and it hasn't gone back since. I didn't plan it. I just noticed one afternoon that my hands were on the mouse, not the keyboard, and I'd been productive for hours.
 
@@ -14,7 +32,7 @@ There's a moment when you realize you haven't typed a full sentence in hours. Yo
 
 My typing speed sits around 50 to 55 words per minute. That's average for a developer, nothing special. I've never been a fast typist, and honestly I never cared enough to practice.
 
-With [Wispr Flow](https://wispr.com), I dictate at 157 wpm. That puts me in the top 1% of their users. I've dictated over 100,000 words across 35 different apps since I started using it. The gap between typing and talking is not incremental. It's a 3x speed difference. That changes everything about how you approach communication throughout the day, because suddenly every message, every prompt, every email costs almost nothing in terms of effort.
+With [Wispr Flow](https://wisprflow.ai), I dictate at 157 wpm. That puts me in the top 1% of their users. I've dictated over 100,000 words across 35 different apps since I started using it. Talking is about three times faster than typing for me, and that changes everything about how you approach communication throughout the day, because suddenly every message, every prompt, every email costs almost nothing in terms of effort.
 
 ![Wispr Flow stats: 100,779 words dictated, 157 wpm, top 1% of all Flow users, 35 apps](/images/thoughts/talking-to-my-computer/wispr-stats.png)
 
@@ -22,13 +40,13 @@ With [Wispr Flow](https://wispr.com), I dictate at 157 wpm. That puts me in the 
 
 It's a dictation app that runs in the background on your Mac. You press `fn`, talk, and text appears wherever your cursor is. Any text field, any app. It uses AI to clean up your speech, fix grammar, and handle punctuation automatically. There's also a feature that takes a messy stream of consciousness and reorganizes it into something coherent. I use that constantly when I need to brain dump an idea and then send it as a structured message.
 
-The pricing is almost nothing. It just works. Most days I forget it's even running, which is the highest compliment I can give any tool. You can check it out at [wispr.com](https://wispr.com).
+The pricing is almost nothing. It just works. Most days I forget it's even running, which is the highest compliment I can give any tool. You can check it out at [wisprflow.ai](https://wisprflow.ai).
 
 ## What I actually use every day
 
 My daily stack is surprisingly small for what we ship. Most of these tools disappear into the background and I don't think about them:
 
-- [**Wispr Flow**](https://wispr.com): dictation everywhere, in every app
+- [**Wispr Flow**](https://wisprflow.ai): dictation everywhere, in every app
 - [**Claude Code**](https://claude.ai): AI pair programmer that lives in the terminal
 - [**WebStorm**](https://www.jetbrains.com/webstorm/): reading and navigating code, reviewing diffs
 - [**iTerm**](https://iterm2.com) with zsh: terminal, nothing fancy about it
@@ -53,8 +71,6 @@ Put both together and the picture changes dramatically. AI writes the code while
 
 ## Brain dumps
 
-Here's where it gets interesting beyond personal speed gains.
-
 We've all been in meetings where someone has a lot of thoughts but nobody captures them properly. Notes miss the important parts. Or worse, nobody takes notes at all and everyone walks out with a different understanding of what was decided.
 
 Now I tell people: "What's on your mind? Just tell me." They talk. We transcribe it. Then we run the transcript through an LLM to summarize it, extract action items, and find the core problems buried in the rambling. This pipeline of voice to transcription to LLM changed how we handle client projects at [The Digital Bunch](https://thedigitalbunch.com).
@@ -77,7 +93,7 @@ Most of my stack has been stable for years. WebStorm, Fork, Postico, iTerm. Thes
 
 The two tools that changed everything are both recent additions. Claude Code has been on my radar for a while, but I started using it heavily in November 2025, when it got genuinely good at understanding large codebases. Wispr Flow I picked up early this year, because once AI handles most of the coding, I realized my job is mostly communication. Prompts, messages, voice memos to the team. Typing started feeling like a bottleneck for the first time in my career.
 
-Two tools. Three months. That's all it took for the entire way I interact with my computer to change. The speed of change in tooling right now is unlike anything I've seen in fifteen years of building software.
+Those two tools changed the way I interact with my computer in about three months. The speed of change in tooling right now is unlike anything I've seen in fifteen years of building software.
 
 ## Screens and real estate
 
@@ -87,7 +103,7 @@ I just tile everything side by side and click on what I need. Six Claude Code se
 
 Multiple desktops always felt like they occupied space in my head. Remembering what's where, switching contexts, losing track of which desktop has which app. Now I just look at the screen and see everything at once. I follow the same philosophy on my iPhone: single home screen, search for apps, never organize. On Mac, it's Spotlight. I don't navigate to things. I want them to surface right in front of me when I need them.
 
-The problem is travel. A laptop screen alone doesn't cut it when I'm running six parallel agent sessions and need to monitor all of them. [Apple Vision Pro](https://www.apple.com/apple-vision-pro/) is the obvious answer since it offers virtual screens with unlimited space that work anywhere. But it's too heavy for real work sessions right now. The idea is right. The hardware isn't there yet.
+The problem is travel. A laptop screen alone doesn't cut it when I'm running six parallel agent sessions and need to monitor all of them. [Apple Vision Pro](https://www.apple.com/apple-vision-pro/) is the obvious answer since it offers virtual screens with unlimited space that work anywhere. But it's too heavy for real work sessions right now. The idea is right, but the hardware isn't there yet.
 
 What I actually want is lightweight glasses that give me two 27-inch virtual screens anywhere. No desk required. Whoever builds that first wins the remote work hardware market.
 
@@ -95,4 +111,4 @@ What I actually want is lightweight glasses that give me two 27-inch virtual scr
 
 Every year, fewer tools, each doing more. Wispr replaced a keyboard for most text input. Claude replaced a monitor full of Stack Overflow tabs and documentation. The tools that survive long term are the ones you stop noticing because they just work.
 
-Wispr Flow is the best example. I forget it's running. I just talk, and text appears where I need it. That's the whole point.
+Wispr Flow is the best example. I forget it's running, I just talk, and text appears where I need it.
