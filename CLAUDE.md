@@ -55,6 +55,10 @@ Array of registered companies with legal details. Uses translation keys for loca
 
 Array of `{name, url}` entries rendered in the footer alongside the main companies/social links.
 
+### `src/config/open-source.ts` — Open source section (optional)
+
+Array of `{repo, npmPackage?, descriptionKey}`. Each repository shows live stars, your merged pull requests (GitHub login taken from `siteConfig.social.github`) and weekly npm downloads, fetched in `src/lib/open-source.ts` and cached for a day. An empty array hides the section and its nav link. `descriptionKey` points into the `openSource` namespace in `messages/*.json`.
+
 ### `src/config/travel.ts` — Travel map (optional)
 
 Array of `VisitedCountry` entries (`code`, `year`, optional `image` and `caption`). Powers an interactive world map section showing countries you've visited. Uses `react-simple-maps` with ISO 3166-1 alpha-2 country codes (e.g., `'US'`, `'GB'`, `'PL'`).
@@ -85,6 +89,7 @@ src/
     logos.ts                # Client logo list
     companies.ts            # Footer company registrations
     side-projects.ts        # Footer side projects list
+    open-source.ts          # Open source repositories
     travel.ts               # Visited countries for travel map (optional)
   proxy.ts                  # next-intl middleware (locale detection + redirect)
   app/
