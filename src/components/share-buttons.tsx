@@ -34,11 +34,11 @@ export function ShareButtons({url, title}: {url: string; title: string}) {
   };
 
   const buttonClass =
-    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all';
+    'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all';
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="flex items-center gap-1.5 text-xs text-white/30">
+      <span className="flex items-center gap-1.5 text-xs text-white/55">
         <Share2 className="w-3.5 h-3.5" />
         {t('share')}
       </span>

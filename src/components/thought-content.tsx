@@ -147,7 +147,7 @@ export function ThoughtContent({html, coverImage, coverAlt, coverCaption}: Props
       {/* Content is local markdown processed through rehype-sanitize */}
       <div
         ref={proseRef}
-        className="prose prose-invert prose-thoughts max-w-none"
+        className="prose prose-invert prose-thoughts max-w-[68ch]"
         dangerouslySetInnerHTML={{__html: html}}
       />
 

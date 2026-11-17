@@ -42,7 +42,7 @@ export function BusiestDay({day, avgTokens, dayOfWeekAvgTokens, dailyUsage}: Bus
         <span className="text-sm text-white/60 mb-3">{t('busiestLabel')}</span>
 
         <p className="text-3xl font-bold text-brand-400">{day}</p>
-        <p className="text-xs text-white/40 mt-1">
+        <p className="text-xs text-white/60 mt-1">
           {formatCompact(avgTokens)} {t('busiestAvg')}
         </p>
 
@@ -63,8 +63,8 @@ export function BusiestDay({day, avgTokens, dayOfWeekAvgTokens, dailyUsage}: Bus
             {WEEK_ORDER.map((dow) => (
               <span
                 key={dow}
-                className={`flex-1 text-center text-[9px] font-mono leading-none ${
-                  DAY_NAMES[dow] === day ? 'text-brand-400' : 'text-white/25'
+                className={`flex-1 text-center text-[11px] font-mono leading-none ${
+                  DAY_NAMES[dow] === day ? 'text-brand-400' : 'text-white/50'
                 }`}
               >
                 {DAY_INITIALS[dow]}
@@ -73,7 +73,7 @@ export function BusiestDay({day, avgTokens, dayOfWeekAvgTokens, dailyUsage}: Bus
           </div>
         </div>
 
-        <p className="text-[10px] text-white/20 mt-3 leading-relaxed">
+        <p className="text-xs text-white/45 mt-3 leading-relaxed">
           {t('busiestExplanation')}
         </p>
       </StatCard>

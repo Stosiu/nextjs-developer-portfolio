@@ -50,21 +50,7 @@ type GHResponse = {
   errors?: Array<{message: string}>;
 };
 
-// GitHub launched in 2008, so this floor covers every possible account. Years
-// before the account existed simply return 0 contributions.
-const GITHUB_FLOOR_YEAR = 2008;
-
 type YearContributions = {contributionCalendar: {totalContributions: number}};
-
-function buildYearAliases(currentYear: number): string {
-  const aliases: string[] = [];
-  for (let y = GITHUB_FLOOR_YEAR; y <= currentYear; y++) {
-    aliases.push(
-      `y${y}: contributionsCollection(from: "${y}-01-01T00:00:00Z", to: "${y}-12-31T23:59:59Z") { contributionCalendar { totalContributions } }`,
-    );
-  }
-  return aliases.join('\n    ');
-}
 
 const MAIN_QUERY = `query {
   viewer {
@@ -97,12 +83,9 @@ const MAIN_QUERY = `query {
   }
 }`;
 
-// All-time totals as cheap per-year aliases, kept in a SEPARATE query so neither
-// request gets heavy enough to trip GitHub's gateway timeout (a combined query
-// intermittently 502s). The fixed year range removes the old data dependency on
-// `contributionYears`, so this runs in parallel with the main query.
-function buildYearQuery(currentYear: number): string {
-  return `query { viewer { ${buildYearAliases(currentYear)} } }`;
+// One request per year: GitHub 502s once a single query aliases more than a handful of years.
+function buildYearQuery(year: number): string {
+  return `query { viewer { y${year}: contributionsCollection(from: "${year}-01-01T00:00:00Z", to: "${year}-12-31T23:59:59Z") { contributionCalendar { totalContributions } } } }`;
 }
 
 type GHYearData = {viewer: Record<string, YearContributions>};
@@ -142,13 +125,13 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return null;
 
-  const currentYear = new Date().getUTCFullYear();
-  const [main, years] = await Promise.all([
-    ghFetch<NonNullable<GHResponse['data']>>(token, MAIN_QUERY),
-    ghFetch<GHYearData>(token, buildYearQuery(currentYear)),
-  ]);
-
+  const main = await ghFetch<NonNullable<GHResponse['data']>>(token, MAIN_QUERY);
   if (!main) return null;
+
+  const firstYear = new Date(main.viewer.createdAt).getUTCFullYear();
+  const currentYear = new Date().getUTCFullYear();
+  const yearList = Array.from({length: currentYear - firstYear + 1}, (_, i) => firstYear + i);
+  const years = await Promise.all(yearList.map(y => ghFetch<GHYearData>(token, buildYearQuery(y))));
 
   const viewer = main.viewer;
   const calendar = viewer.contributionsCollection.contributionCalendar;
@@ -175,13 +158,9 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
     }
   }
 
-  // Falls back to this year's total if the (parallel) year query failed.
-  let allTimeContributions = 0;
-  if (years) {
-    for (let y = GITHUB_FLOOR_YEAR; y <= currentYear; y++) {
-      allTimeContributions += years.viewer[`y${y}`]?.contributionCalendar.totalContributions ?? 0;
-    }
-  }
+  const allTimeContributions = years.every(Boolean)
+    ? yearList.reduce((sum, y, i) => sum + (years[i]!.viewer[`y${y}`]?.contributionCalendar.totalContributions ?? 0), 0)
+    : 0;
 
   const twoYearsAgo = new Date();
   twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
@@ -211,7 +190,7 @@ export async function fetchGitHubStats(): Promise<GitHubData | null> {
   return {
     contributions,
     totalContributions: calendar.totalContributions,
-    allTimeContributions: allTimeContributions || calendar.totalContributions,
+    allTimeContributions,
     totalRepos: Math.max(viewer.repositories.totalCount, viewer.repositoriesContributedTo.totalCount),
     currentStreak,
     languages,

@@ -151,22 +151,25 @@ describe('fetchGitHubStats', () => {
       expect(result?.allTimeContributions).toBe(900);
     });
 
-    it('falls back to totalContributions when allTimeContributions is 0', async () => {
+    it('returns 0 allTimeContributions when any year request fails', async () => {
       let callCount = 0;
       vi.stubGlobal(
         'fetch',
         vi.fn().mockImplementation(() => {
           callCount++;
           if (callCount === 1) {
-            return Promise.resolve({ok: true, json: () => Promise.resolve(makeMainResponse({totalContributions: 300}))});
+            return Promise.resolve({ok: true, json: () => Promise.resolve(makeMainResponse({createdAt: '2023-01-01T00:00:00Z'}))});
           }
-          return Promise.resolve({ok: false, json: () => Promise.resolve({})});
+          if (callCount === 3) {
+            return Promise.resolve({ok: false, json: () => Promise.resolve({})});
+          }
+          return Promise.resolve({ok: true, json: () => Promise.resolve(makeYearlyResponse([2023, 2024, 2025], [200, 400, 300]))});
         }),
       );
 
       const result = await fetchGitHubStats();
 
-      expect(result?.allTimeContributions).toBe(300);
+      expect(result?.allTimeContributions).toBe(0);
     });
 
     it('returns totalRepos as max of owned and contributed repos', async () => {

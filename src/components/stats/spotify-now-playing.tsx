@@ -34,8 +34,8 @@ export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetc
     return (
       <AnimatedReveal className="h-full">
         <StatCard className="justify-center items-center gap-3">
-          <FaSpotify className="text-white/20" size={32} />
-          <p className="text-sm text-white/30">Not playing</p>
+          <FaSpotify className="text-white/45" size={32} />
+          <p className="text-sm text-white/55">Not playing</p>
         </StatCard>
       </AnimatedReveal>
     );
@@ -66,7 +66,7 @@ export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetc
         >
           <div className="flex items-center gap-2 mb-3">
             <FaSpotify className="text-[#1DB954]" size={16} />
-            <span className="text-xs text-white/40 uppercase tracking-wider">
+            <span className="text-xs text-white/60 uppercase tracking-wider">
               {nowPlaying.isPlaying ? 'Now Playing' : 'Recently Played'}
             </span>
             {nowPlaying.isPlaying && (
@@ -130,11 +130,11 @@ export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetc
               </div>
             )}
             <div className="min-w-0">
-              <p className="text-[10px] text-white/30 uppercase tracking-wider">Top Song</p>
+              <p className="text-xs text-white/55 uppercase tracking-wider">Top Song</p>
               <p className="text-xs text-white/70 truncate group-hover/track:text-[#1DB954] transition-colors font-medium">
                 {topTracks[0].title}
               </p>
-              <p className="text-[10px] text-white/25 truncate">{topTracks[0].artist}</p>
+              <p className="text-xs text-white/50 truncate">{topTracks[0].artist}</p>
             </div>
           </a>
         </div>
@@ -162,12 +162,12 @@ export function SpotifyNowPlaying({data, isFetching}: {data: SpotifyData; isFetc
               </div>
             )}
             <div className="min-w-0">
-              <p className="text-[10px] text-white/30 uppercase tracking-wider">Top Artist</p>
+              <p className="text-xs text-white/55 uppercase tracking-wider">Top Artist</p>
               <p className="text-xs text-white/70 truncate group-hover/artist:text-[#1DB954] transition-colors font-medium">
                 {topArtist.name}
               </p>
               {topArtist.genres.length > 0 && (
-                <p className="text-[10px] text-white/25 truncate">{topArtist.genres.join(' · ')}</p>
+                <p className="text-xs text-white/50 truncate">{topArtist.genres.join(' · ')}</p>
               )}
             </div>
           </a>

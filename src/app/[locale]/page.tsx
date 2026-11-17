@@ -6,6 +6,7 @@ import {Hero} from '@/components/sections/hero';
 import {About} from '@/components/sections/about';
 import {Logos} from '@/components/sections/logos';
 import {Projects} from '@/components/sections/projects';
+import {OpenSource} from '@/components/sections/open-source';
 import {Stats} from '@/components/sections/stats';
 import {Experience} from '@/components/sections/experience';
 import {Travel} from '@/components/sections/travel';
@@ -65,8 +66,9 @@ export default async function HomePage({params}: Props) {
       <Logos />
       <About />
       <Projects />
-      <Stats />
+      <OpenSource locale={locale} />
       <Experience />
+      <Stats />
       <Travel />
       <Footer />
       <CursorToolbar />

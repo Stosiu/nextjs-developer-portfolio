@@ -103,7 +103,7 @@ export default async function ThoughtPage({params}: Props) {
           {/* Mobile: back link */}
           <Link
             href="/thoughts"
-            className="xl:hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all mb-8 rtl:flex-row-reverse"
+            className="xl:hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all mb-8 rtl:flex-row-reverse"
           >
             <ArrowLeft className="w-3 h-3 rtl:rotate-180" />
             {t('backToThoughts')}
@@ -111,14 +111,14 @@ export default async function ThoughtPage({params}: Props) {
 
           <h1 className="text-3xl font-bold mb-3">{thought.title}</h1>
           <div className="flex items-center gap-3 mb-4">
-            <time className="text-sm text-white/30 font-mono">{thought.date}</time>
-            <span className="text-base text-white/30">·</span>
-            <span className="flex items-center gap-1.5 text-sm text-white/30">
+            <time className="text-sm text-white/55 font-mono">{thought.date}</time>
+            <span className="text-base text-white/55">·</span>
+            <span className="flex items-center gap-1.5 text-sm text-white/55">
               <Clock className="w-3.5 h-3.5" />
               {t('readingTime', {minutes: thought.readingTime})}
             </span>
-            <span className="text-base text-white/30">·</span>
-            <span className="text-sm text-white/30 font-mono">
+            <span className="text-base text-white/55">·</span>
+            <span className="text-sm text-white/55 font-mono">
               {thought.wordCount.toLocaleString()} {t('words')}
             </span>
           </div>

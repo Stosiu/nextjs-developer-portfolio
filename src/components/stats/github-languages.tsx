@@ -62,7 +62,7 @@ export function GitHubLanguages({languages}: {languages: GitHubLanguage[]}) {
                 style={{backgroundColor: lang.color}}
               />
               <span className="text-xs text-white/60 truncate">{lang.name}</span>
-              <span className="text-xs text-white/30 ml-auto shrink-0">{lang.percentage}%</span>
+              <span className="text-xs text-white/55 ml-auto shrink-0">{lang.percentage}%</span>
             </div>
           ))}
         </div>
@@ -70,7 +70,7 @@ export function GitHubLanguages({languages}: {languages: GitHubLanguage[]}) {
         <ChartTooltip x={tooltip?.x ?? 0} y={tooltip?.y ?? 0} visible={!!tooltip}>
           <span className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle" style={{backgroundColor: tooltip?.color}} />
           <span className="text-white/90 font-medium">{tooltip?.name}</span>
-          <span className="text-white/40 ml-1.5">{tooltip?.percentage}%</span>
+          <span className="text-white/60 ml-1.5">{tooltip?.percentage}%</span>
         </ChartTooltip>
       </StatCard>
     </AnimatedReveal>

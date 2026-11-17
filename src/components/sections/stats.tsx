@@ -22,7 +22,9 @@ import {
   LanguagesSkeleton,
 } from '@/components/stats/stats-skeletons';
 
-const emptySpotify: SpotifyData = {nowPlaying: null, topTracks: [], topArtist: null};
+function hasSpotifyContent(data: SpotifyData | undefined) {
+  return !!data && (!!data.nowPlaying || data.topTracks.length > 0 || !!data.topArtist);
+}
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
@@ -58,6 +60,8 @@ export function Stats() {
     refetchInterval: 10_000,
   });
 
+  const showSpotify = spotifyLoading || hasSpotifyContent(spotify);
+
   return (
     <section id="stats" className="relative py-24 px-6 md:px-10">
       <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] via-brand-500/[0.02] to-transparent" />
@@ -85,17 +89,18 @@ export function Stats() {
             )}
           </div>
 
-          {/* Row 2: Spotify + AI tokens */}
-          <div>
-            {spotifyLoading ? (
-              <SpotifySkeleton />
-            ) : (
-              <FadeIn>
-                <SpotifyNowPlaying data={spotify ?? emptySpotify} isFetching={spotifyFetching} />
-              </FadeIn>
-            )}
-          </div>
-          <div className="md:col-span-2">
+          {showSpotify && (
+            <div>
+              {spotifyLoading ? (
+                <SpotifySkeleton />
+              ) : (
+                <FadeIn>
+                  <SpotifyNowPlaying data={spotify!} isFetching={spotifyFetching} />
+                </FadeIn>
+              )}
+            </div>
+          )}
+          <div className={showSpotify ? 'md:col-span-2' : 'md:col-span-3'}>
             {aiLoading ? (
               <AiTokensSkeleton />
             ) : (

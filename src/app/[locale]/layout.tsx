@@ -7,7 +7,6 @@ import {routing} from '@/i18n/routing';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {Geist, Geist_Mono} from 'next/font/google';
-import {PageLoader, PageReady} from '@/components/page-loader';
 import {AnalyticsProvider} from '@/components/analytics-provider';
 import {CookieConsent} from '@/components/cookie-consent';
 import {NuqsAdapter} from 'nuqs/adapters/next/app';
@@ -121,7 +120,7 @@ export default async function LocaleLayout({children, params}: Props) {
           />
         )}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <script
           dangerouslySetInnerHTML={{__html: `console.log("%c ${siteConfig.url.replace('https://', '')} %c\\n\\nLike what you see? The source code is available at:\\n${siteConfig.repo}\\n\\nBuilt with Next.js, Tailwind CSS, and Framer Motion.\\n\\n%cv${process.env.NEXT_PUBLIC_COMMIT_SHA}", "color:#10B981;font-size:20px;font-weight:bold", "color:#a1a1aa;font-size:12px", "color:#555;font-size:10px")`}}
         />
@@ -129,19 +128,10 @@ export default async function LocaleLayout({children, params}: Props) {
           Skip to content
         </a>
         <NextTopLoader color="#10B981" height={2} showSpinner={false} shadow={false} />
-        <div id="page-loader" aria-hidden="true" suppressHydrationWarning />
-        {/* Inline script activates the page-loader overlay only on homepage first visit.
-            Runs synchronously before paint to prevent flash of black on non-homepage routes.
-            No user input — static string only. */}
-        <script
-          dangerouslySetInnerHTML={{__html: `(function(){var p=location.pathname;if((p==="/"||/^\\/(?:en|pl|ar)\\/?$/.test(p))&&!sessionStorage.getItem("loader-shown")){document.getElementById("page-loader").classList.add("active")}})()`}}
-        />
-        <PageLoader />
         <NuqsAdapter>
           <QueryProvider>
             <NextIntlClientProvider messages={messages}>
               {children}
-              <PageReady />
               <ContextMenu />
               <EasterEggSettings />
               {process.env.NEXT_PUBLIC_GA_ID && <AnalyticsProvider />}

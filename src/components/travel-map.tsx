@@ -1,7 +1,9 @@
 'use client';
 
 import {useState, useCallback, useRef, memo} from 'react';
+import {useTranslations} from 'next-intl';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
+import type {GeographyProps, ZoomPanCallbackProps} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
 import Image from 'next/image';
 import {Plus, Minus, X} from 'lucide-react';
@@ -61,6 +63,8 @@ for (const [num, alpha2] of Object.entries(NUM_TO_ALPHA2)) {
   if (country) visitedByNumeric.set(num, country);
 }
 
+type GeographyFeature = GeographyProps['geography'];
+
 type PopoverData = {
   country: VisitedCountry;
   name: string;
@@ -82,19 +86,10 @@ const MinimapGeographies = memo(function MinimapGeographies() {
               key={geo.rsmKey}
               geography={geo}
               tabIndex={-1}
-              style={{
-                default: {
-                  fill: visitedByNumeric.has(geo.id as string)
-                    ? 'rgba(16, 185, 129, 0.4)'
-                    : '#1a1a1a',
-                  stroke: '#2a2a2a',
-                  strokeWidth: 0.3,
-                  outline: 'none',
-                  pointerEvents: 'none' as const,
-                },
-                hover: {fill: '', outline: 'none'},
-                pressed: {fill: '', outline: 'none'},
-              }}
+              fill={visitedByNumeric.has(geo.id as string) ? 'rgba(16, 185, 129, 0.4)' : '#1a1a1a'}
+              stroke="#2a2a2a"
+              strokeWidth={0.3}
+              style={{outline: 'none', pointerEvents: 'none'}}
             />
           ))
       }
@@ -138,6 +133,7 @@ function Minimap({zoom, coordinates}: ZoomState) {
 }
 
 export function TravelMap() {
+  const t = useTranslations('travel');
   const reducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mouse, setMouse] = useState({x: 0, y: 0});
@@ -148,8 +144,8 @@ export function TravelMap() {
     zoom: 1,
   });
 
-  const handleMoveEnd = useCallback((position: ZoomState) => {
-    setZoomState(position);
+  const handleMoveEnd = useCallback(({coordinates, zoom}: ZoomPanCallbackProps) => {
+    if (coordinates && zoom) setZoomState({coordinates, zoom});
   }, []);
 
   const handleZoomIn = useCallback(() => {
@@ -195,10 +191,10 @@ export function TravelMap() {
   }, [mouse]);
 
   const handleGeoMouseEnter = useCallback(
-    (geo: {id: string | number; properties: {name: string}}) => {
+    (geo: GeographyFeature) => {
       const country = visitedByNumeric.get(geo.id as string);
       if (country) {
-        setPopover({country, name: geo.properties.name});
+        setPopover({country, name: geo.properties?.name});
       }
     },
     [],
@@ -215,7 +211,7 @@ export function TravelMap() {
   }, []);
 
   const handleGeoClick = useCallback(
-    (geo: {id: string | number; properties: {name: string}}) => {
+    (geo: GeographyFeature) => {
       const country = visitedByNumeric.get(geo.id as string);
       if (!country) return;
 
@@ -225,7 +221,7 @@ export function TravelMap() {
             setPopover(null);
             return null;
           }
-          setPopover({country, name: geo.properties.name});
+          setPopover({country, name: geo.properties?.name});
           return country.code;
         });
       }
@@ -279,28 +275,13 @@ export function TravelMap() {
                       onMouseEnter={() => handleGeoMouseEnter(geo)}
                       onMouseLeave={handleGeoMouseLeave}
                       onClick={() => isVisited && handleGeoClick(geo)}
-                      style={{
-                        default: {
-                          fill: isVisited ? 'rgba(16, 185, 129, 0.3)' : '#1a1a1a',
-                          stroke: '#2a2a2a',
-                          strokeWidth: 0.5,
-                          outline: 'none',
-                          cursor: isVisited ? 'pointer' : 'grab',
-                        },
-                        hover: {
-                          fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
-                          stroke: '#2a2a2a',
-                          strokeWidth: 0.5,
-                          outline: 'none',
-                          cursor: isVisited ? 'pointer' : 'grab',
-                        },
-                        pressed: {
-                          fill: isVisited ? 'rgba(16, 185, 129, 0.6)' : '#1a1a1a',
-                          stroke: '#2a2a2a',
-                          strokeWidth: 0.5,
-                          outline: 'none',
-                        },
-                      }}
+                      stroke="#2a2a2a"
+                      strokeWidth={0.5}
+                      className={
+                        isVisited
+                          ? 'cursor-pointer fill-emerald-500/30 outline-none transition-[fill] hover:fill-emerald-500/60 active:fill-emerald-500/60'
+                          : 'cursor-grab fill-[#1a1a1a] outline-none'
+                      }
                     />
                   );
                 })
@@ -317,6 +298,7 @@ export function TravelMap() {
           size="icon-sm"
           onClick={handleZoomIn}
           disabled={zoomState.zoom >= 5}
+          aria-label={t('zoomIn')}
           className="border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:bg-white/10"
         >
           <Plus />
@@ -326,6 +308,7 @@ export function TravelMap() {
           size="icon-sm"
           onClick={handleZoomOut}
           disabled={zoomState.zoom <= 1}
+          aria-label={t('zoomOut')}
           className="border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:bg-white/10"
         >
           <Minus />

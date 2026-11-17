@@ -107,7 +107,7 @@ export function WorldClock() {
 
   const cityEntry = (label: string, time: string, variant: 'default' | 'brand' = 'default') => (
     <div key={label} className="flex flex-col items-center gap-1">
-      <span className={`text-[10px] uppercase tracking-widest ${variant === 'brand' ? 'text-brand-400' : 'text-white/30'}`}>
+      <span className={`text-xs uppercase tracking-widest ${variant === 'brand' ? 'text-brand-400' : 'text-white/55'}`}>
         {label}
       </span>
       <span className={`tabular-nums ${variant === 'brand' ? 'text-brand-400/60' : ''}`}>{time}</span>
@@ -116,27 +116,27 @@ export function WorldClock() {
 
   if (!mounted) {
     return (
-      <div className="grid grid-cols-3 justify-items-center gap-y-4 gap-x-6 sm:flex sm:justify-center sm:gap-10 text-xs font-mono text-white/20">
+      <div className="grid grid-cols-3 justify-items-center gap-y-4 gap-x-6 sm:flex sm:justify-center sm:gap-10 text-xs font-mono text-white/45">
         {CITIES.map((city) => cityEntry(city.label, '--:--'))}
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 text-xs font-mono text-white/20">
+    <div className="flex flex-col items-center gap-4 text-xs font-mono text-white/45">
       <div className="grid grid-cols-3 justify-items-center gap-y-4 gap-x-6 sm:flex sm:justify-center sm:gap-10">
         {CITIES.map((city) => cityEntry(city.label, times[city.timezone] ?? '--:--'))}
         {visitor && (
           <div className="group relative col-span-3 flex flex-col items-center gap-1 sm:col-span-1">
-            <span className="text-brand-400 text-[10px] uppercase tracking-widest flex items-center gap-1">
+            <span className="text-brand-400 text-xs uppercase tracking-widest flex items-center gap-1">
               YOU
               <svg className="hidden sm:block size-2.5 text-brand-500/40" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M8 0a8 8 0 100 16A8 8 0 008 0zm.75 12h-1.5V7h1.5v5zm0-6.5h-1.5V4h1.5v1.5z" />
               </svg>
             </span>
             <span className="tabular-nums text-brand-400/60">{times[visitor.timezone] ?? '--:--'}</span>
-            <span className="text-brand-500/40 text-[9px] italic sm:hidden">{visitor.comment}</span>
-            <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden sm:block whitespace-nowrap rounded bg-white/10 px-2.5 py-1 text-[9px] italic text-brand-400 backdrop-blur-sm opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="text-brand-500/40 text-[11px] italic sm:hidden">{visitor.comment}</span>
+            <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden sm:block whitespace-nowrap rounded bg-white/10 px-2.5 py-1 text-[11px] italic text-brand-400 backdrop-blur-sm opacity-0 transition-opacity group-hover:opacity-100">
               {visitor.comment}
             </span>
           </div>

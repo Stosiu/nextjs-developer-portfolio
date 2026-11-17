@@ -164,7 +164,7 @@ function ProjectCard({project, index, isRevealed}: {project: Project; index: num
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             placeholder="blur"
-            className="object-cover opacity-60 group-hover:opacity-80 group-hover:scale-[1.03] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+            className="object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.03] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
           />
         ) : project.logo ? (
           <div className="flex items-center justify-center w-full h-full">
@@ -198,7 +198,7 @@ function ProjectCard({project, index, isRevealed}: {project: Project; index: num
           <h3 className="text-lg font-semibold group-hover:text-brand-400 transition-colors">
             {project.title}
           </h3>
-          <span className="text-[11px] font-mono text-white/25 shrink-0">
+          <span className="text-xs font-mono tabular-nums text-white/50 shrink-0">
             {project.date}
           </span>
         </div>
@@ -209,7 +209,7 @@ function ProjectCard({project, index, isRevealed}: {project: Project; index: num
 
         <TechTags tech={project.tech} />
 
-        <p className="text-sm text-white/50 leading-relaxed line-clamp-2">{t(project.descriptionKey)}</p>
+        <p className="text-sm text-white/65 leading-relaxed">{t(project.descriptionKey)}</p>
       </div>
     </motion.a>
   );
@@ -298,7 +298,7 @@ export function Projects() {
                 <h3 className="text-lg font-semibold mb-1.5 text-brand-400 group-hover:text-brand-300 transition-colors">
                   {t('ctaHeading')}
                 </h3>
-                <p className="text-sm text-white/50 mb-3">{t('ctaDescription')}</p>
+                <p className="text-sm text-white/65 mb-3">{t('ctaDescription')}</p>
                 <span className="text-sm text-brand-400 inline-flex items-center gap-1">
                   {t('ctaCta')}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
@@ -319,7 +319,7 @@ export function Projects() {
             <button
               type="button"
               onClick={() => setShowAll((prev) => !prev)}
-              className="flex items-center gap-2 text-sm text-white/40 hover:text-white/70 transition-colors cursor-pointer"
+              className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors cursor-pointer"
             >
               {showAll ? (
                 <>

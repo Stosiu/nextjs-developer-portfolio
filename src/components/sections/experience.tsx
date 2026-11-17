@@ -56,10 +56,10 @@ export function Experience() {
                 ) : (
                   <span className="text-brand-400 font-medium">{exp.company}</span>
                 )}
-                <span className="text-white/40 mx-2">·</span>
+                <span className="text-white/60 mx-2">·</span>
                 <span className="text-white/50">{t(`${exp.key}Period`)}</span>
               </p>
-              <p className="text-xs text-white/40 mt-1">{t(`${exp.key}Location`)}</p>
+              <p className="text-xs text-white/60 mt-1">{t(`${exp.key}Location`)}</p>
               <div className="text-sm text-white/70 mt-3 leading-relaxed space-y-2">
                 {t(`${exp.key}Description`).split('\n\n').map((paragraph, pi) => (
                   <p key={pi}>{paragraph}</p>

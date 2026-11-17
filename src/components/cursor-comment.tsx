@@ -15,6 +15,7 @@ const COMMENT_KEYS: Record<SectionId | 'default' | 'footer' | 'travel', readonly
   hero: ['hero1', 'hero2', 'hero3'],
   about: ['about1', 'about2', 'about3'],
   projects: ['projects1', 'projects2', 'projects3'],
+  openSource: ['openSource1', 'openSource2', 'openSource3'],
   stats: ['stats1', 'stats2', 'stats3'],
   experience: ['experience1', 'experience2', 'experience3'],
   travel: ['travel1', 'travel2', 'travel3'],

@@ -85,14 +85,14 @@ function ModelBreakdownPopover({breakdown, totalTokens}: {breakdown: AiModelBrea
     <div className="relative inline-flex" data-no-follower onMouseLeave={() => setOpen(false)}>
       <span
         onMouseEnter={() => setOpen(true)}
-        className="w-5 h-5 rounded-full border border-white/10 bg-white/[0.04] text-white/30 hover:text-white/60 hover:border-white/20 transition-colors text-[10px] font-medium flex items-center justify-center cursor-help"
+        className="w-5 h-5 rounded-full border border-white/10 bg-white/[0.04] text-white/55 hover:text-white/60 hover:border-white/20 transition-colors text-xs font-medium flex items-center justify-center cursor-help"
         aria-label="Model breakdown"
       >
         ?
       </span>
       {open && (
         <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-20 min-w-[220px] px-3 py-3 rounded-lg bg-zinc-900 border border-white/10 shadow-xl">
-          <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2.5">Model Distribution</p>
+          <p className="text-xs text-white/60 uppercase tracking-wider mb-2.5">Model Distribution</p>
           {/* Stacked bar */}
           <div className="flex h-2 rounded-full overflow-hidden mb-3">
             {breakdown.map((m) => {
@@ -122,8 +122,8 @@ function ModelBreakdownPopover({breakdown, totalTokens}: {breakdown: AiModelBrea
                   <span className="text-xs text-white/70 flex-1">
                     {MODEL_FULL_NAMES[m.model] || m.model}
                   </span>
-                  <span className="text-xs text-white/40 font-mono">{formatCompact(m.tokens)}</span>
-                  <span className="text-[10px] text-white/25 font-mono w-12 text-right">{pct}%</span>
+                  <span className="text-xs text-white/60 font-mono">{formatCompact(m.tokens)}</span>
+                  <span className="text-xs text-white/50 font-mono w-12 text-right">{pct}%</span>
                 </div>
               );
             })}
@@ -204,7 +204,7 @@ export function AiTokens({
       <StatCard ref={containerRef} className="relative">
         <div className="mb-4 flex items-baseline gap-2">
           <span className="text-sm text-white/60">{provider}</span>
-          <span className="text-xs text-white/30">
+          <span className="text-xs text-white/55">
             {t('aiLast30d')} · {t('aiUpdated', {date: formatDate(lastUpdated)})}
           </span>
         </div>
@@ -216,14 +216,14 @@ export function AiTokens({
                 <span className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
                   ${costCount.toLocaleString()}
                 </span>
-                <span className="text-sm text-white/40">{t('aiCost')}</span>
+                <span className="text-sm text-white/60">{t('aiCost')}</span>
               </>
             ) : (
               <>
                 <span className="text-4xl font-bold text-brand-400 font-mono tabular-nums">
                   {display}{suffix}
                 </span>
-                <span className="text-sm text-white/40">{t('aiTokensTotal')}</span>
+                <span className="text-sm text-white/60">{t('aiTokensTotal')}</span>
               </>
             )}
           </div>
@@ -231,13 +231,13 @@ export function AiTokens({
             <ModelBreakdownPopover breakdown={modelBreakdown} totalTokens={totalTokens} />
           )}
           {hasCost && (
-            <div className="ml-auto flex rounded-md border border-white/10 overflow-hidden text-[10px]" data-no-follower>
+            <div className="ml-auto flex rounded-md border border-white/10 overflow-hidden text-xs" data-no-follower>
               <button
                 onClick={() => setView('cost')}
                 className={`px-2 py-0.5 transition-colors ${
                   view === 'cost'
                     ? 'bg-white/10 text-white/70'
-                    : 'text-white/30 hover:text-white/50'
+                    : 'text-white/55 hover:text-white/90'
                 }`}
               >
                 $
@@ -247,7 +247,7 @@ export function AiTokens({
                 className={`px-2 py-0.5 transition-colors ${
                   view === 'tokens'
                     ? 'bg-white/10 text-white/70'
-                    : 'text-white/30 hover:text-white/50'
+                    : 'text-white/55 hover:text-white/90'
                 }`}
               >
                 {t('aiViewTokens')}
@@ -314,7 +314,7 @@ export function AiTokens({
             })}
           </svg>
           {dailyUsage.length > 0 && (
-            <div className="flex justify-between mt-1.5 text-[10px] font-mono text-white/25" dir="ltr">
+            <div className="flex justify-between mt-1.5 text-xs font-mono text-white/50" dir="ltr">
               <span>{formatShortDate(dailyUsage[0].date)}</span>
               <span className="flex items-center gap-1.5">
                 <span className="inline-block w-3 border-t border-dashed border-white/30" />
@@ -329,7 +329,7 @@ export function AiTokens({
           {stats.map((s) => (
             <div key={s.label} className="flex-1 text-center">
               <p className="text-sm font-mono font-semibold text-white/80">{s.value}</p>
-              <p className="text-[10px] text-white/30 mt-0.5">{s.label}</p>
+              <p className="text-xs text-white/55 mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>
@@ -344,7 +344,7 @@ export function AiTokens({
                 : ''
               }
             </span>
-            <span className="text-white/40">{tooltip ? formatWeekdayDate(tooltip.date) : ''}</span>
+            <span className="text-white/60">{tooltip ? formatWeekdayDate(tooltip.date) : ''}</span>
           </div>
           {tooltip && Object.keys(tooltip.models).length > 0 && (
             <div className="flex gap-2 mt-1">
@@ -357,7 +357,7 @@ export function AiTokens({
                       style={{backgroundColor: MODEL_COLORS[model] || '#888'}}
                     />
                     <span className="text-white/50">{model}</span>
-                    <span className="text-white/30">{formatCompact(tokens)}</span>
+                    <span className="text-white/55">{formatCompact(tokens)}</span>
                   </span>
                 ))}
             </div>

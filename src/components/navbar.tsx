@@ -8,8 +8,9 @@ import {Button} from '@/components/ui/button';
 import {FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt} from 'react-icons/fa';
 import {Link, usePathname, useRouter} from '@/i18n/navigation';
 import {siteConfig} from '@/config/site';
+import {openSourceProjects} from '@/config/open-source';
 
-const {sections} = siteConfig;
+const sections = siteConfig.sections.filter((s) => s !== 'openSource' || openSourceProjects.length > 0);
 
 type NavbarProps = {
   thoughtsCount?: number;
@@ -77,7 +78,7 @@ export function Navbar({thoughtsCount = 0}: NavbarProps) {
       <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center max-w-6xl mx-auto px-4 h-16">
         {/* Left: agency link */}
         <div>
-          <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors duration-200">
+          <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-white/60 hover:text-white transition-colors duration-200">
             {t('agency')}
             <FaExternalLinkAlt size={10} />
           </a>
@@ -149,13 +150,13 @@ export function Navbar({thoughtsCount = 0}: NavbarProps) {
 
         {/* Right: socials + language */}
         <div className="flex items-center gap-1 justify-end">
-          <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="GitHub">
+          <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/55 hover:text-white transition-colors duration-200" aria-label="GitHub">
             <FaGithub size={15} />
           </a>
-          <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+          <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/55 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
             <FaLinkedin size={15} />
           </a>
-          <a href={`mailto:${siteConfig.email}`} className="p-1.5 text-white/30 hover:text-white transition-colors duration-200" aria-label="Email">
+          <a href={`mailto:${siteConfig.email}`} className="p-1.5 text-white/55 hover:text-white transition-colors duration-200" aria-label="Email">
             <FaEnvelope size={15} />
           </a>
           <div className="w-px h-4 bg-white/10 mx-2" />
@@ -213,18 +214,18 @@ export function Navbar({thoughtsCount = 0}: NavbarProps) {
                 </Link>
               )}
             </div>
-            <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 text-white/40 hover:text-white transition-colors">
+            <a href={siteConfig.agency.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-8 pt-6 border-t border-white/10 text-white/60 hover:text-white transition-colors">
               {t('agency')}
               <FaExternalLinkAlt size={12} />
             </a>
             <div className="flex items-center gap-3 mt-4">
-              <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="GitHub">
+              <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" className="p-2 text-white/60 hover:text-white transition-colors" aria-label="GitHub">
                 <FaGithub size={18} />
               </a>
-              <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 text-white/40 hover:text-white transition-colors" aria-label="LinkedIn">
+              <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 text-white/60 hover:text-white transition-colors" aria-label="LinkedIn">
                 <FaLinkedin size={18} />
               </a>
-              <a href={`mailto:${siteConfig.email}`} className="p-2 text-white/40 hover:text-white transition-colors" aria-label="Email">
+              <a href={`mailto:${siteConfig.email}`} className="p-2 text-white/60 hover:text-white transition-colors" aria-label="Email">
                 <FaEnvelope size={18} />
               </a>
             </div>

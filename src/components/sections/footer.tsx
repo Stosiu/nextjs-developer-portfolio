@@ -3,7 +3,7 @@
 import {useTranslations} from 'next-intl';
 import {motion} from 'framer-motion';
 import {FaGithub, FaLinkedin} from 'react-icons/fa';
-import {Mail} from 'lucide-react';
+import {ArrowRight, Mail} from 'lucide-react';
 import {siteConfig} from '@/config/site';
 import {registeredCompanies} from '@/config/companies';
 import {sideProjects} from '@/config/side-projects';
@@ -11,11 +11,12 @@ import {WorldClock} from '@/components/world-clock';
 import {Link} from '@/i18n/navigation';
 import {trackEvent} from '@/lib/analytics';
 
-const linkClass = 'text-xs font-mono text-white/35 hover:text-brand-400 transition-colors';
-const labelClass = 'text-[10px] font-mono uppercase tracking-widest text-white/25 mb-4';
+const linkClass = 'text-xs font-mono text-white/60 hover:text-brand-400 transition-colors';
+const labelClass = 'text-xs font-mono uppercase tracking-widest rtl:tracking-normal text-white/50 mb-4';
 
 export function Footer() {
   const t = useTranslations('footer');
+  const tp = useTranslations('projects');
 
   return (
     <footer id="contact" className="relative py-20 px-4">
@@ -27,10 +28,25 @@ export function Footer() {
         whileInView={{opacity: 1}}
         viewport={{once: true}}
       >
+        <div className="mb-20 flex flex-col items-center gap-5 text-center">
+          <h2 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">{t('cta')}</h2>
+          <p className="max-w-xl text-base text-white/65 text-pretty">{tp('ctaDescription')}</p>
+          <a
+            href={siteConfig.booking}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackEvent('cta_click', {location: 'footer', type: 'booking'})}
+            className="mt-2 inline-flex h-11 items-center gap-2 rounded-md bg-brand-500 px-6 text-sm font-semibold text-black transition-colors hover:bg-brand-600"
+          >
+            {tp('ctaCta')}
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+          </a>
+        </div>
+
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 text-start">
           <div>
             <p className="text-base font-semibold text-white/80">{siteConfig.name}</p>
-            <p className="text-xs font-mono text-white/30 mt-1">{siteConfig.title}</p>
+            <p className="text-xs font-mono text-white/55 mt-1">{siteConfig.title}</p>
             <a
               href={`mailto:${siteConfig.email}`}
               className={`${linkClass} inline-flex items-center gap-2 mt-4`}
@@ -108,10 +124,10 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-white/5">
           <p className={labelClass}>{t('companiesHeading')}</p>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-[11px] text-white/20 font-mono text-start">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 text-xs text-white/45 font-mono text-start">
             {registeredCompanies.map((company, i) => (
               <div key={i} className="space-y-0.5">
-                <p className="text-white/35">{company.nameKey ? t(company.nameKey) : company.name}</p>
+                <p className="text-white/65">{company.nameKey ? t(company.nameKey) : company.name}</p>
                 <p>{company.roleKey ? `${t(company.roleKey)} · ` : ''}{company.registrations}</p>
                 <p>{t(company.locationKey)}</p>
               </div>
@@ -119,22 +135,22 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between text-xs font-mono text-white/20">
+        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between text-xs font-mono text-white/45">
           <p>{t('copyright', {year: new Date().getFullYear()})}</p>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span>{t('builtWith')}</span>
             {process.env.NEXT_PUBLIC_GA_ID && (
               <>
-                <span className="text-white/10">·</span>
-                <Link href="/privacy" className="hover:text-white/40 transition-colors">
+                <span aria-hidden className="text-white/25">·</span>
+                <Link href="/privacy" className="hover:text-white transition-colors">
                   {t('privacy')}
                 </Link>
-                <span className="text-white/10">·</span>
+                <span aria-hidden className="text-white/25">·</span>
                 <button
                   type="button"
                   onClick={() => window.dispatchEvent(new Event('show-consent-banner'))}
-                  className="hover:text-white/40 transition-colors cursor-pointer"
+                  className="hover:text-white transition-colors cursor-pointer"
                 >
                   {t('cookieSettings')}
                 </button>
@@ -147,7 +163,7 @@ export function Footer() {
           <p className="hover:text-white/30 transition-colors select-all cursor-default">
             {process.env.NEXT_PUBLIC_COMMIT_SHA}
           </p>
-          <p className="select-none">
+          <p className="hidden select-none [@media(hover:hover)_and_(pointer:fine)]:block">
             {t.rich('shortcutHint', {
               kbd: (chunks) => (
                 <kbd className="px-1.5 py-0.5 mx-0.5 rounded border border-white/10 text-white/30">

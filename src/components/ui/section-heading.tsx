@@ -13,7 +13,7 @@ export function SectionHeading({title, subtitle, className}: SectionHeadingProps
         {title}
       </h2>
       {subtitle && (
-        <p className="text-sm text-white/30 text-center font-mono mb-12">{subtitle}</p>
+        <p className="text-sm text-white/55 text-center font-mono mb-12">{subtitle}</p>
       )}
     </div>
   );

@@ -23,16 +23,16 @@ export async function RelatedThoughts({thoughts, locale}: {thoughts: ThoughtMeta
               {thought.title}
             </h3>
             <div className="flex items-center gap-2 mb-3">
-              <time className="text-xs text-white/30 font-mono">{thought.date}</time>
-              <span className="text-xs text-white/30">·</span>
-              <span className="flex items-center gap-1 text-xs text-white/30">
+              <time className="text-xs text-white/55 font-mono">{thought.date}</time>
+              <span className="text-xs text-white/55">·</span>
+              <span className="flex items-center gap-1 text-xs text-white/55">
                 <Clock className="w-3 h-3" />
                 {t('readingTime', {minutes: thought.readingTime})}
               </span>
             </div>
             <div className="flex flex-wrap gap-1">
               {thought.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="sm" className="text-[10px]">
+                <Badge key={tag} variant="sm" className="text-xs">
                   {tag}
                 </Badge>
               ))}
