@@ -1,6 +1,7 @@
 'use client';
 
 import {useState, useCallback, useRef, memo} from 'react';
+import {useTranslations} from 'next-intl';
 import {ComposableMap, Geographies, Geography, ZoomableGroup} from 'react-simple-maps';
 import type {GeographyProps, ZoomPanCallbackProps} from 'react-simple-maps';
 import {AnimatePresence, motion, useReducedMotion} from 'framer-motion';
@@ -132,6 +133,7 @@ function Minimap({zoom, coordinates}: ZoomState) {
 }
 
 export function TravelMap() {
+  const t = useTranslations('travel');
   const reducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mouse, setMouse] = useState({x: 0, y: 0});
@@ -296,6 +298,7 @@ export function TravelMap() {
           size="icon-sm"
           onClick={handleZoomIn}
           disabled={zoomState.zoom >= 5}
+          aria-label={t('zoomIn')}
           className="border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:bg-white/10"
         >
           <Plus />
@@ -305,6 +308,7 @@ export function TravelMap() {
           size="icon-sm"
           onClick={handleZoomOut}
           disabled={zoomState.zoom <= 1}
+          aria-label={t('zoomOut')}
           className="border border-white/10 bg-black/80 backdrop-blur-sm text-white/60 hover:text-white hover:bg-white/10"
         >
           <Minus />

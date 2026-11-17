@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Aleksander Stós',
   title: 'Entrepreneur, CTO & Co-Founder',
   email: 'hello@stosiu.dev',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.stosiu.dev',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://stosiu.dev',
   repo: 'https://github.com/Stosiu/nextjs-developer-portfolio',
   avatar: '/avatar.jpg',
   terminal: {
@@ -19,5 +19,5 @@ export const siteConfig = {
     name: 'The Digital Bunch',
     url: 'https://thedigitalbunch.com',
   },
-  sections: ['about', 'projects', 'stats', 'experience'] as const,
+  sections: ['about', 'projects', 'openSource', 'experience', 'stats'] as const,
 } as const;

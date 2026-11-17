@@ -81,7 +81,7 @@ export function ThoughtToc({entries, title, backHref, backLabel, desktop}: Props
         </a>
 
         <nav>
-          <p className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-2">Contents</p>
+          <p className="text-xs font-semibold text-white/50 uppercase tracking-widest mb-2">Contents</p>
           <ul className="space-y-0.5 border-l border-white/[0.10]">
             {entries.map((entry) => (
               <li key={entry.id} className="relative group">
@@ -101,7 +101,7 @@ export function ThoughtToc({entries, title, backHref, backLabel, desktop}: Props
                   </button>
                   <button
                     onClick={(e) => copyAnchor(e, entry.id)}
-                    className="opacity-0 group-hover:opacity-100 p-1 text-white/25 hover:text-white/60 transition-all shrink-0"
+                    className="opacity-0 group-hover:opacity-100 p-1 text-white/50 hover:text-white/60 transition-all shrink-0"
                     title="Copy link to section"
                   >
                     {copiedId === entry.id ? (
@@ -131,7 +131,7 @@ export function ThoughtToc({entries, title, backHref, backLabel, desktop}: Props
               onClick={() => scrollTo(entry.id)}
               className={`block text-sm text-left transition-colors ${
                 entry.level === 3 ? 'pl-4' : ''
-              } ${activeId === entry.id ? 'text-brand-400' : 'text-white/40 hover:text-white/70'}`}
+              } ${activeId === entry.id ? 'text-brand-400' : 'text-white/60 hover:text-white/70'}`}
             >
               {entry.text}
             </button>
@@ -156,13 +156,13 @@ function ShareButtons({
 }) {
   return (
     <div className="mt-5 pt-4 border-t border-white/[0.06]">
-      <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest mb-3">Share</p>
+      <p className="text-xs font-semibold text-white/60 uppercase tracking-widest mb-3">Share</p>
       <div className="flex flex-wrap items-center gap-1.5">
         <a
           href={`https://x.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
           aria-label="Share on X"
         >
           <FaXTwitter size={12} />
@@ -172,7 +172,7 @@ function ShareButtons({
           href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
           aria-label="Share on LinkedIn"
         >
           <FaLinkedinIn size={12} />
@@ -182,7 +182,7 @@ function ShareButtons({
           href={`https://reddit.com/submit?url=${shareUrl}&title=${shareTitle}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
           aria-label="Share on Reddit"
         >
           <FaRedditAlien size={12} />
@@ -192,7 +192,7 @@ function ShareButtons({
           href={`https://news.ycombinator.com/submitlink?u=${shareUrl}&t=${shareTitle}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
           aria-label="Share on Hacker News"
         >
           <FaHackerNews size={12} />
@@ -200,7 +200,7 @@ function ShareButtons({
         </a>
         <button
           onClick={onCopyLink}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/40 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs text-white/60 bg-white/[0.04] border border-white/[0.08] hover:text-white/70 hover:border-white/[0.15] transition-all"
           aria-label="Copy link"
         >
           {copiedLink ? (

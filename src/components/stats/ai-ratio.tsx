@@ -48,21 +48,21 @@ export function AiRatio({
           <div className="relative inline-flex" data-no-follower onMouseLeave={() => setPopoverOpen(false)}>
             <span
               onMouseEnter={() => setPopoverOpen(true)}
-              className="w-5 h-5 rounded-full border border-white/10 bg-white/[0.04] text-white/30 hover:text-white/60 hover:border-white/20 transition-colors text-[10px] font-medium flex items-center justify-center cursor-help"
+              className="w-5 h-5 rounded-full border border-white/10 bg-white/[0.04] text-white/55 hover:text-white/60 hover:border-white/20 transition-colors text-xs font-medium flex items-center justify-center cursor-help"
               aria-label="Token ratio details"
             >
               ?
             </span>
             {popoverOpen && (
               <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-20 min-w-[240px] px-3 py-3 rounded-lg bg-zinc-900 border border-white/10 shadow-xl">
-                <p className="text-[10px] text-white/40 uppercase tracking-wider mb-2.5">{t('ratioFunTitle')}</p>
+                <p className="text-xs text-white/60 uppercase tracking-wider mb-2.5">{t('ratioFunTitle')}</p>
                 <div className="flex flex-col gap-1.5 mb-2.5">
                   {segments.map((s) => (
                     <div key={s.key} className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full shrink-0" style={{backgroundColor: s.color}} />
                       <span className="text-xs text-white/70 flex-1">{s.label}</span>
-                      <span className="text-xs text-white/40 font-mono">{formatCompact(s.tokens)}</span>
-                      <span className="text-[10px] text-white/25 font-mono w-12 text-right">{pct(s.tokens)}%</span>
+                      <span className="text-xs text-white/60 font-mono">{formatCompact(s.tokens)}</span>
+                      <span className="text-xs text-white/50 font-mono w-12 text-right">{pct(s.tokens)}%</span>
                     </div>
                   ))}
                 </div>
@@ -77,7 +77,7 @@ export function AiRatio({
         <p className="text-3xl font-bold text-brand-400 font-mono tabular-nums">
           {reReadPercentage}%
         </p>
-        <p className="text-xs text-white/40 mt-1">{t('ratioInput')}</p>
+        <p className="text-xs text-white/60 mt-1">{t('ratioInput')}</p>
 
         <div className="mt-auto pt-4">
           <div className="flex h-2 rounded-full bg-white/[0.06] overflow-hidden">
@@ -95,12 +95,12 @@ export function AiRatio({
             })}
           </div>
           <div className="flex justify-between mt-1.5">
-            <span className="text-[10px] text-white/30">{t('ratioReading')} {reReadPercentage}%</span>
-            <span className="text-[10px] text-[#E05A33]/70">{t('ratioWriting')} {writePercentage}%</span>
+            <span className="text-xs text-white/55">{t('ratioReading')} {reReadPercentage}%</span>
+            <span className="text-xs text-[#E05A33]/70">{t('ratioWriting')} {writePercentage}%</span>
           </div>
         </div>
 
-        <p className="text-[10px] text-white/20 mt-3 leading-relaxed">
+        <p className="text-xs text-white/45 mt-3 leading-relaxed">
           {t('ratioExplanation')}
         </p>
       </StatCard>

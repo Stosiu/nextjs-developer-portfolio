@@ -62,7 +62,7 @@ export function GitHubStreak({streak, contributions}: GitHubStreakProps) {
         </div>
 
         <p className="text-3xl font-bold text-brand-400 font-mono tabular-nums">{count}</p>
-        <p className="text-xs text-white/40 mt-1">{t('streakDays')}</p>
+        <p className="text-xs text-white/60 mt-1">{t('streakDays')}</p>
 
         <div className="mt-auto pt-4">
           <div className="flex items-end gap-1 h-14" dir="ltr">
@@ -80,7 +80,7 @@ export function GitHubStreak({streak, contributions}: GitHubStreakProps) {
           </div>
         </div>
 
-        <p className="text-[10px] text-white/20 mt-3 leading-relaxed">
+        <p className="text-xs text-white/45 mt-3 leading-relaxed">
           {t('streakExplanation', {days: STRIP_DAYS})}
         </p>
       </StatCard>

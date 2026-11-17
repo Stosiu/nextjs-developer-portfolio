@@ -11,14 +11,7 @@ export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (getConsent() !== null) return;
-
-    function onLoaderExit() {
-      setVisible(true);
-    }
-    window.addEventListener('loader-exit', onLoaderExit, {once: true});
-
-    return () => window.removeEventListener('loader-exit', onLoaderExit);
+    if (getConsent() === null) setVisible(true);
   }, []);
 
   useEffect(() => {

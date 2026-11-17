@@ -109,7 +109,7 @@ export function GitHubHeatmap({contributions, totalContributions, allTimeContrib
         <EmberShower embers={embers} />
         <div className="mb-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span className="text-sm text-white/60">{t('contributions')}</span>
-          <span className="text-xs text-white/30">
+          <span className="text-xs text-white/55">
             {totalContributions.toLocaleString()} in the last 365 days
             {busiestDay.count > 0 && <> · peak {busiestDay.count} on {formatDate(busiestDay.date)}</>}
             {allTimeContributions > 0 && <> · {allTimeContributions.toLocaleString()} total across {totalRepos} repos</>}
@@ -146,7 +146,7 @@ export function GitHubHeatmap({contributions, totalContributions, allTimeContrib
 
         <ChartTooltip x={tooltip?.x ?? 0} y={tooltip?.y ?? 0} visible={!!tooltip}>
           <span className="text-white/90 font-medium">{tooltip?.count} contribution{tooltip?.count !== 1 ? 's' : ''}</span>
-          <span className="text-white/40 ml-1.5">{tooltip ? formatWeekdayDate(tooltip.date) : ''}</span>
+          <span className="text-white/60 ml-1.5">{tooltip ? formatWeekdayDate(tooltip.date) : ''}</span>
         </ChartTooltip>
       </StatCard>
     </AnimatedReveal>

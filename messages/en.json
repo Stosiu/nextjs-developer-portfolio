@@ -9,7 +9,8 @@
     "stats": "Stats",
     "experience": "Experience",
     "agency": "My agency",
-    "thoughts": "Thoughts"
+    "thoughts": "Thoughts",
+    "openSource": "Open Source"
   },
   "hero": {
     "command1": "whoami",
@@ -18,14 +19,16 @@
     "response2": "I build products, scale teams, and run companies. Warsaw · Riyadh · Sydney",
     "command3": "./book --consultation",
     "response3": "Opening cal.com/aleksander-stos... ✓",
-    "cta": "Let's talk"
+    "cta": "Book a free consultation",
+    "headline": "I take products from idea to production.",
+    "offer": "Web and mobile platforms, AI integrations and rescues of stalled projects, built with my team at <brand>The Digital Bunch</brand>."
   },
   "about": {
     "heading": "The Short Version",
     "p1": "I've been writing code since I was 13 and running companies since I was 25. Somewhere in between I realized that code was never the point; building things people actually need was.",
     "p2": "I surround myself with people smarter than me, I learn fast, and I try to pass it on. Most of what I know came from someone being patient enough to explain it.",
     "p3": "Currently running <tdb>The Digital Bunch</tdb> across three countries, launching new ventures in Saudi Arabia, and still shipping code most days.",
-    "cta": "Get in touch"
+    "cta": "Book a free consultation"
   },
   "logos": {
     "heading": "Trusted by"
@@ -53,8 +56,8 @@
     "showLess": "Show featured"
   },
   "stats": {
-    "heading": "Dashboard",
-    "subtitle": "real-time metrics from my dev environment",
+    "heading": "How I Work, in Numbers",
+    "subtitle": "live data from my GitHub and AI tools",
     "contributions": "Contributions",
     "inLastYear": "in the last year",
     "aiTokens": "AI Tokens (30d)",
@@ -112,7 +115,9 @@
   },
   "travel": {
     "heading": "Where I've Been",
-    "subtitle": "{count} countries and counting"
+    "subtitle": "{count} countries and counting",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
   },
   "footer": {
     "cta": "Let's build something",
@@ -137,7 +142,7 @@
     "message": "This site uses cookies for anonymous analytics (Google Analytics). No personal data is sold or used for advertising.",
     "accept": "Accept",
     "decline": "Decline",
-    "learnMore": "Learn more"
+    "learnMore": "Privacy policy"
   },
   "privacy": {
     "title": "Privacy Policy",
@@ -190,7 +195,10 @@
     "footer1": "// you made it to the bottom",
     "footer2": "// EOF",
     "default1": "// ...",
-    "default2": "// just browsing?"
+    "default2": "// just browsing?",
+    "openSource1": "// npm i, and somewhere my code runs",
+    "openSource2": "// LGTM from a stranger hits different",
+    "openSource3": "// git push --to-production-of-strangers"
   },
   "thoughts": {
     "title": "Thoughts",
@@ -206,5 +214,15 @@
     "share": "Share",
     "copyLink": "Copy link",
     "linkCopied": "Link copied"
+  },
+  "openSource": {
+    "heading": "Open Source",
+    "subtitle": "contributions to tools other teams run in production",
+    "stars": "{count} stars",
+    "summary": "<b>{merged}</b> merged pull requests to a package installed <b>{downloads}</b> times a week.",
+    "summaryNoDownloads": "<b>{merged}</b> merged pull requests.",
+    "recent": "Recently merged",
+    "allPrs": "All {count} pull requests",
+    "bullBoardDesc": "The dashboard teams use to watch and manage their BullMQ and Bull job queues."
   }
 }

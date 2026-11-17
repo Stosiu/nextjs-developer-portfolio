@@ -23,7 +23,7 @@ export function Hero() {
   ];
 
   return (
-    <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 py-20">
+    <section className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 pt-24 pb-16">
       <InteractiveDots className="absolute inset-0" excludeRef={contentRef} />
 
       <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
@@ -32,7 +32,14 @@ export function Hero() {
       </div>
 
       <div ref={contentRef} className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center gap-8">
-        <h1 className="sr-only">{t('response1')}</h1>
+        <div className="flex flex-col items-center gap-5 text-center">
+          <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl">
+            {t('headline')}
+          </h1>
+          <p className="max-w-2xl text-base text-white/65 text-pretty sm:text-lg">
+            {t.rich('offer', {brand: (chunks) => <bdi className="whitespace-nowrap">{chunks}</bdi>})}
+          </p>
+        </div>
         <Terminal lines={terminalLines} />
 
         <div className="flex flex-wrap items-center justify-center gap-4">
