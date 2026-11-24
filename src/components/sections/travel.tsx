@@ -3,7 +3,8 @@
 import {useTranslations} from 'next-intl';
 import {SectionHeading} from '@/components/ui/section-heading';
 import {TravelMap} from '@/components/travel-map';
-import {visitedCountries} from '@/config/travel';
+import {travelPlaces} from '@/config/travel';
+import {countCountries} from '@/lib/travel';
 
 export function Travel() {
   const t = useTranslations('travel');
@@ -13,7 +14,7 @@ export function Travel() {
       <div className="max-w-6xl mx-auto">
         <SectionHeading
           title={t('heading')}
-          subtitle={t('subtitle', {count: visitedCountries.length})}
+          subtitle={t('subtitle', {count: countCountries(travelPlaces)})}
         />
         <TravelMap />
       </div>

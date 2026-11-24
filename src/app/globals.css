@@ -379,3 +379,7 @@ html {
 [dir="rtl"] .tracking-widest {
   letter-spacing: normal;
 }
+
+.travel-pin-open {
+  z-index: 2147483000 !important;
+}

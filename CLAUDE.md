@@ -59,17 +59,13 @@ Array of `{name, url}` entries rendered in the footer alongside the main compani
 
 Array of `{repo, npmPackage?, descriptionKey}`. Each repository shows live stars, your merged pull requests (GitHub login taken from `siteConfig.social.github`) and weekly npm downloads, fetched in `src/lib/open-source.ts` and cached for a day. An empty array hides the section and its nav link. `descriptionKey` points into the `openSource` namespace in `messages/*.json`.
 
-### `src/config/travel.ts` — Travel map (optional)
+### `src/config/travel.ts` — Travel globe (optional)
 
-Array of `VisitedCountry` entries (`code`, `year`, optional `image` and `caption`). Powers an interactive world map section showing countries you've visited. Uses `react-simple-maps` with ISO 3166-1 alpha-2 country codes (e.g., `'US'`, `'GB'`, `'PL'`).
+Array of `TravelPlace` entries: `code` (ISO 3166-1 alpha-2), optional `name` (a city or region shown on the note), `coords` (`[lat, lng]` where the pin goes) and `visits` (`{year, image?, caption?}[]`). One country can have several places, and one place can have several visits; the subtitle counts unique country codes. `src/lib/__tests__/travel.test.ts` fails if a code has no geometry in the world-atlas map.
 
-To enable the map, add `'travel'` to `siteConfig.sections` in `src/config/site.ts` and add `travel` translation keys to all `messages/*.json` files. The section component is at `src/components/sections/travel.tsx`.
+To add a visit to a place you have already been, append to its `visits` array. To add a new place, add an entry with coordinates. Photos go in `public/images/travel/` and are imported at the top of the file.
 
-To add a country:
-1. Add an entry to the `visitedCountries` array in `src/config/travel.ts`
-2. Optionally add a photo at `public/images/travel/{code}.jpg` (lowercase country code) and import it at the top of the file
-
-The map highlights visited countries in emerald green. On desktop, hovering a visited country shows a popover with the photo, year, and caption. On mobile, tapping a country shows a bottom bar with the same info. The map supports zoom/pan with a minimap overlay.
+The section renders a WebGL globe (`react-globe.gl` + `three`) from `src/components/travel-globe.tsx`, loaded with `next/dynamic` only when the section comes within 400px of the viewport and paused while off-screen. Visited countries are extruded in emerald, each place has a push-pin (with a visit count badge when there is more than one visit), and opening a pin shows a sticky note with the photo, year chips per visit and caption. While idle the globe tours the places that have captions; any pointer interaction stops the tour. Scroll-wheel zoom is disabled so the page scrolls normally; the +/- buttons change the camera altitude. Reduced motion disables the tour and transitions.
 
 ### `src/lib/data.ts` — Projects
 
@@ -90,7 +86,7 @@ src/
     companies.ts            # Footer company registrations
     side-projects.ts        # Footer side projects list
     open-source.ts          # Open source repositories
-    travel.ts               # Visited countries for travel map (optional)
+    travel.ts               # Visited places and visits for the travel globe (optional)
   proxy.ts                  # next-intl middleware (locale detection + redirect)
   app/
     layout.tsx              # Root layout (pass-through)
@@ -124,7 +120,8 @@ src/
     language-switcher.tsx   # EN/PL/AR locale buttons
     terminal.tsx            # Interactive typing animation
     cursor-comment.tsx      # Floating code comments that follow scroll
-    travel-map.tsx          # Interactive world map with zoom/pan and popovers
+    travel-map.tsx          # Lazy loader for the travel globe
+    travel-globe.tsx        # 3D globe with pins and sticky notes
     thoughts-list.tsx       # Client-side search, tag filter, pagination (uses nuqs)
     ui/                     # shadcn/ui + reusable components (stat-card, section-heading, badge, etc.)
     sections/
@@ -154,6 +151,7 @@ src/
     thoughts.ts             # Markdown parser + renderer (remark/rehype pipeline)
     thought-quality.ts      # Readability scoring for thoughts content
     rate-limit.ts           # In-memory rate limiting for API routes
+    travel.ts               # Country code table and travel helpers
     format.ts               # Number/date formatting utilities
     utils.ts                # shadcn cn() utility
   data/

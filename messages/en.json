@@ -117,7 +117,10 @@
     "heading": "Where I've Been",
     "subtitle": "{count} countries and counting",
     "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out"
+    "zoomOut": "Zoom out",
+    "hint": "Drag to spin. Click a pin to read the note.",
+    "visits": "{count, plural, one {# visit} other {# visits}}",
+    "close": "Close note"
   },
   "footer": {
     "cta": "Let's build something",
