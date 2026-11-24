@@ -67,6 +67,7 @@ import imgUsDallas202605 from '../../public/images/travel/us-dallas-2026-05.jpg'
 
 import imgAuSydney201909 from '../../public/images/travel/au-sydney-2019-09.jpg';
 import imgHrKrk201707 from '../../public/images/travel/hr-krk-2017-07.jpg';
+import imgUaKyiv201808 from '../../public/images/travel/ua-kyiv-2018-08.jpg';
 
 export type Visit = {
   date: string;
@@ -132,7 +133,7 @@ export const travelPlaces: TravelPlace[] = [
   {code: 'SI', coords: [46.06, 14.51], visits: [{date: '2018'}]},
   {code: 'SK', coords: [48.15, 17.11], visits: [{date: '2018'}]},
   {code: 'TR', coords: [41.01, 28.98], visits: [{date: '2019'}]},
-  {code: 'UA', name: 'Kyiv', coords: [50.45, 30.52], visits: [{date: '2018-08'}]},
+  {code: 'UA', name: 'Kyiv', coords: [50.45, 30.52], visits: [{date: '2018-08', image: imgUaKyiv201808}]},
   {code: 'US', name: 'San Francisco', coords: [37.77, -122.42], visits: [{date: '2019-07', image: usImg, caption: 'A month-long solo trip.'}, {date: '2026-04', image: imgUsSanFrancisco202604}]},
   {code: 'US', name: 'Los Angeles', coords: [34.05, -118.24], visits: [{date: '2019-07', image: imgUsLosAngeles201907}]},
   {code: 'US', name: 'Las Vegas', coords: [36.17, -115.14], visits: [{date: '2019-08', image: imgUsLasVegas201908}]},
