@@ -43,5 +43,13 @@ export function countCountries(places: TravelPlace[]): number {
 }
 
 export function visitsNewestFirst(place: TravelPlace) {
-  return [...place.visits].sort((a, b) => b.year - a.year);
+  return [...place.visits].sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export function formatVisitDate(date: string, locale: string): string {
+  const [year, month] = date.split('-').map(Number);
+  if (!month) return String(year);
+  return new Intl.DateTimeFormat(locale, {month: 'short', year: 'numeric', timeZone: 'UTC'}).format(
+    new Date(Date.UTC(year, month - 1, 1)),
+  );
 }

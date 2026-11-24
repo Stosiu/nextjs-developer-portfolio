@@ -13,7 +13,7 @@ import Image from 'next/image';
 import {Plus, Minus, X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {travelPlaces, type TravelPlace} from '@/config/travel';
-import {NUM_TO_ALPHA2, visitsNewestFirst} from '@/lib/travel';
+import {NUM_TO_ALPHA2, formatVisitDate, visitsNewestFirst} from '@/lib/travel';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 const ANTARCTICA_ID = '010';
@@ -365,6 +365,7 @@ type StickyNoteProps = {
 
 function StickyNote({pin, title, closable, reducedMotion, onClose}: StickyNoteProps) {
   const t = useTranslations('travel');
+  const locale = useLocale();
   const visits = visitsNewestFirst(pin.place);
   const [selected, setSelected] = useState(0);
   const visit = visits[selected] ?? visits[0];
@@ -421,7 +422,7 @@ function StickyNote({pin, title, closable, reducedMotion, onClose}: StickyNotePr
           <div className="mt-1.5 flex flex-wrap gap-1">
             {visits.map((v, i) => (
               <button
-                key={`${v.year}-${i}`}
+                key={`${v.date}-${i}`}
                 type="button"
                 onClick={() => setSelected(i)}
                 aria-pressed={i === selected}
@@ -429,12 +430,12 @@ function StickyNote({pin, title, closable, reducedMotion, onClose}: StickyNotePr
                   i === selected ? 'bg-neutral-900 text-amber-100' : 'bg-amber-200/80 text-neutral-700 hover:bg-amber-300'
                 }`}
               >
-                {v.year}
+                {formatVisitDate(v.date, locale)}
               </button>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-neutral-600 tabular-nums">{visit.year}</p>
+          <p className="text-xs text-neutral-600 tabular-nums">{formatVisitDate(visit.date, locale)}</p>
         )}
         {visit.caption && <p className="mt-1.5 text-xs leading-snug text-neutral-700">{visit.caption}</p>}
       </div>
