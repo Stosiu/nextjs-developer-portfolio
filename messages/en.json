@@ -97,6 +97,8 @@
     "aiActiveDays": "Active days"
   },
   "experience": {
+    "readMore": "Read more",
+    "showLess": "Show less",
     "heading": "How I Got Here",
     "exp0Role": "Co-Founder",
     "exp0Period": "Jan 2026 - Present",

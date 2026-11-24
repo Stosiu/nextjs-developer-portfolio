@@ -1,6 +1,15 @@
 import {describe, it, expect} from 'vitest';
 import {travelPlaces, type TravelPlace} from '@/config/travel';
-import {NUM_TO_ALPHA2, countCountries, formatTripDates, formatVisitDate, tripsInYear, visitsNewestFirst} from '@/lib/travel';
+import {experiences} from '@/config/experience';
+import {
+  NUM_TO_ALPHA2,
+  countCountries,
+  findPlaceId,
+  formatTripDates,
+  formatVisitDate,
+  tripsInYear,
+  visitsNewestFirst,
+} from '@/lib/travel';
 
 describe('countCountries', () => {
   it('counts a country with several places once', () => {
@@ -73,6 +82,11 @@ describe('travelPlaces config', () => {
   it('uses YYYY or YYYY-MM visit dates', () => {
     const bad = travelPlaces.flatMap((p) => p.visits).filter((v) => !/^\d{4}(-(0[1-9]|1[0-2]))?$/.test(v.date));
     expect(bad).toEqual([]);
+  });
+
+  it('resolves every experience location to a travel place', () => {
+    const missing = experiences.filter((e) => e.place && !findPlaceId(travelPlaces, e.place.code, e.place.name));
+    expect(missing).toEqual([]);
   });
 
   it('gives every place at least one visit', () => {

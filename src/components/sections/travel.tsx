@@ -1,13 +1,13 @@
 'use client';
 
-import {useMemo, useRef, useState} from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useLocale, useTranslations} from 'next-intl';
 import {MapPin} from 'lucide-react';
 import {SectionHeading} from '@/components/ui/section-heading';
 import {TravelMap} from '@/components/travel-map';
 import type {FocusRequest} from '@/components/travel-globe';
 import {travelPlaces} from '@/config/travel';
-import {countCountries, formatTripDates, latestTripYear, tripsInYear} from '@/lib/travel';
+import {TRAVEL_FOCUS_EVENT, countCountries, formatTripDates, latestTripYear, tripsInYear} from '@/lib/travel';
 
 export function Travel() {
   const t = useTranslations('travel');
@@ -18,13 +18,19 @@ export function Travel() {
   const trips = useMemo(() => tripsInYear(travelPlaces, year), [year]);
   const regionNames = useMemo(() => new Intl.DisplayNames([locale], {type: 'region'}), [locale]);
 
-  const focus = (id: string) => {
+  const focus = useCallback((id: string) => {
     setFocusRequest((prev) => ({id, nonce: (prev?.nonce ?? 0) + 1}));
     const rect = mapRef.current?.getBoundingClientRect();
     if (rect && (rect.top < 0 || rect.bottom > window.innerHeight)) {
       mapRef.current?.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const onFocus = (e: Event) => focus((e as CustomEvent<string>).detail);
+    window.addEventListener(TRAVEL_FOCUS_EVENT, onFocus);
+    return () => window.removeEventListener(TRAVEL_FOCUS_EVENT, onFocus);
+  }, [focus]);
 
   return (
     <section id="travel" className="py-24 px-4">
