@@ -97,6 +97,8 @@
     "aiActiveDays": "أيام النشاط"
   },
   "experience": {
+    "readMore": "اقرأ المزيد",
+    "showLess": "عرض أقل",
     "heading": "كيف وصلت إلى هنا",
     "exp0Role": "شريك مؤسس",
     "exp0Period": "يناير 2026 - الحالي",

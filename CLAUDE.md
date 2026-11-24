@@ -41,7 +41,7 @@ Your name, email, social links, booking URL, agency info, and which sections to 
 
 ### `src/config/experience.ts` — Work history
 
-Array of `Experience` entries (role, company, period, description, icon). Rendered as a timeline.
+Array of `Experience` entries (role, company, period, description, icon, optional `place` naming a `{code, name}` travel place). Rendered as a timeline whose line fills on scroll and whose current entry is highlighted; descriptions show the first paragraph with a Read more toggle. An entry with `place` gets a location link that flies the travel globe to that pin through the `travel:focus` window event (`requestTravelFocus` in `src/lib/travel.ts`).
 
 ### `src/config/logos.ts` — Client logos
 

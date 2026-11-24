@@ -109,3 +109,14 @@ export function formatTripDates(trip: Trip, locale: string): string {
   );
   return `${startMonth} – ${formatVisitDate(trip.end, locale)}`;
 }
+
+export const TRAVEL_FOCUS_EVENT = 'travel:focus';
+
+export function requestTravelFocus(id: string) {
+  window.dispatchEvent(new CustomEvent<string>(TRAVEL_FOCUS_EVENT, {detail: id}));
+}
+
+export function findPlaceId(places: TravelPlace[], code: string, name?: string): string | null {
+  const index = places.findIndex((p) => p.code === code && p.name === name);
+  return index === -1 ? null : placeId(places[index], index);
+}

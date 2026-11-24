@@ -123,7 +123,7 @@ export const travelPlaces: TravelPlace[] = [
   {code: 'MT', name: 'Malta', coords: [35.9, 14.45], visits: [{date: '2021-09', image: imgMtMalta202109}]},
   {code: 'NO', name: 'Tromsø', coords: [69.65, 18.96], visits: [{date: '2020-02', image: imgNoTromso202002}]},
   {code: 'NO', name: 'Geiranger', coords: [62.1, 7.21], visits: [{date: '2023-09', image: imgNoGeiranger202309}]},
-  {code: 'PL', coords: [52.23, 21.01], visits: [{date: '2000'}]},
+  {code: 'PL', name: 'Warsaw', coords: [52.23, 21.01], visits: [{date: '2000'}]},
   {code: 'RO', name: 'Bucharest', coords: [44.43, 26.1], visits: [{date: '2018-08', image: roImg}]},
   {code: 'RO', name: 'Constanța', coords: [44.17, 28.64], visits: [{date: '2018-09', image: imgRoConstanta201809}]},
   {code: 'RS', coords: [44.79, 20.45], visits: [{date: '2022'}]},
