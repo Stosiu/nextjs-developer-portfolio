@@ -224,6 +224,7 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     (pin: Pin | null) => {
       setTouring(false);
       setActiveId(pin?.id ?? null);
+      setHoveredId(null);
       if (pin) flyTo(pin);
     },
     [flyTo],
@@ -233,8 +234,18 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setActiveId(null);
     };
+    const onOutside = (e: PointerEvent) => {
+      if (e.target instanceof Node && !containerRef.current?.contains(e.target)) {
+        setActiveId(null);
+        setHoveredId(null);
+      }
+    };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onOutside);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onOutside);
+    };
   }, []);
 
   const handleGlobeReady = useCallback(() => {
@@ -308,6 +319,9 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
   const noteVisibility = useCallback((el: HTMLElement, isVisible: boolean) => {
     el.style.visibility = isVisible ? 'visible' : 'hidden';
   }, []);
+  const clearOverlay = useCallback(() => {
+    overOverlay.current = false;
+  }, []);
   const noteData = useMemo(() => (openPin ? [openPin] : []), [openPin]);
 
   const handlePinClick = useCallback(
@@ -328,9 +342,9 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     (d: object, event: MouseEvent) => {
       if (fromOverlay(event)) return;
       const code = codeOf(d);
-      select(pins.find((p) => p.place.code === code) ?? null);
+      select(activeId ? null : (pins.find((p) => p.place.code === code) ?? null));
     },
-    [select],
+    [select, activeId],
   );
 
   const handleGlobeClick = useCallback(
@@ -354,6 +368,7 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     if (globeRef.current?.toGlobeCoords(x, y)) return;
+    select(null);
     if (!reducedMotion) spaceRef.current?.spawnMeteor((x / rect.width) * 2 - 1, -(y / rect.height) * 2 + 1);
   };
 
@@ -419,9 +434,7 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
             onPointerEnter={() => {
               overOverlay.current = true;
             }}
-            onPointerLeave={() => {
-              overOverlay.current = false;
-            }}
+            onPointerLeave={clearOverlay}
           />,
           noteNodes.get(openPin.id) as HTMLDivElement,
         )}
@@ -482,6 +495,8 @@ function StickyNote({pin, title, closable, reducedMotion, onClose, onPointerEnte
   const [selected, setSelected] = useState(0);
   const visit = visits[selected] ?? visits[0];
   const tilt = (pin.id.charCodeAt(0) % 2 === 0 ? -1 : 1) * 2;
+
+  useEffect(() => onPointerLeave, [onPointerLeave]);
 
   return (
     <motion.div
