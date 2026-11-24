@@ -65,6 +65,9 @@ import imgUsLasVegas201908 from '../../public/images/travel/us-las-vegas-2019-08
 import imgUsSequoia202604 from '../../public/images/travel/us-sequoia-2026-04.jpg';
 import imgUsDallas202605 from '../../public/images/travel/us-dallas-2026-05.jpg';
 
+import imgAuSydney201909 from '../../public/images/travel/au-sydney-2019-09.jpg';
+import imgHrKrk201707 from '../../public/images/travel/hr-krk-2017-07.jpg';
+
 export type Visit = {
   date: string;
   image?: StaticImageData;
@@ -84,7 +87,7 @@ export const travelPlaces: TravelPlace[] = [
   {code: 'AT', name: 'Vienna', coords: [48.21, 16.37], visits: [{date: '2023-08', image: imgAtVienna202308}, {date: '2024-08', image: atImg}, {date: '2024-12', image: imgAtVienna202412}]},
   {code: 'AU', name: 'Kangaroo Island', coords: [-35.8, 137.25], visits: [{date: '2019-09', image: imgAuKangarooIsland201909}]},
   {code: 'AU', name: 'Great Ocean Road', coords: [-38.6, 142.88], visits: [{date: '2019-09', image: imgAuGreatOceanRoad201909, caption: 'Three weeks in a camper van. Open roads, too many animals.'}]},
-  {code: 'AU', name: 'Sydney', coords: [-33.87, 151.21], visits: [{date: '2019-09'}]},
+  {code: 'AU', name: 'Sydney', coords: [-33.87, 151.21], visits: [{date: '2019-09', image: imgAuSydney201909}]},
   {code: 'AU', name: 'Melbourne', coords: [-37.81, 144.96], visits: [{date: '2019-09', image: imgAuMelbourne201909}]},
   {code: 'BA', name: 'Sarajevo', coords: [43.86, 18.41], visits: [{date: '2025-08', image: imgBaSarajevo202508}]},
   {code: 'CY', name: 'Larnaca', coords: [34.91, 33.63], visits: [{date: '2018-03', image: cyImg}]},
@@ -101,7 +104,7 @@ export const travelPlaces: TravelPlace[] = [
   {code: 'GB', name: 'London', coords: [51.51, -0.13], visits: [{date: '2018-04', image: gbImg, caption: 'London is one of my favorite cities.'}, {date: '2019-06', image: imgGbLondon201906}, {date: '2022-03', image: imgGbLondon202203}, {date: '2023-04', image: imgGbLondon202304}, {date: '2023-05', image: imgGbLondon202305}, {date: '2025-12', image: imgGbLondon202512}]},
   {code: 'GE', coords: [41.72, 44.79], visits: [{date: '2023'}]},
   {code: 'GR', name: 'Corfu', coords: [39.62, 19.92], visits: [{date: '2025-05', image: grImg}]},
-  {code: 'HR', name: 'Krk', coords: [45.13, 14.53], visits: [{date: '2017-07'}, {date: '2018-07', image: imgHrKrk201807, caption: 'Practically a second home.'}]},
+  {code: 'HR', name: 'Krk', coords: [45.13, 14.53], visits: [{date: '2017-07', image: imgHrKrk201707}, {date: '2018-07', image: imgHrKrk201807, caption: 'Practically a second home.'}]},
   {code: 'HR', name: 'Istria', coords: [44.93, 13.81], visits: [{date: '2018-07', image: imgHrIstria201807}]},
   {code: 'HU', name: 'Budapest', coords: [47.5, 19.04], visits: [{date: '2018-12', image: imgHuBudapest201812}]},
   {code: 'IS', name: 'Vík', coords: [63.42, -19.01], visits: [{date: '2018-01', image: isImg, caption: 'The best views I have ever seen.'}]},

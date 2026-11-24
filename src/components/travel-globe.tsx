@@ -12,6 +12,7 @@ import {
   MeshPhongMaterial,
   MeshStandardMaterial,
   SphereGeometry,
+  TorusGeometry,
 } from 'three';
 import {feature} from 'topojson-client';
 import type {GeometryCollection, Topology} from 'topojson-specification';
@@ -39,7 +40,9 @@ const TOUR_INTERVAL_MS = 5000;
 const FLY_MS = 1200;
 const PIN_COLOR = '#10B981';
 const PIN_OPEN_COLOR = '#FF6B35';
-const NOTE_ALTITUDE = 0.085;
+const NOTE_ALTITUDE = 0.006;
+const MIN_PIN_SCALE = 0.35;
+const MAX_PIN_SCALE = 1.25;
 
 type CountryFeature = Feature<Geometry, {name: string}> & {id: string};
 
@@ -65,6 +68,7 @@ const pins: Pin[] = travelPlaces.map((place, i) => ({
 
 const visitedCodes = new Set(travelPlaces.map((p) => p.code));
 const tourPins = pins.filter((pin) => pin.place.visits.some((v) => v.caption));
+const pinOrder = [...pins].sort((a, b) => a.lng - b.lng).map((p) => p.id);
 
 function codeOf(country: object) {
   return NUM_TO_ALPHA2[(country as CountryFeature).id] ?? '';
@@ -79,8 +83,10 @@ type PinObject = {group: Group; head: MeshStandardMaterial};
 function buildPins(): Map<string, PinObject> {
   const needle = new CylinderGeometry(0.14, 0.04, 6, 6).rotateX(Math.PI / 2).translate(0, 0, 3);
   const head = new SphereGeometry(1.4, 20, 14).translate(0, 0, 6.6);
+  const ring = new TorusGeometry(2.1, 0.22, 8, 32).translate(0, 0, 6.6);
   const hit = new SphereGeometry(3.2, 8, 6).translate(0, 0, 5.5);
   const needleMaterial = new MeshStandardMaterial({color: '#d4d4d8', metalness: 0.85, roughness: 0.3});
+  const ringMaterial = new MeshStandardMaterial({color: '#f4f4f5', metalness: 0.4, roughness: 0.4});
   const hitMaterial = new MeshBasicMaterial({transparent: true, opacity: 0, depthWrite: false});
   return new Map(
     pins.map((pin) => {
@@ -93,6 +99,7 @@ function buildPins(): Map<string, PinObject> {
       });
       const group = new Group();
       group.add(new Mesh(needle, needleMaterial), new Mesh(head, material), new Mesh(hit, hitMaterial));
+      if (pin.place.visits.length > 1) group.add(new Mesh(ring, ringMaterial));
       group.scale.setScalar(0.001);
       return [pin.id, {group, head: material}];
     }),
@@ -113,7 +120,9 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
   const spaceRef = useRef<ReturnType<typeof createSpace> | null>(null);
   const overOverlay = useRef(false);
   const introStart = useRef<number | null>(null);
+  const openIdRef = useRef<string | null>(null);
   const pointerStart = useRef<{x: number; y: number} | null>(null);
+  const introTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [size, setSize] = useState({width: 0, height: 0});
   const [ready, setReady] = useState(false);
   const [introDone, setIntroDone] = useState(reducedMotion);
@@ -121,6 +130,7 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [touring, setTouring] = useState(!reducedMotion);
   const [altitude, setAltitude] = useState(START_VIEW.altitude);
+  const [interacted, setInteracted] = useState(false);
 
   const regionNames = useMemo(() => new Intl.DisplayNames([locale], {type: 'region'}), [locale]);
   const pinObjects = useMemo(buildPins, []);
@@ -163,39 +173,45 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     }
   }, [visible, ready, reducedMotion]);
 
-  useEffect(() => () => spaceRef.current?.dispose(), []);
+  useEffect(
+    () => () => {
+      clearTimeout(introTimer.current);
+      spaceRef.current?.dispose();
+    },
+    [],
+  );
 
   useEffect(() => {
-    if (!ready) return;
-    introStart.current ??= performance.now();
-    const start = introStart.current;
-    const order = [...pins].sort((a, b) => a.lng - b.lng).map((p) => p.id);
-    let frame = 0;
-    const introEnd = start + 900 + order.length * 25 + 350;
-    const tick = (now: number) => {
-      let settled = reducedMotion || now > introEnd;
-      order.forEach((id, i) => {
-        const obj = pinObjects.get(id);
-        if (!obj) return;
-        const target = id === openId ? 1.35 : 1;
-        const appear = reducedMotion ? 1 : Math.min(1, Math.max(0, (now - start - 900 - i * 25) / 350));
-        const eased = 1 - Math.pow(1 - appear, 3);
-        const goal = target * eased;
-        const current = obj.group.scale.x;
-        const next = reducedMotion ? goal : current + (goal - current) * 0.25;
-        obj.group.scale.setScalar(next);
-        if (Math.abs(goal - next) > 0.002) settled = false;
-      });
-      if (!settled) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
+    openIdRef.current = openId;
     for (const [id, obj] of pinObjects) {
       const color = id === openId ? PIN_OPEN_COLOR : PIN_COLOR;
       obj.head.color.set(color);
       obj.head.emissive.set(color);
     }
+  }, [openId, pinObjects]);
+
+  useEffect(() => {
+    if (!ready || !visible) return;
+    introStart.current ??= performance.now();
+    const start = introStart.current;
+    let frame = 0;
+    const tick = (now: number) => {
+      const alt = globeRef.current?.pointOfView().altitude ?? START_VIEW.altitude;
+      const zoomScale = Math.min(MAX_PIN_SCALE, Math.max(MIN_PIN_SCALE, (1 + alt) / (1 + START_VIEW.altitude)));
+      pinOrder.forEach((id, i) => {
+        const obj = pinObjects.get(id);
+        if (!obj) return;
+        const target = id === openIdRef.current ? 1.35 : 1;
+        const appear = reducedMotion ? 1 : Math.min(1, Math.max(0, (now - start - 900 - i * 25) / 350));
+        const goal = target * (1 - Math.pow(1 - appear, 3)) * zoomScale;
+        const current = obj.group.scale.x;
+        obj.group.scale.setScalar(reducedMotion ? goal : current + (goal - current) * 0.25);
+      });
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [ready, openId, pinObjects, reducedMotion]);
+  }, [ready, visible, pinObjects, reducedMotion]);
 
   const flyTo = useCallback(
     (pin: Pin) => {
@@ -232,7 +248,9 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setActiveId(null);
+      if (e.key !== 'Escape') return;
+      setActiveId(null);
+      setHoveredId(null);
     };
     const onOutside = (e: PointerEvent) => {
       if (e.target instanceof Node && !containerRef.current?.contains(e.target)) {
@@ -263,7 +281,7 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     } else {
       globe.pointOfView(INTRO_VIEW, 0);
       globe.pointOfView(START_VIEW, INTRO_MS);
-      setTimeout(() => {
+      introTimer.current = setTimeout(() => {
         controls.maxDistance = GLOBE_RADIUS * (1 + MAX_ALTITUDE);
         setIntroDone(true);
       }, INTRO_MS);
@@ -379,6 +397,7 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
       onPointerDown={(e) => {
         pointerStart.current = {x: e.clientX, y: e.clientY};
         setTouring(false);
+        setInteracted(true);
       }}
       onClick={handleSpaceClick}
     >
@@ -450,7 +469,13 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
         ))}
       </ul>
 
-      <p className="pointer-events-none absolute top-3 inset-x-0 text-center text-xs text-white/40">{t('hint')}</p>
+      <p
+        className={`pointer-events-none absolute top-3 inset-x-0 text-center text-xs text-white/40 transition-opacity duration-500 ${
+          interacted ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        {t('hint')}
+      </p>
 
       <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-40 flex flex-col gap-1">
         <Button
@@ -505,7 +530,7 @@ function StickyNote({pin, title, closable, reducedMotion, onClose, onPointerEnte
       transition={{duration: reducedMotion ? 0 : 0.2}}
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
-      className="pointer-events-auto absolute bottom-[14px] -left-[112px] w-56 cursor-default bg-amber-100 text-neutral-900 shadow-[0_10px_25px_rgba(0,0,0,0.55)]"
+      className="pointer-events-auto absolute bottom-[16px] -left-[112px] w-56 cursor-default bg-amber-100 text-neutral-900 shadow-[0_10px_25px_rgba(0,0,0,0.55)]"
       style={{transformOrigin: 'bottom center'}}
     >
       <span
