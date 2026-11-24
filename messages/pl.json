@@ -52,6 +52,11 @@
     "proj8Desc": "Zbudowałem platformę medyczną, która zdigitalizowała papierowe procesy kliniki psychiatrycznej, unifikując dane pacjentów między specjalistami z szyfrowaniem i kontrolą dostępu.",
     "proj9Desc": "Zbudowałem platformę arbitrażu hurtowego opartą na AI, która dopasowuje i porównuje ceny u tysięcy dostawców, przetwarzając ponad 100 tys. SKU dziennie z dokładnością dopasowania 99,9%.",
     "proj10Desc": "Przebudowałem platformę e-commerce premium dostawcy bambusa z dwoma ścieżkami zakupowymi, zintegrowanym zarządzaniem magazynem i katalogiem produktów przeorganizowanym pod workflow architektów.",
+    "proj11Desc": "Zbudowałem MVP kanału ubezpieczeń Hippo dla deweloperów, a potem Hippo Builders One: system do zarządzania leadami i partnerskie API, przez które deweloperzy tacy jak Lennar wyceniają ubezpieczenie domu przy odbiorze.",
+    "proj12Desc": "Rozwijałem ADA, platformę analityczną dla partnerów funduszu i spółek portfelowych, oraz Scale Studio, publiczne narzędzie do benchmarkowania firm SaaS. Odpowiadałem za testy end-to-end w Cypressie.",
+    "proj13Desc": "Zbudowałem portal dla weterynarzy na platformie onkologii precyzyjnej dla psów: zamawianie badań genomowych, wysyłka próbek do laboratoriów i zamówienia leków celowanych.",
+    "proj14Desc": "Zbudowałem aplikację webową dla marketplace'u przechowywania rzeczy w San Francisco: onboarding i panel gospodarzy, rezerwacje dla najemców, planowanie wprowadzki i płatności Stripe.",
+    "proj15Desc": "Zbudowałem aplikację webową platformy wideo na subskrypcję Dana Bilzeriana: feed z treściami, logowanie przez social media, płatności subskrypcyjne i integrację reklam.",
     "showAll": "Pokaż wszystkie projekty",
     "showLess": "Pokaż wyróżnione"
   },

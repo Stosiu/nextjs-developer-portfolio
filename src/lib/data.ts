@@ -9,6 +9,7 @@ import wineUnpluggedImg from '../../public/projects/wine-unplugged.jpg';
 import gedeonMedicaImg from '../../public/projects/gedeon-medica.png';
 import electrosmartImg from '../../public/projects/electrosmart.jpg';
 import houseOfBambooImg from '../../public/projects/house-of-bamboo.jpg';
+import hippoImg from '../../public/projects/hippo.jpg';
 
 export type Project = {
   title: string;
@@ -132,5 +133,51 @@ export const projects: Project[] = [
     tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL'],
     date: '2026 – Present',
     role: 'Tech Lead',
+  },
+  {
+    title: 'Hippo',
+    descriptionKey: 'proj11Desc',
+    url: 'https://www.hippo.com/',
+    logo: '/logos/hippo.svg',
+    image: hippoImg,
+    tech: ['Node.js', 'React', 'TypeScript', 'PostgreSQL', 'Express', 'Auth0', 'AWS'],
+    date: '2019 – 2021',
+    role: 'Full-Stack Developer',
+  },
+  {
+    title: 'Scale Venture Partners',
+    descriptionKey: 'proj12Desc',
+    url: 'https://www.scalevp.com/',
+    logo: '/logos/scalevp.svg',
+    tech: ['AngularJS', 'Node.js', 'PostgreSQL', 'Cypress', 'Highcharts', 'AWS'],
+    date: '2019 – 2021',
+    role: 'Full-Stack Developer',
+  },
+  {
+    title: 'FidoCure',
+    descriptionKey: 'proj13Desc',
+    url: 'https://fidocure.com/',
+    logo: '/logos/fidocure.png',
+    tech: ['React', 'TypeScript', 'MobX', 'NestJS', 'PostgreSQL', 'Auth0'],
+    date: '2018 – 2019',
+    role: 'Frontend Developer',
+  },
+  {
+    title: 'Sharespace',
+    descriptionKey: 'proj14Desc',
+    url: 'https://web.archive.org/web/2018/https://joinsharespace.com/',
+    logo: '/logos/sharespace.svg',
+    tech: ['React', 'TypeScript', 'Redux', 'Java', 'App Engine', 'Stripe'],
+    date: '2017 – 2018',
+    role: 'Frontend Developer',
+  },
+  {
+    title: 'BlitzTV',
+    descriptionKey: 'proj15Desc',
+    url: 'https://web.archive.org/web/2017/https://blitztv.com/',
+    logo: '/logos/blitztv.svg',
+    tech: ['React', 'Redux', 'Redux-Saga', 'Firebase', 'Node.js'],
+    date: '2016 – 2017',
+    role: 'Frontend Developer',
   },
 ];

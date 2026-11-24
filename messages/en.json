@@ -52,6 +52,11 @@
     "proj8Desc": "Built a healthcare platform that digitalized a psychiatric clinic's paper-based operations, unifying patient data across specialists with encryption and role-based access.",
     "proj9Desc": "Built an AI-powered wholesale arbitrage platform that matches and compares prices across thousands of suppliers, processing 100k+ SKUs daily with 99.9% product matching accuracy.",
     "proj10Desc": "Rebuilt a premium bamboo supplier's e-commerce platform with dual purchasing paths, integrated inventory management, and a product catalog restructured around architect workflows.",
+    "proj11Desc": "Built the MVP of Hippo's homebuilder insurance channel, then Hippo Builders One: the lead management system and partner API builders like Lennar use to quote home insurance at closing.",
+    "proj12Desc": "Built features for ADA, the portfolio analytics platform used by Scale's partners and portfolio companies, and Scale Studio, its public SaaS benchmarking tool. Owned the Cypress end-to-end test suite.",
+    "proj13Desc": "Built the veterinarian portal for a precision oncology platform for dogs, covering genomic test orders, lab submissions and targeted drug orders.",
+    "proj14Desc": "Built the web app for a San Francisco peer-to-peer storage marketplace, from host onboarding and dashboards to renter booking, move-in scheduling and Stripe payments.",
+    "proj15Desc": "Built the web app for Dan Bilzerian's subscription video platform, with a content feed, social login, subscription payments and ad integration.",
     "showAll": "Show all projects",
     "showLess": "Show featured"
   },
