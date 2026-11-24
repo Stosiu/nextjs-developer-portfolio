@@ -55,7 +55,6 @@ export const travelPlaces: TravelPlace[] = [
   {code: 'DK', name: 'Copenhagen', coords: [55.68, 12.57], visits: [{date: '2024-07', image: dkImg}]},
   {code: 'EE', name: 'Tallinn', coords: [59.44, 24.75], visits: [{date: '2019-02', image: eeImg}]},
   {code: 'ES', coords: [40.42, -3.7], visits: [{date: '2019'}]},
-  {code: 'ES', name: 'Tenerife', coords: [28.39, -16.52], visits: [{date: '2024-08'}]},
   {code: 'FI', coords: [60.17, 24.94], visits: [{date: '2019'}]},
   {code: 'FR', name: 'Paris', coords: [48.86, 2.35], visits: [{date: '2022-09'}, {date: '2025-09', image: frImg}, {date: '2026-05'}]},
   {code: 'GB', name: 'London', coords: [51.51, -0.13], visits: [{date: '2018-04', image: gbImg, caption: 'London is one of my favorite cities.'}, {date: '2019-06'}, {date: '2022-03'}, {date: '2023-04'}, {date: '2023-05'}, {date: '2025-12'}]},
