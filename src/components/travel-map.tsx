@@ -3,12 +3,13 @@
 import {useCallback, useRef, useState} from 'react';
 import dynamic from 'next/dynamic';
 import {useInView, useReducedMotion} from 'framer-motion';
+import type {FocusRequest} from '@/components/travel-globe';
 
 const TravelGlobe = dynamic(() => import('@/components/travel-globe').then((m) => m.TravelGlobe), {
   ssr: false,
 });
 
-export function TravelMap() {
+export function TravelMap({focusRequest}: {focusRequest: FocusRequest | null}) {
   const ref = useRef<HTMLDivElement>(null);
   const near = useInView(ref, {once: true, margin: '800px'});
   const visible = useInView(ref);
@@ -30,7 +31,9 @@ export function TravelMap() {
       >
         <div className="aspect-square w-[55%] max-w-[340px] rounded-full bg-[radial-gradient(circle_at_35%_30%,rgba(16,185,129,0.18),rgba(13,18,22,0.9)_60%)] shadow-[0_0_80px_rgba(16,185,129,0.15)] motion-safe:animate-pulse" />
       </div>
-      {near && <TravelGlobe visible={visible} reducedMotion={reducedMotion} onReady={handleReady} />}
+      {near && (
+        <TravelGlobe visible={visible} reducedMotion={reducedMotion} focusRequest={focusRequest} onReady={handleReady} />
+      )}
     </div>
   );
 }

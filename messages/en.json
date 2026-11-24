@@ -121,6 +121,8 @@
     "hint": "Drag to spin, scroll to zoom. Click a pin to read the note.",
     "visits": "{count, plural, one {# visit} other {# visits}}",
     "noPhoto": "No photo yet",
+    "tripsIn": "Trips in {year}",
+    "showOnGlobe": "Show {place} on the globe",
     "close": "Close note"
   },
   "footer": {

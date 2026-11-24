@@ -24,7 +24,7 @@ import Image from 'next/image';
 import {Plus, Minus, X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {travelPlaces, type TravelPlace} from '@/config/travel';
-import {NUM_TO_ALPHA2, formatVisitDate, visitsNewestFirst} from '@/lib/travel';
+import {NUM_TO_ALPHA2, formatVisitDate, placeId, visitsNewestFirst} from '@/lib/travel';
 import {createSpace} from '@/components/travel-space';
 
 const ANTARCTICA_ID = '010';
@@ -60,7 +60,7 @@ const countries = (feature(topology, topology.objects.countries).features as Cou
 const countryByCode = new Map(countries.map((c) => [NUM_TO_ALPHA2[c.id] ?? '', c]));
 
 const pins: Pin[] = travelPlaces.map((place, i) => ({
-  id: `${place.code}-${i}`,
+  id: placeId(place, i),
   place,
   lat: place.coords[0],
   lng: place.coords[1],
@@ -106,13 +106,16 @@ function buildPins(): Map<string, PinObject> {
   );
 }
 
+export type FocusRequest = {id: string; nonce: number};
+
 type TravelGlobeProps = {
   visible: boolean;
   reducedMotion: boolean;
+  focusRequest: FocusRequest | null;
   onReady: () => void;
 };
 
-export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps) {
+export function TravelGlobe({visible, reducedMotion, focusRequest, onReady}: TravelGlobeProps) {
   const t = useTranslations('travel');
   const locale = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -245,6 +248,12 @@ export function TravelGlobe({visible, reducedMotion, onReady}: TravelGlobeProps)
     },
     [flyTo],
   );
+
+  useEffect(() => {
+    if (!ready || !focusRequest) return;
+    const pin = pins.find((p) => p.id === focusRequest.id);
+    if (pin) select(pin);
+  }, [ready, focusRequest, select]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

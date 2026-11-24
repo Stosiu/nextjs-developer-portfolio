@@ -53,3 +53,59 @@ export function formatVisitDate(date: string, locale: string): string {
     new Date(Date.UTC(year, month - 1, 1)),
   );
 }
+
+export function placeId(place: TravelPlace, index: number): string {
+  return `${place.code}-${index}`;
+}
+
+export type TripStop = {id: string; name?: string};
+
+export type Trip = {
+  code: string;
+  start: string;
+  end: string;
+  stops: TripStop[];
+};
+
+function monthIndex(date: string): number {
+  const [year, month] = date.split('-').map(Number);
+  return year * 12 + (month || 1) - 1;
+}
+
+export function latestTripYear(places: TravelPlace[]): number {
+  return Math.max(...places.flatMap((p) => p.visits.map((v) => Number(v.date.slice(0, 4)))));
+}
+
+export function tripsInYear(places: TravelPlace[], year: number): Trip[] {
+  const visits = places
+    .flatMap((place, i) =>
+      place.visits
+        .filter((v) => v.date.startsWith(`${year}`))
+        .map((v) => ({code: place.code, date: v.date, stop: {id: placeId(place, i), name: place.name}})),
+    )
+    .sort((a, b) => a.code.localeCompare(b.code) || a.date.localeCompare(b.date));
+
+  const trips: Trip[] = [];
+  for (const v of visits) {
+    const last = trips.at(-1);
+    if (last && last.code === v.code && monthIndex(v.date) - monthIndex(last.end) <= 1) {
+      last.end = v.date > last.end ? v.date : last.end;
+      if (!last.stops.some((s) => s.id === v.stop.id)) last.stops.push(v.stop);
+    } else {
+      trips.push({code: v.code, start: v.date, end: v.date, stops: [v.stop]});
+    }
+  }
+  return trips.sort((a, b) => b.start.localeCompare(a.start));
+}
+
+export function formatTripDates(trip: Trip, locale: string): string {
+  if (trip.start === trip.end || !trip.start.includes('-')) return formatVisitDate(trip.start, locale);
+  if (trip.start.slice(0, 4) !== trip.end.slice(0, 4)) {
+    return `${formatVisitDate(trip.start, locale)} – ${formatVisitDate(trip.end, locale)}`;
+  }
+  const month = Number(trip.start.slice(5, 7));
+  const startMonth = new Intl.DateTimeFormat(locale, {month: 'short', timeZone: 'UTC'}).format(
+    new Date(Date.UTC(2000, month - 1, 1)),
+  );
+  return `${startMonth} – ${formatVisitDate(trip.end, locale)}`;
+}

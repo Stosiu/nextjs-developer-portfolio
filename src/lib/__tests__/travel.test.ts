@@ -1,6 +1,6 @@
 import {describe, it, expect} from 'vitest';
 import {travelPlaces, type TravelPlace} from '@/config/travel';
-import {NUM_TO_ALPHA2, countCountries, formatVisitDate, visitsNewestFirst} from '@/lib/travel';
+import {NUM_TO_ALPHA2, countCountries, formatTripDates, formatVisitDate, tripsInYear, visitsNewestFirst} from '@/lib/travel';
 
 describe('countCountries', () => {
   it('counts a country with several places once', () => {
@@ -29,6 +29,37 @@ describe('formatVisitDate', () => {
   it('shows a bare year for year-only dates and month plus year otherwise', () => {
     expect(formatVisitDate('2018', 'en')).toBe('2018');
     expect(formatVisitDate('2024-12', 'en')).toBe('Dec 2024');
+  });
+});
+
+describe('tripsInYear', () => {
+  const places: TravelPlace[] = [
+    {code: 'US', name: 'San Francisco', coords: [0, 0], visits: [{date: '2019-07'}, {date: '2026-04'}]},
+    {code: 'US', name: 'Dallas', coords: [0, 0], visits: [{date: '2026-05'}]},
+    {code: 'US', name: 'Miami', coords: [0, 0], visits: [{date: '2026-09'}]},
+    {code: 'JP', name: 'Tokyo', coords: [0, 0], visits: [{date: '2026-10'}]},
+    {code: 'JP', name: 'Kyoto', coords: [0, 0], visits: [{date: '2026-10'}]},
+    {code: 'FR', name: 'Paris', coords: [0, 0], visits: [{date: '2025-09'}]},
+  ];
+
+  it('merges visits to one country in adjacent months into a single trip, newest first', () => {
+    expect(tripsInYear(places, 2026)).toEqual([
+      {code: 'JP', start: '2026-10', end: '2026-10', stops: [{id: 'JP-3', name: 'Tokyo'}, {id: 'JP-4', name: 'Kyoto'}]},
+      {code: 'US', start: '2026-09', end: '2026-09', stops: [{id: 'US-2', name: 'Miami'}]},
+      {code: 'US', start: '2026-04', end: '2026-05', stops: [{id: 'US-0', name: 'San Francisco'}, {id: 'US-1', name: 'Dallas'}]},
+    ]);
+  });
+
+  it('returns nothing for a year without trips', () => {
+    expect(tripsInYear(places, 2024)).toEqual([]);
+  });
+});
+
+describe('formatTripDates', () => {
+  it('shows a month range for multi-month trips', () => {
+    expect(formatTripDates({code: 'US', start: '2026-04', end: '2026-05', stops: []}, 'en')).toBe('Apr – May 2026');
+    expect(formatTripDates({code: 'JP', start: '2026-10', end: '2026-10', stops: []}, 'en')).toBe('Oct 2026');
+    expect(formatTripDates({code: 'AU', start: '2025-12', end: '2026-01', stops: []}, 'en')).toBe('Dec 2025 – Jan 2026');
   });
 });
 
