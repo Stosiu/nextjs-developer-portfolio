@@ -10,6 +10,9 @@ import gedeonMedicaImg from '../../public/projects/gedeon-medica.png';
 import electrosmartImg from '../../public/projects/electrosmart.jpg';
 import houseOfBambooImg from '../../public/projects/house-of-bamboo.jpg';
 import hippoImg from '../../public/projects/hippo.jpg';
+import scaleVpImg from '../../public/projects/scale-venture-partners.jpg';
+import sharespaceImg from '../../public/projects/sharespace.jpg';
+import ticketflyImg from '../../public/projects/ticketfly.jpg';
 
 export type Project = {
   title: string;
@@ -149,6 +152,7 @@ export const projects: Project[] = [
     descriptionKey: 'proj12Desc',
     url: 'https://www.scalevp.com/',
     logo: '/logos/scalevp.svg',
+    image: scaleVpImg,
     tech: ['AngularJS', 'Node.js', 'PostgreSQL', 'Cypress', 'Highcharts', 'AWS'],
     date: '2019 – 2021',
     role: 'Full-Stack Developer',
@@ -167,6 +171,7 @@ export const projects: Project[] = [
     descriptionKey: 'proj14Desc',
     url: 'https://web.archive.org/web/2018/https://joinsharespace.com/',
     logo: '/logos/sharespace.svg',
+    image: sharespaceImg,
     tech: ['React', 'TypeScript', 'Redux', 'Java', 'App Engine', 'Stripe'],
     date: '2017 – 2018',
     role: 'Frontend Developer',
@@ -178,6 +183,16 @@ export const projects: Project[] = [
     logo: '/logos/blitztv.svg',
     tech: ['React', 'Redux', 'Redux-Saga', 'Firebase', 'Node.js'],
     date: '2016 – 2017',
+    role: 'Frontend Developer',
+  },
+  {
+    title: 'Ticketfly Promoter',
+    descriptionKey: 'proj16Desc',
+    url: 'https://web.archive.org/web/2016/https://www.ticketfly.com/promoter/',
+    logo: '/logos/ticketfly.svg',
+    image: ticketflyImg,
+    tech: ['JavaScript', 'HTML', 'CSS'],
+    date: '2015 – 2016',
     role: 'Frontend Developer',
   },
 ];
