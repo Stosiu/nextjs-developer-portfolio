@@ -33,7 +33,7 @@ Vercel is the recommended host, because the template uses Vercel Cron to keep th
 - Live stats from GitHub, Claude Code (via [ccusage](https://github.com/ryoppippi/ccusage)) and Spotify
 - Open source section with live merged pull requests, stars and npm downloads
 - Markdown blog with search, tags and pagination
-- Interactive travel map, logo marquee, project cards, experience timeline
+- 3D travel globe with pins and sticky notes, logo marquee, project cards, experience timeline
 - English, Polish and Arabic with full RTL
 - Opt-in analytics behind a GDPR consent banner, with a generated privacy policy
 - Every external integration disables itself when its env var is missing
@@ -57,7 +57,7 @@ pnpm dev
 | `src/config/open-source.ts` | Repositories you contribute to, with an optional npm package |
 | `src/config/logos.ts` | Client logos |
 | `src/config/companies.ts`, `side-projects.ts` | Footer company details and side projects |
-| `src/config/travel.ts` | Visited countries |
+| `src/config/travel.ts` | Visited places and visits |
 | `src/lib/data.ts` | Projects |
 | `messages/{en,pl,ar}.json` | All user-facing text |
 | `src/app/globals.css` | Accent color (`--color-brand-*`, `--accent-rgb`) |

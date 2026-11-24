@@ -123,7 +123,13 @@
     "heading": "Gdzie byłem",
     "subtitle": "{count} krajów i licznik wciąż rośnie",
     "zoomIn": "Przybliż",
-    "zoomOut": "Oddal"
+    "zoomOut": "Oddal",
+    "hint": "Przeciągnij, aby obrócić, przewiń, aby przybliżyć. Kliknij pinezkę, aby przeczytać notatkę.",
+    "visits": "{count, plural, one {# wizyta} few {# wizyty} many {# wizyt} other {# wizyty}}",
+    "noPhoto": "Brak zdjęcia",
+    "tripsIn": "Podróże w {year}",
+    "showOnGlobe": "Pokaż {place} na globusie",
+    "close": "Zamknij notatkę"
   },
   "footer": {
     "cta": "Zbudujmy coś razem",
