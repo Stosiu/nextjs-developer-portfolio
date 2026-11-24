@@ -25,6 +25,7 @@
     "body-scroll-lock-upgrade": "^1.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "d3-geo": "^3.1.2",
     "dayjs": "^1.11.23",
     "framer-motion": "^14.14.0",
     "gray-matter": "^4.0.3",
@@ -50,10 +51,12 @@
     "three": "^0.187.0",
     "topojson-client": "^3.1.0",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.2.0"
+    "unist-util-visit": "^5.2.0",
+    "world-atlas": "^2.0.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.5",
+    "@types/d3-geo": "^3.1.1",
     "@types/geojson": "^7946.0.16",
     "@types/hast": "^3.0.5",
     "@types/node": "^26.6.6",

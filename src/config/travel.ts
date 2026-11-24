@@ -84,6 +84,7 @@ export const travelPlaces: TravelPlace[] = [
   {code: 'AT', name: 'Vienna', coords: [48.21, 16.37], visits: [{date: '2023-08', image: imgAtVienna202308}, {date: '2024-08', image: atImg}, {date: '2024-12', image: imgAtVienna202412}]},
   {code: 'AU', name: 'Kangaroo Island', coords: [-35.8, 137.25], visits: [{date: '2019-09', image: imgAuKangarooIsland201909}]},
   {code: 'AU', name: 'Great Ocean Road', coords: [-38.6, 142.88], visits: [{date: '2019-09', image: imgAuGreatOceanRoad201909, caption: 'Three weeks in a camper van. Open roads, too many animals.'}]},
+  {code: 'AU', name: 'Sydney', coords: [-33.87, 151.21], visits: [{date: '2019-09'}]},
   {code: 'AU', name: 'Melbourne', coords: [-37.81, 144.96], visits: [{date: '2019-09', image: imgAuMelbourne201909}]},
   {code: 'BA', name: 'Sarajevo', coords: [43.86, 18.41], visits: [{date: '2025-08', image: imgBaSarajevo202508}]},
   {code: 'CY', name: 'Larnaca', coords: [34.91, 33.63], visits: [{date: '2018-03', image: cyImg}]},

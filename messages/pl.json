@@ -118,8 +118,9 @@
     "subtitle": "{count} krajów i licznik wciąż rośnie",
     "zoomIn": "Przybliż",
     "zoomOut": "Oddal",
-    "hint": "Przeciągnij, aby obrócić. Kliknij pinezkę, aby przeczytać notatkę.",
+    "hint": "Przeciągnij, aby obrócić, przewiń, aby przybliżyć. Kliknij pinezkę, aby przeczytać notatkę.",
     "visits": "{count, plural, one {# wizyta} few {# wizyty} many {# wizyt} other {# wizyty}}",
+    "noPhoto": "Brak zdjęcia",
     "close": "Zamknij notatkę"
   },
   "footer": {
