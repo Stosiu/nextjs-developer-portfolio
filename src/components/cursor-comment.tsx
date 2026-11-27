@@ -45,7 +45,7 @@ function isInteractive(element: Element | null): boolean {
   return element.closest(INTERACTIVE_SELECTOR) !== null;
 }
 
-export function CursorComment() {
+export function CursorComment({countryCount}: {countryCount: number}) {
   const t = useTranslations('cursorComments');
   const [visible, setVisible] = useState(false);
   const [displayText, setDisplayText] = useState('');
@@ -140,9 +140,9 @@ export function CursorComment() {
       currentKey.current = key;
 
       if (typingTimer.current) clearTimeout(typingTimer.current);
-      animateTransition(displayTextRef.current, t(key));
+      animateTransition(displayTextRef.current, t(key, {count: countryCount}));
     },
-    [t, animateTransition],
+    [t, animateTransition, countryCount],
   );
 
   const updateComment = useCallback(

@@ -13,6 +13,8 @@ import {Travel} from '@/components/sections/travel';
 import {Footer} from '@/components/sections/footer';
 import {CursorToolbar} from '@/components/cursor-toolbar';
 import {getThoughtsCount} from '@/lib/thoughts';
+import {travelPlaces} from '@/config/travel';
+import {countCountries} from '@/lib/travel';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -71,7 +73,7 @@ export default async function HomePage({params}: Props) {
       <Stats />
       <Travel />
       <Footer />
-      <CursorToolbar />
+      <CursorToolbar countryCount={countCountries(travelPlaces)} />
     </main>
   );
 }

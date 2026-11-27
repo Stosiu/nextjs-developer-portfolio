@@ -204,7 +204,7 @@
     "experience2": "// it's not a bug, it's a career",
     "experience3": "// years_of_experience++",
     "travel1": "// sudo rm -rf /home/sweet/home",
-    "travel2": "// 35 countries, 1 carry-on",
+    "travel2": "// {count} countries, 1 carry-on",
     "travel3": "// ping -c 1 every-continent.dev",
     "footer1": "// you made it to the bottom",
     "footer2": "// EOF",

@@ -204,7 +204,7 @@
     "experience2": "// ليس باغ، إنها مسيرة مهنية",
     "experience3": "// سنوات_الخبرة++",
     "travel1": "// sudo rm -rf /home/sweet/home",
-    "travel2": "// ٣٥ دولة، حقيبة واحدة",
+    "travel2": "// {count} دولة، حقيبة واحدة",
     "travel3": "// ping -c 1 every-continent.dev",
     "footer1": "// وصلت للنهاية",
     "footer2": "// EOF",
