@@ -35,4 +35,5 @@ export const clientLogos: ClientLogo[] = [
   {name: 'House of Bamboo', logo: '/logos/house-of-bamboo.svg', url: 'https://www.houseofbamboo.com.au'},
   {name: 'Scale Venture Partners', logo: '/logos/scalevp.svg', url: 'https://www.scalevp.com'},
   {name: 'FidoCure', logo: '/logos/fidocure.png', url: 'https://fidocure.com'},
+  {name: 'Corteva', logo: '/logos/corteva.svg', url: 'https://www.corteva.com', scale: 1.1},
 ];
