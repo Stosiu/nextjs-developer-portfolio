@@ -41,7 +41,7 @@ export const projects: Project[] = [
     logo: '/logos/telivy.svg',
     image: telivyImg,
     tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'GCP', 'C#', 'Python', 'OpenAI'],
-    date: '2022 – Present',
+    date: '2019 – Present',
     role: 'Tech Lead',
     featured: true,
   },
