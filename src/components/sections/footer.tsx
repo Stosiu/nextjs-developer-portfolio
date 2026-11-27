@@ -30,7 +30,7 @@ export function Footer() {
       >
         <div className="mb-20 flex flex-col items-center gap-5 text-center">
           <h2 className="text-4xl font-semibold tracking-tight text-balance md:text-5xl">{t('cta')}</h2>
-          <p className="max-w-xl text-base text-white/65 text-pretty">{tp('ctaDescription')}</p>
+          <p className="max-w-xl text-base text-white/65 text-pretty">{t('ctaDescription')}</p>
           <a
             href={siteConfig.booking}
             target="_blank"

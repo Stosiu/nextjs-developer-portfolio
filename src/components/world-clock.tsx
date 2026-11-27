@@ -74,7 +74,7 @@ function getVisitorComment(visitorTz: string): string {
   const hourDiff = Math.round(offsetDiff / 60);
 
   if (hourDiff === 0) return "hey neighbor! 👋";
-  if (hourDiff <= 2) return "almost same coffee break";
+  if (hourDiff <= 2) return "almost the same coffee break";
   if (hourDiff <= 5) return "one of us is having lunch";
   if (hourDiff <= 8) return "when you wake up, I'm winding down";
   if (hourDiff <= 11) return "we live in different days, basically";
